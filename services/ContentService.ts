@@ -182,6 +182,21 @@ export const INITIAL_CONTENT = {
   assets: DEFAULT_ASSETS
 };
 
+const mergeProducts = (fetchedProducts: any) => {
+  const merged = [...INITIAL_CONTENT.products];
+  if (Array.isArray(fetchedProducts)) {
+    fetchedProducts.forEach((cp: any) => {
+      const idx = merged.findIndex(ip => ip.id === cp.id);
+      if (idx > -1) {
+        merged[idx] = cp;
+      } else {
+        merged.push(cp);
+      }
+    });
+  }
+  return merged;
+};
+
 export const ContentService = {
   async fetchAll() {
     try {
@@ -201,7 +216,7 @@ export const ContentService = {
           // Arrays: Replace entirely if they exist in cloud, else default
           roadmap: Array.isArray(cloudData.roadmap) ? cloudData.roadmap : INITIAL_CONTENT.roadmap,
           timeline: Array.isArray(cloudData.timeline) ? cloudData.timeline : INITIAL_CONTENT.timeline,
-          products: Array.isArray(cloudData.products) ? cloudData.products : INITIAL_CONTENT.products,
+          products: mergeProducts(cloudData.products),
           imageCategories: Array.isArray(cloudData.imageCategories) ? cloudData.imageCategories : INITIAL_CONTENT.imageCategories,
           videoCategories: Array.isArray(cloudData.videoCategories) ? cloudData.videoCategories : INITIAL_CONTENT.videoCategories,
           galleryImages: Array.isArray(cloudData.galleryImages) ? cloudData.galleryImages : INITIAL_CONTENT.galleryImages,
@@ -233,7 +248,7 @@ export const ContentService = {
           mediaKit: { ...INITIAL_CONTENT.mediaKit, ...(parsed.mediaKit || {}) },
           roadmap: Array.isArray(parsed.roadmap) ? parsed.roadmap : INITIAL_CONTENT.roadmap,
           timeline: Array.isArray(parsed.timeline) ? parsed.timeline : INITIAL_CONTENT.timeline,
-          products: Array.isArray(parsed.products) ? parsed.products : INITIAL_CONTENT.products,
+          products: mergeProducts(parsed.products),
           imageCategories: Array.isArray(parsed.imageCategories) ? parsed.imageCategories : INITIAL_CONTENT.imageCategories,
           videoCategories: Array.isArray(parsed.videoCategories) ? parsed.videoCategories : INITIAL_CONTENT.videoCategories,
           galleryImages: Array.isArray(parsed.galleryImages) ? parsed.galleryImages : INITIAL_CONTENT.galleryImages,

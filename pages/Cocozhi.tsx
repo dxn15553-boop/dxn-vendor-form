@@ -45,6 +45,7 @@ const Cocozhi: React.FC = () => {
   // Interactive Product Rotation State
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [activeMedia, setActiveMedia] = useState<'video' | 'image'>('video');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isHovering) return;
@@ -82,13 +83,16 @@ const Cocozhi: React.FC = () => {
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-          
+
           {/* Left Column: Image & Quick Facts */}
           <div className="lg:col-span-5 space-y-8">
             <FadeInSection>
+              {/* Ambient glow behind card */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/10 to-amber-600/10 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 pointer-events-none"></div>
+
               {/* Interactive 3D Product Container with Glassmorphism */}
               <div
-                className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500 hover:border-red-500/30"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden group hover:border-red-500/30"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => {
                   setIsHovering(false);
@@ -97,15 +101,18 @@ const Cocozhi: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 style={{
                   transformStyle: 'preserve-3d',
-                  transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 20}deg) rotateX(${-mousePos.y * 20}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)'
+                  transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 16}deg) rotateX(${-mousePos.y * 16}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
+                  transition: isHovering ? 'border-color 0.5s ease' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease'
                 }}
               >
                 {/* Floating Particles */}
                 <div className="absolute inset-0 pointer-events-none z-0">
-                  <Coffee className="absolute top-[20%] left-[20%] w-4 h-4 text-white/30 animate-float delay-100 filter blur-[1px]" />
-                  <Sparkles className="absolute bottom-[30%] right-[15%] w-4 h-4 text-white/20 animate-float-delayed delay-300 filter blur-[1.5px]" />
-                  <Package className="absolute top-[40%] right-[20%] w-5 h-5 text-red-500/20 animate-float delay-500" />
-                  <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-red-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
+                  <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-amber-500/20 animate-float delay-100 filter blur-[0.5px]" />
+                  <Sparkles className="absolute bottom-[25%] right-[10%] w-4 h-4 text-yellow-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
+                  <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-red-500/10 animate-float delay-500" />
+                  <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-amber-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
+                  <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-red-500/20 animate-float delay-700 blur-[2px]"></div>
+                  <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-amber-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                 </div>
 
                 <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
@@ -117,16 +124,57 @@ const Cocozhi: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="relative z-10 flex justify-center items-center h-[400px] transition-transform duration-100 ease-out"
+                <div className="relative z-10 flex justify-center items-center w-full h-[400px]"
                   style={{ transform: 'translateZ(60px)' }}>
-                  <video
-                    src="/cocozhi.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover rounded-xl filter drop-shadow-[0_30px_50px_rgba(220,38,38,0.2)]"
-                  />
+
+                  {/* Video View with smooth transition */}
+                  <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'video' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    <video
+                      src="/cocozhi.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover rounded-xl filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)] shadow-[0_0_30px_rgba(139,90,43,0.1)]"
+                    />
+                  </div>
+
+                  {/* Image View with smooth transition */}
+                  <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'image' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    <img
+                      src="/cocozhi.png"
+                      alt="DXN Cocozhi Packaging"
+                      className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)]"
+                    />
+                  </div>
+                </div>
+
+                {/* Media Toggle Controls */}
+                <div className="absolute bottom-4 right-4 z-20 flex gap-1 bg-black/80 border border-white/10 p-1 rounded-lg backdrop-blur-md translate-z-[40px]">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveMedia('video');
+                    }}
+                    className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'video'
+                        ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
+                        : 'text-neutral-400 hover:text-white'
+                      }`}
+                  >
+                    Video
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveMedia('image');
+                    }}
+                    className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'image'
+                        ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
+                        : 'text-neutral-400 hover:text-white'
+                      }`}
+                  >
+                    Image
+                  </button>
                 </div>
 
                 {/* Floor reflection effect */}
@@ -153,6 +201,34 @@ const Cocozhi: React.FC = () => {
                     <span className="text-white text-right">FSSAI Compliant</span>
                   </li>
                 </ul>
+              </div>
+            </FadeInSection>
+
+            {/* Nutritional & Allergen Information relocated to balance column heights */}
+            <FadeInSection delay="300ms">
+              <div className="bg-gradient-to-br from-red-950/40 to-neutral-900/40 backdrop-blur-xl border border-red-900/30 p-6 md:p-8 rounded-2xl hover:shadow-[0_0_40px_rgba(220,38,38,0.1)] transition-shadow duration-500 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors"></div>
+
+                <div className="flex items-start gap-4 mb-6 border-b border-red-900/30 pb-6 relative z-10">
+                  <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-5 h-5 text-red-500" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-white uppercase tracking-widest mb-1">Allergen Information</h4>
+                    <p className="text-sm text-red-200/80 leading-relaxed">Contains Milk and Barley. Formulated under strict manufacturing practices to prevent contamination.</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center pt-2 relative z-10">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Serving Size</h4>
+                    <p className="text-xl font-bold text-white">1 Pack (25 gm)</p>
+                  </div>
+                  <div className="text-right">
+                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Bag</h4>
+                    <p className="text-xl font-bold text-white">20 Servings</p>
+                  </div>
+                </div>
               </div>
             </FadeInSection>
           </div>
@@ -207,7 +283,7 @@ const Cocozhi: React.FC = () => {
                         </div>
                       </li>
                     ))}
-                    
+
                     {/* Non-Dairy Creamer with nested sub-ingredients */}
                     <li className="border-t border-white/5 pt-4 mt-2">
                       <div className="flex items-start gap-3 text-sm group">
@@ -217,8 +293,8 @@ const Cocozhi: React.FC = () => {
                           <p className="text-[11px] text-neutral-500 mb-2">Composed of stabilizers, emulsifiers, and lipids:</p>
                           <div className="flex flex-wrap gap-1.5 mt-2 max-w-full">
                             {[
-                              'Glucose Syrup Solids', 'Vegetable Fat (palm)', 'Dipotassium Hydrogen Phosphate', 
-                              'Sodium Tripolyphosphate', 'Sodium Caseinate (milk derivative)', 
+                              'Glucose Syrup Solids', 'Vegetable Fat (palm)', 'Dipotassium Hydrogen Phosphate',
+                              'Sodium Tripolyphosphate', 'Sodium Caseinate (milk derivative)',
                               'Mono & Diglycerides of Fatty Acids', 'Diacetyl Tartaric & Fatty Acid Esters of Glycerol', 'Beta Carotene'
                             ].map((sub, sIdx) => (
                               <span key={sIdx} className="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400">
@@ -259,7 +335,7 @@ const Cocozhi: React.FC = () => {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div className="group mt-8 pt-6 border-t border-white/5">
                       <h5 className="font-bold text-white mb-3 uppercase text-[10px] tracking-widest group-hover:text-red-400 transition-colors">Storage Conditions</h5>
                       <div className="bg-white/5 border border-white/10 p-3 rounded-lg flex items-center gap-3">
@@ -274,33 +350,7 @@ const Cocozhi: React.FC = () => {
               </FadeInSection>
             </div>
 
-            {/* Nutritional & Allergen */}
-            <FadeInSection delay="500ms">
-              <div className="bg-gradient-to-br from-red-950/40 to-neutral-900/40 backdrop-blur-xl border border-red-900/30 p-6 md:p-8 rounded-2xl hover:shadow-[0_0_40px_rgba(220,38,38,0.1)] transition-shadow duration-500 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors"></div>
 
-                <div className="flex items-start gap-4 mb-6 border-b border-red-900/30 pb-6 relative z-10">
-                  <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-5 h-5 text-red-500" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-widest mb-1">Allergen Information</h4>
-                    <p className="text-sm text-red-200/80 leading-relaxed">Contains Milk and Barley. Formulated under strict manufacturing practices to prevent contamination.</p>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center pt-2 relative z-10">
-                  <div>
-                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Serving Size</h4>
-                    <p className="text-xl font-bold text-white">1 Pack (25 gm)</p>
-                  </div>
-                  <div className="text-right">
-                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Bag</h4>
-                    <p className="text-xl font-bold text-white">20 Servings</p>
-                  </div>
-                </div>
-              </div>
-            </FadeInSection>
 
           </div>
         </div>

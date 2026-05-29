@@ -70,7 +70,16 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeNestedDropdown, setActiveNestedDropdown] = useState<string | null>(null);
+  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
+  const [mobileActiveNestedDropdown, setMobileActiveNestedDropdown] = useState<string | null>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMobileActiveDropdown(null);
+      setMobileActiveNestedDropdown(null);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -245,36 +254,62 @@ const Navbar: React.FC = () => {
           <div className="flex flex-col pt-8">
             {navLinks.map((link) => (
               <div key={link.name} className="flex flex-col border-b border-white/10 last:border-0">
-                <Link
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className="text-lg sm:text-xl font-bold uppercase tracking-widest text-white hover:text-red-600 transition-colors py-4 flex justify-between items-center"
-                >
-                  {link.name}
-                  {!link.dropdown && <ChevronRight className="w-4 h-4 text-neutral-600" />}
-                </Link>
-                {link.dropdown && (
-                  <div className="pl-4 flex flex-col gap-2 pb-4 border-l border-white/10 ml-1">
+                {link.dropdown ? (
+                  <button
+                    onClick={() => setMobileActiveDropdown(mobileActiveDropdown === link.name ? null : link.name)}
+                    className="text-lg sm:text-xl font-bold uppercase tracking-widest text-white hover:text-red-600 transition-colors py-4 flex justify-between items-center w-full text-left"
+                  >
+                    <span>{link.name}</span>
+                    <ChevronDown className={`w-4 h-4 text-neutral-600 transition-transform duration-300 ${mobileActiveDropdown === link.name ? 'rotate-180 text-white' : ''}`} />
+                  </button>
+                ) : (
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="text-lg sm:text-xl font-bold uppercase tracking-widest text-white hover:text-red-600 transition-colors py-4 flex justify-between items-center"
+                  >
+                    {link.name}
+                    <ChevronRight className="w-4 h-4 text-neutral-600" />
+                  </Link>
+                )}
+                
+                {link.dropdown && mobileActiveDropdown === link.name && (
+                  <div className="pl-4 flex flex-col gap-2 pb-4 border-l border-white/10 ml-1 animate-in fade-in slide-in-from-top-1 duration-300">
                     {link.dropdown.map((sub: any) => (
                       <div key={sub.name + sub.path} className="flex flex-col">
-                        <Link
-                          to={sub.path}
-                          onClick={() => !sub.dropdown && setIsOpen(false)}
-                          className={`font-medium uppercase tracking-wider text-neutral-400 hover:text-white flex items-center justify-between py-2 text-xs sm:text-sm`}
-                        >
-                          <div className="flex items-center gap-3">
+                        {sub.dropdown ? (
+                          <button
+                            onClick={() => setMobileActiveNestedDropdown(mobileActiveNestedDropdown === sub.name ? null : sub.name)}
+                            className="font-medium uppercase tracking-wider text-neutral-400 hover:text-white flex items-center justify-between py-2 text-xs sm:text-sm w-full text-left"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
+                              {sub.name}
+                            </div>
+                            <ChevronDown className={`w-3.5 h-3.5 text-neutral-600 transition-transform duration-300 ${mobileActiveNestedDropdown === sub.name ? 'rotate-180 text-white' : ''}`} />
+                          </button>
+                        ) : (
+                          <Link
+                            to={sub.path}
+                            onClick={() => setIsOpen(false)}
+                            className={`font-medium uppercase tracking-wider text-neutral-400 hover:text-white flex items-center gap-3 py-2 text-xs sm:text-sm`}
+                          >
                             <div className="w-1.5 h-1.5 bg-red-600 rounded-full"></div>
                             {sub.name}
-                          </div>
-                          {sub.dropdown && <ChevronDown className="w-3.5 h-3.5 text-neutral-600" />}
-                        </Link>
-                        {sub.dropdown && (
-                          <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1">
+                          </Link>
+                        )}
+                        
+                        {sub.dropdown && mobileActiveNestedDropdown === sub.name && (
+                          <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1 animate-in fade-in slide-in-from-top-1 duration-200">
                             {sub.dropdown.map((nested: any) => (
                               <Link
                                 key={nested.name + nested.path}
                                 to={nested.path}
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                  setIsOpen(false);
+                                  setMobileActiveDropdown(null);
+                                  setMobileActiveNestedDropdown(null);
+                                }}
                                 className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-500 hover:text-white flex items-center gap-3 py-1.5"
                               >
                                 <div className="w-1 h-1 bg-red-500 rounded-full"></div>
