@@ -87,98 +87,103 @@ const Cocozhi: React.FC = () => {
           {/* Left Column: Image & Quick Facts */}
           <div className="lg:col-span-5 space-y-8">
             <FadeInSection>
-              {/* Ambient glow behind card */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/10 to-amber-600/10 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 pointer-events-none"></div>
-
-              {/* Interactive 3D Product Container with Glassmorphism */}
-              <div
-                className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden group hover:border-red-500/30"
+              {/* Outer static wrapper that listens to mouse events to prevent jitter feedback loop */}
+              <div 
+                className="relative group"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => {
                   setIsHovering(false);
                   setMousePos({ x: 0, y: 0 });
                 }}
                 onMouseMove={handleMouseMove}
-                style={{
-                  transformStyle: 'preserve-3d',
-                  transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 16}deg) rotateX(${-mousePos.y * 16}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
-                  transition: isHovering ? 'border-color 0.5s ease' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease'
-                }}
               >
-                {/* Floating Particles */}
-                <div className="absolute inset-0 pointer-events-none z-0">
-                  <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-amber-500/20 animate-float delay-100 filter blur-[0.5px]" />
-                  <Sparkles className="absolute bottom-[25%] right-[10%] w-4 h-4 text-yellow-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
-                  <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-red-500/10 animate-float delay-500" />
-                  <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-amber-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
-                  <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-red-500/20 animate-float delay-700 blur-[2px]"></div>
-                  <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-amber-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
-                </div>
+                {/* Ambient glow behind card */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-600/10 to-amber-600/10 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 pointer-events-none"></div>
 
-                <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
-                  <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-black/80 border border-white/20 text-white backdrop-blur-md rounded-full">
-                    500g (20 Sachets)
-                  </span>
-                  <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-red-600 to-red-800 border border-red-500 text-white backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                    Cocoa & Ganoderma
-                  </span>
-                </div>
-
-                <div className="relative z-10 flex justify-center items-center w-full h-[400px]"
-                  style={{ transform: 'translateZ(60px)' }}>
-
-                  {/* Video View with smooth transition */}
-                  <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'video' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    <video
-                      src="/cocozhi.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover rounded-xl filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)] shadow-[0_0_30px_rgba(139,90,43,0.1)]"
-                    />
+                {/* Inner 3D Product Container with Glassmorphism */}
+                <div
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 group-hover:border-red-500/30"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 16}deg) rotateX(${-mousePos.y * 16}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
+                    transition: isHovering ? 'border-color 0.5s ease' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease'
+                  }}
+                >
+                  {/* Floating Particles */}
+                  <div className="absolute inset-0 pointer-events-none z-0">
+                    <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-amber-500/20 animate-float delay-100 filter blur-[0.5px]" />
+                    <Sparkles className="absolute bottom-[25%] right-[10%] w-4 h-4 text-yellow-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
+                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-red-500/10 animate-float delay-500" />
+                    <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-amber-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
+                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-red-500/20 animate-float delay-700 blur-[2px]"></div>
+                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-amber-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                   </div>
 
-                  {/* Image View with smooth transition */}
-                  <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'image' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    <img
-                      src="/cocozhi.png"
-                      alt="DXN Cocozhi Packaging"
-                      className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)]"
-                    />
+                  <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
+                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-black/80 border border-white/20 text-white backdrop-blur-md rounded-full">
+                      500g (20 Sachets)
+                    </span>
+                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-red-600 to-red-800 border border-red-500 text-white backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                      Cocoa & Ganoderma
+                    </span>
                   </div>
-                </div>
 
-                {/* Media Toggle Controls */}
-                <div className="absolute bottom-4 right-4 z-20 flex gap-1 bg-black/80 border border-white/10 p-1 rounded-lg backdrop-blur-md translate-z-[40px]">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveMedia('video');
-                    }}
-                    className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'video'
-                        ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
-                        : 'text-neutral-400 hover:text-white'
-                      }`}
-                  >
-                    Video
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveMedia('image');
-                    }}
-                    className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'image'
-                        ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
-                        : 'text-neutral-400 hover:text-white'
-                      }`}
-                  >
-                    Image
-                  </button>
-                </div>
+                  <div className="relative z-10 flex justify-center items-center w-full h-[400px]"
+                    style={{ transform: 'translateZ(60px)' }}>
 
-                {/* Floor reflection effect */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                    {/* Video View with smooth transition */}
+                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'video' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                      <video
+                        src="/cocozhi.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover rounded-xl filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)] shadow-[0_0_30px_rgba(139,90,43,0.1)]"
+                      />
+                    </div>
+
+                    {/* Image View with smooth transition */}
+                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'image' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                      <img
+                        src="/cocozhi.png"
+                        alt="DXN Cocozhi Packaging"
+                        className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Media Toggle Controls */}
+                  <div className="absolute bottom-4 right-4 z-20 flex gap-1 bg-black/80 border border-white/10 p-1 rounded-lg backdrop-blur-md translate-z-[40px]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMedia('video');
+                      }}
+                      className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'video'
+                          ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
+                          : 'text-neutral-400 hover:text-white'
+                        }`}
+                    >
+                      Video
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMedia('image');
+                      }}
+                      className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'image'
+                          ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
+                          : 'text-neutral-400 hover:text-white'
+                        }`}
+                    >
+                      Image
+                    </button>
+                  </div>
+
+                  {/* Floor reflection effect */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                </div>
               </div>
             </FadeInSection>
 
