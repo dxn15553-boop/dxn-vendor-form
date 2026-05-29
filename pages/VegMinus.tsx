@@ -90,48 +90,54 @@ const VegMinus: React.FC = () => {
           {/* Left Column: Image & Quick Facts */}
           <div className="lg:col-span-5 space-y-8">
             <FadeInSection>
-              {/* Interactive 3D Product Container with Glassmorphism */}
-              <div
-                className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500 hover:border-red-500/30"
+              {/* Outer static wrapper that listens to mouse events to prevent jitter feedback loop */}
+              <div 
+                className="relative group"
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => {
                   setIsHovering(false);
                   setMousePos({ x: 0, y: 0 });
                 }}
                 onMouseMove={handleMouseMove}
-                style={{
-                  transformStyle: 'preserve-3d',
-                  transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 20}deg) rotateX(${-mousePos.y * 20}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)'
-                }}
               >
-                {/* Floating Particles */}
-                <div className="absolute inset-0 pointer-events-none z-0">
-                  <Droplet className="absolute top-[20%] left-[20%] w-3 h-3 text-white/30 animate-float delay-100 filter blur-[1px]" />
-                  <Droplet className="absolute bottom-[30%] right-[15%] w-4 h-4 text-white/20 animate-float-delayed delay-300 filter blur-[1.5px]" />
-                  <Sprout className="absolute top-[40%] right-[20%] w-5 h-5 text-green-500/20 animate-float delay-500" />
-                  <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-red-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
-                </div>
+                {/* Interactive 3D Product Container with Glassmorphism */}
+                <div
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 group-hover:border-red-500/30"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 16}deg) rotateX(${-mousePos.y * 16}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
+                    transition: isHovering ? 'border-color 0.5s ease' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease'
+                  }}
+                >
+                  {/* Floating Particles */}
+                  <div className="absolute inset-0 pointer-events-none z-0">
+                    <Droplet className="absolute top-[20%] left-[20%] w-3 h-3 text-white/30 animate-float delay-100 filter blur-[1px]" />
+                    <Droplet className="absolute bottom-[30%] right-[15%] w-4 h-4 text-white/20 animate-float-delayed delay-300 filter blur-[1.5px]" />
+                    <Sprout className="absolute top-[40%] right-[20%] w-5 h-5 text-green-500/20 animate-float delay-500" />
+                    <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-red-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
+                  </div>
 
-                <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
-                  <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-black/80 border border-white/20 text-white backdrop-blur-md rounded-full">
-                    500g
-                  </span>
-                  <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-red-600 to-red-800 border border-red-500 text-white backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                    Eggless
-                  </span>
-                </div>
+                  <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
+                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-black/80 border border-white/20 text-white backdrop-blur-md rounded-full">
+                      500g
+                    </span>
+                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-red-600 to-red-800 border border-red-500 text-white backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                      Eggless
+                    </span>
+                  </div>
 
-                <div className="relative z-10 flex justify-center items-center h-[400px] transition-transform duration-100 ease-out"
-                  style={{ transform: 'translateZ(60px)' }}>
-                  <img
-                    src="/veg_minus.jpeg"
-                    alt="DXN Veg Mayonnaise"
-                    className={`w-full h-full object-contain filter drop-shadow-[0_30px_50px_rgba(220,38,38,0.2)] ${!isHovering ? 'animate-continuous-spin' : ''}`}
-                  />
-                </div>
+                  <div className="relative z-10 flex justify-center items-center w-full h-[400px]"
+                    style={{ transform: 'translateZ(60px)' }}>
+                    <img
+                      src="/veg_minus.jpeg"
+                      alt="DXN Veg Mayonnaise"
+                      className="w-full h-full object-contain filter drop-shadow-[0_30px_50px_rgba(220,38,38,0.2)]"
+                    />
+                  </div>
 
-                {/* Floor reflection effect */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                  {/* Floor reflection effect */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                </div>
               </div>
             </FadeInSection>
 
