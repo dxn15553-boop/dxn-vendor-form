@@ -96,7 +96,7 @@ export const INITIAL_CONTENT = {
       id: "prod-6",
       name: "DXN Cocozhi",
       category: "Coffee",
-      description: "500 gm powder form of cocoa beverage with coffee (each sachet contains 25 gm). Cocozhi is a delicious blend of non-dairy creamer and cocoa, containing Ganoderma extract.",
+      description: "This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.",
       image: "/cocozhi.png",
       features: ["Premium Cocoa Blend", "Ganoderma Extract", "20 Servings Per Bag"],
       status: "Available"

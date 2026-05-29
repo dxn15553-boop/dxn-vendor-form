@@ -76,7 +76,7 @@ const Cocozhi: React.FC = () => {
             DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">Cocozhi</span>
           </h1>
           <p className="text-neutral-400 max-w-2xl text-lg font-light animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            A delicious blend of non-dairy creamer and cocoa with Ganoderma extract. Packaged in a convenient 500g powder form containing 20 sachets.
+            This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.
           </p>
         </div>
       </section>
@@ -244,7 +244,7 @@ const Cocozhi: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-500">Product Information</h2>
                 <p className="text-neutral-400 text-lg leading-relaxed mb-8">
-                  DXN Cocozhi is prepared from high-grade cocoa powder with Ganoderma extract. It comes in a soluble powder form, packaged individually in convenient sachets to preserve its aroma and freshness. It is designed to be easily prepared with hot milk or water for a rich, satisfying beverage.
+                  This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Prepared from high-grade cocoa powder with Ganoderma extract, it comes in a soluble powder form, packaged individually in convenient sachets to preserve its aroma and freshness. It is designed to be easily prepared with hot milk or water for a rich, satisfying beverage.
                 </p>
               </FadeInSection>
 
