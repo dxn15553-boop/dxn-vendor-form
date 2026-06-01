@@ -10,6 +10,7 @@ import Quality from './pages/Quality';
 import Sustainability from './pages/Sustainability';
 import VegMinus from './pages/VegMinus';
 import Cocozhi from './pages/Cocozhi';
+import Cordyceps from './pages/Cordyceps';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
 import ImageGallery from './pages/ImageGallery';
@@ -102,7 +103,8 @@ const Navbar: React.FC = () => {
           path: '/products?category=Coffee', 
           icon: Coffee,
           dropdown: [
-            { name: 'DXN Cocozhi', path: '/cocozhi', icon: Package }
+            { name: 'DXN Cocozhi', path: '/cocozhi', icon: Package },
+            { name: 'DXN Cordyceps Coffee', path: '/codyceps', icon: Package }
           ]
         },
         { name: 'Cosmetics', path: '/products?category=Cosmetics', icon: Sparkles },
@@ -445,6 +447,8 @@ const App: React.FC = () => {
                 <Route path="/products/" element={<Products />} />
                 <Route path="/veg-minus" element={<VegMinus />} />
                 <Route path="/cocozhi" element={<Cocozhi />} />
+                <Route path="/codyceps" element={<Cordyceps />} />
+                <Route path="/cordyceps" element={<Cordyceps />} />
 
                 <Route path="/quality" element={<Quality />} />
                 <Route path="/future" element={<Sustainability />} />

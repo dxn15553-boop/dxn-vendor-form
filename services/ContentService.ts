@@ -100,6 +100,15 @@ export const INITIAL_CONTENT = {
       image: "/cocozhi.png",
       features: ["Premium Cocoa Blend", "Ganoderma Extract", "20 Servings Per Bag"],
       status: "Available"
+    },
+    {
+      id: "prod-7",
+      name: "DXN Cordyceps Coffee 3 in 1",
+      category: "Coffee",
+      description: "500 gm powder form of coffee with Cordyceps powder (Each sachet contains 20 gm). Premium coffee premix that is smooth, aromatic, and revitalizing.",
+      image: "/cordyceps.png",
+      features: ["Organic Cordyceps", "Premium Instant Coffee", "25 Servings Per Bag"],
+      status: "Available"
     }
   ] as Product[],
   imageCategories: ['Campus', 'R&D', 'Manufacturing', 'Quality', 'Agronomy', 'Sustainability', 'Ecosystem'],

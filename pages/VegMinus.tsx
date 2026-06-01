@@ -43,17 +43,6 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
 };
 
 const VegMinus: React.FC = () => {
-  // Interactive Product Rotation State
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isHovering) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
-  };
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
@@ -90,23 +79,13 @@ const VegMinus: React.FC = () => {
           {/* Left Column: Image & Quick Facts */}
           <div className="lg:col-span-5 space-y-8">
             <FadeInSection>
-              {/* Outer static wrapper that listens to mouse events to prevent jitter feedback loop */}
-              <div 
-                className="relative group"
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => {
-                  setIsHovering(false);
-                  setMousePos({ x: 0, y: 0 });
-                }}
-                onMouseMove={handleMouseMove}
-              >
-                {/* Interactive 3D Product Container with Glassmorphism */}
+              {/* Outer static wrapper that is stable and sticky */}
+              <div className="relative group">
+                {/* Inner stable Product Container with Glassmorphism */}
                 <div
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 group-hover:border-red-500/30"
+                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden transition-colors duration-500 group-hover:border-red-500/30"
                   style={{
-                    transformStyle: 'preserve-3d',
-                    transform: isHovering ? `perspective(1000px) rotateY(${mousePos.x * 16}deg) rotateX(${-mousePos.y * 16}deg)` : 'perspective(1000px) rotateY(0deg) rotateX(0deg)',
-                    transition: isHovering ? 'border-color 0.5s ease' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.5s ease'
+                    transformStyle: 'preserve-3d'
                   }}
                 >
                   {/* Floating Particles */}
@@ -126,8 +105,7 @@ const VegMinus: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="relative z-10 flex justify-center items-center w-full h-[400px]"
-                    style={{ transform: 'translateZ(60px)' }}>
+                  <div className="relative z-10 flex justify-center items-center w-full h-[400px] animate-premium-zoom">
                     <img
                       src="/veg_minus.jpeg"
                       alt="DXN Veg Mayonnaise"
@@ -294,6 +272,15 @@ const VegMinus: React.FC = () => {
         }
         .animate-hero-pan {
           animation: hero-pan 20s ease-in-out infinite;
+        }
+        @keyframes premium-zoom {
+          0%, 100% { transform: scale(1) translateZ(10px); }
+          50% { transform: scale(1.08) translateZ(40px); }
+        }
+        .animate-premium-zoom {
+          animation: premium-zoom 10s ease-in-out infinite;
+          transform-style: preserve-3d;
+          will-change: transform;
         }
       `}</style>
     </div>
