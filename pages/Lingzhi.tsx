@@ -45,13 +45,26 @@ const Lingzhi: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-20 border-b border-white/5 py-24">
-        {/* Subtle grid background */}
+      <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
+        {/* Subtle grid pattern overlay */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
         <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+          {/* Mobile Title - Visible only on small screens */}
+          <div className="block lg:hidden flex flex-col items-center text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/20 bg-orange-500/5 backdrop-blur-sm mb-6">
+              <Coffee className="w-4 h-4 text-orange-500 animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">Coffee Division</span>
+            </div>
+            <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase leading-[0.9] text-white">
+              DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-lg">Lingzhi</span><br />
+              <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Coffee 3 in 1</span>
+            </h1>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
 
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
@@ -61,16 +74,18 @@ const Lingzhi: React.FC = () => {
                   <div className="absolute -inset-20 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
 
                   <div className="relative z-10 flex flex-col items-start">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/20 bg-orange-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-orange-500/40">
-                      <Coffee className="w-4 h-4 text-orange-500 animate-pulse" />
-                      <span className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">Coffee Division</span>
-                    </div>
+                    {/* Desktop Title - Hidden on mobile */}
+                    <div className="hidden lg:flex flex-col items-start">
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/20 bg-orange-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-orange-500/40">
+                        <Coffee className="w-4 h-4 text-orange-500 animate-pulse" />
+                        <span className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">Coffee Division</span>
+                      </div>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
-                      DXN <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-lg">Lingzhi</span><br />
-                      <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Coffee 3 in 1</span>
-                    </h1>
+                      <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
+                        DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-lg">Lingzhi</span><br />
+                        <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Coffee 3 in 1</span>
+                      </h1>
+                    </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
                       500 gm powder form of coffee beverage of Lingzhi Coffee 3 in 1 powder. The world's first healthy coffee blend, combining premium Brazilian coffee beans with 100% organic Ganoderma extract.
@@ -107,7 +122,7 @@ const Lingzhi: React.FC = () => {
 
           </div>
         </div>
-      </section>
+      </section >
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
@@ -405,7 +420,7 @@ const Lingzhi: React.FC = () => {
           will-change: transform;
         }
       `}</style>
-    </div>
+    </div >
   );
 };
 
