@@ -46,11 +46,11 @@ export const DEFAULT_ASSETS = {
   CSR_TRAINING: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
   // Division-specific visuals
   DIV_NUTRA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766486527/bafd72a0-0740-49b5-b94b-5a1a82f910f3_ljy8n7.jpg?q=80&w=2069&auto=format&fit=crop",
-  DIV_COFFEE: "https://res.cloudinary.com/dmslyftme/image/upload/v1766490150/WhatsApp_Image_2025-12-23_at_16.57.50_pvp9rt.jpg?q=80&w=2070&auto=format&fit=crop",
-  DIV_COSMETICS: "https://res.cloudinary.com/dmslyftme/image/upload/v1766490779/569b5c14-3d9e-4ae4-b903-9f18b4edf901_fuvxfk.jpg?q=80&w=2070&auto=format&fit=crop",
+  DIV_COFFEE: "/coffee/cocozhi.png",
+  DIV_COSMETICS: "/cosmetics/cosmetics.jpeg",
   DIV_KOMBUCHA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489267/DSC_0513_go7gvi.jpg?q=80&w=1974&auto=format&fit=crop",
   DIV_WETFOOD: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489920/DSC01159_vgvyqg.jpg?q=80&w=2071&auto=format&fit=crop",
-  DIV_AGRO: "https://res.cloudinary.com/dmslyftme/image/upload/v1766491717/a11897fa-b45e-4eed-ac32-c9bdb45bf8a2_i0h5gl.jpg?q=80&w=2048&auto=format&fit=crop",
+  DIV_AGRO: "/agro/veg_minus.jpeg",
 };
 
 export const CORPORATE_EVENTS = [

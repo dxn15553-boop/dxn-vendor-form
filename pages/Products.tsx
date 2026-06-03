@@ -1,10 +1,10 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { useAssets } from '../App';
 import { useContent } from '../context/ContentContext';
 import { useLocation } from 'react-router-dom';
-import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download } from 'lucide-react';
+import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Products: React.FC = () => {
   const { assets } = useAssets();
@@ -21,6 +21,20 @@ const Products: React.FC = () => {
     if (cat) setActiveCategory(cat);
   }, [location.search]);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+    }
+  };
 
   // Fallback for missing product images
   const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=2000&auto=format&fit=crop";
@@ -89,13 +103,33 @@ const Products: React.FC = () => {
            </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Product Carousel */}
+        <style>{`
+          .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        <div className="relative group/carousel">
+          {filteredProducts.length > 3 && (
+            <button 
+              onClick={scrollLeft} 
+              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -ml-6 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
+
+          <div 
+            ref={carouselRef}
+            className="flex overflow-x-auto gap-8 snap-x snap-mandatory pb-12 pt-4 -mx-4 px-4 scroll-smooth hide-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
            {filteredProducts.map((product, idx) => (
               <div 
                 key={product.id} 
                 onClick={() => handleViewSpecs(product)}
-                className="group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden cursor-pointer"
+                className="w-[85vw] sm:w-[400px] shrink-0 snap-start group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden cursor-pointer rounded-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(220,38,38,0.1)]"
               >
                  {/* Status Badge */}
                  <div className="absolute top-4 right-4 z-20">
@@ -152,6 +186,17 @@ const Products: React.FC = () => {
                  </div>
               </div>
            ))}
+          </div>
+
+          {filteredProducts.length > 3 && (
+            <button 
+              onClick={scrollRight} 
+              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 -mr-6 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
         </div>
 
         {filteredProducts.length === 0 && (

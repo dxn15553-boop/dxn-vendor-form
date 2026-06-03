@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Package, Check, ShieldCheck, Coffee, Info, AlertTriangle, Sparkles, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
-import { useContent } from '../context/ContentContext';
+import { Package, Check, ShieldCheck, Coffee, Info, AlertTriangle, Sparkles } from 'lucide-react';
 
 // Custom Hook for Scroll Animations
 const useScrollFade = (threshold = 0.1) => {
@@ -42,18 +41,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
   );
 };
 
-const Cocozhi: React.FC = () => {
-  const { content } = useContent();
-  const coffeeProducts = (content?.products || []).filter((p: any) => p.category === 'Coffee');
-  const carouselRef = useRef<HTMLDivElement>(null);
-  
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    if (carouselRef.current) {
-      const scrollAmount = direction === 'left' ? -420 : 420;
-      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
+const Lingzhi: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
       {/* Hero Section */}
@@ -64,35 +52,36 @@ const Cocozhi: React.FC = () => {
 
         <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            
+
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
               <FadeInSection>
-                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-red-500/30 transition-all duration-700">
+                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-orange-500/30 transition-all duration-700">
                   {/* Soft decorative background glow inside the card */}
-                  <div className="absolute -inset-20 bg-gradient-to-br from-red-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
-                  
+                  <div className="absolute -inset-20 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
+
                   <div className="relative z-10 flex flex-col items-start">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/20 bg-red-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-red-500/40">
-                      <Coffee className="w-4 h-4 text-red-500 animate-pulse" />
-                      <span className="text-xs font-black uppercase tracking-[0.3em] text-red-400">Coffee Division</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-orange-500/20 bg-orange-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-orange-500/40">
+                      <Coffee className="w-4 h-4 text-orange-500 animate-pulse" />
+                      <span className="text-xs font-black uppercase tracking-[0.3em] text-orange-400">Coffee Division</span>
                     </div>
-                    
+
                     <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
                       DXN <br />
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 drop-shadow-lg">Cocozhi</span><br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 drop-shadow-lg">Lingzhi</span><br />
+                      <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Coffee 3 in 1</span>
                     </h1>
-                    
+
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.
+                      500 gm powder form of coffee beverage of Lingzhi Coffee 3 in 1 powder. The world's first healthy coffee blend, combining premium Brazilian coffee beans with 100% organic Ganoderma extract.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        500g (20 Sachets)
+                        500g (25 Sachets)
                       </span>
-                      <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-red-500/30 bg-red-500/10 rounded-full text-red-400 backdrop-blur-md">
-                        Premium Cocoa
+                      <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-orange-500/30 bg-orange-500/10 rounded-full text-orange-400 backdrop-blur-md">
+                        Organic Ganoderma
                       </span>
                     </div>
                   </div>
@@ -107,15 +96,15 @@ const Cocozhi: React.FC = () => {
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/coffee/cocozhi.png"
-                      alt="DXN Cocozhi Packaging"
-                      className="w-full h-full object-contain scale-[1.8] md:scale-[2.2] filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
+                      src="/coffee/lingzhi.png"
+                      alt="DXN Lingzhi Coffee Packaging"
+                      className="w-full h-full object-contain scale-[1.8] md:scale-[2.2] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
                     />
                   </div>
                 </div>
               </FadeInSection>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -129,27 +118,27 @@ const Cocozhi: React.FC = () => {
               {/* Outer static wrapper that is stable and sticky */}
               <div className="relative group">
                 {/* Soft ambient glow behind card */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-red-500/5 to-amber-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+                <div className="absolute -inset-2 bg-gradient-to-r from-orange-500/5 to-yellow-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
                 {/* Inner stable Product Container with Glassmorphism */}
                 <div
-                  className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-6 md:p-12 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-red-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
+                  className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-6 md:p-12 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-orange-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
                 >
                   {/* Floating Particles */}
                   <div className="absolute inset-0 pointer-events-none z-0">
-                    <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-amber-500/20 animate-float delay-100 filter blur-[0.5px]" />
+                    <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-orange-500/20 animate-float delay-100 filter blur-[0.5px]" />
                     <Sparkles className="absolute bottom-[25%] right-[10%] w-4 h-4 text-yellow-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
-                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-red-500/10 animate-float delay-500" />
-                    <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-amber-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
-                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-red-500/20 animate-float delay-700 blur-[2px]"></div>
-                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-amber-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
+                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-orange-500/10 animate-float delay-500" />
+                    <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-orange-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
+                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-orange-500/20 animate-float delay-700 blur-[2px]"></div>
+                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-yellow-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                   </div>
 
 
 
                   <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
                     <video
-                      src="/coffee/decor_video.mp4"
+                      src="/coffee/coffee_video.mp4"
                       autoPlay
                       loop
                       muted
@@ -159,7 +148,7 @@ const Cocozhi: React.FC = () => {
                   </div>
 
                   {/* Floor reflection effect */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-orange-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
                 </div>
               </div>
             </FadeInSection>
@@ -167,16 +156,16 @@ const Cocozhi: React.FC = () => {
             <FadeInSection delay="200ms">
               <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 group">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 transition-colors group-hover:text-white">
-                  <Info className="w-4 h-4 text-red-500" /> Physical Attributes
+                  <Info className="w-4 h-4 text-orange-600" /> Physical Attributes
                 </h3>
                 <ul className="space-y-4 relative z-10">
-                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-red-500/20">
+                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
                     <span className="text-white font-medium text-right">Powder Form</span>
                   </li>
-                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-red-500/20">
+                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color & Odour</span>
-                    <span className="text-white font-medium text-right">Dark Brown with Cocoa Aroma</span>
+                    <span className="text-white font-medium text-right">Dark Brown with Coffee Aroma</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
@@ -188,26 +177,26 @@ const Cocozhi: React.FC = () => {
 
             {/* Wellness & Nutrition Dashboard */}
             <FadeInSection delay="300ms">
-              <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-red-500/25 hover:shadow-[0_20px_50px_rgba(220,38,38,0.06)] hover:-translate-y-0.5 relative overflow-hidden group">
-                <div className="absolute -top-12 -right-12 w-32 h-32 bg-red-500/5 rounded-full blur-2xl group-hover:bg-red-500/10 transition-colors duration-500"></div>
+              <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-orange-500/25 hover:shadow-[0_20px_50px_rgba(249,115,22,0.06)] hover:-translate-y-0.5 relative overflow-hidden group">
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl group-hover:bg-orange-500/10 transition-colors duration-500"></div>
 
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-red-500" /> Nutrition & Wellness
+                  <ShieldCheck className="w-4 h-4 text-orange-500" /> Nutrition & Wellness
                 </h3>
 
                 {/* Macro Nutrients Grid */}
                 <div className="grid grid-cols-3 gap-4 mb-6 relative z-10">
                   <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
                     <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Energy</span>
-                    <span className="text-base font-bold text-white">98 kcal</span>
+                    <span className="text-base font-bold text-white">90 kcal</span>
                   </div>
                   <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
                     <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Protein</span>
-                    <span className="text-base font-bold text-white">1.8 g</span>
+                    <span className="text-base font-bold text-white">0.9 g</span>
                   </div>
                   <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
-                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Calcium</span>
-                    <span className="text-base font-bold text-white">45 mg</span>
+                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Dietary Fiber</span>
+                    <span className="text-base font-bold text-white">0.5 g</span>
                   </div>
                 </div>
 
@@ -215,20 +204,20 @@ const Cocozhi: React.FC = () => {
                 <div className="space-y-4 mb-6 relative z-10">
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Premium Cocoa Blend</span>
-                      <span className="text-red-400 font-bold">18% (Rich Chocolate)</span>
+                      <span className="text-neutral-400 font-medium">Ganoderma Extract (RG)</span>
+                      <span className="text-orange-400 font-bold">100% Organic</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-red-500 h-full rounded-full transition-all duration-1000" style={{ width: '80%' }}></div>
+                      <div className="bg-orange-500 h-full rounded-full transition-all duration-1000" style={{ width: '85%' }}></div>
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Ganoderma Lucidum Extract</span>
-                      <span className="text-red-400 font-bold">2.5% (Pure Extract)</span>
+                      <span className="text-neutral-400 font-medium">Premium Brazilian Coffee Beans</span>
+                      <span className="text-orange-400 font-bold">Low Acidity</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-red-500 h-full rounded-full transition-all duration-1000" style={{ width: '65%' }}></div>
+                      <div className="bg-orange-500 h-full rounded-full transition-all duration-1000" style={{ width: '100%' }}></div>
                     </div>
                   </div>
                 </div>
@@ -238,18 +227,18 @@ const Cocozhi: React.FC = () => {
                   <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Allergen Information</h4>
-                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Milk and Barley. Formulated under strict manufacturing practices to prevent contamination.</p>
+                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Milk and Soya. Formulated under strict manufacturing practices to prevent contamination.</p>
                   </div>
                 </div>
 
                 <div className="flex justify-between items-center pt-3 border-t border-white/[0.06] relative z-10">
                   <div>
                     <h4 className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Serving Size</h4>
-                    <p className="text-sm font-semibold text-white">1 Pack (25 gm)</p>
+                    <p className="text-sm font-semibold text-white">1 Pack (20 gm)</p>
                   </div>
                   <div className="text-right">
                     <h4 className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Bag</h4>
-                    <p className="text-sm font-semibold text-white">20 Servings</p>
+                    <p className="text-sm font-semibold text-white">25 Servings</p>
                   </div>
                 </div>
               </div>
@@ -262,20 +251,20 @@ const Cocozhi: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Prepared from high-grade cocoa powder with Ganoderma extract, it comes in a soluble powder form, packaged individually in convenient sachets to preserve its aroma and freshness. It is designed to be easily prepared with hot milk or water for a rich, satisfying beverage.
+                  500 gm powder form of coffee beverage of Lingzhi Coffee 3 in 1 powder (Each Sachet Contains 20 gm). It is specially blended with coffee beans of the finest quality and Ganoderma extract with no artificial coloring and preservatives. Taking a cup of DXN Lingzhi Coffee 3 in 1 offers you a robust, refreshing coffee experience with the adaptogenic benefits of organic Ganoderma.
                 </p>
               </FadeInSection>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FadeInSection delay="100ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-red-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-red-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
+                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-orange-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-orange-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Shelf Life</h4>
                     <p className="text-lg font-bold text-white">36 Months</p>
                   </div>
                 </FadeInSection>
 
                 <FadeInSection delay="200ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-red-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-red-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
+                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-orange-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-orange-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Division</h4>
                     <p className="text-lg font-bold text-white">Food and Beverage</p>
                   </div>
@@ -287,19 +276,16 @@ const Cocozhi: React.FC = () => {
               <FadeInSection delay="300ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                    <Coffee className="w-4 h-4 text-red-500" /> Ingredients
+                    <Coffee className="w-4 h-4 text-orange-500" /> Ingredients
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Cocoa Powder', desc: 'Premium quality cocoa for rich chocolate flavor' },
-                      { name: 'Sugar', desc: 'Slightly sweetened' },
-                      { name: 'Skimmed Milk Powder', desc: 'Provides smooth texture' },
-                      { name: 'Malt Extract', desc: 'Adds wholesome richness' },
-                      { name: 'Vanilla', desc: 'For sweet floral aroma' },
-                      { name: 'Ganoderma Extract', desc: 'Beneficial mushroom extract' },
+                      { name: 'Instant Coffee Mix', desc: 'Premium Brazilian coffee beans for robust flavour and rich aroma' },
+                      { name: 'Ganoderma Extract', desc: '100% organic Ganoderma lucidum extract' },
+                      { name: 'Sugar', desc: 'Slightly sweetened for taste balance' },
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
-                        <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
                           <span className="text-xs text-neutral-400">{item.desc}</span>
@@ -310,7 +296,7 @@ const Cocozhi: React.FC = () => {
                     {/* Non-Dairy Creamer with nested sub-ingredients */}
                     <li className="border-t border-white/[0.08] pt-4 mt-2">
                       <div className="flex items-start gap-3 text-sm group/item">
-                        <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold text-white block">Non-Dairy Creamer</span>
                           <p className="text-xs text-neutral-400 mb-2">Composed of stabilizers, emulsifiers, and lipids:</p>
@@ -335,19 +321,19 @@ const Cocozhi: React.FC = () => {
               <FadeInSection delay="400ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                    <ShieldCheck className="w-4 h-4 text-red-500" /> Directions & Storage
+                    <ShieldCheck className="w-4 h-4 text-orange-500" /> Directions & Storage
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">
                     <div className="group/item">
-                      <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Directions for Use</h5>
+                      <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-orange-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Cocozhi', desc: 'Pour the contents of one sachet of Cocozhi (25g) in a cup.' },
-                          { step: 2, label: 'Pour Water/Milk', desc: 'Add 150 ml of hot water or milk.' },
-                          { step: 3, label: 'Stir & Serve', desc: 'Stir thoroughly and enjoy your premium cocoa drink.' }
+                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of DXN Lingzhi Coffee 3 in 1 into a cup.' },
+                          { step: 2, label: 'Add Hot Water', desc: 'Pour 150 ml of hot water into the cup.' },
+                          { step: 3, label: 'Stir & Serve', desc: 'Stir well and serve hot for a revitalizing drink.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
-                            <span className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center text-[10px] font-bold shrink-0">
+                            <span className="w-5 h-5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-500 flex items-center justify-center text-[10px] font-bold shrink-0">
                               {d.step}
                             </span>
                             <div>
@@ -360,11 +346,11 @@ const Cocozhi: React.FC = () => {
                     </div>
 
                     <div className="group/item mt-8 pt-6 border-t border-white/[0.08]">
-                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Storage Conditions</h5>
+                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-orange-400 transition-colors">Storage Conditions</h5>
                       <div className="bg-white/[0.02] border border-white/[0.06] p-3 rounded-lg flex items-center gap-3">
-                        <Info className="w-4 h-4 text-red-500 shrink-0" />
+                        <Info className="w-4 h-4 text-orange-500 shrink-0" />
                         <p className="text-xs text-neutral-400 leading-normal">
-                          Keep in a cool and dry place, away from direct sunlight.
+                          Keep in a cool and dry place.
                         </p>
                       </div>
                     </div>
@@ -373,90 +359,7 @@ const Cocozhi: React.FC = () => {
               </FadeInSection>
             </div>
 
-
-
           </div>
-        </div>
-      </div>
-
-      {/* More Coffee Products Carousel */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-32 relative group/carousel">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white flex items-center gap-4">
-            <Coffee className="w-10 h-10 text-red-500" />
-            More <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600">Coffee Blends</span>
-          </h2>
-          
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-4 hidden md:flex opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
-            <button 
-              onClick={() => scrollCarousel('left')}
-              className="w-12 h-12 rounded-full border border-white/10 bg-neutral-900 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-xl"
-            >
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </button>
-            <button 
-              onClick={() => scrollCarousel('right')}
-              className="w-12 h-12 rounded-full border border-white/10 bg-neutral-900 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-xl"
-            >
-              <ChevronRight className="w-5 h-5 text-white" />
-            </button>
-          </div>
-        </div>
-
-        {/* Carousel Container */}
-        <div 
-          ref={carouselRef}
-          className="flex overflow-x-auto gap-8 pb-12 snap-x snap-mandatory relative [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {coffeeProducts.map((product: any) => (
-            <div 
-              key={product.id} 
-              className="min-w-[320px] md:min-w-[400px] snap-center group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden"
-            >
-              <div className="absolute top-4 right-4 z-20">
-                  <span className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${product.status === 'Available' ? 'bg-green-950/80 border-green-500 text-green-400' :
-                          product.status === 'Coming Soon' ? 'bg-amber-950/80 border-amber-500 text-amber-400' :
-                              'bg-blue-950/80 border-blue-500 text-blue-400'
-                      }`}>
-                      {product.status}
-                  </span>
-              </div>
-              <div className="h-64 relative overflow-hidden bg-black shrink-0">
-                  <img
-                      src={product.image || "https://images.unsplash.com/photo-1628102491629-778571d893a3"}
-                      alt={product.name}
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4">
-                      <span className="text-red-500 text-[9px] font-black uppercase tracking-[0.2em]">{product.category}</span>
-                  </div>
-              </div>
-              <div className="p-8 flex-grow flex flex-col justify-between relative bg-neutral-900 group-hover:bg-neutral-900/80 transition-colors">
-                  <div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors">{product.name}</h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3">
-                          {product.description}
-                      </p>
-                      <div className="space-y-2 mb-8">
-                          {(product.features || []).slice(0, 3).map((feature: string, fIdx: number) => (
-                              <div key={fIdx} className="flex items-center gap-3">
-                                  <Check className="w-3 h-3 text-red-600 shrink-0" />
-                                  <span className="text-xs text-neutral-500 font-bold uppercase tracking-wider">{feature}</span>
-                              </div>
-                          ))}
-                      </div>
-                  </div>
-                  <button
-                      className="w-full py-4 bg-white text-black border border-white hover:bg-red-600 hover:border-red-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 group/btn shadow-xl"
-                  >
-                      View Specifications <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -506,4 +409,4 @@ const Cocozhi: React.FC = () => {
   );
 };
 
-export default Cocozhi;
+export default Lingzhi;

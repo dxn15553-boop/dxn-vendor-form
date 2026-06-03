@@ -11,6 +11,7 @@ import Sustainability from './pages/Sustainability';
 import VegMinus from './pages/VegMinus';
 import Cocozhi from './pages/Cocozhi';
 import Cordyceps from './pages/Cordyceps';
+import Lingzhi from './pages/Lingzhi';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
 import ImageGallery from './pages/ImageGallery';
@@ -103,6 +104,7 @@ const Navbar: React.FC = () => {
           path: '/products?category=Coffee', 
           icon: Coffee,
           dropdown: [
+            { name: 'DXN Lingzhi 3 in 1', path: '/lingzhi', icon: Package },
             { name: 'DXN Cocozhi', path: '/cocozhi', icon: Package },
             { name: 'DXN Cordyceps Coffee', path: '/codyceps', icon: Package }
           ]
@@ -448,6 +450,7 @@ const App: React.FC = () => {
                 <Route path="/veg-minus" element={<VegMinus />} />
                 <Route path="/cocozhi" element={<Cocozhi />} />
                 <Route path="/codyceps" element={<Cordyceps />} />
+                <Route path="/lingzhi" element={<Lingzhi />} />
                 <Route path="/cordyceps" element={<Cordyceps />} />
 
                 <Route path="/quality" element={<Quality />} />

@@ -42,31 +42,70 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
 };
 
 const Cordyceps: React.FC = () => {
-  const [activeMedia, setActiveMedia] = useState<'video' | 'image'>('video');
-
   return (
     <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
       {/* Hero Section */}
-      <section className="relative h-[50vh] w-full flex items-center justify-center overflow-hidden bg-black mb-20 border-b border-white/5">
-        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-30">
-          <img
-            src="/cordyceps.png"
-            alt="DXN Cordyceps Coffee Background"
-            className="w-full h-full object-cover scale-105 filter blur-sm animate-hero-pan"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-black/80"></div>
-        </div>
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 text-center flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm mb-6 animate-in fade-in slide-in-from-bottom-2 duration-1000">
-            <Coffee className="w-3 h-3 text-red-500 animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Coffee Division</span>
+      <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-20 border-b border-white/5 py-24">
+        {/* Subtle grid background */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+        <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            {/* Left Column: Content */}
+            <div className="flex flex-col items-start text-left order-2 lg:order-1">
+              <FadeInSection>
+                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-amber-500/30 transition-all duration-700">
+                  {/* Soft decorative background glow inside the card */}
+                  <div className="absolute -inset-20 bg-gradient-to-br from-amber-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
+                  
+                  <div className="relative z-10 flex flex-col items-start">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-amber-500/40">
+                      <Coffee className="w-4 h-4 text-amber-500 animate-pulse" />
+                      <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-400">Coffee Division</span>
+                    </div>
+                    
+                    <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
+                      DXN <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 drop-shadow-lg">Cordyceps</span><br />
+                      <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Coffee</span>
+                    </h1>
+                    
+                    <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10">
+                      A premium formulation blending instant coffee with organic Cordyceps powder. Prepared with high-grade, aromatic coffee beans, non-dairy creamer, and the power of Cordyceps, it offers a rich and flavorful coffee experience with unique adaptogenic benefits.
+                    </p>
+
+                    <div className="flex flex-wrap gap-3">
+                      <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
+                        500g (25 Sachets)
+                      </span>
+                      <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-amber-500/30 bg-amber-500/10 rounded-full text-amber-400 backdrop-blur-md">
+                        Adaptogenic Blend
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </FadeInSection>
+            </div>
+
+            {/* Right Column: Video Showcase */}
+            <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
+              <FadeInSection delay="200ms">
+                <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
+                  {/* Image Container */}
+                  <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
+                    <img
+                      src="/coffee/cordyceps.png"
+                      alt="DXN Cordyceps Coffee Packaging"
+                      className="w-full h-full object-contain scale-[1.8] md:scale-[2.2] filter drop-shadow-[0_20px_40px_rgba(245,158,11,0.3)]"
+                    />
+                  </div>
+                </div>
+              </FadeInSection>
+            </div>
+            
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none mb-6 animate-in fade-in zoom-in duration-1000 delay-100 text-white">
-            DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700">Cordyceps Coffee</span>
-          </h1>
-          <p className="text-neutral-400 max-w-2xl text-lg font-light animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            A premium formulation blending instant coffee with organic Cordyceps powder. Prepared with high-grade, aromatic coffee beans, non-dairy creamer, and the power of Cordyceps, it offers a rich and flavorful coffee experience with unique adaptogenic benefits.
-          </p>
         </div>
       </section>
 
@@ -78,138 +117,128 @@ const Cordyceps: React.FC = () => {
             <FadeInSection>
               {/* Outer static wrapper that is stable and sticky */}
               <div className="relative group">
-                {/* Ambient glow behind card */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-red-600/10 to-amber-600/10 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 pointer-events-none"></div>
+                {/* Soft ambient glow behind card */}
+                <div className="absolute -inset-2 bg-gradient-to-r from-amber-500/5 to-yellow-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
 
                 {/* Inner stable Product Container with Glassmorphism */}
                 <div
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 md:p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] relative overflow-hidden transition-colors duration-500 group-hover:border-red-500/30"
-                  style={{
-                    transformStyle: 'preserve-3d'
-                  }}
+                  className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-6 md:p-12 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-amber-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
                 >
                   {/* Floating Particles */}
                   <div className="absolute inset-0 pointer-events-none z-0">
                     <Coffee className="absolute top-[15%] left-[10%] w-4 h-4 text-amber-500/20 animate-float delay-100 filter blur-[0.5px]" />
                     <Sparkles className="absolute bottom-[25%] right-[10%] w-4 h-4 text-yellow-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
-                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-red-500/10 animate-float delay-500" />
+                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-amber-500/10 animate-float delay-500" />
                     <Coffee className="absolute bottom-[15%] left-[20%] w-5 h-5 text-amber-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
-                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-red-500/20 animate-float delay-700 blur-[2px]"></div>
-                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-amber-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
+                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-amber-500/20 animate-float delay-700 blur-[2px]"></div>
+                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-yellow-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                   </div>
 
-                  <div className="absolute top-0 right-0 p-4 z-20 flex gap-2 translate-z-[50px]">
-                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-black/80 border border-white/20 text-white backdrop-blur-md rounded-full">
-                      500g (25 Sachets)
-                    </span>
-                    <span className="px-3 py-1 text-[9px] font-black uppercase tracking-widest bg-gradient-to-r from-red-600 to-red-800 border border-red-500 text-white backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(220,38,38,0.5)]">
-                      Coffee & Cordyceps
-                    </span>
-                  </div>
 
-                  <div className="relative z-10 flex justify-center items-center w-full h-[400px] animate-premium-zoom">
 
-                    {/* Video View with smooth transition */}
-                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'video' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                      <video
-                        src="/cordyceps.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-cover rounded-xl filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)] shadow-[0_0_30px_rgba(139,90,43,0.1)]"
-                      />
-                    </div>
-
-                    {/* Image View with smooth transition */}
-                    <div className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeMedia === 'image' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                      <img
-                        src="/cordyceps.png"
-                        alt="DXN Cordyceps Coffee Packaging"
-                        className="w-full h-full object-contain filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.15)]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Media Toggle Controls */}
-                  <div className="absolute bottom-4 right-4 z-20 flex gap-1 bg-black/80 border border-white/10 p-1 rounded-lg backdrop-blur-md translate-z-[40px]">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveMedia('video');
-                      }}
-                      className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'video'
-                          ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
-                          : 'text-neutral-400 hover:text-white'
-                        }`}
-                    >
-                      Video
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveMedia('image');
-                      }}
-                      className={`px-3 py-1 text-[9px] font-bold uppercase tracking-wider rounded transition-all ${activeMedia === 'image'
-                          ? 'bg-red-600 text-white shadow-[0_0_10px_rgba(220,38,38,0.4)]'
-                          : 'text-neutral-400 hover:text-white'
-                        }`}
-                    >
-                      Image
-                    </button>
+                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                    <video
+                      src="/coffee/coffee_video.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1]"
+                    />
                   </div>
 
                   {/* Floor reflection effect */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-amber-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
                 </div>
               </div>
             </FadeInSection>
 
             <FadeInSection delay="200ms">
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-2xl group hover:bg-white/10 transition-colors duration-500 shadow-xl">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/10 pb-4 mb-6 flex items-center gap-2 group-hover:text-red-400 transition-colors">
-                  <Info className="w-4 h-4 text-red-600" /> Physical Attributes
+              <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 group">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 transition-colors group-hover:text-white">
+                  <Info className="w-4 h-4 text-amber-600" /> Physical Attributes
                 </h3>
                 <ul className="space-y-4 relative z-10">
-                  <li className="flex justify-between items-center text-sm border-b border-white/5 pb-2 group/item hover:border-red-500/30 transition-colors">
-                    <span className="text-neutral-500 font-medium group-hover/item:text-neutral-300 transition-colors">Appearance</span>
-                    <span className="text-white text-right">Powder Form</span>
+                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-amber-500/20">
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
+                    <span className="text-white font-medium text-right">Powder Form</span>
                   </li>
-                  <li className="flex justify-between items-center text-sm border-b border-white/5 pb-2 group/item hover:border-red-500/30 transition-colors">
-                    <span className="text-neutral-500 font-medium group-hover/item:text-neutral-300 transition-colors">Color & Odour</span>
-                    <span className="text-white text-right">Dark Brown with Coffee Aroma</span>
+                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-amber-500/20">
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color & Odour</span>
+                    <span className="text-white font-medium text-right">Dark Brown with Coffee Aroma</span>
                   </li>
-                  <li className="flex justify-between items-center text-sm pb-2 group/item hover:border-red-500/30 transition-colors">
-                    <span className="text-neutral-500 font-medium group-hover/item:text-neutral-300 transition-colors">Product Type</span>
-                    <span className="text-white text-right">FSSAI Compliant</span>
+                  <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
+                    <span className="text-white font-medium text-right">FSSAI Compliant</span>
                   </li>
                 </ul>
               </div>
             </FadeInSection>
 
-            {/* Nutritional & Allergen Information */}
+            {/* Wellness & Nutrition Dashboard */}
             <FadeInSection delay="300ms">
-              <div className="bg-gradient-to-br from-red-950/40 to-neutral-900/40 backdrop-blur-xl border border-red-900/30 p-6 md:p-8 rounded-2xl hover:shadow-[0_0_40px_rgba(220,38,38,0.1)] transition-shadow duration-500 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-colors"></div>
+              <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-amber-500/25 hover:shadow-[0_20px_50px_rgba(245,158,11,0.06)] hover:-translate-y-0.5 relative overflow-hidden group">
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/10 transition-colors duration-500"></div>
 
-                <div className="flex items-start gap-4 mb-6 border-b border-red-900/30 pb-6 relative z-10">
-                  <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-5 h-5 text-red-500" />
+                <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-amber-500" /> Nutrition & Wellness
+                </h3>
+
+                {/* Macro Nutrients Grid */}
+                <div className="grid grid-cols-3 gap-4 mb-6 relative z-10">
+                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
+                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Energy</span>
+                    <span className="text-base font-bold text-white">85 kcal</span>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-widest mb-1">Allergen Information</h4>
-                    <p className="text-sm text-red-200/80 leading-relaxed">Contains Milk and Soya. Formulated under strict manufacturing practices to prevent contamination.</p>
+                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
+                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Protein</span>
+                    <span className="text-base font-bold text-white">1.2 g</span>
+                  </div>
+                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
+                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Dietary Fiber</span>
+                    <span className="text-base font-bold text-white">0.8 g</span>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center pt-2 relative z-10">
+                {/* Interactive progress indicators */}
+                <div className="space-y-4 mb-6 relative z-10">
                   <div>
-                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Serving Size</h4>
-                    <p className="text-xl font-bold text-white">1 Pack (20 gm)</p>
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-neutral-400 font-medium">Cordyceps Mushroom Extract</span>
+                      <span className="text-amber-400 font-bold">5% (High Potency)</span>
+                    </div>
+                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
+                      <div className="bg-amber-500 h-full rounded-full transition-all duration-1000" style={{ width: '75%' }}></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-neutral-400 font-medium">Instant Premium Arabica Coffee</span>
+                      <span className="text-amber-400 font-bold">25% (Rich Premix)</span>
+                    </div>
+                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
+                      <div className="bg-amber-500 h-full rounded-full transition-all duration-1000" style={{ width: '90%' }}></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Allergen Notification */}
+                <div className="flex items-start gap-3 bg-red-950/10 border border-red-900/20 p-4 rounded-xl relative z-10 mb-6">
+                  <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Allergen Information</h4>
+                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Milk and Soya. Formulated under strict manufacturing practices to prevent contamination.</p>
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center pt-3 border-t border-white/[0.06] relative z-10">
+                  <div>
+                    <h4 className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Serving Size</h4>
+                    <p className="text-sm font-semibold text-white">1 Pack (20 gm)</p>
                   </div>
                   <div className="text-right">
-                    <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Bag</h4>
-                    <p className="text-xl font-bold text-white">25 Servings</p>
+                    <h4 className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Bag</h4>
+                    <p className="text-sm font-semibold text-white">25 Servings</p>
                   </div>
                 </div>
               </div>
@@ -220,64 +249,64 @@ const Cordyceps: React.FC = () => {
           <div className="lg:col-span-7">
             <div className="mb-12">
               <FadeInSection>
-                <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-500">Product Information</h2>
-                <p className="text-neutral-400 text-lg leading-relaxed mb-8">
+                <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
+                <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
                   DXN Cordyceps Coffee 3 in 1 is a premium formulation blending instant coffee with organic Cordyceps powder. Prepared with high-grade, aromatic coffee beans, non-dairy creamer, and the power of Cordyceps, it offers a rich and flavorful coffee experience with unique adaptogenic benefits. Designed to be easily prepared with hot water for a smooth, refreshing, and revitalizing beverage that supports active lifestyles.
                 </p>
               </FadeInSection>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FadeInSection delay="100ms">
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl border-l-4 border-l-red-600 hover:scale-[1.02] hover:shadow-[0_10px_30px_rgba(220,38,38,0.15)] transition-all duration-300">
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2">Shelf Life</h4>
-                    <p className="text-xl font-bold text-white">36 Months</p>
+                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-amber-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-amber-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Shelf Life</h4>
+                    <p className="text-lg font-bold text-white">36 Months</p>
                   </div>
                 </FadeInSection>
 
                 <FadeInSection delay="200ms">
-                  <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl border-l-4 border-l-red-600 hover:scale-[1.02] hover:shadow-[0_10px_30px_rgba(220,38,38,0.15)] transition-all duration-300">
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2">Division</h4>
-                    <p className="text-xl font-bold text-white">Food and Beverage</p>
+                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-amber-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-amber-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Division</h4>
+                    <p className="text-lg font-bold text-white">Food and Beverage</p>
                   </div>
                 </FadeInSection>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               <FadeInSection delay="300ms">
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors h-full shadow-lg">
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/10 pb-4 mb-6 flex items-center gap-2">
-                    <Coffee className="w-4 h-4 text-red-600" /> Ingredients
+                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                    <Coffee className="w-4 h-4 text-amber-500" /> Ingredients
                   </h3>
                   <ul className="space-y-4">
                     {[
                       { name: 'Instant Coffee', desc: 'Premium instant coffee beans for robust flavour and rich aroma' },
-                      { name: 'Cordyceps Powder', desc: 'High-quality adaptogenic Cordyceps mushroom extract' },
+                      { name: 'Cordyceps Extract', desc: 'Organic Cordyceps mushroom extract' },
                       { name: 'Sugar', desc: 'Slightly sweetened for taste balance' },
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-sm group">
-                        <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-3 text-sm group/item">
+                        <Check className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                         <div>
-                          <span className="font-semibold text-white block group-hover:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-[11px] text-neutral-500">{item.desc}</span>
+                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
+                          <span className="text-xs text-neutral-400">{item.desc}</span>
                         </div>
                       </li>
                     ))}
 
                     {/* Non-Dairy Creamer with nested sub-ingredients */}
-                    <li className="border-t border-white/5 pt-4 mt-2">
-                      <div className="flex items-start gap-3 text-sm group">
-                        <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                    <li className="border-t border-white/[0.08] pt-4 mt-2">
+                      <div className="flex items-start gap-3 text-sm group/item">
+                        <Check className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold text-white block">Non-Dairy Creamer</span>
-                          <p className="text-[11px] text-neutral-500 mb-2">Composed of stabilizers, emulsifiers, and lipids:</p>
+                          <p className="text-xs text-neutral-400 mb-2">Composed of stabilizers, emulsifiers, and lipids:</p>
                           <div className="flex flex-wrap gap-1.5 mt-2 max-w-full">
                             {[
                               'Glucose Syrup Solids', 'Vegetable Fat (palm)', 'Dipotassium Hydrogen Phosphate',
                               'Sodium Tripolyphosphate', 'Sodium Caseinate (milk derivative)',
                               'Mono & Diglycerides of Fatty Acids', 'Diacetyl Tartaric & Fatty Acid Esters of Glycerol', 'Beta Carotene'
                             ].map((sub, sIdx) => (
-                              <span key={sIdx} className="text-[9px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-neutral-400">
+                              <span key={sIdx} className="text-[10px] bg-white/[0.02] border border-white/[0.06] px-2 py-0.5 rounded text-neutral-300">
                                 {sub}
                               </span>
                             ))}
@@ -290,13 +319,13 @@ const Cordyceps: React.FC = () => {
               </FadeInSection>
 
               <FadeInSection delay="400ms">
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl hover:bg-white/10 transition-colors h-full shadow-lg">
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-white border-b border-white/10 pb-4 mb-6 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-red-600" /> Directions & Storage
+                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                    <ShieldCheck className="w-4 h-4 text-amber-500" /> Directions & Storage
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">
-                    <div className="group">
-                      <h5 className="font-bold text-white mb-4 uppercase text-[10px] tracking-widest group-hover:text-red-400 transition-colors">Directions for Use</h5>
+                    <div className="group/item">
+                      <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-amber-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
                           { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of one sachet of Cordyceps Coffee (20g) into a cup.' },
@@ -304,23 +333,23 @@ const Cordyceps: React.FC = () => {
                           { step: 3, label: 'Stir & Serve', desc: 'Stir thoroughly and serve hot for a revitalizing drink.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
-                            <span className="w-5 h-5 rounded-full bg-red-600/20 border border-red-500/40 text-red-500 flex items-center justify-center text-[10px] font-black shrink-0">
+                            <span className="w-5 h-5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 flex items-center justify-center text-[10px] font-bold shrink-0">
                               {d.step}
                             </span>
                             <div>
                               <p className="text-xs font-semibold text-white">{d.label}</p>
-                              <p className="text-[11px] text-neutral-400">{d.desc}</p>
+                              <p className="text-xs text-neutral-400">{d.desc}</p>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="group mt-8 pt-6 border-t border-white/5">
-                      <h5 className="font-bold text-white mb-3 uppercase text-[10px] tracking-widest group-hover:text-red-400 transition-colors">Storage Conditions</h5>
-                      <div className="bg-white/5 border border-white/10 p-3 rounded-lg flex items-center gap-3">
-                        <Info className="w-4 h-4 text-red-500 shrink-0" />
-                        <p className="text-[11px] text-neutral-400 leading-normal">
+                    <div className="group/item mt-8 pt-6 border-t border-white/[0.08]">
+                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-amber-400 transition-colors">Storage Conditions</h5>
+                      <div className="bg-white/[0.02] border border-white/[0.06] p-3 rounded-lg flex items-center gap-3">
+                        <Info className="w-4 h-4 text-amber-500 shrink-0" />
+                        <p className="text-xs text-neutral-400 leading-normal">
                           Keep in a cool and dry place, away from direct sunlight.
                         </p>
                       </div>

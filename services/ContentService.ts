@@ -97,7 +97,7 @@ export const INITIAL_CONTENT = {
       name: "DXN Cocozhi",
       category: "Coffee",
       description: "This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.",
-      image: "/cocozhi.png",
+      image: "/coffee/cocozhi.png",
       features: ["Premium Cocoa Blend", "Ganoderma Extract", "20 Servings Per Bag"],
       status: "Available"
     },
@@ -106,8 +106,17 @@ export const INITIAL_CONTENT = {
       name: "DXN Cordyceps Coffee 3 in 1",
       category: "Coffee",
       description: "500 gm powder form of coffee with Cordyceps powder (Each sachet contains 20 gm). Premium coffee premix that is smooth, aromatic, and revitalizing.",
-      image: "/cordyceps.png",
+      image: "/coffee/cordyceps.png",
       features: ["Organic Cordyceps", "Premium Instant Coffee", "25 Servings Per Bag"],
+      status: "Available"
+    },
+    {
+      id: "prod-9",
+      name: "DXN Veg Mayonnaise",
+      category: "Agro",
+      description: "A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format. 100% vegetarian.",
+      image: "/agro/veg_minus.jpeg",
+      features: ["Eggless & Cholesterol Free", "Smooth Consistency", "25 Servings Per Pack"],
       status: "Available"
     }
   ] as Product[],
