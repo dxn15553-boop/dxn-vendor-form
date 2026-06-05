@@ -115,7 +115,7 @@ export const INITIAL_CONTENT = {
       name: "DXN Veg Mayonnaise",
       category: "Agro",
       description: "A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format. 100% vegetarian.",
-      image: "/agro/veg_minus.jpeg",
+      image: "/agro/veg_minus.png",
       features: ["Eggless & Cholesterol Free", "Smooth Consistency", "25 Servings Per Pack"],
       status: "Available"
     }

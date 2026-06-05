@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles } from 'lucide-react';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -12,6 +12,8 @@ import VegMinus from './pages/VegMinus';
 import Cocozhi from './pages/Cocozhi';
 import Cordyceps from './pages/Cordyceps';
 import Lingzhi from './pages/Lingzhi';
+import Lingzhi2in1 from './pages/Lingzhi2in1';
+import GanozhiSoap from './pages/GanozhiSoap';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
 import ImageGallery from './pages/ImageGallery';
@@ -105,11 +107,19 @@ const Navbar: React.FC = () => {
           icon: Coffee,
           dropdown: [
             { name: 'DXN Lingzhi 3 in 1', path: '/lingzhi', icon: Package },
+            { name: 'DXN Lingzhi 2 in 1', path: '/lingzhi-2in1', icon: Package },
             { name: 'DXN Cocozhi', path: '/cocozhi', icon: Package },
             { name: 'DXN Cordyceps Coffee', path: '/codyceps', icon: Package }
           ]
         },
-        { name: 'Cosmetics', path: '/products?category=Cosmetics', icon: Sparkles },
+        { 
+          name: 'Cosmetics', 
+          path: '/products?category=Cosmetics', 
+          icon: Sparkles,
+          dropdown: [
+            { name: 'DXN Ganozhi Soap', path: '/ganozhi-soap', icon: Package }
+          ]
+        },
         { name: 'Kombucha', path: '/products?category=Kombucha', icon: FlaskConical },
         { 
           name: 'Agro', 
@@ -451,7 +461,9 @@ const App: React.FC = () => {
                 <Route path="/cocozhi" element={<Cocozhi />} />
                 <Route path="/codyceps" element={<Cordyceps />} />
                 <Route path="/lingzhi" element={<Lingzhi />} />
+                <Route path="/lingzhi-2in1" element={<Lingzhi2in1 />} />
                 <Route path="/cordyceps" element={<Cordyceps />} />
+                <Route path="/ganozhi-soap" element={<GanozhiSoap />} />
 
                 <Route path="/quality" element={<Quality />} />
                 <Route path="/future" element={<Sustainability />} />

@@ -14,13 +14,10 @@ const Products: React.FC = () => {
     // Fallback for missing product images
     const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=2000&auto=format&fit=crop";
 
-    // Extract unique categories from divisions plus any manual ones
+    // Explicitly define all categories so divisions like Agro and Wetfood always appear
     const categories = useMemo(() => {
-        const cats = new Set(['All']);
-        // Add categories from actual products
-        (content.products || []).forEach(p => cats.add(p.category));
-        return Array.from(cats);
-    }, [content.products]);
+        return ['All', 'Nutraceuticals', 'Coffee', 'Cosmetics', 'Kombucha', 'Wetfood', 'Agro'];
+    }, []);
 
     const filteredProducts = useMemo(() => {
         if (activeCategory === 'All') return content.products || [];

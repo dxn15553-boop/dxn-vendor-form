@@ -55,7 +55,7 @@ const Cocozhi: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
+    <div className="pt-32 bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
         {/* Subtle grid pattern overlay */}
@@ -98,7 +98,7 @@ const Cocozhi: React.FC = () => {
                     </div>
                     
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.
+                      Cocozhi is a blend of non-dairy creamer and cocoa. 500 gm powder form of coffee with cocoa powder (each sachet contains 25 gm).
                     </p>
 
                     <div className="flex flex-wrap gap-3">
@@ -106,7 +106,7 @@ const Cocozhi: React.FC = () => {
                         500g (20 Sachets)
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-red-500/30 bg-red-500/10 rounded-full text-red-400 backdrop-blur-md">
-                        Premium Cocoa
+                        Cocoa Blend
                       </span>
                     </div>
                   </div>
@@ -229,8 +229,8 @@ const Cocozhi: React.FC = () => {
                 <div className="space-y-4 mb-6 relative z-10">
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Premium Cocoa Blend</span>
-                      <span className="text-red-400 font-bold">18% (Rich Chocolate)</span>
+                      <span className="text-neutral-400 font-medium">Cocoa Blend</span>
+                      <span className="text-red-400 font-bold">18%</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
                       <div className="bg-red-500 h-full rounded-full transition-all duration-1000" style={{ width: '80%' }}></div>
@@ -238,8 +238,8 @@ const Cocozhi: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Ganoderma Lucidum Extract</span>
-                      <span className="text-red-400 font-bold">2.5% (Pure Extract)</span>
+                      <span className="text-neutral-400 font-medium">Ganoderma Extract</span>
+                      <span className="text-red-400 font-bold">2.5%</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
                       <div className="bg-red-500 h-full rounded-full transition-all duration-1000" style={{ width: '65%' }}></div>
@@ -276,7 +276,7 @@ const Cocozhi: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Prepared from high-grade cocoa powder with Ganoderma extract, it comes in a soluble powder form, packaged individually in convenient sachets to preserve its aroma and freshness. It is designed to be easily prepared with hot milk or water for a rich, satisfying beverage.
+                  Cocozhi is a blend of non-dairy creamer and cocoa. 500 gm powder form of coffee with cocoa powder.
                 </p>
               </FadeInSection>
 
@@ -305,12 +305,12 @@ const Cocozhi: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Cocoa Powder', desc: 'Premium quality cocoa for rich chocolate flavor' },
-                      { name: 'Sugar', desc: 'Slightly sweetened' },
-                      { name: 'Skimmed Milk Powder', desc: 'Provides smooth texture' },
-                      { name: 'Malt Extract', desc: 'Adds wholesome richness' },
-                      { name: 'Vanilla', desc: 'For sweet floral aroma' },
-                      { name: 'Ganoderma Extract', desc: 'Beneficial mushroom extract' },
+                      { name: 'Cocoa Powder', desc: 'Cocoa powder' },
+                      { name: 'Sugar', desc: 'Sugar' },
+                      { name: 'Skimmed Milk Powder', desc: 'Skimmed Milk Powder' },
+                      { name: 'Malt Extract', desc: 'Malt Extract' },
+                      { name: 'Vanilla', desc: 'Vanilla' },
+                      { name: 'Ganoderma Extract', desc: 'Ganoderma Extract' },
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
@@ -356,9 +356,9 @@ const Cocozhi: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Cocozhi', desc: 'Pour the contents of one sachet of Cocozhi (25g) in a cup.' },
-                          { step: 2, label: 'Pour Water/Milk', desc: 'Add 150 ml of hot water or milk.' },
-                          { step: 3, label: 'Stir & Serve', desc: 'Stir thoroughly and enjoy your premium cocoa drink.' }
+                          { step: 1, label: 'Add Cocozhi', desc: 'Pour the contents of Cocozhi in a cup.' },
+                          { step: 2, label: 'Add Hot Water/Milk', desc: 'Add 150 ml of hot water/milk.' },
+                          { step: 3, label: 'Stir', desc: 'Stir and serve.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center text-[10px] font-bold shrink-0">

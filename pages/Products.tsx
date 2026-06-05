@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { useAssets } from '../App';
@@ -21,6 +20,15 @@ const Products: React.FC = () => {
     if (cat) setActiveCategory(cat);
   }, [location.search]);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedProduct(null);
+      setIsClosing(false);
+    }, 600); // Matches animation duration
+  };
 
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -39,13 +47,10 @@ const Products: React.FC = () => {
   // Fallback for missing product images
   const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1628102491629-778571d893a3?q=80&w=2000&auto=format&fit=crop";
 
-  // Extract unique categories from divisions plus any manual ones
+  // Explicitly define all categories so divisions like Agro and Wetfood always appear
   const categories = useMemo(() => {
-    const cats = new Set(['All']);
-    // Add categories from actual products
-    (content.products || []).forEach(p => cats.add(p.category));
-    return Array.from(cats);
-  }, [content.products]);
+    return ['All', 'Nutraceuticals', 'Coffee', 'Cosmetics', 'Kombucha', 'Wetfood', 'Agro'];
+  }, []);
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === 'All') return content.products || [];
@@ -122,7 +127,7 @@ const Products: React.FC = () => {
 
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto gap-8 snap-x snap-mandatory pb-12 pt-4 -mx-4 px-4 scroll-smooth hide-scrollbar"
+            className="flex items-stretch overflow-x-auto gap-8 snap-x snap-mandatory pb-12 pt-4 -mx-4 px-4 scroll-smooth hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
            {filteredProducts.map((product, idx) => (
@@ -143,23 +148,29 @@ const Products: React.FC = () => {
                  </div>
 
                  {/* Image Area */}
-                 <div className="h-64 relative overflow-hidden bg-black">
+                 <div className="h-64 relative overflow-hidden bg-black flex items-center justify-center">
                     <img 
                        src={product.image || FALLBACK_IMAGE} 
                        alt={product.name} 
-                       className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
+                       className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${
+                         product.image?.startsWith('/coffee/') && product.image?.endsWith('.png') 
+                           ? 'object-contain scale-[1.85] group-hover:scale-[1.95]' 
+                           : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                             ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                             : 'object-cover group-hover:scale-105'
+                       }`} 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent z-10 pointer-events-none"></div>
                     <div className="absolute bottom-4 left-4">
                        <span className="text-red-500 text-[9px] font-black uppercase tracking-[0.2em]">{product.category}</span>
                     </div>
                  </div>
 
                  {/* Content Area */}
-                 <div className="p-8 flex-grow flex flex-col justify-between relative bg-neutral-900 group-hover:bg-neutral-900/80 transition-colors">
+                 <div className="p-8 flex-grow flex flex-col relative bg-neutral-900 group-hover:bg-neutral-900/80 transition-colors">
                     <div>
                        <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors">{product.name}</h3>
-                       <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3">
+                       <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3 min-h-[4.5rem]">
                           {product.description}
                        </p>
                        
@@ -167,7 +178,7 @@ const Products: React.FC = () => {
                        <div className="space-y-2 mb-8">
                           {(product.features || []).slice(0, 3).map((feature: string, fIdx: number) => (
                              <div key={fIdx} className="flex items-center gap-3">
-                                <Check className="w-3 h-3 text-red-600" />
+                                <Check className="w-3 h-3 text-red-600 shrink-0" />
                                 <span className="text-xs text-neutral-500 font-bold uppercase tracking-wider">{feature}</span>
                              </div>
                           ))}
@@ -179,9 +190,9 @@ const Products: React.FC = () => {
                          e.stopPropagation();
                          handleViewSpecs(product);
                        }}
-                       className="w-full py-4 bg-white text-black border border-white hover:bg-red-600 hover:border-red-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 group/btn shadow-xl"
+                       className="mt-auto w-full py-4 bg-white text-black border border-white hover:bg-red-600 hover:border-red-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 group/btn shadow-xl"
                     >
-                       View Specifications <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                       View Specifications <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                     </button>
                  </div>
               </div>
@@ -210,16 +221,30 @@ const Products: React.FC = () => {
 
       {/* Quick View Modal */}
       {selectedProduct && (
-         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-in fade-in duration-200" onClick={() => setSelectedProduct(null)}>
-            <div className="bg-neutral-900 border border-white/10 w-full max-w-5xl shadow-2xl relative grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-sm" onClick={e => e.stopPropagation()}>
-               <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-20 p-2 bg-black/50 text-white hover:bg-red-600 transition-colors rounded-full">
+         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-opacity duration-500" onClick={handleCloseModal}>
+            <div 
+              className={`bg-neutral-900 border border-white/10 w-full max-w-5xl shadow-2xl relative grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-sm [transform-style:preserve-3d] ${
+                isClosing ? 'animate-flip-out' : 'animate-flip-in'
+              }`} 
+              onClick={e => e.stopPropagation()}
+            >
+               <button onClick={handleCloseModal} className="absolute top-4 right-4 z-20 p-2 bg-black/50 text-white hover:bg-red-600 transition-colors rounded-full">
                   <X className="w-5 h-5" />
                </button>
                
                {/* Image Side */}
-               <div className="relative h-64 lg:h-auto bg-black">
-                   <img src={selectedProduct.image || FALLBACK_IMAGE} alt={selectedProduct.name} className="w-full h-full object-cover opacity-90" />
-                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent lg:bg-gradient-to-r"></div>
+               <div className="relative h-64 lg:h-auto bg-neutral-950 flex items-center justify-center overflow-hidden p-4">
+                   <img 
+                      src={selectedProduct.image || FALLBACK_IMAGE} 
+                      alt={selectedProduct.name} 
+                      className={`w-full h-full opacity-90 transition-transform duration-500 ${
+                        selectedProduct.image?.startsWith('/coffee/') && selectedProduct.image?.endsWith('.png') 
+                          ? 'object-contain scale-[1.6]' 
+                          : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                            ? 'object-contain scale-[1.2]'
+                            : 'object-contain'
+                      }`} 
+                   />
                    <div className="absolute top-6 left-6 z-10">
                       <span className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${
                          selectedProduct.status === 'Available' ? 'bg-green-950/80 border-green-500 text-green-400' :
@@ -232,18 +257,18 @@ const Products: React.FC = () => {
                </div>
 
                {/* Details Side */}
-               <div className="p-8 md:p-12 flex flex-col justify-center bg-neutral-900 max-h-[80vh] overflow-y-auto">
-                  <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+               <div className="p-6 md:p-10 flex flex-col justify-center bg-neutral-900 max-h-[90vh] overflow-y-auto">
+                  <span className="text-red-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
                      <Package className="w-4 h-4" /> {selectedProduct.category}
                   </span>
-                  <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white mb-6 leading-[0.9]">{selectedProduct.name}</h2>
-                  <p className="text-neutral-400 text-lg leading-relaxed mb-8 font-light border-b border-white/5 pb-8">
+                  <h2 className="text-2xl md:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-white mb-4 leading-[0.9]">{selectedProduct.name}</h2>
+                  <p className="text-neutral-400 text-sm md:text-base leading-relaxed mb-6 font-light border-b border-white/5 pb-6">
                      {selectedProduct.description}
                   </p>
                   
-                  <div className="space-y-4 mb-10 bg-black/20 p-6 border border-white/5 rounded-sm">
+                  <div className="space-y-3 mb-8 bg-black/20 p-5 border border-white/5 rounded-sm">
                       <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-2">Technical Highlights</h4>
-                      <ul className="space-y-3">
+                      <ul className="space-y-2">
                          {(selectedProduct.features || []).map((feature: string, idx: number) => (
                             <li key={idx} className="flex items-center gap-3 text-neutral-400 text-sm">
                                <Check className="w-4 h-4 text-red-600 shrink-0" /> {feature}
@@ -252,11 +277,11 @@ const Products: React.FC = () => {
                       </ul>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 mt-auto">
                      <button className="py-4 bg-white text-black border border-white font-black uppercase tracking-widest hover:bg-red-600 hover:border-red-600 hover:text-white transition-all text-[10px] md:text-xs flex items-center justify-center gap-2">
                         Download Spec Sheet <Download className="w-4 h-4" />
                      </button>
-                     <button onClick={() => setSelectedProduct(null)} className="py-4 bg-transparent text-white border border-white/20 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all text-[10px] md:text-xs">
+                     <button onClick={handleCloseModal} className="py-4 bg-transparent text-white border border-white/20 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all text-[10px] md:text-xs">
                         Close View
                      </button>
                   </div>
@@ -264,6 +289,35 @@ const Products: React.FC = () => {
             </div>
          </div>
       )}
+
+      <style>{`
+        @keyframes flipIn {
+          0% {
+            transform: perspective(1500px) rotateY(-90deg);
+            opacity: 0;
+          }
+          100% {
+            transform: perspective(1500px) rotateY(0deg);
+            opacity: 1;
+          }
+        }
+        @keyframes flipOut {
+          0% {
+            transform: perspective(1500px) rotateY(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: perspective(1500px) rotateY(90deg);
+            opacity: 0;
+          }
+        }
+        .animate-flip-in {
+          animation: flipIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        .animate-flip-out {
+          animation: flipOut 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+      `}</style>
     </div>
   );
 };

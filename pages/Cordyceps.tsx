@@ -43,7 +43,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
 
 const Cordyceps: React.FC = () => {
   return (
-    <div className="pt-32 pb-20 min-h-screen bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000">
+    <div className="pt-32 bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
         {/* Subtle grid pattern overlay */}
@@ -51,7 +51,7 @@ const Cordyceps: React.FC = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
         <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12">
-          
+
           {/* Mobile Title - Visible only on small screens */}
           <div className="block lg:hidden flex flex-col items-center text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm mb-6">
@@ -65,14 +65,14 @@ const Cordyceps: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
-            
+
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
               <FadeInSection>
                 <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-amber-500/30 transition-all duration-700">
                   {/* Soft decorative background glow inside the card */}
                   <div className="absolute -inset-20 bg-gradient-to-br from-amber-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
-                  
+
                   <div className="relative z-10 flex flex-col items-start">
                     {/* Desktop Title - Hidden on mobile */}
                     <div className="hidden lg:flex flex-col items-start">
@@ -80,15 +80,15 @@ const Cordyceps: React.FC = () => {
                         <Coffee className="w-4 h-4 text-amber-500 animate-pulse" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-400">Coffee Division</span>
                       </div>
-                      
+
                       <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
                         DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 drop-shadow-lg">Cordyceps</span><br />
                         <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Coffee</span>
                       </h1>
                     </div>
-                    
+
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10">
-                      A premium formulation blending instant coffee with organic Cordyceps powder. Prepared with high-grade, aromatic coffee beans, non-dairy creamer, and the power of Cordyceps, it offers a rich and flavorful coffee experience with unique adaptogenic benefits.
+                      500 gm powder form of coffee with Cordyceps powder (Each sachet contains 20 gm).
                     </p>
 
                     <div className="flex flex-wrap gap-3">
@@ -96,7 +96,7 @@ const Cordyceps: React.FC = () => {
                         500g (25 Sachets)
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-amber-500/30 bg-amber-500/10 rounded-full text-amber-400 backdrop-blur-md">
-                        Adaptogenic Blend
+                        Cordyceps Coffee
                       </span>
                     </div>
                   </div>
@@ -119,7 +119,7 @@ const Cordyceps: React.FC = () => {
                 </div>
               </FadeInSection>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -153,7 +153,7 @@ const Cordyceps: React.FC = () => {
 
                   <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
                     <video
-                      src="/coffee/coffee_video.mp4"
+                      src="/coffee/Preparing_Cordyceps_Coffee_swirl…_202606051003.mp4"
                       autoPlay
                       loop
                       muted
@@ -219,8 +219,8 @@ const Cordyceps: React.FC = () => {
                 <div className="space-y-4 mb-6 relative z-10">
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Cordyceps Mushroom Extract</span>
-                      <span className="text-amber-400 font-bold">5% (High Potency)</span>
+                      <span className="text-neutral-400 font-medium">Cordyceps Powder</span>
+                      <span className="text-amber-400 font-bold">5%</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
                       <div className="bg-amber-500 h-full rounded-full transition-all duration-1000" style={{ width: '75%' }}></div>
@@ -228,8 +228,8 @@ const Cordyceps: React.FC = () => {
                   </div>
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Instant Premium Arabica Coffee</span>
-                      <span className="text-amber-400 font-bold">25% (Rich Premix)</span>
+                      <span className="text-neutral-400 font-medium">Instant Coffee</span>
+                      <span className="text-amber-400 font-bold">25%</span>
                     </div>
                     <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
                       <div className="bg-amber-500 h-full rounded-full transition-all duration-1000" style={{ width: '90%' }}></div>
@@ -266,7 +266,7 @@ const Cordyceps: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  DXN Cordyceps Coffee 3 in 1 is a premium formulation blending instant coffee with organic Cordyceps powder. Prepared with high-grade, aromatic coffee beans, non-dairy creamer, and the power of Cordyceps, it offers a rich and flavorful coffee experience with unique adaptogenic benefits. Designed to be easily prepared with hot water for a smooth, refreshing, and revitalizing beverage that supports active lifestyles.
+                  500 gm powder form of coffee with Cordyceps powder (Each sachet contains 20 gm).
                 </p>
               </FadeInSection>
 
@@ -295,9 +295,9 @@ const Cordyceps: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Instant Coffee', desc: 'Premium instant coffee beans for robust flavour and rich aroma' },
-                      { name: 'Cordyceps Extract', desc: 'Organic Cordyceps mushroom extract' },
-                      { name: 'Sugar', desc: 'Slightly sweetened for taste balance' },
+                      { name: 'Instant Coffee', desc: 'Instant Coffee' },
+                      { name: 'Cordyceps Powder', desc: 'Cordyceps Powder' },
+                      { name: 'Sugar', desc: 'Sugar' },
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
@@ -343,9 +343,9 @@ const Cordyceps: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-amber-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of one sachet of Cordyceps Coffee (20g) into a cup.' },
-                          { step: 2, label: 'Add Hot Water', desc: 'Pour 150 ml of hot water into the cup.' },
-                          { step: 3, label: 'Stir & Serve', desc: 'Stir thoroughly and serve hot for a revitalizing drink.' }
+                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the content of Cordyceps Coffee 3 in 1 premix powder into a cup.' },
+                          { step: 2, label: 'Add Hot Water', desc: 'Add 150 ml hot water.' },
+                          { step: 3, label: 'Stir & Serve', desc: 'Stir and serve.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 flex items-center justify-center text-[10px] font-bold shrink-0">
