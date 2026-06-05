@@ -34,13 +34,15 @@ const Products: React.FC = () => {
 
   const scrollLeft = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+      const scrollAmount = carouselRef.current.clientWidth + 32; // Container width + gap-8 (32px)
+      carouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+      const scrollAmount = carouselRef.current.clientWidth + 32;
+      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -114,11 +116,11 @@ const Products: React.FC = () => {
             display: none;
           }
         `}</style>
-        <div className="relative group/carousel">
+        <div className="relative group/carousel md:px-20">
           {filteredProducts.length > 3 && (
             <button 
               onClick={scrollLeft} 
-              className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -ml-6 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl"
+              className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl items-center justify-center"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -127,14 +129,14 @@ const Products: React.FC = () => {
 
           <div 
             ref={carouselRef}
-            className="flex items-stretch overflow-x-auto gap-8 snap-x snap-mandatory pb-12 pt-4 -mx-4 px-4 scroll-smooth hide-scrollbar"
+            className="flex items-stretch overflow-x-auto gap-8 snap-x snap-mandatory pb-12 pt-4 scroll-smooth hide-scrollbar"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
            {filteredProducts.map((product, idx) => (
               <div 
                 key={product.id} 
                 onClick={() => handleViewSpecs(product)}
-                className="w-[85vw] sm:w-[400px] shrink-0 snap-start group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden cursor-pointer rounded-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(220,38,38,0.1)]"
+                className="w-full md:w-[calc((100%-2rem)/2)] lg:w-[calc((100%-4rem)/3)] shrink-0 snap-start group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden cursor-pointer rounded-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(220,38,38,0.1)]"
               >
                  {/* Status Badge */}
                  <div className="absolute top-4 right-4 z-20">
@@ -202,7 +204,7 @@ const Products: React.FC = () => {
           {filteredProducts.length > 3 && (
             <button 
               onClick={scrollRight} 
-              className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 -mr-6 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl"
+              className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-neutral-900 border border-white/10 p-4 text-white rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-red-600 hover:scale-110 shadow-xl items-center justify-center"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-6 h-6" />
