@@ -152,7 +152,7 @@ const VegMinus: React.FC = () => {
                     <img
                       src="/agro/image.png"
                       alt="Veg Mayonnaise Showcase"
-                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1]"
+                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1] animate-premium-zoom"
                     />
                   </div>
 

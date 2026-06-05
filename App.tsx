@@ -46,7 +46,15 @@ export const useAssets = () => {
 const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [assets, setAssets] = useState(() => {
     const saved = localStorage.getItem('dxn_custom_assets');
-    return saved ? JSON.parse(saved) : DEFAULT_ASSETS;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Fix broken cosmetics image from old cache
+      if (parsed.DIV_COSMETICS === "/cosmetics/cosmetics.jpeg") {
+        parsed.DIV_COSMETICS = "/cosmetics/cosmetics.png";
+      }
+      return { ...DEFAULT_ASSETS, ...parsed };
+    }
+    return DEFAULT_ASSETS;
   });
 
   useEffect(() => {

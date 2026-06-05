@@ -123,7 +123,7 @@ const Cocozhi: React.FC = () => {
                     <img
                       src="/coffee/cocozhi.png"
                       alt="DXN Cocozhi Packaging"
-                      className="w-full h-full object-contain scale-[1.8] md:scale-[2.2] filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
+                      className="w-full h-full object-contain scale-[1.2] md:scale-[1.3] filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
                     />
                   </div>
                 </div>

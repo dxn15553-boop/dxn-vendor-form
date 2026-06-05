@@ -111,7 +111,7 @@ const GanozhiSoap: React.FC = () => {
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/cosmetics/cosmetics.png"
+                      src="/cosmetics/Ganozhisoap.png"
                       alt="DXN Ganozhi Soap"
                       className="w-full h-full object-contain scale-[1.2] filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
                     />

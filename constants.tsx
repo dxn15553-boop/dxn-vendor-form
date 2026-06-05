@@ -47,7 +47,7 @@ export const DEFAULT_ASSETS = {
   // Division-specific visuals
   DIV_NUTRA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766486527/bafd72a0-0740-49b5-b94b-5a1a82f910f3_ljy8n7.jpg?q=80&w=2069&auto=format&fit=crop",
   DIV_COFFEE: "/coffee/cocozhi.png",
-  DIV_COSMETICS: "/cosmetics/cosmetics.jpeg",
+  DIV_COSMETICS: "/cosmetics/cosmetics.png",
   DIV_KOMBUCHA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489267/DSC_0513_go7gvi.jpg?q=80&w=1974&auto=format&fit=crop",
   DIV_WETFOOD: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489920/DSC01159_vgvyqg.jpg?q=80&w=2071&auto=format&fit=crop",
   DIV_AGRO: "/agro/veg_minus.jpeg",
