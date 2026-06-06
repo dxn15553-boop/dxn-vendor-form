@@ -80,7 +80,7 @@ const Products: React.FC = () => {
                         <div
                             key={product.id}
                             onClick={() => handleViewSpecs(product)}
-                            className="group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden cursor-pointer"
+                            className="group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 transform-gpu flex flex-col h-full relative overflow-hidden cursor-pointer focus:outline-none focus-visible:outline-none ring-0"
                         >
                             {/* Status Badge */}
                             <div className="absolute top-4 right-4 z-20">
@@ -106,9 +106,9 @@ const Products: React.FC = () => {
                             </div>
 
                             {/* Content Area */}
-                            <div className="p-8 flex-grow flex flex-col justify-between relative bg-neutral-900 group-hover:bg-neutral-900/80 transition-colors">
+                            <div className="-mt-px p-8 flex-grow flex flex-col justify-between relative bg-neutral-900">
                                 <div>
-                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors">{product.name}</h3>
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors focus:outline-none focus-visible:outline-none">{product.name}</h3>
                                     <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3">
                                         {product.description}
                                     </p>

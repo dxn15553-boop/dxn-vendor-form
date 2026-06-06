@@ -427,7 +427,7 @@ const Cocozhi: React.FC = () => {
           {coffeeProducts.map((product: any) => (
             <div 
               key={product.id} 
-              className="min-w-[320px] md:min-w-[400px] snap-center group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 flex flex-col h-full relative overflow-hidden"
+              className="min-w-[320px] md:min-w-[400px] snap-center group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 transform-gpu flex flex-col h-full relative overflow-hidden focus:outline-none focus-visible:outline-none ring-0"
             >
               <div className="absolute top-4 right-4 z-20">
                   <span className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${product.status === 'Available' ? 'bg-green-950/80 border-green-500 text-green-400' :
@@ -448,9 +448,9 @@ const Cocozhi: React.FC = () => {
                       <span className="text-red-500 text-[9px] font-black uppercase tracking-[0.2em]">{product.category}</span>
                   </div>
               </div>
-              <div className="p-8 flex-grow flex flex-col justify-between relative bg-neutral-900 group-hover:bg-neutral-900/80 transition-colors">
+              <div className="-mt-px p-8 flex-grow flex flex-col justify-between relative bg-neutral-900">
                   <div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors">{product.name}</h3>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors focus:outline-none focus-visible:outline-none">{product.name}</h3>
                       <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3">
                           {product.description}
                       </p>
