@@ -52,7 +52,7 @@ export const INITIAL_CONTENT = {
       name: "Reishi Gano (RG)",
       category: "Nutraceuticals",
       description: "Derived from the fruit body of Ganoderma lucidum, RG is harvested from a 90-day cultivation cycle to ensure maximum Polysaccharide content.",
-      image: "https://images.unsplash.com/photo-1615485925763-867c49f632a9?q=80&w=2070&auto=format&fit=crop",
+      image: "/nutra/ReishiGano.png",
       features: ["100% Ganoderma", "Detoxification Support", "Immune Modulation"],
       status: "Available"
     },
@@ -133,49 +133,49 @@ export const INITIAL_CONTENT = {
     { url: DEFAULT_ASSETS.WORKERS_GROUP, category: "Ecosystem", title: "Local Talent Development" },
   ],
   galleryVideos: [
-    { 
-      title: "The Siddipet Vision: Corporate Documentary", 
-      thumbnail: DEFAULT_ASSETS.HERO_BG, 
+    {
+      title: "The Siddipet Vision: Corporate Documentary",
+      thumbnail: DEFAULT_ASSETS.HERO_BG,
       duration: "4:32",
       category: "Corporate",
       id: "vid-1"
     },
-    { 
-      title: "Advanced Manufacturing Excellence", 
-      thumbnail: DEFAULT_ASSETS.DIV_NUTRA, 
+    {
+      title: "Advanced Manufacturing Excellence",
+      thumbnail: DEFAULT_ASSETS.DIV_NUTRA,
       duration: "3:15",
       category: "Technical",
       id: "vid-2"
     },
-    { 
-      title: "One World One Market: Global Reach", 
-      thumbnail: DEFAULT_ASSETS.MAP_OVERLAY, 
+    {
+      title: "One World One Market: Global Reach",
+      thumbnail: DEFAULT_ASSETS.MAP_OVERLAY,
       duration: "2:45",
       category: "Global Impact",
       id: "vid-3"
     }
   ],
   team: [
-    { 
-      name: "Datuk Lim Siow Jin", 
-      role: "Founder & Chairman", 
+    {
+      name: "Datuk Lim Siow Jin",
+      role: "Founder & Chairman",
       image: DEFAULT_ASSETS.FOUNDER_PHOTO,
       linkedin: "#",
-      email: "" 
+      email: ""
     },
-    { 
-      name: "Dr. Rajesh savera", 
-      role: "Director of Manufacturing", 
+    {
+      name: "Dr. Rajesh savera",
+      role: "Director of Manufacturing",
       image: "https://res.cloudinary.com/dmslyftme/image/upload/v1766475024/1737196861500_oaac8m.jpg?q=80&w=1000&auto=format&fit=crop",
       linkedin: "#",
-      email: "rajesh@dxn2u.com" 
+      email: "rajesh@dxn2u.com"
     },
-    { 
-      name: "Mr. Giri K Vijayan", 
-      role: "Regional Head of Factories", 
+    {
+      name: "Mr. Giri K Vijayan",
+      role: "Regional Head of Factories",
       image: "https://res.cloudinary.com/dmslyftme/image/upload/v1766476971/23b46cc3-6e7e-4a9e-8457-966e9968b551_tgyjee.jpg?q=80&w=1000&auto=format&fit=crop",
       linkedin: "#",
-      email: "giri@dxn2u.com" 
+      email: "giri@dxn2u.com"
     }
   ],
   jobs: [
@@ -207,6 +207,10 @@ const mergeProducts = (fetchedProducts: any) => {
       const idx = merged.findIndex(ip => ip.id === cp.id);
       if (idx > -1) {
         merged[idx] = cp;
+        // Hotfix: Enforce correct local image for Reishi Gano even if cached from older CMS state
+        if (merged[idx].id === "prod-1") {
+          merged[idx].image = "/nutra/ReishiGanoProduct.png";
+        }
       } else {
         merged.push(cp);
       }
@@ -230,7 +234,7 @@ export const ContentService = {
           quality: { ...INITIAL_CONTENT.quality, ...(cloudData.quality || {}) },
           csr: { ...INITIAL_CONTENT.csr, ...(cloudData.csr || {}) },
           mediaKit: { ...INITIAL_CONTENT.mediaKit, ...(cloudData.mediaKit || {}) },
-          
+
           // Arrays: Replace entirely if they exist in cloud, else default
           roadmap: Array.isArray(cloudData.roadmap) ? cloudData.roadmap : INITIAL_CONTENT.roadmap,
           timeline: Array.isArray(cloudData.timeline) ? cloudData.timeline : INITIAL_CONTENT.timeline,
@@ -289,10 +293,10 @@ export const ContentService = {
     try {
       // 1. Save to Cloud (Primary)
       await saveSiteConfig(content);
-      
+
       // 2. Save to Local (Backup/Cache)
       localStorage.setItem('dxn_managed_content', JSON.stringify(content));
-      
+
       console.log("Content successfully deployed to global database.");
       return { success: true };
     } catch (e) {
