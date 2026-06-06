@@ -42,7 +42,7 @@ const Divisions: React.FC = () => {
           const IconComp = ICON_MAP[div.icon] || Database;
           const isEven = idx % 2 === 0;
           return (
-            <section key={div.id} className={`py-40 border-t border-white/5 ${isEven ? 'bg-neutral-950 text-white' : 'bg-neutral-900 text-white'}`}>
+            <section key={div.id} className={`py-40 border-t border-white/5 transform-gpu ${isEven ? 'bg-neutral-950 text-white' : 'bg-neutral-900 text-white'}`}>
               <div className="max-w-[1440px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
                 <div className={!isEven ? 'lg:order-2' : ''}>
                   <div className="flex items-center gap-6 mb-10">
@@ -83,7 +83,7 @@ const Divisions: React.FC = () => {
                 </div>
                 
                 <div className={`${!isEven ? 'lg:order-1' : ''} relative group`}>
-                   <div className="absolute -inset-2 bg-red-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                   <div className="hidden md:block absolute -inset-2 bg-red-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                    <div className="relative overflow-hidden rounded-sm aspect-[4/3] bg-neutral-800">
                       <img 
                         src={getDivisionAsset(div.id)} 
