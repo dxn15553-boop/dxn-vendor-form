@@ -51,7 +51,7 @@ const VegMinus: React.FC = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
         <div className="relative z-10 max-w-[1440px] w-full mx-auto px-6 md:px-12">
-          
+
           {/* Mobile Title - Visible only on small screens */}
           <div className="block lg:hidden flex flex-col items-center text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm mb-6">
@@ -64,14 +64,14 @@ const VegMinus: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
-            
+
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
               <FadeInSection>
                 <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-700">
                   {/* Soft decorative background glow inside the card */}
                   <div className="absolute -inset-20 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
-                  
+
                   <div className="relative z-10 flex flex-col items-start">
                     {/* Desktop Title - Hidden on mobile */}
                     <div className="hidden lg:flex flex-col items-start">
@@ -79,12 +79,12 @@ const VegMinus: React.FC = () => {
                         <Sprout className="w-4 h-4 text-emerald-500 animate-pulse" />
                         <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-400">Agro Division</span>
                       </div>
-                      
+
                       <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white flex flex-wrap gap-x-4">
                         DXN VEG <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-600 drop-shadow-lg">Mayonnaise</span>
                       </h1>
                     </div>
-                    
+
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
                       A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format.
                     </p>
@@ -117,7 +117,7 @@ const VegMinus: React.FC = () => {
                 </div>
               </FadeInSection>
             </div>
-            
+
           </div>
         </div>
       </section>
@@ -148,11 +148,15 @@ const VegMinus: React.FC = () => {
 
 
                   {/* Image Container */}
-                  <div className="relative w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
-                    <img
-                      src="/agro/image.png"
-                      alt="Veg Mayonnaise Showcase"
-                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1] animate-premium-zoom"
+
+                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                    <video
+                      src="/agro/veg_mayyonnoiseVedio.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1]"
                     />
                   </div>
 
