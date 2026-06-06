@@ -106,10 +106,10 @@ const Navbar: React.FC = () => {
           path: '/products?category=Coffee', 
           icon: Coffee,
           dropdown: [
-            { name: 'DXN Lingzhi 3 in 1', path: '/lingzhi', icon: Package },
-            { name: 'DXN Lingzhi 2 in 1', path: '/lingzhi-2in1', icon: Package },
-            { name: 'DXN Cocozhi', path: '/cocozhi', icon: Package },
-            { name: 'DXN Cordyceps Coffee', path: '/codyceps', icon: Package }
+            { name: 'DXN Lingzhi 3 in 1', path: '/products/lingzhi', icon: Package },
+            { name: 'DXN Lingzhi 2 in 1', path: '/products/lingzhi-2in1', icon: Package },
+            { name: 'DXN Cocozhi', path: '/products/cocozhi', icon: Package },
+            { name: 'DXN Cordyceps Coffee', path: '/products/codyceps', icon: Package }
           ]
         },
         { 
@@ -117,7 +117,7 @@ const Navbar: React.FC = () => {
           path: '/products?category=Cosmetics', 
           icon: Sparkles,
           dropdown: [
-            { name: 'DXN Ganozhi Soap', path: '/ganozhi-soap', icon: Package }
+            { name: 'DXN Ganozhi Soap', path: '/products/ganozhi-soap', icon: Package }
           ]
         },
         { name: 'Kombucha', path: '/products?category=Kombucha', icon: FlaskConical },
@@ -126,7 +126,7 @@ const Navbar: React.FC = () => {
           path: '/products?category=agro', 
           icon: Leaf,
           dropdown: [
-            { name: 'Veg Minus', path: '/veg-minus', icon: Sprout }
+            { name: 'Veg Minus', path: '/products/veg-minus', icon: Sprout }
           ]
         },
       ]
@@ -457,13 +457,13 @@ const App: React.FC = () => {
                 <Route path="/team" element={<Team />} />
                 <Route path="/divisions" element={<Divisions />} />
                 <Route path="/products/" element={<Products />} />
-                <Route path="/veg-minus" element={<VegMinus />} />
-                <Route path="/cocozhi" element={<Cocozhi />} />
-                <Route path="/codyceps" element={<Cordyceps />} />
-                <Route path="/lingzhi" element={<Lingzhi />} />
-                <Route path="/lingzhi-2in1" element={<Lingzhi2in1 />} />
-                <Route path="/cordyceps" element={<Cordyceps />} />
-                <Route path="/ganozhi-soap" element={<GanozhiSoap />} />
+                <Route path="/products/veg-minus" element={<VegMinus />} />
+                <Route path="/products/cocozhi" element={<Cocozhi />} />
+                <Route path="/products/codyceps" element={<Cordyceps />} />
+                <Route path="/products/lingzhi" element={<Lingzhi />} />
+                <Route path="/products/lingzhi-2in1" element={<Lingzhi2in1 />} />
+                <Route path="/products/cordyceps" element={<Cordyceps />} />
+                <Route path="/products/ganozhi-soap" element={<GanozhiSoap />} />
 
                 <Route path="/quality" element={<Quality />} />
                 <Route path="/future" element={<Sustainability />} />
