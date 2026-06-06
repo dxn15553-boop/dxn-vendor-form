@@ -111,9 +111,9 @@ const Lingzhi2in1: React.FC = () => {
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/coffee/lingzhi.png"
+                      src="/coffee/lingzhi2in1.png"
                       alt="DXN Lingzhi Coffee Packaging"
-                      className="w-full h-full object-contain scale-[1.8] md:scale-[2.2] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
+                      className="w-full h-full object-contain scale-100 filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
                     />
                   </div>
                 </div>
