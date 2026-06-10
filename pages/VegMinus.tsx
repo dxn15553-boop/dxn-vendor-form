@@ -188,59 +188,21 @@ const VegMinus: React.FC = () => {
               </div>
             </FadeInSection>
 
-            {/* Wellness & Nutrition Dashboard */}
+            {/* Allergen & Servings Dashboard */}
             <FadeInSection delay="300ms">
               <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-emerald-500/25 hover:shadow-[0_20px_50px_rgba(16,185,129,0.06)] hover:-translate-y-0.5 relative overflow-hidden group">
                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-600/5 rounded-full blur-2xl group-hover:bg-emerald-600/10 transition-colors duration-500"></div>
 
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" /> Nutrition & Wellness
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" /> Allergen & Servings
                 </h3>
-
-                {/* Macro Nutrients Grid */}
-                <div className="grid grid-cols-3 gap-4 mb-6 relative z-10">
-                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
-                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Energy</span>
-                    <span className="text-base font-bold text-white">65 kcal</span>
-                  </div>
-                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
-                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Protein</span>
-                    <span className="text-base font-bold text-white">0.1 g</span>
-                  </div>
-                  <div className="bg-white/[0.02] border border-white/[0.04] p-3 rounded-xl text-center group-hover:bg-white/[0.04] transition-colors">
-                    <span className="text-[9px] text-neutral-500 font-bold uppercase block mb-1">Fats (Total)</span>
-                    <span className="text-base font-bold text-white">6.8 g</span>
-                  </div>
-                </div>
-
-                {/* Interactive progress indicators */}
-                <div className="space-y-4 mb-6 relative z-10">
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Soya Bean Oil Base</span>
-                      <span className="text-emerald-400 font-bold">35% (Healthy Lipids)</span>
-                    </div>
-                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-emerald-500 h-full rounded-full transition-all duration-1000" style={{ width: '70%' }}></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Eggless & Cholesterol Free</span>
-                      <span className="text-emerald-400 font-bold">100% Vegetarian</span>
-                    </div>
-                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-emerald-500 h-full rounded-full transition-all duration-1000" style={{ width: '100%' }}></div>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Allergen Notification */}
                 <div className="flex items-start gap-3 bg-red-950/10 border border-red-900/20 p-4 rounded-xl relative z-10 mb-6">
                   <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Allergen Information</h4>
-                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Soya. Formulated in a facility that adheres to stringent cross-contamination protocols.</p>
+                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Soya</p>
                   </div>
                 </div>
 
@@ -279,8 +241,8 @@ const VegMinus: React.FC = () => {
 
                 <FadeInSection delay="200ms">
                   <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-emerald-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-emerald-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">FSSAI Status</h4>
-                    <p className="text-lg font-bold text-white">Compliant</p>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">FSSAI Category</h4>
+                    <p className="text-lg font-bold text-white">Seasonings & Condiments</p>
                   </div>
                 </FadeInSection>
               </div>

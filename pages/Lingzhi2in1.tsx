@@ -113,7 +113,7 @@ const Lingzhi2in1: React.FC = () => {
                     <img
                       src="/coffee/lingzhi2in1.png"
                       alt="DXN Lingzhi Coffee Packaging"
-                      className="w-full h-full object-contain scale-100 filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
+                      className="w-full h-full object-contain scale-[1.5] md:scale-[1.8] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
                     />
                   </div>
                 </div>
@@ -188,36 +188,14 @@ const Lingzhi2in1: React.FC = () => {
               </div>
             </FadeInSection>
 
-            {/* Wellness & Nutrition Dashboard */}
+            {/* Allergen & Servings Dashboard */}
             <FadeInSection delay="300ms">
               <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-orange-500/25 hover:shadow-[0_20px_50px_rgba(249,115,22,0.06)] hover:-translate-y-0.5 relative overflow-hidden group">
                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl group-hover:bg-orange-500/10 transition-colors duration-500"></div>
 
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-orange-500" /> Nutrition & Wellness
+                  <ShieldCheck className="w-4 h-4 text-orange-500" /> Allergen & Servings
                 </h3>
-
-                {/* Interactive progress indicators */}
-                <div className="space-y-4 mb-6 relative z-10">
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Ganoderma Extract</span>
-                      <span className="text-orange-400 font-bold">2%</span>
-                    </div>
-                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-orange-500 h-full rounded-full transition-all duration-1000" style={{ width: '20%' }}></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-neutral-400 font-medium">Instant Coffee mix</span>
-                      <span className="text-orange-400 font-bold">98%</span>
-                    </div>
-                    <div className="w-full bg-white/[0.04] h-1 rounded-full overflow-hidden">
-                      <div className="bg-orange-500 h-full rounded-full transition-all duration-1000" style={{ width: '100%' }}></div>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Allergen Notification */}
                 <div className="flex items-start gap-3 bg-green-950/10 border border-green-900/20 p-4 rounded-xl relative z-10 mb-6">

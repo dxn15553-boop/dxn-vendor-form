@@ -71,7 +71,7 @@ const Products: React.FC = () => {
                <img
                   src={assets.PRODUCTS_HERO}
                   alt="DXN Product Catalog"
-                  className="w-full h-full object-cover opacity-40 scale-105"
+                  className="w-full h-full object-cover opacity-40 scale-105 text-transparent"
                />
                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-neutral-950/60"></div>
             </div>
