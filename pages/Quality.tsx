@@ -11,9 +11,9 @@ const Quality: React.FC = () => {
   const quality = content.quality;
   
   return (
-    <div className="pt-32 pb-20 bg-neutral-950">
+    <div className="bg-neutral-950 text-neutral-300">
       {/* Hero Section */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Commitment" title={quality.headline} light />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div>
@@ -46,7 +46,7 @@ const Quality: React.FC = () => {
       </section>
 
       {/* Triple Verification Framework */}
-      <section className="bg-neutral-900 py-32 border-y border-white/5">
+      <section className="bg-neutral-900 py-20 md:py-32 border-y border-white/5">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="mb-20 text-center">
              <h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600 mb-6">Compliance Protocol</h2>
@@ -67,7 +67,7 @@ const Quality: React.FC = () => {
       </section>
 
       {/* Certifications Grid */}
-      <section className="py-32">
+      <section className="py-20 md:py-32">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <SectionTitle subtitle="Global Standards" title="Accreditations & Trust" light />
           

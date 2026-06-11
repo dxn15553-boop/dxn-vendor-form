@@ -9,8 +9,8 @@ const Contact: React.FC = () => {
   const inquiryTypes = info.inquiryTypes || ["Factory Visit Request", "Bulk Order Inquiry", "Export Distribution", "Careers"];
 
   return (
-    <div className="pt-32 pb-20">
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+    <div className="bg-neutral-950 text-neutral-300">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Connect" title="Visit the Hub" light />
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">

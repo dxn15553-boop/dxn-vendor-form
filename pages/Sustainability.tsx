@@ -9,8 +9,8 @@ const Sustainability: React.FC = () => {
   const roadmap = content.roadmap || [];
 
   return (
-    <div className="pt-32 pb-20">
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+    <div className="bg-neutral-950 text-neutral-300">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Future Vision" title="Sustaining Global Wellness" light />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div className="space-y-8">
@@ -48,7 +48,7 @@ const Sustainability: React.FC = () => {
       </section>
 
       {/* Roadmap */}
-      <section className="bg-white text-neutral-900 py-32 overflow-hidden">
+      <section className="bg-white text-neutral-900 py-20 md:py-32 overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="text-center mb-24">
              <h2 className="text-5xl font-black uppercase tracking-tighter mb-8">2025 – 2030 Roadmap</h2>

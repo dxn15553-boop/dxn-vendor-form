@@ -3,6 +3,7 @@ import React from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { ICON_MAP } from '../constants';
 import { ChevronRight, Settings, Database, Activity, Target, Leaf, Sprout } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAssets } from '../App';
 import { useContent } from '../context/ContentContext';
 
@@ -23,9 +24,9 @@ const Divisions: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 bg-neutral-950">
+    <div className="bg-neutral-950 text-neutral-300">
       {/* Cinematic Intro */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
           <div className="lg:max-w-3xl">
             <SectionTitle subtitle="Operational Excellence" title="World-Class Manufacturing Core" light />
@@ -42,7 +43,14 @@ const Divisions: React.FC = () => {
           const IconComp = ICON_MAP[div.icon] || Database;
           const isEven = idx % 2 === 0;
           return (
-            <section key={div.id} className={`py-40 border-t border-white/5 transform-gpu ${isEven ? 'bg-neutral-950 text-white' : 'bg-neutral-900 text-white'}`}>
+            <motion.section 
+              key={div.id} 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className={`py-20 md:py-32 border-t border-white/5 transform-gpu ${isEven ? 'bg-neutral-950 text-white' : 'bg-neutral-900 text-white'}`}
+            >
               <div className="max-w-[1440px] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
                 <div className={!isEven ? 'lg:order-2' : ''}>
                   <div className="flex items-center gap-6 mb-10">
@@ -84,17 +92,21 @@ const Divisions: React.FC = () => {
                 
                 <div className={`${!isEven ? 'lg:order-1' : ''} relative group`}>
                    <div className="hidden md:block absolute -inset-2 bg-red-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                   <div className="relative overflow-hidden rounded-sm aspect-[4/3] bg-neutral-800">
+                   <motion.div 
+                     whileHover={{ y: -10, scale: 1.02 }}
+                     transition={{ type: "spring", stiffness: 300 }}
+                     className="relative overflow-hidden rounded-sm aspect-[4/3] bg-neutral-800"
+                   >
                       <img 
                         src={getDivisionAsset(div.id)} 
                         alt={div.name} 
                         className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
-                   </div>
+                   </motion.div>
                 </div>
               </div>
-            </section>
+            </motion.section>
           );
         })}
       </div>

@@ -1,7 +1,18 @@
-
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -15 }}
+    transition={{ duration: 0.3 }}
+  >
+    {children}
+  </motion.div>
+);
 import Home from './pages/Home';
 import About from './pages/About';
 import Divisions from './pages/Divisions';
@@ -14,6 +25,9 @@ import Cordyceps from './pages/Cordyceps';
 import Lingzhi from './pages/Lingzhi';
 import Lingzhi2in1 from './pages/Lingzhi2in1';
 import GanozhiSoap from './pages/GanozhiSoap';
+import SaffronKombucha from './pages/SaffronKombucha';
+import ButterflyKombucha from './pages/ButterflyKombucha';
+import ClassicKombucha from './pages/ClassicKombucha';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
 import ImageGallery from './pages/ImageGallery';
@@ -46,7 +60,17 @@ export const useAssets = () => {
 const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [assets, setAssets] = useState(() => {
     const saved = localStorage.getItem('dxn_custom_assets');
-    return saved ? JSON.parse(saved) : DEFAULT_ASSETS;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const divisionKeys: (keyof typeof DEFAULT_ASSETS)[] = ['DIV_NUTRA', 'DIV_COFFEE', 'DIV_COSMETICS', 'DIV_KOMBUCHA', 'DIV_WETFOOD', 'DIV_AGRO'];
+      divisionKeys.forEach(key => {
+        if (!parsed[key] || parsed[key].includes('cloudinary') || parsed[key] === '/coffee/cocozhi.png' || parsed[key] === '/cosmetics/cosmetics.png' || parsed[key] === '/agro/veg_minus.jpeg' || parsed[key] === '/agro/veg_minus.png') {
+          parsed[key] = DEFAULT_ASSETS[key];
+        }
+      });
+      return { ...DEFAULT_ASSETS, ...parsed };
+    }
+    return DEFAULT_ASSETS;
   });
 
   useEffect(() => {
@@ -120,7 +144,16 @@ const Navbar: React.FC = () => {
             { name: 'DXN Ganozhi Soap', path: '/products/ganozhi-soap', icon: Package }
           ]
         },
-        { name: 'Kombucha', path: '/products?category=Kombucha', icon: FlaskConical },
+        { 
+          name: 'Kombucha', 
+          path: '/products?category=Kombucha', 
+          icon: FlaskConical,
+          dropdown: [
+            { name: 'Saffron Kombucha', path: '/products/saffron-kombucha', icon: Package },
+            { name: 'Butterfly Kombucha', path: '/products/butterfly-kombucha', icon: Package },
+            { name: 'Classic Kombucha', path: '/products/classic-kombucha', icon: Package }
+          ]
+        },
         { 
           name: 'Agro', 
           path: '/products?category=agro', 
@@ -153,7 +186,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled || isOpen ? 'bg-black py-4 border-b border-white/10' : 'bg-transparent py-8'}`}>
+    <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled || isOpen ? 'bg-black/60 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-8'}`}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-[110]">
         <Link to="/" className="flex items-center gap-4 group" onClick={() => setIsOpen(false)}>
           <div className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center group-hover:scale-105 transition-transform bg-white p-1.5 rounded-sm shadow-lg shadow-black/20">
@@ -443,6 +476,41 @@ const Footer: React.FC = () => {
   );
 };
 
+const AnimatedRoutes: React.FC = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
+        <Route path="/divisions" element={<PageTransition><Divisions /></PageTransition>} />
+        <Route path="/products/" element={<PageTransition><Products /></PageTransition>} />
+        <Route path="/products/veg-minus" element={<PageTransition><VegMinus /></PageTransition>} />
+        <Route path="/products/cocozhi" element={<PageTransition><Cocozhi /></PageTransition>} />
+        <Route path="/products/codyceps" element={<PageTransition><Cordyceps /></PageTransition>} />
+        <Route path="/products/lingzhi" element={<PageTransition><Lingzhi /></PageTransition>} />
+        <Route path="/products/lingzhi-2in1" element={<PageTransition><Lingzhi2in1 /></PageTransition>} />
+        <Route path="/products/cordyceps" element={<PageTransition><Cordyceps /></PageTransition>} />
+        <Route path="/products/ganozhi-soap" element={<PageTransition><GanozhiSoap /></PageTransition>} />
+        <Route path="/products/saffron-kombucha" element={<PageTransition><SaffronKombucha /></PageTransition>} />
+        <Route path="/products/butterfly-kombucha" element={<PageTransition><ButterflyKombucha /></PageTransition>} />
+        <Route path="/products/classic-kombucha" element={<PageTransition><ClassicKombucha /></PageTransition>} />
+        <Route path="/quality" element={<PageTransition><Quality /></PageTransition>} />
+        <Route path="/future" element={<PageTransition><Sustainability /></PageTransition>} />
+        <Route path="/careers" element={<PageTransition><Careers /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="/gallery/images" element={<PageTransition><ImageGallery /></PageTransition>} />
+        <Route path="/gallery/videos" element={<PageTransition><VideoGallery /></PageTransition>} />
+        <Route path="/events" element={<PageTransition><Events /></PageTransition>} />
+        <Route path="/media" element={<PageTransition><Media /></PageTransition>} />
+        <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
+        <Route path="/vendor/register" element={<PageTransition><VendorRegistration /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -451,31 +519,7 @@ const App: React.FC = () => {
           <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/divisions" element={<Divisions />} />
-                <Route path="/products/" element={<Products />} />
-                <Route path="/products/veg-minus" element={<VegMinus />} />
-                <Route path="/products/cocozhi" element={<Cocozhi />} />
-                <Route path="/products/codyceps" element={<Cordyceps />} />
-                <Route path="/products/lingzhi" element={<Lingzhi />} />
-                <Route path="/products/lingzhi-2in1" element={<Lingzhi2in1 />} />
-                <Route path="/products/cordyceps" element={<Cordyceps />} />
-                <Route path="/products/ganozhi-soap" element={<GanozhiSoap />} />
-
-                <Route path="/quality" element={<Quality />} />
-                <Route path="/future" element={<Sustainability />} />
-                <Route path="/careers" element={<Careers />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/gallery/images" element={<ImageGallery />} />
-                <Route path="/gallery/videos" element={<VideoGallery />} />
-                <Route path="/events" element={<Events />} />
-                <Route path="/media" element={<Media />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/vendor/register" element={<VendorRegistration />} />
-              </Routes>
+              <AnimatedRoutes />
             </main>
             <Footer />
           </div>

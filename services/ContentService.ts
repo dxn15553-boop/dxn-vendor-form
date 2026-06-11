@@ -52,7 +52,7 @@ export const INITIAL_CONTENT = {
       name: "Reishi Gano (RG)",
       category: "Nutraceuticals",
       description: "Derived from the fruit body of Ganoderma lucidum, RG is harvested from a 90-day cultivation cycle to ensure maximum Polysaccharide content.",
-      image: "/nutra/ReishiGano.png",
+      image: "/nutra/ReishiGanoProduct.png",
       features: ["100% Ganoderma", "Detoxification Support", "Immune Modulation"],
       status: "Available"
     },
@@ -61,7 +61,7 @@ export const INITIAL_CONTENT = {
       name: "Lingzhi Coffee 3-in-1",
       category: "Coffee",
       description: "The world's first healthy coffee blend, combining premium Brazilian coffee beans with 100% organic Ganoderma extract.",
-      image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1974&auto=format&fit=crop",
+      image: "/coffee/lingzhi.png",
       features: ["Low Acidity", "No Artificial Colors", "Organic Extract"],
       status: "Available"
     },
@@ -70,7 +70,7 @@ export const INITIAL_CONTENT = {
       name: "Ganozhi Soap",
       category: "Cosmetics",
       description: "A specialized formula enriched with Ganoderma extract and palm oil to gently cleanse and moisturize the skin while preserving natural oils.",
-      image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=2070&auto=format&fit=crop",
+      image: "/cosmetics/Ganozhisoap.png",
       features: ["pH Balanced", "Vitamin E Enriched", "Suitable for all Skin Types"],
       status: "Available"
     },
@@ -79,7 +79,7 @@ export const INITIAL_CONTENT = {
       name: "Spirulina Cereal",
       category: "Nutraceuticals",
       description: "A balanced alkaline food source combining high-grade Spirulina with cereal fiber for optimal digestive health.",
-      image: "https://images.unsplash.com/photo-1584555613497-9ecf9dd06f68?q=80&w=1974&auto=format&fit=crop",
+      image: "/nutra/nutraDivision.png",
       features: ["Complete Protein", "Rich in GLA", "Superfood Blend"],
       status: "Available"
     },
@@ -88,9 +88,27 @@ export const INITIAL_CONTENT = {
       name: "Saffron Kombucha",
       category: "Kombucha",
       description: "A premium fermented tea infused with Grade A Kashmiri Saffron cultivated right here in our Siddipet indoor facility.",
-      image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=2070&auto=format&fit=crop",
+      image: "/kombucha/safronKombucha.png",
       features: ["Probiotic Rich", "Antioxidant Boost", "Indigenous Saffron"],
       status: "Coming Soon"
+    },
+    {
+      id: "prod-10",
+      name: "Butterfly Kombucha",
+      category: "Kombucha",
+      description: "A refreshing fermented tea infused with natural Butterfly Pea flower for a distinct flavor and antioxidant benefits.",
+      image: "/kombucha/Butterfly pea copy.png",
+      features: ["Probiotic Rich", "Antioxidant Boost", "Unique Flavor"],
+      status: "Available"
+    },
+    {
+      id: "prod-11",
+      name: "Classic Kombucha",
+      category: "Kombucha",
+      description: "Our signature fermented tea, traditionally brewed to perfection for a balanced, refreshing taste.",
+      image: "/kombucha/classicKomucha.png",
+      features: ["Probiotic Rich", "Gut Health", "Naturally Carbonated"],
+      status: "Available"
     },
     {
       id: "prod-6",
@@ -207,10 +225,14 @@ const mergeProducts = (fetchedProducts: any) => {
       const idx = merged.findIndex(ip => ip.id === cp.id);
       if (idx > -1) {
         merged[idx] = cp;
-        // Hotfix: Enforce correct local image for Reishi Gano even if cached from older CMS state
-        if (merged[idx].id === "prod-1") {
-          merged[idx].image = "/nutra/ReishiGanoProduct.png";
-        }
+        // Hotfix: Enforce correct local images even if cached from older CMS state
+        if (merged[idx].id === "prod-1") merged[idx].image = "/nutra/ReishiGanoProduct.png";
+        if (merged[idx].id === "prod-2") merged[idx].image = "/coffee/lingzhi.png";
+        if (merged[idx].id === "prod-3") merged[idx].image = "/cosmetics/Ganozhisoap.png";
+        if (merged[idx].id === "prod-4") merged[idx].image = "/nutra/nutraDivision.png";
+        if (merged[idx].id === "prod-5") merged[idx].image = "/kombucha/safronKombucha.png";
+        if (merged[idx].id === "prod-10") merged[idx].image = "/kombucha/Butterfly pea copy.png";
+        if (merged[idx].id === "prod-11") merged[idx].image = "/kombucha/classicKomucha.png";
       } else {
         merged.push(cp);
       }
@@ -256,7 +278,7 @@ export const ContentService = {
     }
 
     // 2. Fallback to LocalStorage (Offline / Backup)
-    const saved = localStorage.getItem('dxn_managed_content');
+    const saved = localStorage.getItem('dxn_india_managed_content');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -295,7 +317,7 @@ export const ContentService = {
       await saveSiteConfig(content);
 
       // 2. Save to Local (Backup/Cache)
-      localStorage.setItem('dxn_managed_content', JSON.stringify(content));
+      localStorage.setItem('dxn_india_managed_content', JSON.stringify(content));
 
       console.log("Content successfully deployed to global database.");
       return { success: true };

@@ -45,12 +45,12 @@ export const DEFAULT_ASSETS = {
   CSR_WATER: "https://images.unsplash.com/photo-1538300342682-cf57afb97285?q=80&w=2070&auto=format&fit=crop",
   CSR_TRAINING: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
   // Division-specific visuals
-  DIV_NUTRA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766486527/bafd72a0-0740-49b5-b94b-5a1a82f910f3_ljy8n7.jpg?q=80&w=2069&auto=format&fit=crop",
-  DIV_COFFEE: "/coffee/cocozhi.png",
-  DIV_COSMETICS: "/cosmetics/cosmetics.png",
-  DIV_KOMBUCHA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489267/DSC_0513_go7gvi.jpg?q=80&w=1974&auto=format&fit=crop",
-  DIV_WETFOOD: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489920/DSC01159_vgvyqg.jpg?q=80&w=2071&auto=format&fit=crop",
-  DIV_AGRO: "/agro/veg_minus.jpeg",
+  DIV_NUTRA: "/nutra/nutraDivision.png",
+  DIV_COFFEE: "/coffee/lingzhi_coffeeDivision.png",
+  DIV_COSMETICS: "/cosmetics/cosmeticsDivision.jpeg",
+  DIV_KOMBUCHA: "/kombucha/komuchaDivision.jpeg",
+  DIV_WETFOOD: "/wetfood/wetFood.jpeg",
+  DIV_AGRO: "/agro/agroDivision.png",
 };
 
 export const CORPORATE_EVENTS = [

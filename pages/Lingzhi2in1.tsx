@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Package, Check, ShieldCheck, Coffee, Info, AlertTriangle, Sparkles } from 'lucide-react';
+import ProductReviews from '../components/ProductReviews';
 
 // Custom Hook for Scroll Animations
 const useScrollFade = (threshold = 0.1) => {
@@ -43,7 +44,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
 
 const Lingzhi2in1: React.FC = () => {
   return (
-    <div className="pt-32 bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
+    <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
         {/* Subtle grid pattern overlay */}
@@ -105,7 +106,7 @@ const Lingzhi2in1: React.FC = () => {
             </div>
 
             {/* Right Column: Video Showcase */}
-            <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
+            <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-center lg:-ml-10">
               <FadeInSection delay="200ms">
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   {/* Image Container */}
@@ -113,7 +114,7 @@ const Lingzhi2in1: React.FC = () => {
                     <img
                       src="/coffee/lingzhi2in1.png"
                       alt="DXN Lingzhi Coffee Packaging"
-                      className="w-full h-full object-contain scale-[1.5] md:scale-[1.8] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
+                      className="w-full h-full object-contain scale-[1.3] md:scale-[1.4] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
                     />
                   </div>
                 </div>
@@ -357,6 +358,7 @@ const Lingzhi2in1: React.FC = () => {
           will-change: transform;
         }
       `}</style>
+      <ProductReviews productName="Lingzhi Coffee 2 in 1" />
     </div >
   );
 };

@@ -3,8 +3,8 @@ import SectionTitle from '../components/SectionTitle';
 import { useAssets } from '../App';
 import { useContent } from '../context/ContentContext';
 import { useLocation } from 'react-router-dom';
-import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download, ChevronLeft, ChevronRight } from 'lucide-react';
-
+import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
 const Products: React.FC = () => {
    const { assets } = useAssets();
    const { content } = useContent();
@@ -64,9 +64,9 @@ const Products: React.FC = () => {
    };
 
    return (
-      <div className="pt-32 pb-20 min-h-screen bg-neutral-950">
+      <div className="min-h-screen bg-neutral-950 text-neutral-300">
          {/* Cinematic Hero */}
-         <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden bg-black mb-20">
+         <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden bg-black pt-24 mb-16 md:mb-24">
             <div className="absolute inset-0 z-0">
                <img
                   src={assets.PRODUCTS_HERO}
@@ -132,10 +132,15 @@ const Products: React.FC = () => {
                   style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                >
                   {filteredProducts.map((product, idx) => (
-                     <div
+                     <motion.div
                         key={product.id}
                         onClick={() => handleViewSpecs(product)}
-                      className="w-full md:w-[calc((100%_-_2rem)_/_2)] lg:w-[calc((100%_-_4rem)_/_3)] shrink-0 snap-start group bg-neutral-900 border-0 transition-all duration-500 transform-gpu flex flex-col h-full relative overflow-hidden cursor-pointer rounded-sm hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(220,38,38,0.1)] focus:outline-none focus-visible:outline-none ring-0"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, delay: Math.min(idx * 0.1, 0.5) }}
+                        whileHover={{ y: -10, boxShadow: "0 20px 40px rgba(220, 38, 38, 0.15)" }}
+                      className="w-full md:w-[calc((100%_-_2rem)_/_2)] lg:w-[calc((100%_-_4rem)_/_3)] shrink-0 snap-start group bg-neutral-900 border-0 transition-colors transform-gpu flex flex-col h-full relative overflow-hidden cursor-pointer rounded-sm focus:outline-none focus-visible:outline-none ring-0"
                      >
                         {/* Status Badge */}
                         <div className="absolute top-4 right-4 z-20">
@@ -152,12 +157,16 @@ const Products: React.FC = () => {
                            <img
                               src={product.image || FALLBACK_IMAGE}
                               alt={product.name}
-                              className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${product.image?.startsWith('/coffee/') && product.image?.endsWith('.png')
-                                    ? 'object-contain scale-[1.85] group-hover:scale-[1.95]'
-                                    : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                       ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                       : 'object-cover group-hover:scale-105'
+                              className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${
+                                    product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
+                                       ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
+                                       : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
+                                          ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
+                                          : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                             ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                             : 'object-cover group-hover:scale-105'
                                  }`}
+                              style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
                            />
                            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent z-10 pointer-events-none"></div>
                            <div className="absolute bottom-4 left-4 z-20">
@@ -168,7 +177,17 @@ const Products: React.FC = () => {
                         {/* Content Area */}
                         <div className="-mt-px p-8 flex-grow flex flex-col relative bg-neutral-900">
                            <div>
-                              <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors focus:outline-none focus-visible:outline-none">{product.name}</h3>
+                              <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2 group-hover:text-red-500 transition-colors focus:outline-none focus-visible:outline-none">{product.name}</h3>
+                              
+                              <div className="flex items-center gap-2 mb-4">
+                                <div className="flex text-red-500">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star key={star} className={`w-3.5 h-3.5 ${star <= 4 ? 'fill-current' : 'text-neutral-700'}`} />
+                                  ))}
+                                </div>
+                                <span className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest">(4.8)</span>
+                              </div>
+
                               <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3 min-h-[4.5rem]">
                                  {product.description}
                               </p>
@@ -194,7 +213,7 @@ const Products: React.FC = () => {
                               View Specifications <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                            </button>
                         </div>
-                     </div>
+                     </motion.div>
                   ))}
                </div>
 
@@ -235,11 +254,14 @@ const Products: React.FC = () => {
                      <img
                         src={selectedProduct.image || FALLBACK_IMAGE}
                         alt={selectedProduct.name}
-                        className={`w-full h-full opacity-90 transition-transform duration-500 ${selectedProduct.image?.startsWith('/coffee/') && selectedProduct.image?.endsWith('.png')
-                              ? 'object-contain scale-[1.6]'
-                              : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
-                                 ? 'object-contain scale-[1.2]'
-                                 : 'object-contain'
+                        className={`w-full h-full opacity-90 transition-transform duration-500 ${
+                              selectedProduct.image === '/coffee/cocozhi.png' || selectedProduct.image === '/coffee/lingzhi2in1.png'
+                                 ? 'object-contain scale-[1.0]'
+                                 : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
+                                    ? 'object-contain scale-[1.2]'
+                                    : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                                       ? 'object-contain scale-[1.2]'
+                                       : 'object-contain'
                            }`}
                      />
                      <div className="absolute top-6 left-6 z-10">

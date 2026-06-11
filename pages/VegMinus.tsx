@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Package, Check, ShieldCheck, Leaf, Sprout, Info, AlertTriangle, Droplet } from 'lucide-react';
+import ProductReviews from '../components/ProductReviews';
 
 // Custom Hook for Scroll Animations
 const useScrollFade = (threshold = 0.1) => {
@@ -43,7 +44,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
 
 const VegMinus: React.FC = () => {
   return (
-    <div className="pt-32 bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
+    <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
         {/* Subtle grid pattern overlay */}
@@ -333,6 +334,7 @@ const VegMinus: React.FC = () => {
           will-change: transform;
         }
       `}</style>
+      <ProductReviews productName="Veg-Minus" />
     </div>
   );
 };

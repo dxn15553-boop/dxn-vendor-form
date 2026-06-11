@@ -42,7 +42,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode, delay?: string }> = (
   );
 };
 
-const GanozhiSoap: React.FC = () => {
+const ButterflyKombucha: React.FC = () => {
   return (
     <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
@@ -57,11 +57,11 @@ const GanozhiSoap: React.FC = () => {
           <div className="block lg:hidden flex flex-col items-center text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-rose-500/20 bg-rose-500/5 backdrop-blur-sm mb-6">
               <Sparkles className="w-4 h-4 text-rose-500 animate-pulse" />
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-rose-400">Skin Care Division</span>
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-rose-400">Food and Beverage</span>
             </div>
             <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase leading-[0.9] text-white">
-              DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600 drop-shadow-lg">Ganozhi</span><br />
-              <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Soap</span>
+              DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600 drop-shadow-lg">Butterfly</span><br />
+              <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Kombucha</span>
             </h1>
           </div>
 
@@ -79,25 +79,25 @@ const GanozhiSoap: React.FC = () => {
                     <div className="hidden lg:flex flex-col items-start">
                       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-rose-500/20 bg-rose-500/5 backdrop-blur-sm mb-8 transition-colors group-hover:border-rose-500/40">
                         <Sparkles className="w-4 h-4 text-rose-500 animate-pulse" />
-                        <span className="text-xs font-black uppercase tracking-[0.3em] text-rose-400">Skin Care Division</span>
+                        <span className="text-xs font-black uppercase tracking-[0.3em] text-rose-400">Food and Beverage</span>
                       </div>
 
                       <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
-                        DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600 drop-shadow-lg">Ganozhi</span><br />
-                        <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Soap</span>
+                        DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600 drop-shadow-lg">Butterfly</span><br />
+                        <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Kombucha</span>
                       </h1>
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      75 g round-shaped soap stamped with DXN logo on both sides.
+                      A refreshing fermented tea infused with natural Butterfly Pea flower for a distinct flavor and antioxidant benefits.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        75g Bar
+                        285ml Bottle
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-rose-500/30 bg-rose-500/10 rounded-full text-rose-400 backdrop-blur-md">
-                        Ganoderma Extract
+                        Butterfly Pea Extract
                       </span>
                     </div>
                   </div>
@@ -112,8 +112,8 @@ const GanozhiSoap: React.FC = () => {
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/cosmetics/Ganozhisoap.png"
-                      alt="DXN Ganozhi Soap"
+                      src="/kombucha/Butterfly pea copy.png"
+                      alt="DXN Butterfly Kombucha"
                       className="w-full h-full object-contain scale-[1.2] filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
                     />
                   </div>
@@ -128,45 +128,8 @@ const GanozhiSoap: React.FC = () => {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
-          {/* Left Column: Image & Quick Facts */}
+          {/* Left Column: Quick Facts */}
           <div className="lg:col-span-5 space-y-8">
-            <FadeInSection>
-              {/* Outer static wrapper that is stable and sticky */}
-              <div className="relative group">
-                {/* Soft ambient glow behind card */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-rose-500/5 to-pink-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-
-                {/* Inner stable Product Container with Glassmorphism */}
-                <div
-                  className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-6 md:p-12 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-rose-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
-                >
-                  {/* Floating Particles */}
-                  <div className="absolute inset-0 pointer-events-none z-0">
-                    <Sparkles className="absolute top-[15%] left-[10%] w-4 h-4 text-rose-500/20 animate-float delay-100 filter blur-[0.5px]" />
-                    <Droplet className="absolute bottom-[25%] right-[10%] w-4 h-4 text-pink-500/20 animate-float-delayed delay-300 filter blur-[1px]" />
-                    <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-rose-500/10 animate-float delay-500" />
-                    <Sparkles className="absolute bottom-[15%] left-[20%] w-5 h-5 text-rose-600/10 animate-float-delayed delay-200 filter blur-[1.5px]" />
-                    <div className="absolute bottom-[40%] left-[8%] w-3 h-3 rounded-full bg-rose-500/20 animate-float delay-700 blur-[2px]"></div>
-                    <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-pink-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
-                  </div>
-
-                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
-                    <video
-                      src="/cosmetics/Person_washing_hands_face_202606090916.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover filter brightness-[1.1] contrast-[1.1]"
-                    />
-                  </div>
-
-                  {/* Floor reflection effect */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-rose-600/20 blur-2xl rounded-full translate-z-[-20px]"></div>
-                </div>
-              </div>
-            </FadeInSection>
-
             <FadeInSection delay="200ms">
               <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 group">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 transition-colors group-hover:text-white">
@@ -175,27 +138,28 @@ const GanozhiSoap: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-rose-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Solid</span>
+                    <span className="text-white font-medium text-right">Beverage</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-rose-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color</span>
-                    <span className="text-white font-medium text-right">Brown</span>
+                    <span className="text-white font-medium text-right">Vibrant Purple / Blue</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
-                    <span className="text-white font-medium text-right">Toiletry</span>
+                    <span className="text-white font-medium text-right">FSSAI Beverage</span>
                   </li>
                 </ul>
               </div>
             </FadeInSection>
           </div>
+
           {/* Right Column: Details & Specs */}
           <div className="lg:col-span-7">
             <div className="mb-12">
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  75 g round-shaped soap stamped with DXN logo on both sides. A carefully formulated toiletry product designed for personal care, enriched with Ganoderma lucidum extract.
+                  Kombucha is fermented tea with fizzy sweet and sour properties, infused with Butterfly Pea flower for a striking visual appeal and antioxidant benefits.
                 </p>
               </FadeInSection>
 
@@ -203,14 +167,14 @@ const GanozhiSoap: React.FC = () => {
                 <FadeInSection delay="100ms">
                   <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-rose-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-rose-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Shelf Life</h4>
-                    <p className="text-lg font-bold text-white">36 Months</p>
+                    <p className="text-lg font-bold text-white">3 Years</p>
                   </div>
                 </FadeInSection>
 
                 <FadeInSection delay="200ms">
                   <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-rose-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-rose-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Division</h4>
-                    <p className="text-lg font-bold text-white">Skin Care</p>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Package Size</h4>
+                    <p className="text-lg font-bold text-white">16 bottles / box</p>
                   </div>
                 </FadeInSection>
               </div>
@@ -224,10 +188,10 @@ const GanozhiSoap: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Sodium Palmate', desc: 'Soap Base' },
-                      { name: 'Ganoderma lucidum Extract', desc: 'Mushroom Extract' },
-                      { name: 'Glycerin', desc: 'Glycerin' },
-                      { name: 'Fragrance', desc: 'Fragrance' }
+                      { name: 'RO Water', desc: 'Purified Water' },
+                      { name: 'Sugar', desc: 'Fermentation Fuel' },
+                      { name: 'Butterfly Pea Flower', desc: 'Natural Color & Antioxidants' },
+                      { name: 'Kombucha Culture', desc: 'Symbiotic Culture' }
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
@@ -244,20 +208,19 @@ const GanozhiSoap: React.FC = () => {
               <FadeInSection delay="400ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
-                    <Droplet className="w-4 h-4 text-rose-500" /> Directions
+                    <Droplet className="w-4 h-4 text-rose-500" /> Directions & Storage
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">
                     <div className="group/item">
-                      <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-rose-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Lather', desc: 'Lather the soap.' },
-                          { step: 2, label: 'Apply', desc: 'Apply to the desired body part.' },
-                          { step: 3, label: 'Rinse', desc: 'Rinse off.' }
+                          { label: 'Consume', desc: 'Directly consume 285 ml at once.' },
+                          { label: 'Storage', desc: 'Store at ambient temperature. Once opened, keep in refrigerator.' },
+                          { label: 'Suitable For', desc: 'All' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 flex items-center justify-center text-[10px] font-bold shrink-0">
-                              {d.step}
+                              {index + 1}
                             </span>
                             <div>
                               <p className="text-xs font-semibold text-white">{d.label}</p>
@@ -278,21 +241,12 @@ const GanozhiSoap: React.FC = () => {
 
         </div>
       </div>
+      <ProductReviews productName="Butterfly Kombucha" />
 
-      {/* Global Animation Styles */}
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(-5deg); }
-        }
-      `}</style>
-      <ProductReviews productName="Ganozhi Soap" />
     </div >
+
+
   );
 };
 
-export default GanozhiSoap;
+export default ButterflyKombucha;

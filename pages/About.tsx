@@ -11,9 +11,9 @@ const About: React.FC = () => {
   const timeline = content.timeline || [];
   
   return (
-    <div className="pt-32 pb-20 bg-neutral-950">
+    <div className="bg-neutral-950 text-neutral-300">
       {/* Hero */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Our Journey" title="The Global Backbone of Wellness" light />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-8">
@@ -44,7 +44,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Vertical Integration */}
-      <section className="py-32 bg-neutral-900 border-y border-white/5 relative overflow-hidden">
+      <section className="py-20 md:py-32 bg-neutral-900 border-y border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -87,7 +87,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Gano Cultivation & Process - New Section */}
-      <section className="py-32 bg-black text-white border-b border-white/5">
+      <section className="py-20 md:py-32 bg-black text-white border-b border-white/5">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
            <div className="mb-24 text-center max-w-4xl mx-auto">
               <SectionTitle subtitle="Core Science" title="The Ganoderma Blueprint" light />
@@ -160,7 +160,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Stats / Investment / Timeline */}
-      <section className="bg-white text-neutral-900 py-32 relative overflow-hidden">
+      <section className="bg-white text-neutral-900 py-20 md:py-32 relative overflow-hidden">
         {/* Abstract Background Element */}
         <div className="absolute top-0 right-0 w-[500px] h-full bg-neutral-50 skew-x-12 -translate-x-20"></div>
         
@@ -211,7 +211,7 @@ const About: React.FC = () => {
       </section>
 
       {/* NEW SECTION: Our Vision */}
-      <section className="py-32 bg-neutral-900 text-white relative overflow-hidden border-t border-white/5">
+      <section className="py-20 md:py-32 bg-neutral-900 text-white relative overflow-hidden border-t border-white/5">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
             <div className="absolute -top-[20%] -left-[10%] w-[600px] h-[600px] bg-red-600/20 blur-[100px] rounded-full"></div>
             <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-neutral-800/50 rounded-full border border-white/5"></div>
@@ -262,7 +262,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Leadership Team */}
-      <section className="py-32 bg-neutral-950 border-t border-white/5">
+      <section className="py-20 md:py-32 bg-neutral-950 border-t border-white/5">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
            <SectionTitle subtitle="Governance" title="Leadership Team" light />
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">

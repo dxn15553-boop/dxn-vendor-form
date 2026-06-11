@@ -8,10 +8,10 @@
  */
 
 // Since we are in a browser environment, we import from esm.sh
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where, getDoc, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where, getDoc, orderBy, setDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDDyPjDaP-uzmSD7PEwsf5LMJeFJf6-3iI",
@@ -47,14 +47,14 @@ export const uploadVendorDocument = async (vendorId: string, file: File) => {
 // Save the entire site configuration to a single document
 export const saveSiteConfig = async (content: any) => {
   if (!db) throw new Error("Firestore not initialized");
-  // We use a specific collection 'site_content' and doc 'main'
-  await setDoc(doc(db, "site_content", "main"), content, { merge: true });
+  // We use a specific collection 'site_content' and doc 'main_dxn_india'
+  await setDoc(doc(db, "site_content", "main_dxn_india"), content, { merge: true });
 };
 
 // Get the site configuration
 export const getSiteConfig = async () => {
   if (!db) return null;
-  const docRef = doc(db, "site_content", "main");
+  const docRef = doc(db, "site_content", "main_dxn_india");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data();
@@ -86,7 +86,7 @@ export const updateVendor = async (docId: string, data: any) => {
 
 export const getVendors = async () => {
   if (!db) return null;
-  
+
   try {
     const q = query(collection(db, "vendors"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
@@ -117,4 +117,42 @@ export const updateVendorStatus = async (docId: string, status: string) => {
   await updateDoc(vendorRef, {
     status: status
   });
+};
+// --- PRODUCT REVIEWS ---
+
+// Fetch reviews for a specific product
+export const getProductReviews = async (productName: string) => {
+  if (!db) return [];
+  try {
+    const q = query(
+      collection(db, "reviews"),
+      where("productName", "==", productName),
+      orderBy("date", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (e) {
+    console.warn("Failed to fetch reviews", e);
+    // Fallback if missing Firestore index
+    const fallbackQ = query(collection(db, "reviews"), where("productName", "==", productName));
+    const querySnapshot = await getDocs(fallbackQ);
+    const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as any[];
+    return docs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }
+};
+
+// Save a new review
+export const addReview = async (productName: string, reviewData: any) => {
+  if (!db) throw new Error("Firestore not initialized");
+  const docRef = await addDoc(collection(db, "reviews"), {
+    ...reviewData,
+    productName,
+    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+    verifiedPurchase: false, // Defaulting to false since they aren't logged in
+    helpfulCount: 0
+  });
+  return docRef.id;
 };

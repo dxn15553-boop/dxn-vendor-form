@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Package, Check, ShieldCheck, Coffee, Info, AlertTriangle, Sparkles, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import ProductReviews from '../components/ProductReviews';
 
 // Custom Hook for Scroll Animations
 const useScrollFade = (threshold = 0.1) => {
@@ -55,7 +56,7 @@ const Cocozhi: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
+    <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
       <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
         {/* Subtle grid pattern overlay */}
@@ -123,7 +124,7 @@ const Cocozhi: React.FC = () => {
                     <img
                       src="/coffee/cocozhi.png"
                       alt="DXN Cocozhi Packaging"
-                      className="w-full h-full object-contain scale-[1.2] md:scale-[1.3] filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
+                      className="w-full h-full object-contain scale-[1.1] md:scale-[1.15] filter drop-shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
                     />
                   </div>
                 </div>
@@ -399,11 +400,19 @@ const Cocozhi: React.FC = () => {
                       {product.status}
                   </span>
               </div>
-              <div className="h-64 relative overflow-hidden bg-black shrink-0">
+              <div className="h-64 relative overflow-hidden bg-black shrink-0 flex items-center justify-center">
                   <img
                       src={product.image || "https://images.unsplash.com/photo-1628102491629-778571d893a3"}
                       alt={product.name}
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                      className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${
+                            product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
+                               ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
+                               : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
+                                  ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
+                                  : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                     ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                     : 'object-cover group-hover:scale-105'
+                         }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent"></div>
                   <div className="absolute bottom-4 left-4">
@@ -478,6 +487,7 @@ const Cocozhi: React.FC = () => {
           will-change: transform;
         }
       `}</style>
+      <ProductReviews productName="Cocozhi" />
     </div>
   );
 };

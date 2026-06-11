@@ -9,15 +9,15 @@ const Team: React.FC = () => {
   const team = content.team || [];
 
   return (
-    <div className="pt-32 pb-20 bg-neutral-950 min-h-screen">
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-20">
+    <div className="bg-neutral-950 text-neutral-300 min-h-screen">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Governance" title="Global Leadership" light />
         <p className="text-2xl text-neutral-400 font-light leading-relaxed max-w-4xl">
            The visionaries behind DXN's 'One World One Market' philosophy. Our leadership combines decades of expertise in mycology, manufacturing, and global business strategy.
         </p>
       </section>
 
-      <section className="max-w-[1440px] mx-auto px-6 md:px-12">
+      <section className="max-w-[1440px] mx-auto px-6 md:px-12 pb-20 md:pb-32">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
           {team.map((member: any, idx: number) => (
              <div key={idx} className="group relative">
