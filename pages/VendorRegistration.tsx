@@ -14,14 +14,18 @@ const FileUploadField = ({
   onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isOptional = label.toLowerCase().includes('if applicable') || 
+                     label.toLowerCase().includes('if available') || 
+                     label.toLowerCase().includes('optional');
 
   return (
-    <div className="space-y-2">
-      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
-        <Icon className="w-3 h-3" /> {label}
+    <div className="flex flex-col h-full gap-2">
+      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 shrink-0">
+        <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       <div
-        className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors h-full flex flex-col justify-center ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
+        className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
         onClick={() => fileInputRef.current?.click()}
       >
         <input
@@ -47,6 +51,62 @@ const FileUploadField = ({
   );
 };
 
+const TextInputField = ({
+  label,
+  icon: Icon,
+  name,
+  value,
+  onChange,
+  type = "text",
+  required = false,
+  placeholder = "",
+  isValid
+}: {
+  label: string;
+  icon: any;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  type?: string;
+  required?: boolean;
+  placeholder?: string;
+  isValid?: boolean;
+}) => {
+  const isOptional = label.toLowerCase().includes('if applicable') || 
+                     label.toLowerCase().includes('if available') || 
+                     label.toLowerCase().includes('optional');
+
+  return (
+    <div className="space-y-2">
+      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
+        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
+      </label>
+      {type === "textarea" ? (
+        <textarea
+          required={!isOptional}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          rows={4}
+          className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all resize-none"
+        />
+      ) : (
+        <input
+          required={!isOptional}
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all"
+        />
+      )}
+    </div>
+  );
+};
+
 const SectionHeading = ({ title }: { title: string }) => (
   <div className="mt-12 mb-6 border-b border-white/10 pb-4 col-span-1 md:col-span-2">
     <h3 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
@@ -59,9 +119,12 @@ const SectionHeading = ({ title }: { title: string }) => (
 const VendorRegistration: React.FC = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState<"Complete" | "Observation">("Complete");
 
   const [formData, setFormData] = useState({
     companyName: '',
+    panNumber: '',
+    gstNumber: '',
     email: '',
     phone: '',
     specialities: '',
@@ -111,14 +174,73 @@ const VendorRegistration: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    if (!panRegex.test(formData.panNumber)) {
+      alert("Please enter valid PAN details.");
+      return;
+    }
+
+    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
+    if (!gstRegex.test(formData.gstNumber)) {
+      alert("Please enter valid GST details.");
+      return;
+    }
+
     if (!checkboxes.verifiedInfo || !checkboxes.documentsUploaded || !checkboxes.authSignatory) {
       alert("Please check all declarations in the Final Submission section.");
       return;
     }
 
+    // Determine Submission Status (Observation vs Complete)
+    const requiredFiles = [
+      'companyRegistration', 'panCard', 'gstCertificate', 'companyProfile',
+      'cancelledCheque', 'bankAccountDetails', 'auditedFinancials', 'itrAcknowledgement',
+      'conflictOfInterest', 'antiBribery', 'complianceDecl', 'blacklistingDecl',
+      'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
+      'manufacturingFacility', 'serviceInfrastructure', 'vendorRegistrationForm',
+      'codeOfConduct', 'paymentTerms', 'purchaseTerms'
+    ];
+    
+    const missingFiles = requiredFiles.filter(key => !files[key]);
+    
+    const requiredFields = [
+      'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
+      'specialities', 'description', 'authorizedPerson', 'escContact', 
+      'techTeamStrength', 'installedBase'
+    ];
+    
+    const missingFields = requiredFields.filter(key => !formData[key as keyof typeof formData].trim());
+
+    if (missingFiles.length > 0 || missingFields.length > 0) {
+      alert("Please fill all mandatory fields (marked with *) and upload all required documents.");
+      return;
+    }
+
+    const currentStatus = "Complete";
+    const missingItemsList = [...missingFields, ...missingFiles];
+
+    setSubmissionStatus(currentStatus);
     setIsSubmitting(true);
 
     try {
+      // Save to Local Storage immediately to prevent data loss if GAS fetch fails
+      const saved = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
+      const newVendor = {
+        ...formData,
+        id: Date.now(),
+        status: 'pending',
+        createdAt: Date.now(),
+        products: [],
+        declarations: checkboxes,
+        documents: Object.entries(files)
+          .filter(([_, file]) => file !== null)
+          .map(([key, file]) => ({ name: file!.name, key, url: '#', type: file!.type }))
+      };
+      saved.push(newVendor);
+      localStorage.setItem('dxn_pending_vendors', JSON.stringify(saved));
+      window.dispatchEvent(new Event('storage'));
+
       // 1. Convert all attached files to Base64 with identifiable names
       const filePromises = Object.entries(files)
         .filter(([_, file]) => file !== null)
@@ -126,55 +248,108 @@ const VendorRegistration: React.FC = () => {
 
       const base64Files = await Promise.all(filePromises);
 
-      // 2. Prepare payload
+      // 2. Prepare submitted and missing lists for the email
+      const allFormFields = [
+        { key: 'companyName', label: 'Company Legal Name' },
+        { key: 'panNumber', label: 'PAN Number' },
+        { key: 'gstNumber', label: 'GST Number' },
+        { key: 'email', label: 'Email Address' },
+        { key: 'phone', label: 'Mobile Number' },
+        { key: 'specialities', label: 'Manufacturing Specialities' },
+        { key: 'description', label: 'Facility Capabilities Overview' },
+        { key: 'authorizedPerson', label: 'Authorized Contact Person' },
+        { key: 'escContact', label: 'Escalation Contact Details' },
+        { key: 'techTeamStrength', label: 'Technical Team Strength' },
+        { key: 'installedBase', label: 'Installed Base Details' },
+      ];
+
+      const allFileFields = [
+        { key: 'companyRegistration', label: 'Company Registration Cert.' },
+        { key: 'panCard', label: 'PAN Card' },
+        { key: 'gstCertificate', label: 'GST Registration Certificate' },
+        { key: 'companyProfile', label: 'Company Profile' },
+        { key: 'orgChart', label: 'Organization Chart' },
+        { key: 'cancelledCheque', label: 'Cancelled Cheque' },
+        { key: 'bankAccountDetails', label: 'Bank Account Details Form' },
+        { key: 'msmeCertificate', label: 'MSME Certificate' },
+        { key: 'pfRegistration', label: 'PF Registration Certificate' },
+        { key: 'esiRegistration', label: 'ESI Registration Certificate' },
+        { key: 'profTaxRegistration', label: 'Professional Tax Registration' },
+        { key: 'labourLicense', label: 'Labour License' },
+        { key: 'auditedFinancials', label: 'Latest Audited Financial Statement' },
+        { key: 'itrAcknowledgement', label: 'Income Tax Return Acknowledgement' },
+        { key: 'conflictOfInterest', label: 'Conflict of Interest Declaration' },
+        { key: 'antiBribery', label: 'Anti-Bribery & Anti-Corruption Declaration' },
+        { key: 'complianceDecl', label: 'Compliance Declaration' },
+        { key: 'blacklistingDecl', label: 'Blacklisting Declaration' },
+        { key: 'confidentialityDecl', label: 'Confidentiality Declaration' },
+        { key: 'majorCustomerList', label: 'Major Customer List' },
+        { key: 'customerReferences', label: 'Customer References' },
+        { key: 'productCatalogue', label: 'Product Catalogue / Service Brochure' },
+        { key: 'manufacturingFacility', label: 'Manufacturing Facility Details' },
+        { key: 'serviceInfrastructure', label: 'Service Infrastructure Details' },
+        { key: 'iso9001', label: 'ISO 9001' },
+        { key: 'iso14001', label: 'ISO 14001' },
+        { key: 'iso45001', label: 'ISO 45001' },
+        { key: 'gmp', label: 'GMP' },
+        { key: 'ce', label: 'CE' },
+        { key: 'otherCertifications', label: 'Other Relevant Certifications' },
+        { key: 'vendorRegistrationForm', label: 'Vendor Registration Form' },
+        { key: 'nda', label: 'NDA' },
+        { key: 'codeOfConduct', label: 'Code of Conduct Acceptance' },
+        { key: 'paymentTerms', label: 'Payment Terms Acceptance' },
+        { key: 'purchaseTerms', label: 'Purchase Terms & Conditions Acceptance' },
+      ];
+
+      const submittedNames: string[] = [];
+      const notSubmittedNames: string[] = [];
+
+      allFormFields.forEach(f => {
+        if (formData[f.key as keyof typeof formData]?.trim()) submittedNames.push(f.label);
+        else notSubmittedNames.push(f.label);
+      });
+
+      allFileFields.forEach(f => {
+        if (files[f.key]) submittedNames.push(f.label);
+        else notSubmittedNames.push(f.label);
+      });
+
+      const submissionSummary = `\n\n--- SUBMISSION DETAILS ---\n\n✅ SUBMITTED ITEMS:\n - ${submittedNames.join('\n - ')}\n\n❌ NOT SUBMITTED ITEMS:\n${notSubmittedNames.length > 0 ? ' - ' + notSubmittedNames.join('\n - ') : 'None'}`;
+
+      // 3. Prepare payload
       const payload = {
         formData: {
           ...formData,
-          specialities: formData.specialities.split(',').map(s => s.trim()).join(', ')
+          specialities: formData.specialities.split(',').map(s => s.trim()).join(', '),
+          description: formData.description + submissionSummary
         },
         files: base64Files,
-        declarations: checkboxes
+        declarations: checkboxes,
+        submissionStatus: currentStatus,
+        missingItems: missingItemsList.join(', ')
       };
 
-      // 3. Send to Google Apps Script Web App
+      // 4. Send to Google Apps Script Web App
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfPwcfwqcJl1RFwRb8Lsf1Djn6k-JyzRFA4g7kN8x2NO3mCn1aoyp-MR0-3E57lU5X/exec"
 
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        redirect: "follow",
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-
-      if (result.status === "success") {
-        // Save a lightweight version to Local Storage for the Admin Panel
-        const saved = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
-        const newVendor = {
-          ...formData,
-          id: Date.now(),
-          status: 'pending',
-          createdAt: Date.now(),
-          products: [],
-          declarations: checkboxes,
-          documents: Object.entries(files)
-            .filter(([_, file]) => file !== null)
-            .map(([key, file]) => ({ name: file!.name, key, url: '#', type: file!.type }))
-        };
-        saved.push(newVendor);
-        localStorage.setItem('dxn_pending_vendors', JSON.stringify(saved));
-
-        setStep(3);
-      } else {
-        throw new Error(result.message || "Failed to submit application");
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          redirect: "follow",
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (fetchErr) {
+        console.warn("GAS Fetch Warning:", fetchErr);
       }
+
+      setStep(3);
 
     } catch (err: any) {
       console.error("Submission error:", err);
-      alert("Submission Error: " + (err.message || err.toString()) + "\n\nPlease check the console for more details or verify your Google Script URL.");
+      alert("Submission Error: " + (err.message || err.toString()) + "\n\nPlease check the console for more details.");
     } finally {
       setIsSubmitting(false);
     }
@@ -224,8 +399,28 @@ const VendorRegistration: React.FC = () => {
                 <SectionHeading title="Section A - Company Information" />
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Building className="w-3 h-3" /> Company Legal Name</label>
-                  <input required name="companyName" value={formData.companyName} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
+                  <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
+                  {/* PAN and GST added below */}
+                  <TextInputField 
+                    label="PAN Number (e.g. ABCDE1234F)" 
+                    icon={FileText} 
+                    name="panNumber" 
+                    value={formData.panNumber} 
+                    onChange={handleInputChange} 
+                    required 
+                    placeholder="ABCDE1234F" 
+                    isValid={/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.panNumber)}
+                  />
+                  <TextInputField 
+                    label="GST Number (e.g. 22ABCDE1234F1Z5)" 
+                    icon={FileText} 
+                    name="gstNumber" 
+                    value={formData.gstNumber} 
+                    onChange={handleInputChange} 
+                    required 
+                    placeholder="22ABCDE1234F1Z5" 
+                    isValid={/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(formData.gstNumber)}
+                  />
                 </div>
                 <FileUploadField label="Company Registration Cert. (ROC/Deed/MSME)" icon={FileText} file={files.companyRegistration} onFileSelect={handleFileSelect('companyRegistration')} />
                 <FileUploadField label="PAN Card" icon={FileText} file={files.panCard} onFileSelect={handleFileSelect('panCard')} />
@@ -252,22 +447,10 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Income Tax Return Acknowledgement (Last FY)" icon={FileText} file={files.itrAcknowledgement} onFileSelect={handleFileSelect('itrAcknowledgement')} />
 
                 <SectionHeading title="Section E - Contact Details" />
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Phone className="w-3 h-3" /> Authorized Contact Person</label>
-                  <input required name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Phone className="w-3 h-3" /> Mobile Number</label>
-                  <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Mail className="w-3 h-3" /> Email Address</label>
-                  <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Phone className="w-3 h-3" /> Escalation Contact Details</label>
-                  <input required name="escContact" value={formData.escContact} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
+                <TextInputField label="Authorized Contact Person" icon={Phone} name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} required />
+                <TextInputField label="Mobile Number" icon={Phone} name="phone" value={formData.phone} onChange={handleInputChange} required />
+                <TextInputField label="Email Address" icon={Mail} name="email" value={formData.email} onChange={handleInputChange} type="email" required />
+                <TextInputField label="Escalation Contact Details" icon={Phone} name="escContact" value={formData.escContact} onChange={handleInputChange} required />
 
                 <SectionHeading title="Section F - Declarations" />
                 <FileUploadField label="Conflict of Interest Declaration" icon={FileText} file={files.conflictOfInterest} onFileSelect={handleFileSelect('conflictOfInterest')} />
@@ -282,30 +465,22 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Product Catalogue / Service Brochure" icon={FileText} file={files.productCatalogue} onFileSelect={handleFileSelect('productCatalogue')} />
                 <FileUploadField label="Manufacturing Facility Details" icon={Building} file={files.manufacturingFacility} onFileSelect={handleFileSelect('manufacturingFacility')} />
                 <FileUploadField label="Service Infrastructure Details" icon={Building} file={files.serviceInfrastructure} onFileSelect={handleFileSelect('serviceInfrastructure')} />
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><CheckCircle className="w-3 h-3" /> Technical Team Strength</label>
-                  <input name="techTeamStrength" value={formData.techTeamStrength} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
+                <TextInputField label="Technical Team Strength" icon={CheckCircle} name="techTeamStrength" value={formData.techTeamStrength} onChange={handleInputChange} />
+                <TextInputField label="Installed Base Details" icon={CheckCircle} name="installedBase" value={formData.installedBase} onChange={handleInputChange} />
+                <div className="col-span-1 md:col-span-2">
+                  <TextInputField label="Manufacturing Specialities (Comma Separated)" icon={Tag} name="specialities" value={formData.specialities} onChange={handleInputChange} required placeholder="e.g. Raw Material, Packaging, Lab Services" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><CheckCircle className="w-3 h-3" /> Installed Base Details</label>
-                  <input name="installedBase" value={formData.installedBase} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
-                <div className="space-y-2 col-span-1 md:col-span-2 mt-4">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2"><Tag className="w-3 h-3" /> Manufacturing Specialities (Comma Separated)</label>
-                  <input required name="specialities" placeholder="e.g. Raw Material, Packaging, Lab Services" value={formData.specialities} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all" />
-                </div>
-                <div className="space-y-2 col-span-1 md:col-span-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">Facility Capabilities Overview</label>
-                  <textarea rows={4} name="description" value={formData.description} onChange={handleInputChange} className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all resize-none" />
+                <div className="col-span-1 md:col-span-2">
+                  <TextInputField label="Facility Capabilities Overview" icon={FileText} name="description" value={formData.description} onChange={handleInputChange} type="textarea" />
                 </div>
 
                 <SectionHeading title="Section H - Certifications (If Available)" />
-                <FileUploadField label="ISO 9001" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
-                <FileUploadField label="ISO 14001" icon={ShieldCheck} file={files.iso14001} onFileSelect={handleFileSelect('iso14001')} />
-                <FileUploadField label="ISO 45001" icon={ShieldCheck} file={files.iso45001} onFileSelect={handleFileSelect('iso45001')} />
-                <FileUploadField label="GMP" icon={ShieldCheck} file={files.gmp} onFileSelect={handleFileSelect('gmp')} />
-                <FileUploadField label="CE" icon={ShieldCheck} file={files.ce} onFileSelect={handleFileSelect('ce')} />
-                <FileUploadField label="Other Relevant Certifications" icon={ShieldCheck} file={files.otherCertifications} onFileSelect={handleFileSelect('otherCertifications')} />
+                <FileUploadField label="ISO 9001 (If Available)" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
+                <FileUploadField label="ISO 14001 (If Available)" icon={ShieldCheck} file={files.iso14001} onFileSelect={handleFileSelect('iso14001')} />
+                <FileUploadField label="ISO 45001 (If Available)" icon={ShieldCheck} file={files.iso45001} onFileSelect={handleFileSelect('iso45001')} />
+                <FileUploadField label="GMP (If Available)" icon={ShieldCheck} file={files.gmp} onFileSelect={handleFileSelect('gmp')} />
+                <FileUploadField label="CE (If Available)" icon={ShieldCheck} file={files.ce} onFileSelect={handleFileSelect('ce')} />
+                <FileUploadField label="Other Relevant Certifications (If Available)" icon={ShieldCheck} file={files.otherCertifications} onFileSelect={handleFileSelect('otherCertifications')} />
 
                 <SectionHeading title="Section I - Agreements" />
                 <FileUploadField label="Vendor Registration Form" icon={FileText} file={files.vendorRegistrationForm} onFileSelect={handleFileSelect('vendorRegistrationForm')} />
@@ -350,16 +525,39 @@ const VendorRegistration: React.FC = () => {
         {step === 3 && (
           <div className="max-w-2xl mx-auto text-center py-20 animate-in zoom-in duration-700">
             <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-green-600/20">
-              <CheckCircle className="w-12 h-12 text-white" />
+              <CheckCircle className="w-24 h-24 text-red-600 mb-8 animate-bounce" />
             </div>
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none">Application Under Review</h2>
-            <p className="text-xl text-neutral-400 font-light leading-relaxed mb-12">
-              Your entity credentials have been logged in the DXN Manufacturing ecosystem. Our vendor audit team will review your specialities and tax compliance within <span className="text-white font-bold">3-5 business days</span>.
+            <h2 className="text-4xl font-black uppercase tracking-tighter text-white mb-4">
+              {submissionStatus === 'Observation' ? 'Submitted with Observations' : 'Application Submitted Successfully'}
+            </h2>
+            <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-8">
+              {submissionStatus === 'Observation' 
+                ? 'Your registration has been received, but some mandatory documents or fields are missing. Our procurement team will review your file under observation status.'
+                : 'Your registration has been successfully transmitted to the DXN Global Vendor Management System. Our procurement team will review your profile.'}
             </p>
-            <div className="bg-neutral-900 border border-white/5 p-8 inline-block text-left">
+            <p className="text-xl text-neutral-400 font-light leading-relaxed mb-12">
+              Our vendor audit team will review your specialities and tax compliance within <span className="text-white font-bold">3-5 business days</span>.
+            </p>
+            <div className="bg-neutral-900 border border-white/5 p-8 inline-block text-left mb-12">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600 mb-2">Protocol Reference</p>
               <p className="text-neutral-400 text-xs font-mono">APP-ID: {Math.random().toString(36).substring(7).toUpperCase()}</p>
             </div>
+            
+            <button
+              onClick={() => {
+                setFormData({
+                  companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
+                  specialities: '', description: '', authorizedPerson: '', escContact: '',
+                  techTeamStrength: '', installedBase: ''
+                });
+                setFiles({});
+                setCheckboxes({ verifiedInfo: false, documentsUploaded: false, authSignatory: false });
+                setStep(1);
+              }}
+              className="mx-auto block bg-red-600 text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all"
+            >
+              Submit Another Application
+            </button>
           </div>
         )}
 

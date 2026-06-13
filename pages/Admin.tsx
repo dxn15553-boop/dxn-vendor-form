@@ -465,10 +465,18 @@ const Admin: React.FC = () => {
                               <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Phone:</span> <span className="text-neutral-300">{vendor.phone}</span></p>
                               <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Escalation Contact:</span> <span className="text-neutral-300">{vendor.escContact || 'N/A'}</span></p>
                               
+                              <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">PAN Number:</span> <span className="text-neutral-300">{vendor.panNumber || 'N/A'}</span></p>
+                              <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">GST Number:</span> <span className="text-neutral-300">{vendor.gstNumber || 'N/A'}</span></p>
+
                               <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Tech Team Strength:</span> <span className="text-neutral-300">{vendor.techTeamStrength || 'N/A'}</span></p>
                               <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Installed Base:</span> <span className="text-neutral-300">{vendor.installedBase || 'N/A'}</span></p>
                               
                               <p className="col-span-2"><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Specialities:</span> <span className="text-red-500">{Array.isArray(vendor.specialities) ? vendor.specialities.join(', ') : vendor.specialities}</span></p>
+                              
+                              {vendor.status === 'observation' && vendor.missingItems && (
+                                <p className="col-span-2 mt-2"><span className="text-amber-500 uppercase font-black tracking-widest text-[9px]">Missing Requirements:</span> <span className="text-amber-400">{vendor.missingItems}</span></p>
+                              )}
+
                               {vendor.description && (
                                 <p className="col-span-2 mt-2 pt-2 border-t border-white/10 text-neutral-500 italic">"{vendor.description}"</p>
                               )}
