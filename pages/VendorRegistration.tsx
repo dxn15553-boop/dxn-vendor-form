@@ -1,6 +1,65 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown } from 'lucide-react';
+import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown, ChevronUp } from 'lucide-react';
+
+const VENDOR_CATEGORIES = {
+  "Nature of Business": [
+    "OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner", 
+    "Service Provider", "Contractor", "Consultant", "Trader / Reseller", "Importer", "Other"
+  ],
+  "Packaging Machines & Automation": [
+    "Tube Filling Machine", "Liquid Filling Machine", "Carbonated Filling Machine", "Capping Machine",
+    "Labeling Machine", "Shrink Sleeve Machine", "Case Erector", "Carton Sealer", "Band Sealer",
+    "Check Weigher", "Online Weighing System", "Conveyor System", "Handy Printer", "Inkjet Printer",
+    "Coding Machine", "Palletizer", "Stretch Wrapping Machine"
+  ],
+  "Process & Production Equipment": [
+    "Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer", 
+    "Soap Manufacturing Equipment", "Liquid Processing Equipment", "Powder Handling Equipment", "Material Transfer System"
+  ],
+  "Utility Equipment": [
+    "Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler", 
+    "Cooling Tower", "DG Set", "RO Plant", "Water Treatment Plant", "Utility Piping"
+  ],
+  "Electrical, Automation & Instrumentation": [
+    "PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell", 
+    "Instrumentation", "Industrial Automation", "Electrical Contractor"
+  ],
+  "Mechanical Fabrication & Engineering Services": [
+    "SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work", 
+    "Machine Modification", "Welding Services", "Installation & Commissioning"
+  ],
+  "MRO & Industrial Consumables": [
+    "Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics", 
+    "Power Tools", "Hand Tools", "Industrial Consumables"
+  ],
+  "Laboratory & Quality Equipment": [
+    "Laboratory Instruments", "Testing Equipment", "Calibration Services", "Validation Services", "Weighing Instruments"
+  ],
+  "Civil & Infrastructure": [
+    "Civil Construction", "Flooring", "Waterproofing", "Roofing", "Interior Works", "Painting"
+  ],
+  "HVAC & Clean Room": [
+    "HVAC", "Air Handling Unit", "Clean Room", "Ducting", "Ventilation System", "Exhaust System"
+  ],
+  "Safety & Fire Protection": [
+    "Fire Fighting System", "Fire Extinguishers", "PPE", "Safety Audit", "Safety Signage"
+  ],
+  "Facility Management Services": [
+    "Housekeeping", "Pest Control", "Security Services", "Gardening", "Waste Management"
+  ],
+  "Logistics & Transportation": [
+    "Transport Services", "Courier Services", "Freight Forwarding", "Warehouse Services", "Packers & Movers"
+  ],
+  "Professional Services": [
+    "Legal Consultant", "Chartered Accountant", "Technical Consultant", "Environmental Consultant", "HR Consultant", "Training Services"
+  ]
+};
+
+const SERVICE_CAPABILITIES = [
+  "Manufacturer Only", "Supply & Service", "Service Only", 
+  "Installation & Commissioning", "AMC Support", "Breakdown Support"
+];
 
 const FileUploadField = ({
   label,
@@ -171,6 +230,44 @@ const SelectInputField = ({
   );
 };
 
+const CategoryAccordion = ({ title, options, selected, onToggle }: { title: string, options: string[], selected: string[], onToggle: (opt: string) => void }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedCount = options.filter(opt => selected.includes(opt)).length;
+
+  return (
+    <div className="border border-white/10 bg-neutral-900 overflow-hidden mb-4">
+      <button 
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+      >
+        <span className="font-bold text-white uppercase tracking-wider text-sm flex items-center gap-3">
+          {title}
+          {selectedCount > 0 && (
+            <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">{selectedCount}</span>
+          )}
+        </span>
+        {isOpen ? <ChevronUp className="w-5 h-5 text-neutral-400" /> : <ChevronDown className="w-5 h-5 text-neutral-400" />}
+      </button>
+      {isOpen && (
+        <div className="px-6 py-4 bg-black border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {options.map(opt => (
+            <label key={opt} className="flex items-center gap-3 cursor-pointer group">
+              <input 
+                type="checkbox" 
+                checked={selected.includes(opt)} 
+                onChange={() => onToggle(opt)}
+                className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
+              />
+              <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">{opt}</span>
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const SectionHeading = ({ title }: { title: string }) => (
   <div className="mt-12 mb-6 border-b border-white/10 pb-4 col-span-1 md:col-span-2">
     <h3 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
@@ -258,8 +355,10 @@ const VendorRegistration: React.FC = () => {
   const [submissionStatus, setSubmissionStatus] = useState<"Complete" | "Observation">("Complete");
 
   const [formData, setFormData] = useState({
-    category: '',
+    categories: [] as string[],
     otherCategory: '',
+    serviceCapabilities: [] as string[],
+    oemBrands: ['', '', ''] as [string, string, string],
     companyName: '',
     panNumber: '',
     gstNumber: '',
@@ -321,6 +420,32 @@ const VendorRegistration: React.FC = () => {
     setCheckboxes({ ...checkboxes, [e.target.name]: e.target.checked });
   };
 
+  const handleCategoryToggle = (category: string) => {
+    setFormData(prev => ({
+      ...prev,
+      categories: prev.categories.includes(category)
+        ? prev.categories.filter(c => c !== category)
+        : [...prev.categories, category]
+    }));
+  };
+
+  const handleServiceToggle = (service: string) => {
+    setFormData(prev => ({
+      ...prev,
+      serviceCapabilities: prev.serviceCapabilities.includes(service)
+        ? prev.serviceCapabilities.filter(s => s !== service)
+        : [...prev.serviceCapabilities, service]
+    }));
+  };
+
+  const handleOemBrandChange = (index: number, value: string) => {
+    setFormData(prev => {
+      const newBrands = [...prev.oemBrands] as [string, string, string];
+      newBrands[index] = value;
+      return { ...prev, oemBrands: newBrands };
+    });
+  };
+
   const handleFileSelect = (key: string) => async (e: React.ChangeEvent<HTMLInputElement> | null) => {
     if (e === null) {
       setFiles(prev => ({ ...prev, [key]: null }));
@@ -380,22 +505,30 @@ const VendorRegistration: React.FC = () => {
     
     const optionalFiles = [
       'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration', 
-      'profTaxRegistration', 'labourLicense', 'vendorRegistrationForm',
-      'codeOfConduct', 'paymentTerms', 'purchaseTerms'
+      'profTaxRegistration', 'labourLicense', 'iso9001', 'iso14001', 'iso45001',
+      'gmp', 'ce', 'otherCertifications', 'vendorRegistrationForm', 'nda',
+      'codeOfConduct', 'paymentTerms', 'purchaseTerms', 'authorizationLetter'
     ];
     
     const missingMandatoryFiles = mandatoryFiles.filter(key => !files[key]);
     
     const mandatoryFields = [
-      'category', 'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
+      'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
       'specialities', 'description', 'authorizedPerson', 'escContact'
     ];
     
-    const optionalFields = ['techTeamStrength', 'installedBase'];
+    const optionalFields = ['techTeamStrength', 'installedBase', 'serviceCapabilities', 'oemBrands'];
     
-    const missingMandatoryFields = mandatoryFields.filter(key => !formData[key as keyof typeof formData].trim());
+    const missingMandatoryFields = mandatoryFields.filter(key => {
+      const val = formData[key as keyof typeof formData];
+      return typeof val === 'string' && !val.trim();
+    });
 
-    if (formData.category === 'Other' && (!formData.otherCategory || !formData.otherCategory.trim())) {
+    if (formData.categories.length === 0) {
+      missingMandatoryFields.push('categories');
+    }
+
+    if (formData.categories.includes('Other') && (!formData.otherCategory || !formData.otherCategory.trim())) {
       missingMandatoryFields.push('otherCategory');
     }
 
@@ -405,13 +538,41 @@ const VendorRegistration: React.FC = () => {
     }
 
     const missingOptionalFiles = optionalFiles.filter(key => !files[key]);
-    const missingOptionalFields = optionalFields.filter(key => !formData[key as keyof typeof formData].trim());
+    const missingOptionalFields = optionalFields.filter(key => {
+      const val = formData[key as keyof typeof formData];
+      return Array.isArray(val) ? val.length === 0 : (typeof val === 'string' && !val.trim());
+    });
 
     const currentStatus = (missingOptionalFiles.length > 0 || missingOptionalFields.length > 0) 
       ? "Observation" 
       : "Complete";
       
-    const missingItemsList = [...missingOptionalFields, ...missingOptionalFiles];
+    const fieldLabels: Record<string, string> = {
+      techTeamStrength: 'Technical Team Strength',
+      installedBase: 'Installed Base Details',
+      serviceCapabilities: 'Service Capabilities',
+      oemBrands: 'OEM Brands',
+      orgChart: 'Organization Chart',
+      msmeCertificate: 'MSME Certificate',
+      pfRegistration: 'PF Registration Certificate',
+      esiRegistration: 'ESI Registration Certificate',
+      profTaxRegistration: 'Professional Tax Registration',
+      labourLicense: 'Labour License',
+      iso9001: 'ISO 9001',
+      iso14001: 'ISO 14001',
+      iso45001: 'ISO 45001',
+      gmp: 'GMP',
+      ce: 'CE',
+      otherCertifications: 'Other Relevant Certifications',
+      vendorRegistrationForm: 'Vendor Registration Form',
+      nda: 'NDA',
+      codeOfConduct: 'Code of Conduct Acceptance',
+      paymentTerms: 'Payment Terms Acceptance',
+      purchaseTerms: 'Purchase Terms & Conditions Acceptance',
+      authorizationLetter: 'Authorization Letter'
+    };
+
+    const missingItemsList = [...missingOptionalFields, ...missingOptionalFiles].map(key => fieldLabels[key] || key);
 
     setSubmissionStatus(currentStatus);
     setIsSubmitting(true);
@@ -446,82 +607,17 @@ const VendorRegistration: React.FC = () => {
         }
       }
 
-      // 2. Prepare submitted and missing lists for the email
-      const allFormFields = [
-        { key: 'category', label: 'Vendor Category' },
-        { key: 'companyName', label: 'Company Legal Name' },
-        { key: 'panNumber', label: 'PAN Number' },
-        { key: 'gstNumber', label: 'GST Number' },
-        { key: 'email', label: 'Email Address' },
-        { key: 'phone', label: 'Mobile Number' },
-        { key: 'specialities', label: 'Manufacturing Specialities' },
-        { key: 'description', label: 'Facility Capabilities Overview' },
-        { key: 'authorizedPerson', label: 'Authorized Contact Person' },
-        { key: 'escContact', label: 'Escalation Contact Details' },
-        { key: 'techTeamStrength', label: 'Technical Team Strength' },
-        { key: 'installedBase', label: 'Installed Base Details' },
-      ];
-
-      const allFileFields = [
-        { key: 'companyRegistration', label: 'Company Registration Cert.' },
-        { key: 'panCard', label: 'PAN Card' },
-        { key: 'gstCertificate', label: 'GST Registration Certificate' },
-        { key: 'companyProfile', label: 'Company Profile' },
-        { key: 'orgChart', label: 'Organization Chart' },
-        { key: 'cancelledCheque', label: 'Cancelled Cheque' },
-        { key: 'bankAccountDetails', label: 'Bank Account Details Form' },
-        { key: 'msmeCertificate', label: 'MSME Certificate' },
-        { key: 'pfRegistration', label: 'PF Registration Certificate' },
-        { key: 'esiRegistration', label: 'ESI Registration Certificate' },
-        { key: 'profTaxRegistration', label: 'Professional Tax Registration' },
-        { key: 'labourLicense', label: 'Labour License' },
-        { key: 'auditedFinancials', label: 'Latest Audited Financial Statement' },
-        { key: 'itrAcknowledgement', label: 'Income Tax Return Acknowledgement' },
-        { key: 'conflictOfInterest', label: 'Conflict of Interest Declaration' },
-        { key: 'antiBribery', label: 'Anti-Bribery & Anti-Corruption Declaration' },
-        { key: 'complianceDecl', label: 'Compliance Declaration' },
-        { key: 'blacklistingDecl', label: 'Blacklisting Declaration' },
-        { key: 'confidentialityDecl', label: 'Confidentiality Declaration' },
-        { key: 'majorCustomerList', label: 'Major Customer List' },
-        { key: 'customerReferences', label: 'Customer References' },
-        { key: 'productCatalogue', label: 'Product Catalogue / Service Brochure' },
-        { key: 'manufacturingFacility', label: 'Manufacturing Facility Details' },
-        { key: 'serviceInfrastructure', label: 'Service Infrastructure Details' },
-        { key: 'iso9001', label: 'ISO 9001' },
-        { key: 'iso14001', label: 'ISO 14001' },
-        { key: 'iso45001', label: 'ISO 45001' },
-        { key: 'gmp', label: 'GMP' },
-        { key: 'ce', label: 'CE' },
-        { key: 'otherCertifications', label: 'Other Relevant Certifications' },
-        { key: 'vendorRegistrationForm', label: 'Vendor Registration Form' },
-        { key: 'nda', label: 'NDA' },
-        { key: 'codeOfConduct', label: 'Code of Conduct Acceptance' },
-        { key: 'paymentTerms', label: 'Payment Terms Acceptance' },
-        { key: 'purchaseTerms', label: 'Purchase Terms & Conditions Acceptance' },
-      ];
-
-      const submittedNames: string[] = [];
-      const notSubmittedNames: string[] = [];
-
-      allFormFields.forEach(f => {
-        if (formData[f.key as keyof typeof formData]?.trim()) submittedNames.push(f.label);
-        else notSubmittedNames.push(f.label);
-      });
-
-      allFileFields.forEach(f => {
-        if (files[f.key]) submittedNames.push(f.label);
-        else notSubmittedNames.push(f.label);
-      });
-
-      const submissionSummary = `\n\n--- SUBMISSION DETAILS ---\n\n✅ SUBMITTED ITEMS:\n - ${submittedNames.join('\n - ')}\n\n❌ NOT SUBMITTED ITEMS:\n${notSubmittedNames.length > 0 ? ' - ' + notSubmittedNames.join('\n - ') : 'None'}`;
-
       // 3. Prepare payload
       const payload = {
         formData: {
           ...formData,
-          category: formData.category === 'Other' ? formData.otherCategory : formData.category,
+          category: formData.categories.includes('Other') 
+            ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory).join(', ') 
+            : formData.categories.join(', '),
+          serviceCapabilities: formData.serviceCapabilities.join(', '),
+          oemBrands: formData.oemBrands.filter(b => b.trim()).join(', '),
           specialities: formData.specialities.split(',').map(s => s.trim()).join(', '),
-          description: formData.description + submissionSummary
+          description: formData.description
         },
         files: base64Files,
         declarations: checkboxes,
@@ -600,26 +696,35 @@ const VendorRegistration: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <SectionHeading title="Company Information" />
 
-                <div className="space-y-2">
-                  <SelectInputField 
-                    label="Vendor Category" 
-                    icon={Building} 
-                    name="category" 
-                    value={formData.category} 
-                    onChange={handleInputChange} 
-                    options={['Supplier', 'Distributor', 'Dealer', 'Manufacturer', 'Service Provider', 'Contractor', 'Logistics Partner', 'Other']}
-                    required 
-                  />
-                  {formData.category === 'Other' && (
-                    <TextInputField 
-                      label="Please Specify Other Category" 
-                      icon={Building} 
-                      name="otherCategory" 
-                      value={formData.otherCategory} 
-                      onChange={handleInputChange} 
-                      required 
-                    />
+                <div className="col-span-1 md:col-span-2 mb-4">
+                  <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 mb-4">
+                    <span className="text-base">{formData.categories.length > 0 ? '✅' : '⬜'}</span> <Building className="w-3 h-3" /> 
+                    <span>Vendor Category (Select all that apply) <span className="text-red-600 text-lg leading-none ml-1">*</span></span>
+                  </label>
+                  <div className="space-y-2">
+                    {Object.entries(VENDOR_CATEGORIES).map(([title, options]) => (
+                      <CategoryAccordion 
+                        key={title} 
+                        title={title} 
+                        options={options} 
+                        selected={formData.categories} 
+                        onToggle={handleCategoryToggle} 
+                      />
+                    ))}
+                  </div>
+                  {formData.categories.includes('Other') && (
+                    <div className="mt-4">
+                      <TextInputField 
+                        label="Please Specify Other Category" 
+                        icon={Building} 
+                        name="otherCategory" 
+                        value={formData.otherCategory} 
+                        onChange={handleInputChange} 
+                        required 
+                      />
+                    </div>
                   )}
+                </div>
                   <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
                   {/* PAN and GST added below */}
                   <TextInputField 
@@ -642,7 +747,6 @@ const VendorRegistration: React.FC = () => {
                     placeholder="22ABCDE1234F1Z5" 
                     isValid={/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(formData.gstNumber)}
                   />
-                </div>
                 <FileUploadField label="Company Registration Cert. (ROC/Deed/MSME)" icon={FileText} file={files.companyRegistration} onFileSelect={handleFileSelect('companyRegistration')} />
                 <FileUploadField label="PAN Card" icon={FileText} file={files.panCard} onFileSelect={handleFileSelect('panCard')} />
                 <FileUploadField label="GST Registration Certificate" icon={FileText} file={files.gstCertificate} onFileSelect={handleFileSelect('gstCertificate')} />
@@ -694,6 +798,28 @@ const VendorRegistration: React.FC = () => {
                 <div className="col-span-1 md:col-span-2">
                   <TextInputField label="Facility Capabilities Overview" icon={FileText} name="description" value={formData.description} onChange={handleInputChange} type="textarea" />
                 </div>
+
+                <SectionHeading title="Service Capability" />
+                <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                  {SERVICE_CAPABILITIES.map(opt => (
+                    <label key={opt} className="flex items-center gap-3 cursor-pointer group p-3 border border-white/10 bg-neutral-900 hover:bg-white/5 transition-colors">
+                      <input 
+                        type="checkbox" 
+                        checked={formData.serviceCapabilities.includes(opt)} 
+                        onChange={() => handleServiceToggle(opt)}
+                        className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
+                      />
+                      <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">{opt}</span>
+                    </label>
+                  ))}
+                </div>
+
+                <SectionHeading title="OEM / Brand Representation" />
+                <TextInputField label="Brand / OEM 1 (Optional)" icon={Tag} name="oemBrand1" value={formData.oemBrands[0]} onChange={(e) => handleOemBrandChange(0, e.target.value)} />
+                <TextInputField label="Brand / OEM 2 (Optional)" icon={Tag} name="oemBrand2" value={formData.oemBrands[1]} onChange={(e) => handleOemBrandChange(1, e.target.value)} />
+                <TextInputField label="Brand / OEM 3 (Optional)" icon={Tag} name="oemBrand3" value={formData.oemBrands[2]} onChange={(e) => handleOemBrandChange(2, e.target.value)} />
+                <FileUploadField label="Upload Authorization Letter (Optional)" icon={FileText} file={files.authorizationLetter} onFileSelect={handleFileSelect('authorizationLetter')} />
+
 
                 <SectionHeading title="Certifications (If Available)" />
                 <FileUploadField label="ISO 9001 (If Available)" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
@@ -756,6 +882,18 @@ const VendorRegistration: React.FC = () => {
                 ? 'Your registration has been received with some missing information. We will get back to you soon.'
                 : 'Thank you for registering. We will review your profile and get back to you soon.'}
             </p>
+            
+            <div className="bg-neutral-900 border border-white/10 p-8 text-left mb-12 max-w-lg mx-auto">
+              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-6 border-b border-white/10 pb-4">Submission Summary</h3>
+              <div className="space-y-4">
+                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Company Name</span><span className="text-white">{formData.companyName}</span></div>
+                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Category</span><span className="text-white">{formData.category === 'Other' ? formData.otherCategory : formData.category}</span></div>
+                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Email</span><span className="text-white">{formData.email}</span></div>
+                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Contact Person</span><span className="text-white">{formData.authorizedPerson}</span></div>
+              </div>
+              <p className="text-xs text-neutral-500 mt-8 italic">A detailed confirmation has been sent to your email.</p>
+            </div>
+
             <button
               onClick={() => {
                 setFormData({

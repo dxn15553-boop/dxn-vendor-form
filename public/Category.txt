@@ -1,0 +1,142 @@
+DXN Vendor Registration Category Structure
+Recommended Structure for Online Vendor Registration Portal
+Nature of Business
+□ OEM / Manufacturer
+□ Authorized Distributor
+□ Authorized Dealer
+□ Channel Partner
+□ Service Provider
+□ Contractor
+□ Consultant
+□ Trader / Reseller
+□ Importer
+□ Other
+Packaging Machines & Automation
+□ Tube Filling Machine
+□ Liquid Filling Machine
+□ Carbonated Filling Machine
+□ Capping Machine
+□ Labeling Machine
+□ Shrink Sleeve Machine
+□ Case Erector
+□ Carton Sealer
+□ Band Sealer
+□ Check Weigher
+□ Online Weighing System
+□ Conveyor System
+□ Handy Printer
+□ Inkjet Printer
+□ Coding Machine
+□ Palletizer
+□ Stretch Wrapping Machine
+Process & Production Equipment
+□ Aloe Peeling Machine
+□ Mixing Tank
+□ Storage Tank
+□ Reactor
+□ Homogenizer
+□ Soap Manufacturing Equipment
+□ Liquid Processing Equipment
+□ Powder Handling Equipment
+□ Material Transfer System
+Utility Equipment
+□ Air Compressor
+□ Blower System
+□ Vacuum System
+□ Pump
+□ Chiller
+□ Boiler
+□ Cooling Tower
+□ DG Set
+□ RO Plant
+□ Water Treatment Plant
+□ Utility Piping
+Electrical, Automation & Instrumentation
+□ PLC
+□ SCADA
+□ HMI
+□ VFD
+□ Control Panel
+□ Sensors
+□ Load Cell
+□ Instrumentation
+□ Industrial Automation
+□ Electrical Contractor
+Mechanical Fabrication & Engineering Services
+□ SS Fabrication
+□ MS Fabrication
+□ Structural Fabrication
+□ Piping Work
+□ Machine Modification
+□ Welding Services
+□ Installation & Commissioning
+MRO & Industrial Consumables
+□ Bearings
+□ Belts
+□ Fasteners
+□ Lubricants
+□ Pneumatics
+□ Hydraulics
+□ Power Tools
+□ Hand Tools
+□ Industrial Consumables
+Laboratory & Quality Equipment
+□ Laboratory Instruments
+□ Testing Equipment
+□ Calibration Services
+□ Validation Services
+□ Weighing Instruments
+Civil & Infrastructure
+□ Civil Construction
+□ Flooring
+□ Waterproofing
+□ Roofing
+□ Interior Works
+□ Painting
+HVAC & Clean Room
+□ HVAC
+□ Air Handling Unit
+□ Clean Room
+□ Ducting
+□ Ventilation System
+□ Exhaust System
+Safety & Fire Protection
+□ Fire Fighting System
+□ Fire Extinguishers
+□ PPE
+□ Safety Audit
+□ Safety Signage
+Facility Management Services
+□ Housekeeping
+□ Pest Control
+□ Security Services
+□ Gardening
+□ Waste Management
+Logistics & Transportation
+□ Transport Services
+□ Courier Services
+□ Freight Forwarding
+□ Warehouse Services
+□ Packers & Movers
+Professional Services
+□ Legal Consultant
+□ Chartered Accountant
+□ Technical Consultant
+□ Environmental Consultant
+□ HR Consultant
+□ Training Services
+Additional Vendor Registration Fields
+
+OEM / Brand Representation
+- Brand/OEM 1
+- Brand/OEM 2
+- Brand/OEM 3
+- Upload Authorization Letter
+
+Service Capability
+□ Manufacturer Only
+□ Supply & Service
+□ Service Only
+□ Installation & Commissioning
+□ AMC Support
+□ Breakdown Support
