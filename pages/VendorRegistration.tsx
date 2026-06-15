@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User } from 'lucide-react';
+import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X } from 'lucide-react';
 
 const FileUploadField = ({
   label,
@@ -11,21 +11,27 @@ const FileUploadField = ({
   label: string;
   icon: any;
   file: File | null;
-  onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileSelect: (e: React.ChangeEvent<HTMLInputElement> | null) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const isOptional = label.toLowerCase().includes('if applicable') || 
                      label.toLowerCase().includes('if available') || 
                      label.toLowerCase().includes('optional');
 
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    onFileSelect(null);
+  };
+
   return (
-    <div className="flex flex-col h-full gap-2">
+    <div className="flex flex-col h-full gap-2 relative">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 shrink-0">
         <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
         <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       <div
-        className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
+        className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] relative ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
         onClick={() => fileInputRef.current?.click()}
       >
         <input
@@ -36,7 +42,15 @@ const FileUploadField = ({
           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
         />
         {file ? (
-          <div className="flex flex-col items-center justify-center gap-2">
+          <div className="flex flex-col items-center justify-center gap-2 w-full">
+            <button 
+              type="button" 
+              onClick={handleRemove}
+              className="absolute top-2 right-2 bg-black/50 hover:bg-red-600 rounded-full p-1.5 transition-colors z-10"
+              title="Remove File"
+            >
+              <X className="w-4 h-4 text-white" />
+            </button>
             <CheckCircle className="w-5 h-5 text-green-500" />
             <p className="text-[10px] font-black uppercase tracking-widest text-white truncate max-w-full px-2">{file.name}</p>
           </div>
@@ -160,8 +174,10 @@ const VendorRegistration: React.FC = () => {
     setCheckboxes({ ...checkboxes, [e.target.name]: e.target.checked });
   };
 
-  const handleFileSelect = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
+  const handleFileSelect = (key: string) => (e: React.ChangeEvent<HTMLInputElement> | null) => {
+    if (e === null) {
+      setFiles(prev => ({ ...prev, [key]: null }));
+    } else if (e.target.files && e.target.files[0]) {
       setFiles(prev => ({ ...prev, [key]: e.target.files![0] }));
     }
   };
