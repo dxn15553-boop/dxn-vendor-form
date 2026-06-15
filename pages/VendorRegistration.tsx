@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag } from 'lucide-react';
+import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User } from 'lucide-react';
 
 const FileUploadField = ({
   label,
@@ -144,7 +144,16 @@ const VendorRegistration: React.FC = () => {
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    let value = e.target.value;
+    // Enforce numeric only for phone, escalation contact, and team strength
+    if (['phone', 'escContact', 'techTeamStrength'].includes(e.target.name)) {
+      value = value.replace(/[^0-9]/g, '');
+    }
+    // Enforce letters and spaces only for authorized person
+    if (e.target.name === 'authorizedPerson') {
+      value = value.replace(/[^a-zA-Z\s]/g, '');
+    }
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,7 +177,9 @@ const VendorRegistration: React.FC = () => {
         const formattedName = `[${key.toUpperCase()}] ${safeCompanyName} - ${file.name}`;
         resolve({ name: formattedName, mimeType: file.type, base64: encoded });
       };
-      reader.onerror = error => reject(error);
+      reader.onerror = () => {
+        reject(reader.error || new Error('Unknown file read error'));
+      };
     });
   };
 
@@ -193,32 +204,44 @@ const VendorRegistration: React.FC = () => {
     }
 
     // Determine Submission Status (Observation vs Complete)
-    const requiredFiles = [
+    const mandatoryFiles = [
       'companyRegistration', 'panCard', 'gstCertificate', 'companyProfile',
       'cancelledCheque', 'bankAccountDetails', 'auditedFinancials', 'itrAcknowledgement',
       'conflictOfInterest', 'antiBribery', 'complianceDecl', 'blacklistingDecl',
       'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
-      'manufacturingFacility', 'serviceInfrastructure', 'vendorRegistrationForm',
+      'manufacturingFacility', 'serviceInfrastructure'
+    ];
+    
+    const optionalFiles = [
+      'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration', 
+      'profTaxRegistration', 'labourLicense', 'vendorRegistrationForm',
       'codeOfConduct', 'paymentTerms', 'purchaseTerms'
     ];
     
-    const missingFiles = requiredFiles.filter(key => !files[key]);
+    const missingMandatoryFiles = mandatoryFiles.filter(key => !files[key]);
     
-    const requiredFields = [
+    const mandatoryFields = [
       'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
-      'specialities', 'description', 'authorizedPerson', 'escContact', 
-      'techTeamStrength', 'installedBase'
+      'specialities', 'description', 'authorizedPerson', 'escContact'
     ];
     
-    const missingFields = requiredFields.filter(key => !formData[key as keyof typeof formData].trim());
+    const optionalFields = ['techTeamStrength', 'installedBase'];
+    
+    const missingMandatoryFields = mandatoryFields.filter(key => !formData[key as keyof typeof formData].trim());
 
-    if (missingFiles.length > 0 || missingFields.length > 0) {
+    if (missingMandatoryFiles.length > 0 || missingMandatoryFields.length > 0) {
       alert("Please fill all mandatory fields (marked with *) and upload all required documents.");
       return;
     }
 
-    const currentStatus = "Complete";
-    const missingItemsList = [...missingFields, ...missingFiles];
+    const missingOptionalFiles = optionalFiles.filter(key => !files[key]);
+    const missingOptionalFields = optionalFields.filter(key => !formData[key as keyof typeof formData].trim());
+
+    const currentStatus = (missingOptionalFiles.length > 0 || missingOptionalFields.length > 0) 
+      ? "Observation" 
+      : "Complete";
+      
+    const missingItemsList = [...missingOptionalFields, ...missingOptionalFiles];
 
     setSubmissionStatus(currentStatus);
     setIsSubmitting(true);
@@ -241,12 +264,17 @@ const VendorRegistration: React.FC = () => {
       localStorage.setItem('dxn_pending_vendors', JSON.stringify(saved));
       window.dispatchEvent(new Event('storage'));
 
-      // 1. Convert all attached files to Base64 with identifiable names
-      const filePromises = Object.entries(files)
-        .filter(([_, file]) => file !== null)
-        .map(([key, file]) => fileToBase64(file as File, key, formData.companyName));
-
-      const base64Files = await Promise.all(filePromises);
+      // 1. Convert all attached files to Base64 sequentially to prevent mobile browser crashes
+      const base64Files = [];
+      const validFiles = Object.entries(files).filter(([_, file]) => file !== null);
+      for (const [key, file] of validFiles) {
+        try {
+          const b64 = await fileToBase64(file as File, key, formData.companyName);
+          base64Files.push(b64);
+        } catch (fileErr: any) {
+           throw new Error(`Failed to process file "${file?.name}". Please remove and re-select it. Detail: ${fileErr.message || 'Read Error'}`);
+        }
+      }
 
       // 2. Prepare submitted and missing lists for the email
       const allFormFields = [
@@ -396,7 +424,7 @@ const VendorRegistration: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <SectionHeading title="Section A - Company Information" />
+                <SectionHeading title="Company Information" />
 
                 <div className="space-y-2">
                   <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
@@ -428,44 +456,44 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Company Profile" icon={FileText} file={files.companyProfile} onFileSelect={handleFileSelect('companyProfile')} />
                 <FileUploadField label="Organization Chart (Optional)" icon={FileText} file={files.orgChart} onFileSelect={handleFileSelect('orgChart')} />
 
-                <SectionHeading title="Section B - Entity Documentation" />
+                <SectionHeading title="Entity Documentation" />
               <div className="col-span-1 md:col-span-2 text-red-500 text-sm mb-4">
                 * Note: Maximum file size is 2MB per document. Please upload compressed PDFs or images.
               </div>
                 <FileUploadField label="Cancelled Cheque OR Bank Verification Letter" icon={FileText} file={files.cancelledCheque} onFileSelect={handleFileSelect('cancelledCheque')} />
                 <FileUploadField label="Bank Account Details Form" icon={FileText} file={files.bankAccountDetails} onFileSelect={handleFileSelect('bankAccountDetails')} />
 
-                <SectionHeading title="Section C - Statutory Compliance" />
+                <SectionHeading title="Statutory Compliance" />
                 <FileUploadField label="MSME Certificate (If Applicable)" icon={FileText} file={files.msmeCertificate} onFileSelect={handleFileSelect('msmeCertificate')} />
                 <FileUploadField label="PF Registration Certificate (If Applicable)" icon={FileText} file={files.pfRegistration} onFileSelect={handleFileSelect('pfRegistration')} />
                 <FileUploadField label="ESI Registration Certificate (If Applicable)" icon={FileText} file={files.esiRegistration} onFileSelect={handleFileSelect('esiRegistration')} />
                 <FileUploadField label="Professional Tax Registration (If Applicable)" icon={FileText} file={files.profTaxRegistration} onFileSelect={handleFileSelect('profTaxRegistration')} />
                 <FileUploadField label="Labour License (If Applicable)" icon={FileText} file={files.labourLicense} onFileSelect={handleFileSelect('labourLicense')} />
 
-                <SectionHeading title="Section D - Financial Information" />
+                <SectionHeading title="Financial Information" />
                 <FileUploadField label="Latest Audited Financial Statement (or last 2 yrs)" icon={FileText} file={files.auditedFinancials} onFileSelect={handleFileSelect('auditedFinancials')} />
                 <FileUploadField label="Income Tax Return Acknowledgement (Last FY)" icon={FileText} file={files.itrAcknowledgement} onFileSelect={handleFileSelect('itrAcknowledgement')} />
 
-                <SectionHeading title="Section E - Contact Details" />
-                <TextInputField label="Authorized Contact Person" icon={Phone} name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} required />
-                <TextInputField label="Mobile Number" icon={Phone} name="phone" value={formData.phone} onChange={handleInputChange} required />
+                <SectionHeading title="Contact Details" />
+                <TextInputField label="Authorized Contact Person" icon={User} name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} required />
+                <TextInputField label="Mobile Number" icon={Phone} name="phone" value={formData.phone} onChange={handleInputChange} required type="tel" />
                 <TextInputField label="Email Address" icon={Mail} name="email" value={formData.email} onChange={handleInputChange} type="email" required />
-                <TextInputField label="Escalation Contact Details" icon={Phone} name="escContact" value={formData.escContact} onChange={handleInputChange} required />
+                <TextInputField label="Escalation Contact Details" icon={Phone} name="escContact" value={formData.escContact} onChange={handleInputChange} required type="tel" />
 
-                <SectionHeading title="Section F - Declarations" />
+                <SectionHeading title="Declarations" />
                 <FileUploadField label="Conflict of Interest Declaration" icon={FileText} file={files.conflictOfInterest} onFileSelect={handleFileSelect('conflictOfInterest')} />
                 <FileUploadField label="Anti-Bribery & Anti-Corruption Declaration" icon={FileText} file={files.antiBribery} onFileSelect={handleFileSelect('antiBribery')} />
                 <FileUploadField label="Compliance Declaration" icon={FileText} file={files.complianceDecl} onFileSelect={handleFileSelect('complianceDecl')} />
                 <FileUploadField label="Blacklisting Declaration" icon={FileText} file={files.blacklistingDecl} onFileSelect={handleFileSelect('blacklistingDecl')} />
                 <FileUploadField label="Confidentiality Declaration" icon={FileText} file={files.confidentialityDecl} onFileSelect={handleFileSelect('confidentialityDecl')} />
 
-                <SectionHeading title="Section G - Quality & Business Capability" />
+                <SectionHeading title="Quality & Business Capability" />
                 <FileUploadField label="Major Customer List" icon={FileText} file={files.majorCustomerList} onFileSelect={handleFileSelect('majorCustomerList')} />
                 <FileUploadField label="Customer References" icon={FileText} file={files.customerReferences} onFileSelect={handleFileSelect('customerReferences')} />
                 <FileUploadField label="Product Catalogue / Service Brochure" icon={FileText} file={files.productCatalogue} onFileSelect={handleFileSelect('productCatalogue')} />
                 <FileUploadField label="Manufacturing Facility Details" icon={Building} file={files.manufacturingFacility} onFileSelect={handleFileSelect('manufacturingFacility')} />
                 <FileUploadField label="Service Infrastructure Details" icon={Building} file={files.serviceInfrastructure} onFileSelect={handleFileSelect('serviceInfrastructure')} />
-                <TextInputField label="Technical Team Strength" icon={CheckCircle} name="techTeamStrength" value={formData.techTeamStrength} onChange={handleInputChange} />
+                <TextInputField label="Technical Team Strength" icon={CheckCircle} name="techTeamStrength" value={formData.techTeamStrength} onChange={handleInputChange} type="tel" />
                 <TextInputField label="Installed Base Details" icon={CheckCircle} name="installedBase" value={formData.installedBase} onChange={handleInputChange} />
                 <div className="col-span-1 md:col-span-2">
                   <TextInputField label="Manufacturing Specialities (Comma Separated)" icon={Tag} name="specialities" value={formData.specialities} onChange={handleInputChange} required placeholder="e.g. Raw Material, Packaging, Lab Services" />
@@ -474,7 +502,7 @@ const VendorRegistration: React.FC = () => {
                   <TextInputField label="Facility Capabilities Overview" icon={FileText} name="description" value={formData.description} onChange={handleInputChange} type="textarea" />
                 </div>
 
-                <SectionHeading title="Section H - Certifications (If Available)" />
+                <SectionHeading title="Certifications (If Available)" />
                 <FileUploadField label="ISO 9001 (If Available)" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
                 <FileUploadField label="ISO 14001 (If Available)" icon={ShieldCheck} file={files.iso14001} onFileSelect={handleFileSelect('iso14001')} />
                 <FileUploadField label="ISO 45001 (If Available)" icon={ShieldCheck} file={files.iso45001} onFileSelect={handleFileSelect('iso45001')} />
@@ -482,12 +510,12 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="CE (If Available)" icon={ShieldCheck} file={files.ce} onFileSelect={handleFileSelect('ce')} />
                 <FileUploadField label="Other Relevant Certifications (If Available)" icon={ShieldCheck} file={files.otherCertifications} onFileSelect={handleFileSelect('otherCertifications')} />
 
-                <SectionHeading title="Section I - Agreements" />
-                <FileUploadField label="Vendor Registration Form" icon={FileText} file={files.vendorRegistrationForm} onFileSelect={handleFileSelect('vendorRegistrationForm')} />
+                <SectionHeading title="Agreements" />
+                <FileUploadField label="Vendor Registration Form (Optional)" icon={FileText} file={files.vendorRegistrationForm} onFileSelect={handleFileSelect('vendorRegistrationForm')} />
                 <FileUploadField label="NDA (If Applicable)" icon={FileText} file={files.nda} onFileSelect={handleFileSelect('nda')} />
-                <FileUploadField label="Code of Conduct Acceptance" icon={FileText} file={files.codeOfConduct} onFileSelect={handleFileSelect('codeOfConduct')} />
-                <FileUploadField label="Payment Terms Acceptance" icon={FileText} file={files.paymentTerms} onFileSelect={handleFileSelect('paymentTerms')} />
-                <FileUploadField label="Purchase Terms & Conditions Acceptance" icon={FileText} file={files.purchaseTerms} onFileSelect={handleFileSelect('purchaseTerms')} />
+                <FileUploadField label="Code of Conduct Acceptance (Optional)" icon={FileText} file={files.codeOfConduct} onFileSelect={handleFileSelect('codeOfConduct')} />
+                <FileUploadField label="Payment Terms Acceptance (Optional)" icon={FileText} file={files.paymentTerms} onFileSelect={handleFileSelect('paymentTerms')} />
+                <FileUploadField label="Purchase Terms & Conditions Acceptance (Optional)" icon={FileText} file={files.purchaseTerms} onFileSelect={handleFileSelect('purchaseTerms')} />
 
               </div>
 
@@ -530,19 +558,11 @@ const VendorRegistration: React.FC = () => {
             <h2 className="text-4xl font-black uppercase tracking-tighter text-white mb-4">
               {submissionStatus === 'Observation' ? 'Submitted with Observations' : 'Application Submitted Successfully'}
             </h2>
-            <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-8">
+            <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-12">
               {submissionStatus === 'Observation' 
-                ? 'Your registration has been received, but some mandatory documents or fields are missing. Our procurement team will review your file under observation status.'
-                : 'Your registration has been successfully transmitted to the DXN Global Vendor Management System. Our procurement team will review your profile.'}
+                ? 'Your registration has been received with some missing information. We will get back to you soon.'
+                : 'Thank you for registering. We will review your profile and get back to you soon.'}
             </p>
-            <p className="text-xl text-neutral-400 font-light leading-relaxed mb-12">
-              Our vendor audit team will review your specialities and tax compliance within <span className="text-white font-bold">3-5 business days</span>.
-            </p>
-            <div className="bg-neutral-900 border border-white/5 p-8 inline-block text-left mb-12">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600 mb-2">Protocol Reference</p>
-              <p className="text-neutral-400 text-xs font-mono">APP-ID: {Math.random().toString(36).substring(7).toUpperCase()}</p>
-            </div>
-            
             <button
               onClick={() => {
                 setFormData({
