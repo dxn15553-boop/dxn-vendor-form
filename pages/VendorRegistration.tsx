@@ -887,7 +887,7 @@ const VendorRegistration: React.FC = () => {
               <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-6 border-b border-white/10 pb-4">Submission Summary</h3>
               <div className="space-y-4">
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Company Name</span><span className="text-white">{formData.companyName}</span></div>
-                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Category</span><span className="text-white">{formData.category === 'Other' ? formData.otherCategory : formData.category}</span></div>
+                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Category</span><span className="text-white">{formData.categories.includes('Other') ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory).join(', ') : formData.categories.join(', ')}</span></div>
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Email</span><span className="text-white">{formData.email}</span></div>
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Contact Person</span><span className="text-white">{formData.authorizedPerson}</span></div>
               </div>
@@ -897,7 +897,8 @@ const VendorRegistration: React.FC = () => {
             <button
               onClick={() => {
                 setFormData({
-                  category: '', otherCategory: '', companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
+                  categories: [], serviceCapabilities: [], oemBrands: ['', '', ''],
+                  otherCategory: '', companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
                   specialities: '', description: '', authorizedPerson: '', escContact: '',
                   techTeamStrength: '', installedBase: ''
                 });
