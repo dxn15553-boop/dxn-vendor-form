@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X } from 'lucide-react';
+import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown } from 'lucide-react';
 
 const FileUploadField = ({
   label,
@@ -121,6 +121,56 @@ const TextInputField = ({
   );
 };
 
+const SelectInputField = ({
+  label,
+  icon: Icon,
+  name,
+  value,
+  onChange,
+  options,
+  required = false,
+  isValid
+}: {
+  label: string;
+  icon: any;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: string[];
+  required?: boolean;
+  isValid?: boolean;
+}) => {
+  const isOptional = label.toLowerCase().includes('if applicable') || 
+                     label.toLowerCase().includes('if available') || 
+                     label.toLowerCase().includes('optional');
+
+  return (
+    <div className="space-y-2">
+      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
+        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
+      </label>
+      <div className="relative">
+        <select
+          required={!isOptional}
+          name={name}
+          value={value}
+          onChange={onChange}
+          className="w-full bg-black border border-white/10 px-6 py-4 pr-12 text-white outline-none focus:border-red-600 transition-all appearance-none cursor-pointer"
+        >
+          <option value="" disabled>Select {label}</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+          ))}
+        </select>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
+          <ChevronDown className="w-5 h-5" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const SectionHeading = ({ title }: { title: string }) => (
   <div className="mt-12 mb-6 border-b border-white/10 pb-4 col-span-1 md:col-span-2">
     <h3 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
@@ -130,12 +180,86 @@ const SectionHeading = ({ title }: { title: string }) => (
   </div>
 );
 
+const DB_NAME = 'DXNVendorDB';
+const STORE_NAME = 'filesStore';
+
+const initDB = (): Promise<IDBDatabase> => {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = (e: any) => {
+      if (!e.target.result.objectStoreNames.contains(STORE_NAME)) {
+        e.target.result.createObjectStore(STORE_NAME);
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+};
+
+const saveFileToDB = async (key: string, file: File) => {
+  try {
+    const db = await initDB();
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    tx.objectStore(STORE_NAME).put(file, key);
+  } catch (e) {
+    console.error("Failed to save file to DB", e);
+  }
+};
+
+const getFilesFromDB = async (): Promise<Record<string, File>> => {
+  try {
+    const db = await initDB();
+    const tx = db.transaction(STORE_NAME, 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.getAllKeys();
+    const valuesReq = store.getAll();
+
+    return new Promise((resolve, reject) => {
+      tx.oncomplete = () => {
+        const keys = request.result as string[];
+        const values = valuesReq.result as File[];
+        const result: Record<string, File> = {};
+        keys.forEach((k, i) => {
+          result[k] = values[i];
+        });
+        resolve(result);
+      };
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch (e) {
+    console.error("Failed to get files from DB", e);
+    return {};
+  }
+};
+
+const removeFileFromDB = async (key: string) => {
+  try {
+    const db = await initDB();
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    tx.objectStore(STORE_NAME).delete(key);
+  } catch (e) {
+    console.error("Failed to remove file from DB", e);
+  }
+};
+
+const clearFilesDB = async () => {
+  try {
+    const db = await initDB();
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    tx.objectStore(STORE_NAME).clear();
+  } catch (e) {
+    console.error("Failed to clear files DB", e);
+  }
+};
+
 const VendorRegistration: React.FC = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<"Complete" | "Observation">("Complete");
 
   const [formData, setFormData] = useState({
+    category: '',
+    otherCategory: '',
     companyName: '',
     panNumber: '',
     gstNumber: '',
@@ -157,7 +281,30 @@ const VendorRegistration: React.FC = () => {
     authSignatory: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('vendorFormDraft');
+    if (savedDraft) {
+      try {
+        const { formData: savedFormData, checkboxes: savedCheckboxes } = JSON.parse(savedDraft);
+        if (savedFormData) setFormData(savedFormData);
+        if (savedCheckboxes) setCheckboxes(savedCheckboxes);
+      } catch (e) {
+        console.error("Failed to parse saved draft", e);
+      }
+    }
+
+    getFilesFromDB().then((savedFiles) => {
+      if (Object.keys(savedFiles).length > 0) {
+        setFiles(savedFiles);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('vendorFormDraft', JSON.stringify({ formData, checkboxes }));
+  }, [formData, checkboxes]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     let value = e.target.value;
     // Enforce numeric only for phone, escalation contact, and team strength
     if (['phone', 'escContact', 'techTeamStrength'].includes(e.target.name)) {
@@ -174,11 +321,14 @@ const VendorRegistration: React.FC = () => {
     setCheckboxes({ ...checkboxes, [e.target.name]: e.target.checked });
   };
 
-  const handleFileSelect = (key: string) => (e: React.ChangeEvent<HTMLInputElement> | null) => {
+  const handleFileSelect = (key: string) => async (e: React.ChangeEvent<HTMLInputElement> | null) => {
     if (e === null) {
       setFiles(prev => ({ ...prev, [key]: null }));
+      await removeFileFromDB(key);
     } else if (e.target.files && e.target.files[0]) {
-      setFiles(prev => ({ ...prev, [key]: e.target.files![0] }));
+      const file = e.target.files![0];
+      setFiles(prev => ({ ...prev, [key]: file }));
+      await saveFileToDB(key, file);
     }
   };
 
@@ -237,13 +387,17 @@ const VendorRegistration: React.FC = () => {
     const missingMandatoryFiles = mandatoryFiles.filter(key => !files[key]);
     
     const mandatoryFields = [
-      'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
+      'category', 'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
       'specialities', 'description', 'authorizedPerson', 'escContact'
     ];
     
     const optionalFields = ['techTeamStrength', 'installedBase'];
     
     const missingMandatoryFields = mandatoryFields.filter(key => !formData[key as keyof typeof formData].trim());
+
+    if (formData.category === 'Other' && (!formData.otherCategory || !formData.otherCategory.trim())) {
+      missingMandatoryFields.push('otherCategory');
+    }
 
     if (missingMandatoryFiles.length > 0 || missingMandatoryFields.length > 0) {
       alert("Please fill all mandatory fields (marked with *) and upload all required documents.");
@@ -294,6 +448,7 @@ const VendorRegistration: React.FC = () => {
 
       // 2. Prepare submitted and missing lists for the email
       const allFormFields = [
+        { key: 'category', label: 'Vendor Category' },
         { key: 'companyName', label: 'Company Legal Name' },
         { key: 'panNumber', label: 'PAN Number' },
         { key: 'gstNumber', label: 'GST Number' },
@@ -364,6 +519,7 @@ const VendorRegistration: React.FC = () => {
       const payload = {
         formData: {
           ...formData,
+          category: formData.category === 'Other' ? formData.otherCategory : formData.category,
           specialities: formData.specialities.split(',').map(s => s.trim()).join(', '),
           description: formData.description + submissionSummary
         },
@@ -389,6 +545,8 @@ const VendorRegistration: React.FC = () => {
         console.warn("GAS Fetch Warning:", fetchErr);
       }
 
+      localStorage.removeItem('vendorFormDraft');
+      clearFilesDB();
       setStep(3);
 
     } catch (err: any) {
@@ -443,6 +601,25 @@ const VendorRegistration: React.FC = () => {
                 <SectionHeading title="Company Information" />
 
                 <div className="space-y-2">
+                  <SelectInputField 
+                    label="Vendor Category" 
+                    icon={Building} 
+                    name="category" 
+                    value={formData.category} 
+                    onChange={handleInputChange} 
+                    options={['Supplier', 'Distributor', 'Dealer', 'Manufacturer', 'Service Provider', 'Contractor', 'Logistics Partner', 'Other']}
+                    required 
+                  />
+                  {formData.category === 'Other' && (
+                    <TextInputField 
+                      label="Please Specify Other Category" 
+                      icon={Building} 
+                      name="otherCategory" 
+                      value={formData.otherCategory} 
+                      onChange={handleInputChange} 
+                      required 
+                    />
+                  )}
                   <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
                   {/* PAN and GST added below */}
                   <TextInputField 
@@ -582,7 +759,7 @@ const VendorRegistration: React.FC = () => {
             <button
               onClick={() => {
                 setFormData({
-                  companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
+                  category: '', otherCategory: '', companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
                   specialities: '', description: '', authorizedPerson: '', escContact: '',
                   techTeamStrength: '', installedBase: ''
                 });

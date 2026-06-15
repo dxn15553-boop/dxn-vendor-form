@@ -37,6 +37,7 @@ function doPost(e) {
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
         "Timestamp", 
+        "Vendor Category",
         "Company Name", 
         "Contact Person", 
         "Email", 
@@ -49,7 +50,7 @@ function doPost(e) {
         "Declarations Confirmed",
         "Vendor Drive Folder" // Changed this to just be the folder link
       ]);
-      sheet.getRange(1, 1, 1, 12).setFontWeight("bold");
+      sheet.getRange(1, 1, 1, 13).setFontWeight("bold");
     }
     
     const docsString = fileLinks.length > 0 ? fileLinks.join("\n") : "No documents attached.";
@@ -60,6 +61,7 @@ function doPost(e) {
     
     sheet.appendRow([
       new Date(),
+      data.formData.category || "",
       data.formData.companyName || "",
       data.formData.authorizedPerson || "",
       data.formData.email || "",
@@ -77,6 +79,7 @@ function doPost(e) {
     const emailBody = `
       New Vendor Registration Received!
       
+      Vendor Category: ${data.formData.category || "N/A"}
       Company Name: ${data.formData.companyName || "N/A"}
       Contact Person: ${data.formData.authorizedPerson || "N/A"}
       Email: ${data.formData.email || "N/A"}
