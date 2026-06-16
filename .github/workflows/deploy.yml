@@ -40,6 +40,6 @@ jobs:
         set ftp:ssl-allow yes;
         set ssl:verify-certificate no;
         open -u \"$FTP_USERNAME\",\"$FTP_PASSWORD\" \"$FTP_SERVER\";
-        mirror -Rnv ./dist/ ./public_html/ --parallel=10;
+        mirror -Rv ./dist/ ./public_html/ --parallel=10;
         quit;
         "
