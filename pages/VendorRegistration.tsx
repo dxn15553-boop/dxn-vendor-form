@@ -634,6 +634,8 @@ const VendorRegistration: React.FC = () => {
         if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
           const { error: supabaseError } = await supabase.from('vendors').insert([{
             company_name: payload.formData.companyName,
+            pan_number: payload.formData.panNumber,
+            gst_number: payload.formData.gstNumber,
             contact_person: payload.formData.authorizedPerson,
             email: payload.formData.email,
             phone: payload.formData.phone,
