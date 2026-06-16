@@ -5,6 +5,45 @@ const DRIVE_FOLDER_ID = "12gnSdi9yZMIThQXii1qAQREN_hXPkDi7"; // Replace with you
 const NOTIFICATION_EMAIL = "layasriireni@gmail.com"; 
 // ---------------------
 
+const VENDOR_CATEGORIES = {
+  "Nature of Business": [ "OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner", "Service Provider", "Contractor", "Consultant", "Trader / Reseller", "Importer", "Other" ],
+  "Packaging Machines & Automation": [ "Tube Filling Machine", "Liquid Filling Machine", "Carbonated Filling Machine", "Capping Machine", "Labeling Machine", "Shrink Sleeve Machine", "Case Erector", "Carton Sealer", "Band Sealer", "Check Weigher", "Online Weighing System", "Conveyor System", "Handy Printer", "Inkjet Printer", "Coding Machine", "Palletizer", "Stretch Wrapping Machine" ],
+  "Process & Production Equipment": [ "Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer", "Soap Manufacturing Equipment", "Liquid Processing Equipment", "Powder Handling Equipment", "Material Transfer System" ],
+  "Utility Equipment": [ "Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler", "Cooling Tower", "DG Set", "RO Plant", "Water Treatment Plant", "Utility Piping" ],
+  "Electrical, Automation & Instrumentation": [ "PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell", "Instrumentation", "Industrial Automation", "Electrical Contractor" ],
+  "Mechanical Fabrication & Engineering Services": [ "SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work", "Machine Modification", "Welding Services", "Installation & Commissioning" ],
+  "MRO & Industrial Consumables": [ "Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics", "Power Tools", "Hand Tools", "Industrial Consumables" ],
+  "Laboratory & Quality Equipment": [ "Laboratory Instruments", "Testing Equipment", "Calibration Services", "Validation Services", "Weighing Instruments" ],
+  "Civil & Infrastructure": [ "Civil Construction", "Flooring", "Waterproofing", "Roofing", "Interior Works", "Painting" ],
+  "HVAC & Clean Room": [ "HVAC", "Air Handling Unit", "Clean Room", "Ducting", "Ventilation System", "Exhaust System" ],
+  "Safety & Fire Protection": [ "Fire Fighting System", "Fire Extinguishers", "PPE", "Safety Audit", "Safety Signage" ],
+  "Facility Management Services": [ "Housekeeping", "Pest Control", "Security Services", "Gardening", "Waste Management" ],
+  "Logistics & Transportation": [ "Transport Services", "Courier Services", "Freight Forwarding", "Warehouse Services", "Packers & Movers" ],
+  "Professional Services": [ "Legal Consultant", "Chartered Accountant", "Technical Consultant", "Environmental Consultant", "HR Consultant", "Training Services" ]
+};
+
+function formatCategory(categoryString) {
+  if (!categoryString || categoryString === "N/A") return "N/A";
+  const items = categoryString.split(",").map(s => s.trim()).filter(Boolean);
+  let html = "";
+  const matchedItems = new Set();
+  
+  Object.keys(VENDOR_CATEGORIES).forEach(parent => {
+    const matched = VENDOR_CATEGORIES[parent].filter(item => items.includes(item));
+    if (matched.length > 0) {
+      html += `<div style="margin-bottom: 8px;"><strong>${parent}</strong><ul style="margin: 4px 0 0; padding-left: 16px;">${matched.map(m => \`<li>\${m}</li>\`).join('')}</ul></div>`;
+      matched.forEach(m => matchedItems.add(m));
+    }
+  });
+  
+  const others = items.filter(item => !matchedItems.has(item) && item !== "Other");
+  if (others.length > 0) {
+    html += `<div style="margin-bottom: 8px;"><strong>Other</strong><ul style="margin: 4px 0 0; padding-left: 16px;">${others.map(m => \`<li>\${m}</li>\`).join('')}</ul></div>`;
+  }
+  
+  return html || categoryString;
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
@@ -102,7 +141,7 @@ function doPost(e) {
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${data.formData.email}" style="color: #d32f2f;">${data.formData.email || "N/A"}</a></td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Escalation Contact:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.escContact || "N/A"}</td></tr>
-          <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Vendor Category:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.category)}</td></tr>
+          <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Vendor Category:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatCategory(data.formData.category)}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Capabilities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.serviceCapabilities)}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>OEM Brands:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.oemBrands)}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Specialities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.specialities)}</td></tr>
@@ -156,7 +195,7 @@ function doPost(e) {
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${data.formData.email}" style="color: #d32f2f;">${data.formData.email || "N/A"}</a></td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Escalation Contact:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.escContact || "N/A"}</td></tr>
-            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Vendor Category:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.category)}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Vendor Category:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatCategory(data.formData.category)}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Capabilities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.serviceCapabilities)}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>OEM Brands:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.oemBrands)}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Specialities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.specialities)}</td></tr>
