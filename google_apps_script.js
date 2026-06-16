@@ -145,12 +145,39 @@ function doPost(e) {
           
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company Name:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.companyName || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Contact Person:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.authorizedPerson || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${data.formData.email}" style="color: #d32f2f;">${data.formData.email || "N/A"}</a></td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Escalation Contact:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.escContact || "N/A"}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Vendor Category:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.category)}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Service Capabilities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.serviceCapabilities)}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>OEM Brands:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.oemBrands)}</td></tr>
-            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.email || "N/A"}</td></tr>
-            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Specialities:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formatList(data.formData.specialities)}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Tech Team Strength:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.techTeamStrength || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Installed Base:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.installedBase || "N/A"}</td></tr>
           </table>
+          
+          <h3 style="color: #444;">Facility Details</h3>
+          <p style="background: #f9f9f9; padding: 12px; border-left: 4px solid #d32f2f; font-size: 14px;">${data.formData.description || "N/A"}</p>
+          
+          <h3 style="color: #444;">Declarations Confirmed</h3>
+          <ul style="font-size: 14px;">
+            <li>Verified Info: ${decls.verifiedInfo ? 'Yes' : 'No'}</li>
+            <li>Docs Uploaded: ${decls.documentsUploaded ? 'Yes' : 'No'}</li>
+            <li>Auth Signatory: ${decls.authSignatory ? 'Yes' : 'No'}</li>
+          </ul>
+          
+          ${data.missingItems ? `
+          <h3 style="color: #d32f2f;">⚠️ Observations (Missing Information)</h3>
+          <ul style="font-size: 14px; color: #d32f2f;">
+            ${data.missingItems.split(', ').map(item => `<li>${item}</li>`).join('')}
+          </ul>
+          ` : ''}
+          
+          <h3 style="color: #444;">✅ Submitted Documents</h3>
+          <div style="font-size: 14px; margin-bottom: 15px;">
+            ${docsString}
+          </div>
           
           <p>We will review your application and get back to you soon.</p>
           <p style="margin-top: 30px; font-size: 12px; color: #666;">Best regards,<br><strong>DXN Global Supply Chain Team</strong></p>
