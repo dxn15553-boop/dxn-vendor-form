@@ -41,6 +41,8 @@ function doPost(e) {
         "Service Capabilities",
         "OEM Brands",
         "Company Name", 
+        "PAN Number",
+        "GST Number",
         "Contact Person", 
         "Email", 
         "Phone", 
@@ -52,7 +54,7 @@ function doPost(e) {
         "Declarations Confirmed",
         "Vendor Drive Folder" // Changed this to just be the folder link
       ]);
-      sheet.getRange(1, 1, 1, 15).setFontWeight("bold");
+      sheet.getRange(1, 1, 1, 17).setFontWeight("bold");
     }
     
     const docsString = fileLinks.length > 0 ? `<ul>${fileLinks.join("")}</ul>` : "<p>No documents attached.</p>";
@@ -73,6 +75,8 @@ function doPost(e) {
       data.formData.serviceCapabilities || "",
       data.formData.oemBrands || "",
       data.formData.companyName || "",
+      data.formData.panNumber || "",
+      data.formData.gstNumber || "",
       data.formData.authorizedPerson || "",
       data.formData.email || "",
       data.formData.phone || "",
@@ -92,6 +96,8 @@ function doPost(e) {
         
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company Name:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.companyName || "N/A"}</td></tr>
+          <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>PAN Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.panNumber || "N/A"}</td></tr>
+          <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>GST Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.gstNumber || "N/A"}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Contact Person:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.authorizedPerson || "N/A"}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${data.formData.email}" style="color: #d32f2f;">${data.formData.email || "N/A"}</a></td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
@@ -123,9 +129,8 @@ function doPost(e) {
         
         <h3 style="color: #444;">✅ Submitted Documents</h3>
         <div style="font-size: 14px; margin-bottom: 15px;">
-          ${docsString}
+          ${vendorFolderUrl ? `<p style="font-size: 16px;"><strong><a href="${vendorFolderUrl}" style="color: #d32f2f; text-decoration: none;">📁 View All Vendor Documents in Google Drive</a></strong></p>` : `<p>No documents attached.</p>`}
         </div>
-        <p style="font-size: 16px;"><strong><a href="${vendorFolderUrl}" style="color: #d32f2f; text-decoration: none;">📁 View All Vendor Documents in Google Drive</a></strong></p>
       </div>
     `;
     
@@ -145,6 +150,8 @@ function doPost(e) {
           
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company Name:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.companyName || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>PAN Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.panNumber || "N/A"}</td></tr>
+            <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>GST Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.gstNumber || "N/A"}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Contact Person:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.authorizedPerson || "N/A"}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><a href="mailto:${data.formData.email}" style="color: #d32f2f;">${data.formData.email || "N/A"}</a></td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.phone || "N/A"}</td></tr>
@@ -176,7 +183,7 @@ function doPost(e) {
           
           <h3 style="color: #444;">✅ Submitted Documents</h3>
           <div style="font-size: 14px; margin-bottom: 15px;">
-            ${docsString}
+            ${vendorFolderUrl ? `<p style="font-size: 16px;"><strong><a href="${vendorFolderUrl}" style="color: #d32f2f; text-decoration: none;">📁 View All Vendor Documents in Google Drive</a></strong></p>` : `<p>No documents attached.</p>`}
           </div>
           
           <p>We will review your application and get back to you soon.</p>
