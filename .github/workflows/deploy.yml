@@ -35,5 +35,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        # Make sure it uploads to public_html!
-        server-dir: /public_html/
+        # Deploy directly to the root of the FTP account
+        server-dir: ./
