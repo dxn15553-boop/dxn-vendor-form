@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 const VENDOR_CATEGORIES = {
   "Nature of Business": [
@@ -629,6 +630,31 @@ const VendorRegistration: React.FC = () => {
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfPwcfwqcJl1RFwRb8Lsf1Djn6k-JyzRFA4g7kN8x2NO3mCn1aoyp-MR0-3E57lU5X/exec"
 
       try {
+        // Log to Supabase Database
+        if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+          const { error: supabaseError } = await supabase.from('vendors').insert([{
+            company_name: payload.formData.companyName,
+            contact_person: payload.formData.authorizedPerson,
+            email: payload.formData.email,
+            phone: payload.formData.phone,
+            escalation_contact: payload.formData.escContact,
+            vendor_category: payload.formData.category,
+            service_capabilities: payload.formData.serviceCapabilities,
+            oem_brands: payload.formData.oemBrands,
+            specialities: payload.formData.specialities,
+            tech_team_strength: payload.formData.techTeamStrength,
+            installed_base: payload.formData.installedBase,
+            facility_description: payload.formData.description,
+            missing_items: payload.missingItems,
+            status: payload.submissionStatus
+          }]);
+          
+          if (supabaseError) {
+            console.error("Supabase Error:", supabaseError);
+            // We don't throw here to allow GAS to still execute even if Supabase fails
+          }
+        }
+
         const response = await fetch(GOOGLE_SCRIPT_URL, {
           redirect: "follow",
           method: "POST",
