@@ -736,7 +736,7 @@ const VendorRegistration: React.FC = () => {
 
                 <div className="col-span-1 md:col-span-2 mb-4">
                   <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 mb-4">
-                    <span className="text-base">{formData.categories.length > 0 ? '✅' : '⬜'}</span> <Building className="w-3 h-3" /> 
+                    <Building className="w-3 h-3" /> 
                     <span>Vendor Category (Select all that apply) <span className="text-red-600 text-lg leading-none ml-1">*</span></span>
                   </label>
                   <div className="space-y-2">
