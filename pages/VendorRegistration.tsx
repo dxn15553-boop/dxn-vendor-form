@@ -498,7 +498,7 @@ const VendorRegistration: React.FC = () => {
     // Determine Submission Status (Observation vs Complete)
     const mandatoryFiles = [
       'companyRegistration', 'panCard', 'gstCertificate', 'companyProfile',
-      'cancelledCheque', 'bankAccountDetails', 'auditedFinancials', 'itrAcknowledgement',
+      'cancelledCheque', 'bankAccountDetails',
       'conflictOfInterest', 'antiBribery', 'complianceDecl', 'blacklistingDecl',
       'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
       'manufacturingFacility', 'serviceInfrastructure'
@@ -506,7 +506,7 @@ const VendorRegistration: React.FC = () => {
     
     const optionalFiles = [
       'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration', 
-      'profTaxRegistration', 'labourLicense', 'iso9001', 'iso14001', 'iso45001',
+      'profTaxRegistration', 'labourLicense', 'auditedFinancials', 'itrAcknowledgement', 'iso9001', 'iso14001', 'iso45001',
       'gmp', 'ce', 'otherCertifications', 'vendorRegistrationForm', 'nda',
       'codeOfConduct', 'paymentTerms', 'purchaseTerms', 'authorizationLetter'
     ];
@@ -806,8 +806,8 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Labour License (If Applicable)" icon={FileText} file={files.labourLicense} onFileSelect={handleFileSelect('labourLicense')} />
 
                 <SectionHeading title="Financial Information" />
-                <FileUploadField label="Latest Audited Financial Statement (or last 2 yrs)" icon={FileText} file={files.auditedFinancials} onFileSelect={handleFileSelect('auditedFinancials')} />
-                <FileUploadField label="Income Tax Return Acknowledgement (Last FY)" icon={FileText} file={files.itrAcknowledgement} onFileSelect={handleFileSelect('itrAcknowledgement')} />
+                <FileUploadField label="Latest Audited Financial Statement (or last 2 yrs) (Optional)" icon={FileText} file={files.auditedFinancials} onFileSelect={handleFileSelect('auditedFinancials')} />
+                <FileUploadField label="Income Tax Return Acknowledgement (Last FY) (Optional)" icon={FileText} file={files.itrAcknowledgement} onFileSelect={handleFileSelect('itrAcknowledgement')} />
 
                 <SectionHeading title="Contact Details" />
                 <TextInputField label="Authorized Contact Person" icon={User} name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} required />
