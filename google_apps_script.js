@@ -31,14 +31,14 @@ function formatCategory(categoryString) {
   Object.keys(VENDOR_CATEGORIES).forEach(parent => {
     const matched = VENDOR_CATEGORIES[parent].filter(item => items.includes(item));
     if (matched.length > 0) {
-      html += `<div style="margin-bottom: 8px;"><strong>${parent}</strong><ul style="margin: 4px 0 0; padding-left: 16px;">${matched.map(m => \`<li>\${m}</li>\`).join('')}</ul></div>`;
+      html += '<div style="margin-bottom: 8px;"><strong>' + parent + '</strong><ul style="margin: 4px 0 0; padding-left: 16px;">' + matched.map(m => '<li>' + m + '</li>').join('') + '</ul></div>';
       matched.forEach(m => matchedItems.add(m));
     }
   });
   
   const others = items.filter(item => !matchedItems.has(item) && item !== "Other");
   if (others.length > 0) {
-    html += `<div style="margin-bottom: 8px;"><strong>Other</strong><ul style="margin: 4px 0 0; padding-left: 16px;">${others.map(m => \`<li>\${m}</li>\`).join('')}</ul></div>`;
+    html += '<div style="margin-bottom: 8px;"><strong>Other</strong><ul style="margin: 4px 0 0; padding-left: 16px;">' + others.map(m => '<li>' + m + '</li>').join('') + '</ul></div>';
   }
   
   return html || categoryString;
