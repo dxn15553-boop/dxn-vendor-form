@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main # Change this if your main branch is named 'master'
+  workflow_dispatch:
 
 jobs:
   web-deploy:
