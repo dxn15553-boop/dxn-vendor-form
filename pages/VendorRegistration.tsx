@@ -629,7 +629,7 @@ const VendorRegistration: React.FC = () => {
       const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfPwcfwqcJl1RFwRb8Lsf1Djn6k-JyzRFA4g7kN8x2NO3mCn1aoyp-MR0-3E57lU5X/exec"
 
       try {
-        await fetch(GOOGLE_SCRIPT_URL, {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
           redirect: "follow",
           method: "POST",
           headers: {
@@ -637,13 +637,23 @@ const VendorRegistration: React.FC = () => {
           },
           body: JSON.stringify(payload)
         });
-      } catch (fetchErr) {
-        console.warn("GAS Fetch Warning:", fetchErr);
-      }
+        
+        if (!response.ok) {
+           throw new Error("Server responded with status: " + response.status);
+        }
+        
+        const result = await response.json();
+        if (result.status === "error") {
+           throw new Error(result.message);
+        }
 
-      localStorage.removeItem('vendorFormDraft');
-      clearFilesDB();
-      setStep(3);
+        localStorage.removeItem('vendorFormDraft');
+        clearFilesDB();
+        setStep(3);
+      } catch (fetchErr: any) {
+        console.error("GAS Fetch Error:", fetchErr);
+        throw new Error("Failed to submit form to server. The file sizes might be too large, or there is a network issue. Please try again. Detail: " + (fetchErr.message || "Network Error"));
+      }
 
     } catch (err: any) {
       console.error("Submission error:", err);
