@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import SectionTitle from '../components/SectionTitle';
 import { ICON_MAP } from '../constants';
-import { getVendors, updateVendorStatus } from '../services/FirebaseService';
+import { supabase } from '../lib/supabaseClient';
 import { Product } from '../types';
 
 const ADMIN_PASSWORD = 'dxn2025'; 
@@ -77,15 +77,35 @@ const Admin: React.FC = () => {
   const fetchVendorData = async () => {
     setIsLoadingVendors(true);
     try {
-      const fbVendors = await getVendors();
-      if (fbVendors) {
-        setVendors(fbVendors);
+      if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        const { data, error } = await supabase.from('vendors').select('*').order('created_at', { ascending: false });
+        if (error) throw error;
+        
+        const mappedVendors = (data || []).map(v => ({
+           id: v.id,
+           companyName: v.company_name,
+           status: v.status,
+           email: v.email,
+           phone: v.phone,
+           panNumber: v.pan_number,
+           gstNumber: v.gst_number,
+           authorizedPerson: v.contact_person,
+           escContact: v.escalation_contact,
+           techTeamStrength: v.tech_team_strength,
+           installedBase: v.installed_base,
+           specialities: v.vendor_category ? v.vendor_category : (v.specialities ? (v.specialities.includes(',') ? v.specialities.split(',') : v.specialities) : []),
+           documents: v.documents,
+           missingItems: v.missing_items,
+           description: v.facility_description,
+           createdAt: v.created_at
+        }));
+        setVendors(mappedVendors);
       } else {
         const savedVendors = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
         setVendors(savedVendors);
       }
     } catch (e) {
-      console.warn("Firebase fetch failed, using local storage", e);
+      console.warn("Supabase fetch failed, using local storage", e);
       const savedVendors = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
       setVendors(savedVendors);
     } finally {
@@ -123,8 +143,8 @@ const Admin: React.FC = () => {
     const newStatus = 'accepted';
     try {
       setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
-      if (typeof id === 'string') {
-         await updateVendorStatus(id, newStatus);
+      if (import.meta.env.VITE_SUPABASE_URL) {
+         await supabase.from('vendors').update({ status: newStatus }).eq('id', id);
       } else {
          const updated = vendors.map(v => v.id === id ? { ...v, status: newStatus } : v);
          localStorage.setItem('dxn_pending_vendors', JSON.stringify(updated));
@@ -139,8 +159,8 @@ const Admin: React.FC = () => {
     const newStatus = 'observation';
     try {
        setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
-       if (typeof id === 'string') {
-          await updateVendorStatus(id, newStatus);
+       if (import.meta.env.VITE_SUPABASE_URL) {
+          await supabase.from('vendors').update({ status: newStatus }).eq('id', id);
        } else {
           const updated = vendors.map(v => v.id === id ? { ...v, status: newStatus } : v);
           localStorage.setItem('dxn_pending_vendors', JSON.stringify(updated));
