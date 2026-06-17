@@ -928,7 +928,7 @@ const VendorRegistration: React.FC = () => {
                   <span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-2">Category</span>
                   <div className="flex flex-wrap gap-2">
                     {(formData.categories.includes('Other') ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory) : formData.categories).map((cat, i) => (
-                      <span key={i} className="inline-block bg-black border border-white/10 px-3 py-1 text-[10px] uppercase font-bold text-red-500">
+                      <span key={i} className="inline-block bg-neutral-800 border border-white/10 px-3 py-1 rounded-sm text-[10px] uppercase font-bold text-neutral-300">
                         {cat}
                       </span>
                     ))}
