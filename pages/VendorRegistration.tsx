@@ -725,8 +725,8 @@ const VendorRegistration: React.FC = () => {
 
         {step === 2 && (
           <div className="max-w-5xl mx-auto bg-neutral-900 border border-white/10 p-8 md:p-12 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-red-600 mb-2">Entity Verification</h2>
-            <p className="text-red-600 mb-8 border-b border-white/5 pb-6">Please complete the mandatory document checklist.</p>
+            <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">Entity Verification</h2>
+            <p className="text-neutral-500 mb-8 border-b border-white/5 pb-6">Please complete the mandatory document checklist.</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
 
