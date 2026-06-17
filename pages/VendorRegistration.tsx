@@ -88,7 +88,7 @@ const FileUploadField = ({
     <div className="flex flex-col h-full gap-2 relative">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 shrink-0">
         <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
+        <span>{label}</span>
       </label>
       <div
         className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] relative ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
@@ -154,7 +154,7 @@ const TextInputField = ({
     <div className="space-y-2">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
         <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
+        <span>{label}</span>
       </label>
       {type === "textarea" ? (
         <textarea
@@ -208,7 +208,7 @@ const SelectInputField = ({
     <div className="space-y-2">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
         <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
+        <span>{label}</span>
       </label>
       <div className="relative">
         <select
@@ -737,7 +737,7 @@ const VendorRegistration: React.FC = () => {
                 <div className="col-span-1 md:col-span-2 mb-4">
                   <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 mb-4">
                     <Building className="w-3 h-3" /> 
-                    <span>Vendor Category (Select all that apply) <span className="text-red-600 text-lg leading-none ml-1">*</span></span>
+                    <span>Vendor Category (Select all that apply)</span>
                   </label>
                   <div className="space-y-2">
                     {Object.entries(VENDOR_CATEGORIES).map(([title, options]) => (
