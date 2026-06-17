@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient';
 
 const VENDOR_CATEGORIES = {
   "Nature of Business": [
-    "OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner", 
+    "OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner",
     "Service Provider", "Contractor", "Consultant", "Trader / Reseller", "Importer", "Other"
   ],
   "Packaging Machines & Automation": [
@@ -15,23 +15,23 @@ const VENDOR_CATEGORIES = {
     "Coding Machine", "Palletizer", "Stretch Wrapping Machine"
   ],
   "Process & Production Equipment": [
-    "Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer", 
+    "Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer",
     "Soap Manufacturing Equipment", "Liquid Processing Equipment", "Powder Handling Equipment", "Material Transfer System"
   ],
   "Utility Equipment": [
-    "Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler", 
+    "Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler",
     "Cooling Tower", "DG Set", "RO Plant", "Water Treatment Plant", "Utility Piping"
   ],
   "Electrical, Automation & Instrumentation": [
-    "PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell", 
+    "PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell",
     "Instrumentation", "Industrial Automation", "Electrical Contractor"
   ],
   "Mechanical Fabrication & Engineering Services": [
-    "SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work", 
+    "SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work",
     "Machine Modification", "Welding Services", "Installation & Commissioning"
   ],
   "MRO & Industrial Consumables": [
-    "Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics", 
+    "Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics",
     "Power Tools", "Hand Tools", "Industrial Consumables"
   ],
   "Laboratory & Quality Equipment": [
@@ -58,7 +58,7 @@ const VENDOR_CATEGORIES = {
 };
 
 const SERVICE_CAPABILITIES = [
-  "Manufacturer Only", "Supply & Service", "Service Only", 
+  "Manufacturer Only", "Supply & Service", "Service Only",
   "Installation & Commissioning", "AMC Support", "Breakdown Support"
 ];
 
@@ -74,9 +74,9 @@ const FileUploadField = ({
   onFileSelect: (e: React.ChangeEvent<HTMLInputElement> | null) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isOptional = label.toLowerCase().includes('if applicable') || 
-                     label.toLowerCase().includes('if available') || 
-                     label.toLowerCase().includes('optional');
+  const isOptional = label.toLowerCase().includes('if applicable') ||
+    label.toLowerCase().includes('if available') ||
+    label.toLowerCase().includes('optional');
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -87,8 +87,8 @@ const FileUploadField = ({
   return (
     <div className="flex flex-col h-full gap-2 relative">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 shrink-0">
-        <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label}</span>
+        <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       <div
         className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] relative ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
@@ -103,8 +103,8 @@ const FileUploadField = ({
         />
         {file ? (
           <div className="flex flex-col items-center justify-center gap-2 w-full">
-            <button 
-              type="button" 
+            <button
+              type="button"
               onClick={handleRemove}
               className="absolute top-2 right-2 bg-black/50 hover:bg-red-600 rounded-full p-1.5 transition-colors z-10"
               title="Remove File"
@@ -146,15 +146,15 @@ const TextInputField = ({
   placeholder?: string;
   isValid?: boolean;
 }) => {
-  const isOptional = label.toLowerCase().includes('if applicable') || 
-                     label.toLowerCase().includes('if available') || 
-                     label.toLowerCase().includes('optional');
+  const isOptional = label.toLowerCase().includes('if applicable') ||
+    label.toLowerCase().includes('if available') ||
+    label.toLowerCase().includes('optional');
 
   return (
     <div className="space-y-2">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
-        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label}</span>
+        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       {type === "textarea" ? (
         <textarea
@@ -200,15 +200,15 @@ const SelectInputField = ({
   required?: boolean;
   isValid?: boolean;
 }) => {
-  const isOptional = label.toLowerCase().includes('if applicable') || 
-                     label.toLowerCase().includes('if available') || 
-                     label.toLowerCase().includes('optional');
+  const isOptional = label.toLowerCase().includes('if applicable') ||
+    label.toLowerCase().includes('if available') ||
+    label.toLowerCase().includes('optional');
 
   return (
     <div className="space-y-2">
       <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
-        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" /> 
-        <span>{label}</span>
+        <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
+        <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       <div className="relative">
         <select
@@ -237,7 +237,7 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
 
   return (
     <div className="border border-white/10 bg-neutral-900 overflow-hidden mb-4">
-      <button 
+      <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
@@ -254,9 +254,9 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
         <div className="px-6 py-4 bg-black border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
           {options.map(opt => (
             <label key={opt} className="flex items-center gap-3 cursor-pointer group">
-              <input 
-                type="checkbox" 
-                checked={selected.includes(opt)} 
+              <input
+                type="checkbox"
+                checked={selected.includes(opt)}
                 onChange={() => onToggle(opt)}
                 className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
               />
@@ -272,7 +272,6 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
 const SectionHeading = ({ title }: { title: string }) => (
   <div className="mt-12 mb-6 border-b border-white/10 pb-4 col-span-1 md:col-span-2">
     <h3 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
-      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
       {title}
     </h3>
   </div>
@@ -503,23 +502,23 @@ const VendorRegistration: React.FC = () => {
       'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
       'manufacturingFacility', 'serviceInfrastructure'
     ];
-    
+
     const optionalFiles = [
-      'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration', 
+      'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration',
       'profTaxRegistration', 'labourLicense', 'auditedFinancials', 'itrAcknowledgement', 'iso9001', 'iso14001', 'iso45001',
       'gmp', 'ce', 'otherCertifications', 'vendorRegistrationForm', 'nda',
       'codeOfConduct', 'paymentTerms', 'purchaseTerms', 'authorizationLetter'
     ];
-    
+
     const missingMandatoryFiles = mandatoryFiles.filter(key => !files[key]);
-    
+
     const mandatoryFields = [
-      'companyName', 'panNumber', 'gstNumber', 'email', 'phone', 
+      'companyName', 'panNumber', 'gstNumber', 'email', 'phone',
       'specialities', 'description', 'authorizedPerson', 'escContact'
     ];
-    
+
     const optionalFields = ['techTeamStrength', 'installedBase', 'serviceCapabilities', 'oemBrands'];
-    
+
     const missingMandatoryFields = mandatoryFields.filter(key => {
       const val = formData[key as keyof typeof formData];
       return typeof val === 'string' && !val.trim();
@@ -544,10 +543,10 @@ const VendorRegistration: React.FC = () => {
       return Array.isArray(val) ? val.length === 0 : (typeof val === 'string' && !val.trim());
     });
 
-    const currentStatus = (missingOptionalFiles.length > 0 || missingOptionalFields.length > 0) 
-      ? "Observation" 
+    const currentStatus = (missingOptionalFiles.length > 0 || missingOptionalFields.length > 0)
+      ? "Observation"
       : "Complete";
-      
+
     const fieldLabels: Record<string, string> = {
       techTeamStrength: 'Technical Team Strength',
       installedBase: 'Installed Base Details',
@@ -604,7 +603,7 @@ const VendorRegistration: React.FC = () => {
           const b64 = await fileToBase64(file as File, key, formData.companyName);
           base64Files.push(b64);
         } catch (fileErr: any) {
-           throw new Error(`Failed to process file "${file?.name}". Please remove and re-select it. Detail: ${fileErr.message || 'Read Error'}`);
+          throw new Error(`Failed to process file "${file?.name}". Please remove and re-select it. Detail: ${fileErr.message || 'Read Error'}`);
         }
       }
 
@@ -612,8 +611,8 @@ const VendorRegistration: React.FC = () => {
       const payload = {
         formData: {
           ...formData,
-          category: formData.categories.includes('Other') 
-            ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory).join(', ') 
+          category: formData.categories.includes('Other')
+            ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory).join(', ')
             : formData.categories.join(', '),
           serviceCapabilities: formData.serviceCapabilities.join(', '),
           oemBrands: formData.oemBrands.filter(b => b.trim()).join(', '),
@@ -650,7 +649,7 @@ const VendorRegistration: React.FC = () => {
             missing_items: payload.missingItems,
             status: payload.submissionStatus
           }]);
-          
+
           if (supabaseError) {
             console.error("Supabase Error:", supabaseError);
             // We don't throw here to allow GAS to still execute even if Supabase fails
@@ -665,14 +664,14 @@ const VendorRegistration: React.FC = () => {
           },
           body: JSON.stringify(payload)
         });
-        
+
         if (!response.ok) {
-           throw new Error("Server responded with status: " + response.status);
+          throw new Error("Server responded with status: " + response.status);
         }
-        
+
         const result = await response.json();
         if (result.status === "error") {
-           throw new Error(result.message);
+          throw new Error(result.message);
         }
 
         localStorage.removeItem('vendorFormDraft');
@@ -736,55 +735,55 @@ const VendorRegistration: React.FC = () => {
 
                 <div className="col-span-1 md:col-span-2 mb-4">
                   <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 mb-4">
-                    <Building className="w-3 h-3" /> 
-                    <span>Vendor Category (Select all that apply)</span>
+                    <Building className="w-3 h-3" />
+                    <span>Vendor Category (Select all that apply) <span className="text-red-600 text-lg leading-none ml-1">*</span></span>
                   </label>
                   <div className="space-y-2">
                     {Object.entries(VENDOR_CATEGORIES).map(([title, options]) => (
-                      <CategoryAccordion 
-                        key={title} 
-                        title={title} 
-                        options={options} 
-                        selected={formData.categories} 
-                        onToggle={handleCategoryToggle} 
+                      <CategoryAccordion
+                        key={title}
+                        title={title}
+                        options={options}
+                        selected={formData.categories}
+                        onToggle={handleCategoryToggle}
                       />
                     ))}
                   </div>
                   {formData.categories.includes('Other') && (
                     <div className="mt-4">
-                      <TextInputField 
-                        label="Please Specify Other Category" 
-                        icon={Building} 
-                        name="otherCategory" 
-                        value={formData.otherCategory} 
-                        onChange={handleInputChange} 
-                        required 
+                      <TextInputField
+                        label="Please Specify Other Category"
+                        icon={Building}
+                        name="otherCategory"
+                        value={formData.otherCategory}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                   )}
                 </div>
-                  <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
-                  {/* PAN and GST added below */}
-                  <TextInputField 
-                    label="PAN Number (e.g. ABCDE1234F)" 
-                    icon={FileText} 
-                    name="panNumber" 
-                    value={formData.panNumber} 
-                    onChange={handleInputChange} 
-                    required 
-                    placeholder="ABCDE1234F" 
-                    isValid={/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.panNumber)}
-                  />
-                  <TextInputField 
-                    label="GST Number (e.g. 22ABCDE1234F1Z5)" 
-                    icon={FileText} 
-                    name="gstNumber" 
-                    value={formData.gstNumber} 
-                    onChange={handleInputChange} 
-                    required 
-                    placeholder="22ABCDE1234F1Z5" 
-                    isValid={/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(formData.gstNumber)}
-                  />
+                <TextInputField label="Company Legal Name" icon={Building} name="companyName" value={formData.companyName} onChange={handleInputChange} required />
+                {/* PAN and GST added below */}
+                <TextInputField
+                  label="PAN Number (e.g. ABCDE1234F)"
+                  icon={FileText}
+                  name="panNumber"
+                  value={formData.panNumber}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="ABCDE1234F"
+                  isValid={/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.panNumber)}
+                />
+                <TextInputField
+                  label="GST Number (e.g. 22ABCDE1234F1Z5)"
+                  icon={FileText}
+                  name="gstNumber"
+                  value={formData.gstNumber}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="22ABCDE1234F1Z5"
+                  isValid={/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(formData.gstNumber)}
+                />
                 <FileUploadField label="Company Registration Cert. (ROC/Deed/MSME)" icon={FileText} file={files.companyRegistration} onFileSelect={handleFileSelect('companyRegistration')} />
                 <FileUploadField label="PAN Card" icon={FileText} file={files.panCard} onFileSelect={handleFileSelect('panCard')} />
                 <FileUploadField label="GST Registration Certificate" icon={FileText} file={files.gstCertificate} onFileSelect={handleFileSelect('gstCertificate')} />
@@ -792,9 +791,9 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Organization Chart (Optional)" icon={FileText} file={files.orgChart} onFileSelect={handleFileSelect('orgChart')} />
 
                 <SectionHeading title="Entity Documentation" />
-              <div className="col-span-1 md:col-span-2 text-red-500 text-sm mb-4">
-                * Note: Maximum file size is 2MB per document. Please upload compressed PDFs or images.
-              </div>
+                <div className="col-span-1 md:col-span-2 text-red-500 text-sm mb-4">
+                  * Note: Maximum file size is 2MB per document. Please upload compressed PDFs or images.
+                </div>
                 <FileUploadField label="Cancelled Cheque OR Bank Verification Letter" icon={FileText} file={files.cancelledCheque} onFileSelect={handleFileSelect('cancelledCheque')} />
                 <FileUploadField label="Bank Account Details Form" icon={FileText} file={files.bankAccountDetails} onFileSelect={handleFileSelect('bankAccountDetails')} />
 
@@ -841,9 +840,9 @@ const VendorRegistration: React.FC = () => {
                 <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                   {SERVICE_CAPABILITIES.map(opt => (
                     <label key={opt} className="flex items-center gap-3 cursor-pointer group p-3 border border-white/10 bg-neutral-900 hover:bg-white/5 transition-colors">
-                      <input 
-                        type="checkbox" 
-                        checked={formData.serviceCapabilities.includes(opt)} 
+                      <input
+                        type="checkbox"
+                        checked={formData.serviceCapabilities.includes(opt)}
                         onChange={() => handleServiceToggle(opt)}
                         className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
                       />
@@ -916,11 +915,11 @@ const VendorRegistration: React.FC = () => {
               {submissionStatus === 'Observation' ? 'Submitted with Observations' : 'Application Submitted Successfully'}
             </h2>
             <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-12">
-              {submissionStatus === 'Observation' 
+              {submissionStatus === 'Observation'
                 ? 'Your registration has been received with some missing information. We will get back to you soon.'
                 : 'Thank you for registering. We will review your profile and get back to you soon.'}
             </p>
-            
+
             <div className="bg-neutral-900 border border-white/10 p-8 text-left mb-12 max-w-lg mx-auto">
               <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-6 border-b border-white/10 pb-4">Submission Summary</h3>
               <div className="space-y-4">
