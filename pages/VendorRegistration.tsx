@@ -916,7 +916,7 @@ const VendorRegistration: React.FC = () => {
             </h2>
             <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-12">
               {submissionStatus === 'Observation'
-                ? 'Your registration has been received with some missing information. We will get back to you soon.'
+                ? 'Registration received with missing details. We will contact you soon.'
                 : 'Thank you for registering. We will review your profile and get back to you soon.'}
             </p>
 
