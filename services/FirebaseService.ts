@@ -8,9 +8,13 @@
  */
 
 // Since we are in a browser environment, we import from esm.sh
+// @ts-ignore
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+// @ts-ignore
 import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where, getDoc, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// @ts-ignore
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+// @ts-ignore
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 const firebaseConfig = {
