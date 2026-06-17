@@ -924,7 +924,16 @@ const VendorRegistration: React.FC = () => {
               <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-6 border-b border-white/10 pb-4">Submission Summary</h3>
               <div className="space-y-4">
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Company Name</span><span className="text-white">{formData.companyName}</span></div>
-                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Category</span><span className="text-white">{formData.categories.includes('Other') ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory).join(', ') : formData.categories.join(', ')}</span></div>
+                <div>
+                  <span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-2">Category</span>
+                  <div className="flex flex-wrap gap-2">
+                    {(formData.categories.includes('Other') ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory) : formData.categories).map((cat, i) => (
+                      <span key={i} className="inline-block bg-black border border-white/10 px-3 py-1 text-[10px] uppercase font-bold text-red-500">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                </div>
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Email</span><span className="text-white">{formData.email}</span></div>
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Contact Person</span><span className="text-white">{formData.authorizedPerson}</span></div>
               </div>
