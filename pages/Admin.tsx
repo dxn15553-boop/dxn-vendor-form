@@ -456,7 +456,7 @@ const Admin: React.FC = () => {
                     <div key={vendor.id} className="bg-black p-8 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-8">
                        <div className="space-y-4">
                            <div className="flex items-center gap-3">
-                              <span className={`px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'accepted' ? 'border-green-500 text-green-500' : vendor.status === 'observation' ? 'border-amber-500 text-amber-500' : 'border-neutral-500 text-neutral-500'}`}>{vendor.status}</span>
+                              <span className={`px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'accepted' ? 'border-green-500 text-green-500' : vendor.status === 'observation' ? 'border-amber-500 text-amber-500' : 'border-neutral-500 text-neutral-500'}`}>{vendor.status === 'accepted' ? 'Completed' : vendor.status === 'observation' ? 'Under Observation' : vendor.status}</span>
                               <h4 className="text-xl font-black uppercase text-white">{vendor.companyName}</h4>
                            </div>
                            <div className="grid grid-cols-2 gap-x-12 gap-y-2 text-xs">
@@ -498,8 +498,8 @@ const Admin: React.FC = () => {
                         <div className="flex gap-4">
                            {vendor.status === 'pending' && (
                              <>
-                               <button onClick={() => handleApproveVendor(vendor.id)} className="bg-green-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Accept</button>
-                               <button onClick={() => handleRejectVendor(vendor.id)} className="bg-amber-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 transition-colors">Observation</button>
+                               <button onClick={() => handleApproveVendor(vendor.id)} className="bg-green-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Completed</button>
+                               <button onClick={() => handleRejectVendor(vendor.id)} className="bg-amber-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 transition-colors">Under Observation</button>
                              </>
                            )}
                            {(vendor.status === 'accepted' || vendor.status === 'observation') && (
