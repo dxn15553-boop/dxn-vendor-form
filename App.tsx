@@ -42,56 +42,7 @@ import { COMPANY_NAME, DEFAULT_ASSETS, SHOW_ASSET_MANAGER } from './constants';
 
 const DXN_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/9/97/Dxn_logo.png?20130918112846";
 
-// Asset Context (Legacy Support for manual uploads)
-type AssetContextType = {
-  assets: typeof DEFAULT_ASSETS;
-  updateAsset: (key: keyof typeof DEFAULT_ASSETS, value: string) => void;
-  resetAssets: () => void;
-};
-
-const AssetContext = createContext<AssetContextType | undefined>(undefined);
-
-export const useAssets = () => {
-  const context = useContext(AssetContext);
-  if (!context) throw new Error('useAssets must be used within AssetProvider');
-  return context;
-};
-
-const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [assets, setAssets] = useState(() => {
-    const saved = localStorage.getItem('dxn_custom_assets');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      const divisionKeys: (keyof typeof DEFAULT_ASSETS)[] = ['DIV_NUTRA', 'DIV_COFFEE', 'DIV_COSMETICS', 'DIV_KOMBUCHA', 'DIV_WETFOOD', 'DIV_AGRO'];
-      divisionKeys.forEach(key => {
-        if (!parsed[key] || parsed[key].includes('cloudinary') || parsed[key] === '/coffee/cocozhi.png' || parsed[key] === '/cosmetics/cosmetics.png' || parsed[key] === '/agro/veg_minus.jpeg' || parsed[key] === '/agro/veg_minus.png') {
-          parsed[key] = DEFAULT_ASSETS[key];
-        }
-      });
-      return { ...DEFAULT_ASSETS, ...parsed };
-    }
-    return DEFAULT_ASSETS;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('dxn_custom_assets', JSON.stringify(assets));
-  }, [assets]);
-
-  const updateAsset = (key: keyof typeof DEFAULT_ASSETS, value: string) => {
-    setAssets(prev => ({ ...prev, [key]: value }));
-  };
-
-  const resetAssets = () => {
-    setAssets(DEFAULT_ASSETS);
-    localStorage.removeItem('dxn_custom_assets');
-  };
-
-  return (
-    <AssetContext.Provider value={{ assets, updateAsset, resetAssets }}>
-      {children}
-    </AssetContext.Provider>
-  );
-};
+import { AssetProvider } from './context/AssetContext';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,7 +110,7 @@ const Navbar: React.FC = () => {
           path: '/products?category=agro', 
           icon: Leaf,
           dropdown: [
-            { name: 'Veg Minus', path: '/products/veg-minus', icon: Sprout }
+            { name: 'Veg Mayonnaise', path: '/products/veg-minus', icon: Sprout }
           ]
         },
       ]
@@ -186,114 +137,116 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-[100] transition-all duration-300 ${scrolled || isOpen ? 'bg-black/60 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-8'}`}>
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-[110]">
-        <Link to="/" className="flex items-center gap-4 group" onClick={() => setIsOpen(false)}>
-          <div className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center group-hover:scale-105 transition-transform bg-white p-1.5 rounded-sm shadow-lg shadow-black/20">
-            <img src={DXN_LOGO_URL} alt="DXN Logo" className="max-h-full max-w-full object-contain" />
-          </div>
-          <div className="hidden sm:block">
-            <span className="text-xl font-bold tracking-tighter block leading-none uppercase text-white">DXN Manufacturing India</span>
-            <span className="text-[10px] text-neutral-400 tracking-widest uppercase font-medium">Global Flagship Hub</span>
-          </div>
-          <div className="sm:hidden">
-            <span className="text-lg font-bold tracking-tighter block leading-none uppercase text-white">DXN India</span>
-          </div>
-        </Link>
+    <>
+      <nav className={`fixed top-0 w-full z-[110] transition-all duration-300 ${scrolled || isOpen ? 'bg-black/60 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-8'}`}>
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex justify-between items-center relative z-[110]">
+          <Link to="/" className="flex items-center gap-4 group" onClick={() => setIsOpen(false)}>
+            <div className="h-10 w-10 md:h-12 md:w-12 flex items-center justify-center group-hover:scale-105 transition-transform bg-white p-1.5 rounded-sm shadow-lg shadow-black/20">
+              <img src={DXN_LOGO_URL} alt="DXN Logo" className="max-h-full max-w-full object-contain" />
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-xl font-bold tracking-tighter block leading-none uppercase text-white">DXN Manufacturing India</span>
+              <span className="text-[10px] text-neutral-400 tracking-widest uppercase font-medium">Global Flagship Hub</span>
+            </div>
+            <div className="sm:hidden">
+              <span className="text-lg font-bold tracking-tighter block leading-none uppercase text-white">DXN India</span>
+            </div>
+          </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <div
-              key={link.name}
-              className="relative"
-              onMouseEnter={() => link.dropdown && setActiveDropdown(link.name)}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <Link
-                to={link.path}
-                className={`text-sm font-medium tracking-wide flex items-center gap-1.5 hover:text-red-500 py-2 transition-colors ${location.pathname === link.path ? 'text-red-500' : 'text-neutral-300'}`}
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <div
+                key={link.name}
+                className="relative"
+                onMouseEnter={() => link.dropdown && setActiveDropdown(link.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {link.name}
-                {link.dropdown && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />}
-              </Link>
+                <Link
+                  to={link.path}
+                  className={`text-sm font-medium tracking-wide flex items-center gap-1.5 hover:text-red-500 py-2 transition-colors ${location.pathname === link.path ? 'text-red-500' : 'text-neutral-300'}`}
+                >
+                  {link.name}
+                  {link.dropdown && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />}
+                </Link>
 
-              {link.dropdown && activeDropdown === link.name && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="bg-neutral-900 border border-white/10 p-4 shadow-2xl">
-                    <div className="grid gap-2">
-                      {link.dropdown.map((sub: any) => (
-                        <div
-                          key={sub.name + sub.path}
-                          className="relative"
-                          onMouseEnter={() => sub.dropdown && setActiveNestedDropdown(sub.name)}
-                          onMouseLeave={() => setActiveNestedDropdown(null)}
-                        >
-                          <Link
-                            to={sub.path}
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              setActiveNestedDropdown(null);
-                            }}
-                            className={`flex items-center justify-between p-3 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-all`}
+                {link.dropdown && activeDropdown === link.name && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="bg-neutral-900 border border-white/10 p-4 shadow-2xl">
+                      <div className="grid gap-2">
+                        {link.dropdown.map((sub: any) => (
+                          <div
+                            key={sub.name + sub.path}
+                            className="relative"
+                            onMouseEnter={() => sub.dropdown && setActiveNestedDropdown(sub.name)}
+                            onMouseLeave={() => setActiveNestedDropdown(null)}
                           >
-                            <div className="flex items-center gap-3">
-                              <sub.icon className="w-4 h-4 text-red-600" />
-                              {sub.name}
-                            </div>
-                            {sub.dropdown && <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${activeNestedDropdown === sub.name ? 'text-white' : 'text-neutral-600'}`} />}
-                          </Link>
-                          
-                          {sub.dropdown && activeNestedDropdown === sub.name && (
-                            <div className="absolute top-0 left-full ml-1 w-48 animate-in fade-in slide-in-from-left-2 duration-200 z-[120]">
-                              <div className="bg-neutral-900 border border-white/10 p-3 shadow-2xl">
-                                <div className="grid gap-2">
-                                  {sub.dropdown.map((nested: any) => (
-                                    <Link
-                                      key={nested.name + nested.path}
-                                      to={nested.path}
-                                      onClick={() => {
-                                        setActiveDropdown(null);
-                                        setActiveNestedDropdown(null);
-                                      }}
-                                      className="flex items-center gap-3 p-2 text-xs text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
-                                    >
-                                      <nested.icon className="w-3 h-3 text-red-600" />
-                                      {nested.name}
-                                    </Link>
-                                  ))}
+                            <Link
+                              to={sub.path}
+                              onClick={() => {
+                                setActiveDropdown(null);
+                                setActiveNestedDropdown(null);
+                              }}
+                              className={`flex items-center justify-between p-3 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-all`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <sub.icon className="w-4 h-4 text-red-600" />
+                                {sub.name}
+                              </div>
+                              {sub.dropdown && <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${activeNestedDropdown === sub.name ? 'text-white' : 'text-neutral-600'}`} />}
+                            </Link>
+                            
+                            {sub.dropdown && activeNestedDropdown === sub.name && (
+                              <div className="absolute top-0 left-full pl-1 w-48 animate-in fade-in slide-in-from-left-2 duration-200 z-[120]">
+                                <div className="bg-neutral-900 border border-white/10 p-3 shadow-2xl">
+                                  <div className="grid gap-2">
+                                    {sub.dropdown.map((nested: any) => (
+                                      <Link
+                                        key={nested.name + nested.path}
+                                        to={nested.path}
+                                        onClick={() => {
+                                          setActiveDropdown(null);
+                                          setActiveNestedDropdown(null);
+                                        }}
+                                        className="flex items-center gap-3 p-2 text-xs text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
+                                      >
+                                        <nested.icon className="w-3 h-3 text-red-600" />
+                                        {nested.name}
+                                      </Link>
+                                    ))}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            ))}
+
+            <div className="flex items-center gap-4 ml-4">
+              <Link
+                to="/admin"
+                className="p-2.5 text-neutral-400 hover:text-white hover:bg-white/5 transition-all rounded-full"
+                title="Admin Login"
+              >
+                <Lock className="w-4 h-4" />
+              </Link>
+              <Link to="/contact" className="bg-white text-black px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all rounded-sm flex items-center gap-2">
+                Visit Facility <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
-          ))}
-
-          <div className="flex items-center gap-4 ml-4">
-            <Link
-              to="/admin"
-              className="p-2.5 text-neutral-400 hover:text-white hover:bg-white/5 transition-all rounded-full"
-              title="Admin Login"
-            >
-              <Lock className="w-4 h-4" />
-            </Link>
-            <Link to="/contact" className="bg-white text-black px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all rounded-sm flex items-center gap-2">
-              Visit Facility <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
-        </div>
 
-        {/* Mobile Nav Trigger */}
-        <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-white p-2 hover:bg-white/10 rounded transition-colors focus:outline-none">
-          {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
-        </button>
-      </div>
+          {/* Mobile Nav Trigger */}
+          <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-white p-2 hover:bg-white/10 rounded transition-colors focus:outline-none">
+            {isOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-black z-[105] lg:hidden transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: '72px' }}>
@@ -303,7 +256,12 @@ const Navbar: React.FC = () => {
               <div key={link.name} className="flex flex-col border-b border-white/10 last:border-0">
                 {link.dropdown ? (
                   <button
-                    onClick={() => setMobileActiveDropdown(mobileActiveDropdown === link.name ? null : link.name)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setMobileActiveDropdown((prev) => prev === link.name ? null : link.name);
+                    }}
                     className="text-lg sm:text-xl font-bold uppercase tracking-widest text-white hover:text-red-600 transition-colors py-4 flex justify-between items-center w-full text-left"
                   >
                     <span>{link.name}</span>
@@ -321,12 +279,17 @@ const Navbar: React.FC = () => {
                 )}
                 
                 {link.dropdown && mobileActiveDropdown === link.name && (
-                  <div className="pl-4 flex flex-col gap-2 pb-4 border-l border-white/10 ml-1 animate-in fade-in slide-in-from-top-1 duration-300">
+                  <div className="pl-4 flex flex-col gap-2 pb-4 border-l border-white/10 ml-1">
                     {link.dropdown.map((sub: any) => (
                       <div key={sub.name + sub.path} className="flex flex-col">
                         {sub.dropdown ? (
                           <button
-                            onClick={() => setMobileActiveNestedDropdown(mobileActiveNestedDropdown === sub.name ? null : sub.name)}
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setMobileActiveNestedDropdown((prev) => prev === sub.name ? null : sub.name);
+                            }}
                             className="font-medium uppercase tracking-wider text-neutral-400 hover:text-white flex items-center justify-between py-2 text-xs sm:text-sm w-full text-left"
                           >
                             <div className="flex items-center gap-3">
@@ -347,7 +310,7 @@ const Navbar: React.FC = () => {
                         )}
                         
                         {sub.dropdown && mobileActiveNestedDropdown === sub.name && (
-                          <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                          <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1">
                             {sub.dropdown.map((nested: any) => (
                               <Link
                                 key={nested.name + nested.path}
@@ -387,7 +350,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </>
   );
 };
 
@@ -480,6 +443,7 @@ const AnimatedRoutes: React.FC = () => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
+      {/* @ts-ignore */}
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />

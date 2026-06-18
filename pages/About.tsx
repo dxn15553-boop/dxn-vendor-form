@@ -2,7 +2,7 @@
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { Quote, Factory, FlaskConical, Sprout, Globe, Layers, Zap, Thermometer, BoxSelect, Scan, RefreshCcw, Target, Leaf } from 'lucide-react';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 
 const About: React.FC = () => {

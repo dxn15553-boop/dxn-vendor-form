@@ -89,12 +89,12 @@ const GanozhiSoap: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      75 g round-shaped soap stamped with DXN logo on both sides.
+                      Ganozhi soap is specially formulated with a high concentration of ganoderma extract to increase skin fairness, improve skin tone and retain skin elasticity, thus preventing the appearance of early sign of ageing & it is suitable for all skin types.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        75g Bar
+                        75gr
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-rose-500/30 bg-rose-500/10 rounded-full text-rose-400 backdrop-blur-md">
                         Ganoderma Extract
@@ -178,11 +178,11 @@ const GanozhiSoap: React.FC = () => {
                     <span className="text-white font-medium text-right">Solid</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-rose-500/20">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Colour</span>
                     <span className="text-white font-medium text-right">Brown</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Type of product</span>
                     <span className="text-white font-medium text-right">Toiletry</span>
                   </li>
                 </ul>
@@ -195,7 +195,7 @@ const GanozhiSoap: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  75 g round-shaped soap stamped with DXN logo on both sides. A carefully formulated toiletry product designed for personal care, enriched with Ganoderma lucidum extract.
+                  Ganozhi soap with ganoderma extract will make your skin radiant, supple and smooth. No artificial coloring.it is suitable for all skin types.
                 </p>
               </FadeInSection>
 
@@ -224,17 +224,14 @@ const GanozhiSoap: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Sodium Palmate', desc: 'Soap Base' },
-                      { name: 'Ganoderma lucidum Extract', desc: 'Mushroom Extract' },
-                      { name: 'Glycerin', desc: 'Glycerin' },
-                      { name: 'Fragrance', desc: 'Fragrance' }
+                      'Sodium palmate',
+                      'Ganoderma lucidum (Mushroom) Extract',
+                      'Glycerin',
+                      'Fragrance'
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-xs text-neutral-400">{item.desc}</span>
-                        </div>
+                        <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -251,9 +248,9 @@ const GanozhiSoap: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-rose-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Lather', desc: 'Lather the soap.' },
-                          { step: 2, label: 'Apply', desc: 'Apply to the desired body part.' },
-                          { step: 3, label: 'Rinse', desc: 'Rinse off.' }
+                          { step: 1, label: 'Lather', desc: 'Lather the soap,' },
+                          { step: 2, label: 'Apply', desc: 'apply to the desired body part and' },
+                          { step: 3, label: 'Rinse', desc: 'rinse off.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 flex items-center justify-center text-[10px] font-bold shrink-0">

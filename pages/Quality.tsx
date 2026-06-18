@@ -1,7 +1,7 @@
 
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 import { ShieldCheck, Microscope, ClipboardList, CheckCircle, Activity, Award, BadgeCheck, FileCheck } from 'lucide-react';
 

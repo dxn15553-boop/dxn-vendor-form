@@ -99,12 +99,12 @@ const Cocozhi: React.FC = () => {
                     </div>
                     
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      Cocozhi is a blend of non-dairy creamer and cocoa. 500 gm powder form of coffee with cocoa powder (each sachet contains 25 gm).
+                      This unique blend combines premium Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, Combining the rich flavors of ingredients.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        500g (20 Sachets)
+                        500g (25g Sachets)
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-red-500/30 bg-red-500/10 rounded-full text-red-400 backdrop-blur-md">
                         Cocoa Blend
@@ -187,15 +187,15 @@ const Cocozhi: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-red-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Powder Form</span>
+                    <span className="text-white font-medium text-right">Powder.</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-red-500/20">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color & Odour</span>
-                    <span className="text-white font-medium text-right">Dark Brown with Cocoa Aroma</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Colour and Odour</span>
+                    <span className="text-white font-medium text-right">Dark Brown and Cocoa Aroma.</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
-                    <span className="text-white font-medium text-right">FSSAI Compliant</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Type of Product</span>
+                    <span className="text-white font-medium text-right">FSSAI.</span>
                   </li>
                 </ul>
               </div>
@@ -239,7 +239,7 @@ const Cocozhi: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  Cocozhi is a blend of non-dairy creamer and cocoa. 500 gm powder form of coffee with cocoa powder.
+                  Cocozhi is formulated from the finest cocoa with Ganoderma extract. Beside the excellent Cocoa aroma, the stimulating effect of Ganoderma will make you healthy. Pour the Cocozhi powder in a cup, add hot water/milk and stir. Enjoy the drink Cocozhi. Cocozhi is a delicious Cold Drink too.
                 </p>
               </FadeInSection>
 
@@ -268,19 +268,16 @@ const Cocozhi: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Cocoa Powder', desc: 'Cocoa powder' },
-                      { name: 'Sugar', desc: 'Sugar' },
-                      { name: 'Skimmed Milk Powder', desc: 'Skimmed Milk Powder' },
-                      { name: 'Malt Extract', desc: 'Malt Extract' },
-                      { name: 'Vanilla', desc: 'Vanilla' },
-                      { name: 'Ganoderma Extract', desc: 'Ganoderma Extract' },
+                      'Sugar',
+                      'Cocoa Powder',
+                      'Skimmed Milk Powder',
+                      'Malt Extract',
+                      'Vanilla',
+                      'Ganoderma Extract',
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-xs text-neutral-400">{item.desc}</span>
-                        </div>
+                        <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item}</span>
                       </li>
                     ))}
 
@@ -294,8 +291,8 @@ const Cocozhi: React.FC = () => {
                           <div className="flex flex-wrap gap-1.5 mt-2 max-w-full">
                             {[
                               'Glucose Syrup Solids', 'Vegetable Fat (palm)', 'Dipotassium Hydrogen Phosphate',
-                              'Sodium Tripolyphosphate', 'Sodium Caseinate (milk derivative)',
-                              'Mono & Diglycerides of Fatty Acids', 'Diacetyl Tartaric & Fatty Acid Esters of Glycerol', 'Beta Carotene'
+                              'Sodium Tripolyphosphate', 'Sodium Caseinate (a milk derivative)',
+                              'Mono and Diglycerides of Fatty Acids', 'Diacetyl tartaric and Fatty Acid Esters of Glycerol', 'Beta Carotene'
                             ].map((sub, sIdx) => (
                               <span key={sIdx} className="text-[10px] bg-white/[0.02] border border-white/[0.06] px-2 py-0.5 rounded text-neutral-300">
                                 {sub}
@@ -319,9 +316,9 @@ const Cocozhi: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Cocozhi', desc: 'Pour the contents of Cocozhi in a cup.' },
-                          { step: 2, label: 'Add Hot Water/Milk', desc: 'Add 150 ml of hot water/milk.' },
-                          { step: 3, label: 'Stir', desc: 'Stir and serve.' }
+                          { step: 1, label: 'Add Cocozhi', desc: 'Pour the contents of Cocozhi in a cup,' },
+                          { step: 2, label: 'Add Hot Water/Milk', desc: 'add 150ml of hot water/milk and' },
+                          { step: 3, label: 'Stir', desc: 'stir.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center text-[10px] font-bold shrink-0">
@@ -341,7 +338,7 @@ const Cocozhi: React.FC = () => {
                       <div className="bg-white/[0.02] border border-white/[0.06] p-3 rounded-lg flex items-center gap-3">
                         <Info className="w-4 h-4 text-red-500 shrink-0" />
                         <p className="text-xs text-neutral-400 leading-normal">
-                          Keep in a cool and dry place, away from direct sunlight.
+                          Keep in a cool and dry place.
                         </p>
                       </div>
                     </div>
@@ -356,94 +353,7 @@ const Cocozhi: React.FC = () => {
         </div>
       </div>
 
-      {/* More Coffee Products Carousel */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 mt-32 relative group/carousel">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white flex items-center gap-4">
-            <Coffee className="w-10 h-10 text-red-500" />
-            More <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600">Coffee Blends</span>
-          </h2>
-          
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-4 hidden md:flex opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
-            <button 
-              onClick={() => scrollCarousel('left')}
-              className="w-12 h-12 rounded-full border border-white/10 bg-neutral-900 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-xl"
-            >
-              <ChevronLeft className="w-5 h-5 text-white" />
-            </button>
-            <button 
-              onClick={() => scrollCarousel('right')}
-              className="w-12 h-12 rounded-full border border-white/10 bg-neutral-900 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-xl"
-            >
-              <ChevronRight className="w-5 h-5 text-white" />
-            </button>
-          </div>
-        </div>
 
-        {/* Carousel Container */}
-        <div 
-          ref={carouselRef}
-          className="flex overflow-x-auto gap-8 pb-12 snap-x snap-mandatory relative [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {coffeeProducts.map((product: any) => (
-            <div 
-              key={product.id} 
-              className="min-w-[320px] md:min-w-[400px] snap-center group bg-neutral-900 border border-white/5 hover:border-red-600/50 transition-all duration-500 transform-gpu flex flex-col h-full relative overflow-hidden focus:outline-none focus-visible:outline-none ring-0"
-            >
-              <div className="absolute top-4 right-4 z-20">
-                  <span className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${product.status === 'Available' ? 'bg-green-950/80 border-green-500 text-green-400' :
-                          product.status === 'Coming Soon' ? 'bg-amber-950/80 border-amber-500 text-amber-400' :
-                              'bg-blue-950/80 border-blue-500 text-blue-400'
-                      }`}>
-                      {product.status}
-                  </span>
-              </div>
-              <div className="h-64 relative overflow-hidden bg-black shrink-0 flex items-center justify-center">
-                  <img
-                      src={product.image || "https://images.unsplash.com/photo-1628102491629-778571d893a3"}
-                      alt={product.name}
-                      className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${
-                            product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
-                               ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
-                               : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
-                                  ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
-                                  : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                     ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                     : 'object-cover group-hover:scale-105'
-                         }`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4">
-                      <span className="text-red-500 text-[9px] font-black uppercase tracking-[0.2em]">{product.category}</span>
-                  </div>
-              </div>
-              <div className="-mt-px p-8 flex-grow flex flex-col justify-between relative bg-neutral-900">
-                  <div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-4 group-hover:text-red-500 transition-colors focus:outline-none focus-visible:outline-none">{product.name}</h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed mb-6 font-medium line-clamp-3">
-                          {product.description}
-                      </p>
-                      <div className="space-y-2 mb-8">
-                          {(product.features || []).slice(0, 3).map((feature: string, fIdx: number) => (
-                              <div key={fIdx} className="flex items-center gap-3">
-                                  <Check className="w-3 h-3 text-red-600 shrink-0" />
-                                  <span className="text-xs text-neutral-500 font-bold uppercase tracking-wider">{feature}</span>
-                              </div>
-                          ))}
-                      </div>
-                  </div>
-                  <button
-                      className="w-full py-4 bg-white text-black border border-white hover:bg-red-600 hover:border-red-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 group/btn shadow-xl"
-                  >
-                      View Specifications <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Global Animation Styles */}
       <style>{`

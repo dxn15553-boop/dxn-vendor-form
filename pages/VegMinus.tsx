@@ -87,7 +87,7 @@ const VegMinus: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format.
+                      DXN Veg Mayonnaise recipe is an amazing substitute for traditional mayo. It is thick and creamy, perfect for sandwiches, salads, or a dip. This Eggless Mayonnaise is creamy, smooth, and perfect to spread over sandwiches and salads.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
@@ -175,15 +175,11 @@ const VegMinus: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-emerald-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Smooth & thick consistency</span>
+                    <span className="text-white font-medium text-right">Smooth and thick consistency with clear whitish color.</span>
                   </li>
-                  <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-emerald-500/20">
+                  <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors hover:border-emerald-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color</span>
-                    <span className="text-white font-medium text-right">Clear whitish</span>
-                  </li>
-                  <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Category</span>
-                    <span className="text-white font-medium text-right">Seasonings & Condiments</span>
+                    <span className="text-white font-medium text-right">Clear white Color.</span>
                   </li>
                 </ul>
               </div>
@@ -214,7 +210,7 @@ const VegMinus: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <h4 className="text-[9px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Servings Per Pack</h4>
-                    <p className="text-sm font-semibold text-white">Approx. 25</p>
+                    <p className="text-sm font-semibold text-white">About 25</p>
                   </div>
                 </div>
               </div>
@@ -228,7 +224,7 @@ const VegMinus: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  DXN Veg Mayonnaise is manufactured under strict quality standards to ensure premium taste and texture. Our eggless formula provides a versatile, creamy base suitable for various culinary applications, maintaining consistency and flavor profile throughout its shelf life.
+                  DXN Veg Mayonnaise is a rich and creamy plant-based spread made with high-quality ingredients like soybean oil, RO water, vinegar, salt, and non-dairy creamer. Enhanced with xanthan gum for smooth texture and citric acid for a tangy taste, it's perfect for sandwiches, salads, and dips. Enjoy a delicious, egg-free alternative with a balance of flavor and quality in every spoonful.
                 </p>
               </FadeInSection>
 
@@ -273,15 +269,15 @@ const VegMinus: React.FC = () => {
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">
                     <div className="group/item">
-                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-emerald-400 transition-colors">Directions</h5>
+                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-emerald-400 transition-colors">Directions for Use</h5>
                       <ol className="list-decimal pl-4 space-y-2 marker:text-emerald-500">
-                        <li>Remove the cap, pour desired amount on dish.</li>
-                        <li>Store properly after use and keep in fridge.</li>
+                        <li>Remove the cap, pour desired amount of DXN Veg Mayonnaise on the dish.</li>
+                        <li>After using, store the bag appropriately to prevent air exposure and keep in fridge for freshness.</li>
                       </ol>
                     </div>
                     <div className="group/item mt-6 pt-6 border-t border-white/[0.08]">
                       <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-emerald-400 transition-colors">Storage Conditions</h5>
-                      <p className="leading-relaxed">Store in a cool and dry hygienic place. Once opened, keep refrigerated and consume within 2 months or before expiry.</p>
+                      <p className="leading-relaxed">Do not use if the product is bloated/ leakage/ damage. Store in a cool and dry hygienic place. Once opened, keep in refrigerator and consume within 2 months or best before date whichever is earlier.</p>
                     </div>
                   </div>
                 </div>

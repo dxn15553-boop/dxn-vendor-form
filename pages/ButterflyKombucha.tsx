@@ -108,13 +108,13 @@ const ButterflyKombucha: React.FC = () => {
             {/* Right Column: Image Showcase */}
             <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
               <FadeInSection delay="200ms">
-                <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
+                <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-[400px] md:h-[500px] lg:h-auto lg:aspect-square group mx-auto">
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
                       src="/kombucha/Butterfly pea copy.png"
                       alt="DXN Butterfly Kombucha"
-                      className="w-full h-full object-contain scale-[1.2] filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
+                      className="w-full h-full object-contain scale-[0.85] md:scale-90 filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
                     />
                   </div>
                 </div>

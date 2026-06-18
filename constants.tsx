@@ -118,7 +118,8 @@ export const DIVISIONS: Division[] = [
       'Automated Encapsulation Technology',
       'Precision Multi-Stage Granulation'
     ],
-    capacity: 'Millions of dosages per day for global export'
+    capacity: 'Millions of dosages per day for global export',
+    image: '/nutra/nutraDivision.png'
   },
   {
     id: 'coffee',
@@ -132,7 +133,8 @@ export const DIVISIONS: Division[] = [
       'Automated Multi-Lane Sachet Packing',
       'Integrated Roast-to-Pack Logistics'
     ],
-    capacity: 'High-volume sachet production across 12 automated lines'
+    capacity: 'High-volume sachet production across 12 automated lines',
+    image: '/coffee/coffeeDivision.jpeg'
   },
   {
     id: 'cosmetics',
@@ -146,7 +148,8 @@ export const DIVISIONS: Division[] = [
       'Microbiological Purity Control',
       'Fragrance Stability Testing Labs'
     ],
-    capacity: 'Fully integrated personal care manufacturing ecosystem'
+    capacity: 'Fully integrated personal care manufacturing ecosystem',
+    image: '/cosmetics/cosmeticsDivision.jpeg'
   },
   {
     id: 'kombucha',
@@ -160,7 +163,8 @@ export const DIVISIONS: Division[] = [
       'Saffron Infusion Technology',
       'Real-time pH & Temperature Monitoring'
     ],
-    capacity: 'Scaling production for Saffron variants globally'
+    capacity: 'Scaling production for Saffron variants globally',
+    image: '/kombucha/komuchaDivision.jpeg'
   },
   {
     id: 'wetfood',
@@ -174,7 +178,8 @@ export const DIVISIONS: Division[] = [
       'High-Pressure Pasteurization',
       'Concentrate Recovery Systems'
     ],
-    capacity: 'High-speed bottling and aseptic pouch filling'
+    capacity: 'High-speed bottling and aseptic pouch filling',
+    image: '/wetfood/wetFood.jpeg'
   },
   {
     id: 'agro',
@@ -188,7 +193,8 @@ export const DIVISIONS: Division[] = [
       'Subcritical Extraction for Essential Oils',
       'Modified Atmosphere Packaging (MAP)'
     ],
-    capacity: 'Integrated farm-to-fork manufacturing capacity'
+    capacity: 'Integrated farm-to-fork manufacturing capacity',
+    image: '/agro/agroDivision.png'
   }
 ];
 

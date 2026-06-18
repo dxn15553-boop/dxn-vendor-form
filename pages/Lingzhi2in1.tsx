@@ -89,12 +89,12 @@ const Lingzhi2in1: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      100 gm Powder Coffee Beverage of Lingzhi Coffee 2 in 1 (Each Sachet Contains 5gm).
+                      Lingzhi Coffee 2 in 1 is a unique blend of premium instant coffee mix and Ganoderma extract, designed to offer both a rich coffee experience and health-enhancing benefits. It contains no added sugar, making it ideal for health-conscious individuals who enjoy their coffee with a smooth, slightly earthy flavor.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        100g (20 Sachets)
+                        100g (5g Sachets)
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-orange-500/30 bg-orange-500/10 rounded-full text-orange-400 backdrop-blur-md">
                         Ganoderma Extract
@@ -175,14 +175,14 @@ const Lingzhi2in1: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Powder Form</span>
+                    <span className="text-white font-medium text-right">Powder</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color & Odour</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Colour and Odour</span>
                     <span className="text-white font-medium text-right">Black and Coffee Aroma</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Type of Product</span>
                     <span className="text-white font-medium text-right">FSSAI</span>
                   </li>
                 </ul>
@@ -227,7 +227,7 @@ const Lingzhi2in1: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  100 gm Powder Coffee Beverage of Lingzhi Coffee 2 in 1 (Each Sachet Contains 5gm).
+                  DXN Lingzhi Coffee 2 in 1 is the perfect blend of Ganoderma extract and Coffee powder. Enjoy this coffee-flavored refreshing beverage and the goodness of Ganoderma brings to your health. To get the real taste of DXN Lingzhi Coffee 2 in 1, pour the contents in a cup, add hot water and stir well.
                 </p>
               </FadeInSection>
 
@@ -256,15 +256,12 @@ const Lingzhi2in1: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Instant Coffee mix', desc: 'Instant Coffee mix' },
-                      { name: 'Ganoderma Extract', desc: 'Ganoderma Extract' },
+                      'Instant Coffee mix',
+                      'Ganoderma Extract',
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-xs text-neutral-400">{item.desc}</span>
-                        </div>
+                        <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -281,9 +278,9 @@ const Lingzhi2in1: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-orange-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of DXN Lingzhi Coffee 2 in 1 into a cup.' },
-                          { step: 2, label: 'Add Hot Water', desc: 'Add 200ml hot water.' },
-                          { step: 3, label: 'Stir well', desc: 'Stir well.' }
+                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of DXN Lingzhi Coffee 2 in 1 into a cup,' },
+                          { step: 2, label: 'Add Hot Water', desc: 'add 200ml hot water and' },
+                          { step: 3, label: 'Stir well', desc: 'stir well.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-500 flex items-center justify-center text-[10px] font-bold shrink-0">

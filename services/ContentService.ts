@@ -90,7 +90,7 @@ export const INITIAL_CONTENT = {
       description: "A premium fermented tea infused with Grade A Kashmiri Saffron cultivated right here in our Siddipet indoor facility.",
       image: "/kombucha/safronKombucha.png",
       features: ["Probiotic Rich", "Antioxidant Boost", "Indigenous Saffron"],
-      status: "Coming Soon"
+      status: "Available"
     },
     {
       id: "prod-10",

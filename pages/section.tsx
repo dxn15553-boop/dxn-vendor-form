@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download } from 'lucide-react';
 

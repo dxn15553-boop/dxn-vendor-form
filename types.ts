@@ -14,6 +14,7 @@ export interface Division {
   categories: string[];
   strengths: string[];
   capacity: string;
+  image: string;
 }
 
 export interface Certification {

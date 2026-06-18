@@ -89,12 +89,12 @@ const Lingzhi: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      500 gm Powder form of coffee beverage of Lingzhi Coffee 3 in 1 Powder (Each Sachet Contains 20 gm).
+                      DXN Lingzhi Coffee 3 in 1 is a premium coffee mix that combines the richness of coffee with the health benefits of Ganoderma extract.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        500g (25 Sachets)
+                        500g (20g Sachets)
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-orange-500/30 bg-orange-500/10 rounded-full text-orange-400 backdrop-blur-md">
                         Ganoderma Extract
@@ -177,15 +177,15 @@ const Lingzhi: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Powder Form</span>
+                    <span className="text-white font-medium text-right">Powder</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-orange-500/20">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color & Odour</span>
-                    <span className="text-white font-medium text-right">Dark Brown with Coffee Aroma</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Colour and Odour</span>
+                    <span className="text-white font-medium text-right">Dark Brown and Coffee Aroma</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
-                    <span className="text-white font-medium text-right">FSSAI Compliant</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Type of Product</span>
+                    <span className="text-white font-medium text-right">FSSAI</span>
                   </li>
                 </ul>
               </div>
@@ -205,7 +205,7 @@ const Lingzhi: React.FC = () => {
                   <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <div>
                     <h4 className="text-[10px] font-bold text-white uppercase tracking-wider mb-1">Allergen Information</h4>
-                    <p className="text-[11px] text-neutral-400 leading-normal">Contains Milk and Soya.</p>
+                    <p className="text-[11px] text-neutral-400 leading-normal">Contains: Milk and Soya.</p>
                   </div>
                 </div>
 
@@ -229,7 +229,7 @@ const Lingzhi: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  500 gm Powder form of coffee beverage of Lingzhi Coffee 3 in 1 Powder (Each Sachet Contains 20 gm).
+                  DXN Lingzhi Coffee 3in1 is a mixture of Coffee Powder and Ganoderma extract. Pour Lingzhi Coffee Powder in a cup, add hot water and stir well to enjoy the original taste of DXN Lingzhi coffee 3in1.
                 </p>
               </FadeInSection>
 
@@ -258,16 +258,13 @@ const Lingzhi: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'Instant Coffee mix', desc: 'Instant Coffee mix' },
-                      { name: 'Ganoderma Extract', desc: 'Ganoderma Extract' },
-                      { name: 'Sugar', desc: 'Sugar' },
+                      'Instant Coffee mix',
+                      'Ganoderma Extract',
+                      'Sugar',
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-xs text-neutral-400">{item.desc}</span>
-                        </div>
+                        <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item}</span>
                       </li>
                     ))}
 
@@ -281,8 +278,8 @@ const Lingzhi: React.FC = () => {
                           <div className="flex flex-wrap gap-1.5 mt-2 max-w-full">
                             {[
                               'Glucose Syrup Solids', 'Vegetable Fat (palm)', 'Dipotassium Hydrogen Phosphate',
-                              'Sodium Tripolyphosphate', 'Sodium Caseinate (milk derivative)',
-                              'Mono & Diglycerides of Fatty Acids', 'Diacetyl Tartaric & Fatty Acid Esters of Glycerol', 'Beta Carotene'
+                              'Sodium Tripolyphosphate', 'Sodium Caseinate (a milk derivative)',
+                              'Mono and Diglycerides of Fatty Acids', 'Diacetyl tartaric and Fatty Acid Esters of Glycerol', 'Beta Carotene'
                             ].map((sub, sIdx) => (
                               <span key={sIdx} className="text-[10px] bg-white/[0.02] border border-white/[0.06] px-2 py-0.5 rounded text-neutral-300">
                                 {sub}
@@ -306,9 +303,9 @@ const Lingzhi: React.FC = () => {
                       <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-orange-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of DXN Lingzhi Coffee 3 in 1 into a cup.' },
-                          { step: 2, label: 'Add Hot Water', desc: 'Add 150 ml hot water.' },
-                          { step: 3, label: 'Stir well', desc: 'Stir well.' }
+                          { step: 1, label: 'Add Coffee Powder', desc: 'Pour the contents of DXN Lingzhi Coffee 3 in 1 into a cup,' },
+                          { step: 2, label: 'Add Hot Water', desc: 'add 150ml hot water and' },
+                          { step: 3, label: 'Stir well', desc: 'stir well.' }
                         ].map((d, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-500 flex items-center justify-center text-[10px] font-bold shrink-0">

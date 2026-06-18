@@ -89,12 +89,12 @@ const SaffronKombucha: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      A naturally fermented beverage crafted from high-quality tea, pure saffron strands, sugar, and live kombucha cultures.
+                      Saffron Kombucha is a naturally fermented beverage crafted from High-quality tea, pure saffron strands, sugar, and live kombucha cultures. It is fermented under Controlled hygienic conditions to develop a refreshing taste Profile with the premium aroma and richness of saffron.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-white/10 bg-white/5 rounded-full text-white backdrop-blur-md">
-                        285ml Bottle
+                        285ml
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-rose-500/30 bg-rose-500/10 rounded-full text-rose-400 backdrop-blur-md">
                         Pure Saffron Strands
@@ -108,13 +108,13 @@ const SaffronKombucha: React.FC = () => {
             {/* Right Column: Image Showcase */}
             <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
               <FadeInSection delay="200ms">
-                <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
+                <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg h-[400px] md:h-[500px] lg:h-auto lg:aspect-square group mx-auto">
                   {/* Image Container */}
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
                       src="/kombucha/safronKombucha.png"
                       alt="DXN Saffron Kombucha"
-                      className="w-full h-full object-contain scale-[1.2] filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
+                      className="w-full h-full object-contain scale-[0.85] md:scale-90 filter drop-shadow-[0_20px_40px_rgba(244,63,94,0.3)]"
                     />
                   </div>
                 </div>
@@ -138,15 +138,15 @@ const SaffronKombucha: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-rose-500/20">
                     <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Appearance</span>
-                    <span className="text-white font-medium text-right">Liquid with culture strands</span>
+                    <span className="text-white font-medium text-right">Liquid with culture strands may visible.</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 group/item transition-colors hover:border-rose-500/20">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Color</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Colour</span>
                     <span className="text-white font-medium text-right">Pale to Dark Yellow Colour</span>
                   </li>
                   <li className="flex justify-between items-center text-sm pb-1 group/item transition-colors">
-                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Product Type</span>
-                    <span className="text-white font-medium text-right">FSSAI Beverage</span>
+                    <span className="text-neutral-400 font-medium transition-colors group-hover/item:text-neutral-200">Type of Product</span>
+                    <span className="text-white font-medium text-right">FSSAI</span>
                   </li>
                 </ul>
               </div>
@@ -159,7 +159,7 @@ const SaffronKombucha: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  It is fermented under controlled hygienic conditions to develop a refreshing taste profile with the premium aroma and richness of saffron. Kombucha is a fermented tea. This is a raw drink and strands from the culture may be visible. These are normal and only occur in raw kombucha.
+                  Kombucha is a fermented tea. This is Raw drink and strands from the culture may be visible, these are normal & only occur in raw kombucha.
                 </p>
               </FadeInSection>
 
@@ -173,8 +173,8 @@ const SaffronKombucha: React.FC = () => {
 
                 <FadeInSection delay="200ms">
                   <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-rose-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-rose-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Package Size</h4>
-                    <p className="text-lg font-bold text-white">16 bottles / box</p>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Serves Per Pack About</h4>
+                    <p className="text-lg font-bold text-white">16 bottles in one master box</p>
                   </div>
                 </FadeInSection>
               </div>
@@ -188,17 +188,14 @@ const SaffronKombucha: React.FC = () => {
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      { name: 'RO Water', desc: 'Purified Water' },
-                      { name: 'Sugar', desc: 'Fermentation Fuel' },
-                      { name: 'Tea Powder', desc: 'Base Ingredient' },
-                      { name: 'Saffron', desc: 'Premium Flavor' }
+                      'RO Water',
+                      'Sugar',
+                      'tea powder',
+                      'Saffron'
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm group/item">
                         <Check className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                        <div>
-                          <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item.name}</span>
-                          <span className="text-xs text-neutral-400">{item.desc}</span>
-                        </div>
+                        <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -212,22 +209,31 @@ const SaffronKombucha: React.FC = () => {
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">
                     <div className="group/item">
+                      <h5 className="font-bold text-white mb-4 uppercase text-[9px] tracking-widest group-hover/item:text-rose-400 transition-colors">Directions for Use</h5>
                       <div className="space-y-4">
                         {[
-                          { label: 'Consume', desc: 'Serving size: 285 ml at once.' },
-                          { label: 'Enjoy', desc: 'Best served chilled.' },
-                          { label: 'Storage', desc: 'Store in a dry place at ambient temperature.' }
-                        ].map((d, index) => (
+                          'Serving size 285 ml at once.',
+                          'Best to serve as chilled.'
+                        ].map((desc, index) => (
                           <div key={index} className="flex gap-4 items-start">
                             <span className="w-5 h-5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-500 flex items-center justify-center text-[10px] font-bold shrink-0">
                               {index + 1}
                             </span>
                             <div>
-                              <p className="text-xs font-semibold text-white">{d.label}</p>
-                              <p className="text-xs text-neutral-400">{d.desc}</p>
+                              <p className="text-xs text-neutral-400">{desc}</p>
                             </div>
                           </div>
                         ))}
+                      </div>
+                    </div>
+                    
+                    <div className="group/item mt-8 pt-6 border-t border-white/[0.08]">
+                      <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-rose-400 transition-colors">Storage Condition</h5>
+                      <div className="bg-white/[0.02] border border-white/[0.06] p-3 rounded-lg flex items-center gap-3">
+                        <Info className="w-4 h-4 text-rose-500 shrink-0" />
+                        <p className="text-xs text-neutral-400 leading-normal">
+                          Store in a dry place at ambident temperature<br/>Best to serve chilled
+                        </p>
                       </div>
                     </div>
 

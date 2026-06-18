@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 import { useLocation } from 'react-router-dom';
 import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download, ChevronLeft, ChevronRight, Star } from 'lucide-react';
@@ -158,13 +158,15 @@ const Products: React.FC = () => {
                               src={product.image || FALLBACK_IMAGE}
                               alt={product.name}
                               className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${
-                                    product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
-                                       ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
-                                       : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
-                                          ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
-                                          : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                             ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                             : 'object-cover group-hover:scale-105'
+                                    product.category === 'Kombucha'
+                                       ? 'object-contain scale-[0.8] group-hover:scale-90'
+                                       : product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
+                                          ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
+                                          : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
+                                             ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
+                                             : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                                ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                                : 'object-cover group-hover:scale-105'
                                  }`}
                               style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
                            />
@@ -254,14 +256,16 @@ const Products: React.FC = () => {
                      <img
                         src={selectedProduct.image || FALLBACK_IMAGE}
                         alt={selectedProduct.name}
-                        className={`w-full h-full opacity-90 transition-transform duration-500 ${
-                              selectedProduct.image === '/coffee/cocozhi.png' || selectedProduct.image === '/coffee/lingzhi2in1.png'
-                                 ? 'object-contain scale-[1.0]'
-                                 : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
-                                    ? 'object-contain scale-[1.2]'
-                                    : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
-                                       ? 'object-contain scale-[1.2]'
-                                       : 'object-contain'
+                        className={`opacity-90 transition-transform duration-500 ${
+                              selectedProduct.category === 'Kombucha'
+                                 ? 'w-auto h-auto max-h-[300px] lg:max-h-[450px] object-contain'
+                                 : selectedProduct.image === '/coffee/cocozhi.png' || selectedProduct.image === '/coffee/lingzhi2in1.png'
+                                    ? 'w-full h-full object-contain scale-[1.0]'
+                                    : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
+                                       ? 'w-full h-full object-contain scale-[1.2]'
+                                       : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                                          ? 'w-full h-full object-contain scale-[1.2]'
+                                          : 'w-full h-full object-contain'
                            }`}
                      />
                      <div className="absolute top-6 left-6 z-10">

@@ -4,7 +4,7 @@ import SectionTitle from '../components/SectionTitle';
 import { ICON_MAP } from '../constants';
 import { ChevronRight, Settings, Database, Activity, Target, Leaf, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 
 const Divisions: React.FC = () => {
@@ -98,9 +98,15 @@ const Divisions: React.FC = () => {
                      className="relative overflow-hidden rounded-sm aspect-[4/3] bg-neutral-800"
                    >
                       <img 
-                        src={getDivisionAsset(div.id)} 
-                        alt={div.name} 
-                        className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+                        src={getDivisionAsset(div.id)}
+                        alt={div.name}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (target.src !== div.image) {
+                            target.src = div.image;
+                          }
+                        }}
+                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent"></div>
                    </motion.div>
