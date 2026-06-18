@@ -333,17 +333,17 @@ const initDB = (): Promise<IDBDatabase> => {
   });
 };
 
-const saveFileToDB = async (key: string, file: File) => {
+const saveFileToDB = async (draftId: string, key: string, file: File) => {
   try {
     const db = await initDB();
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    tx.objectStore(STORE_NAME).put(file, key);
+    tx.objectStore(STORE_NAME).put(file, `${draftId}_${key}`);
   } catch (e) {
     console.error("Failed to save file to DB", e);
   }
 };
 
-const getFilesFromDB = async (): Promise<Record<string, File>> => {
+const getFilesFromDB = async (draftId: string): Promise<Record<string, File>> => {
   try {
     const db = await initDB();
     const tx = db.transaction(STORE_NAME, 'readonly');
@@ -357,7 +357,10 @@ const getFilesFromDB = async (): Promise<Record<string, File>> => {
         const values = valuesReq.result as File[];
         const result: Record<string, File> = {};
         keys.forEach((k, i) => {
-          result[k] = values[i];
+          if (k.startsWith(`${draftId}_`)) {
+            const originalKey = k.replace(`${draftId}_`, '');
+            result[originalKey] = values[i];
+          }
         });
         resolve(result);
       };
@@ -369,21 +372,31 @@ const getFilesFromDB = async (): Promise<Record<string, File>> => {
   }
 };
 
-const removeFileFromDB = async (key: string) => {
+const removeFileFromDB = async (draftId: string, key: string) => {
   try {
     const db = await initDB();
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    tx.objectStore(STORE_NAME).delete(key);
+    tx.objectStore(STORE_NAME).delete(`${draftId}_${key}`);
   } catch (e) {
     console.error("Failed to remove file from DB", e);
   }
 };
 
-const clearFilesDB = async () => {
+const clearFilesDB = async (draftId: string) => {
   try {
     const db = await initDB();
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    tx.objectStore(STORE_NAME).clear();
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.getAllKeys();
+    
+    request.onsuccess = () => {
+      const keys = request.result as string[];
+      keys.forEach(k => {
+        if (k.startsWith(`${draftId}_`)) {
+          store.delete(k);
+        }
+      });
+    };
   } catch (e) {
     console.error("Failed to clear files DB", e);
   }
@@ -402,6 +415,10 @@ const VendorRegistration: React.FC = () => {
   const [isResuming, setIsResuming] = useState(false);
   const [previouslyUploadedFiles, setPreviouslyUploadedFiles] = useState<string[]>([]);
   const [originalData, setOriginalData] = useState<any>(null);
+
+  const [activeDraftId, setActiveDraftId] = useState<string | null>(null);
+  const [draftsList, setDraftsList] = useState<any[]>([]);
+  const [draftsModalOpen, setDraftsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     categories: [] as string[],
@@ -516,27 +533,89 @@ const VendorRegistration: React.FC = () => {
   };
 
   useEffect(() => {
-    const savedDraft = localStorage.getItem('vendorFormDraft');
-    if (savedDraft) {
+    const savedDraftsStr = localStorage.getItem('vendorFormDrafts');
+    if (savedDraftsStr) {
       try {
-        const { formData: savedFormData, checkboxes: savedCheckboxes } = JSON.parse(savedDraft);
-        if (savedFormData) setFormData(savedFormData);
-        if (savedCheckboxes) setCheckboxes(savedCheckboxes);
+        const parsed = JSON.parse(savedDraftsStr);
+        setDraftsList(Array.isArray(parsed) ? parsed : []);
       } catch (e) {
-        console.error("Failed to parse saved draft", e);
+        console.error("Failed to parse saved drafts", e);
       }
     }
-
-    getFilesFromDB().then((savedFiles) => {
-      if (Object.keys(savedFiles).length > 0) {
-        setFiles(savedFiles);
-      }
-    });
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('vendorFormDraft', JSON.stringify({ formData, checkboxes }));
-  }, [formData, checkboxes]);
+    if (!activeDraftId || isUpdateMode) return;
+    
+    const hasData = formData.companyName || formData.email || formData.phone || formData.categories.length > 0;
+    if (!hasData) return;
+
+    setDraftsList(prev => {
+      const existingIdx = prev.findIndex(d => d.id === activeDraftId);
+      const newDraft = {
+        id: activeDraftId,
+        lastModified: Date.now(),
+        companyName: formData.companyName || 'Untitled Draft',
+        formData,
+        checkboxes
+      };
+      
+      let newList;
+      if (existingIdx >= 0) {
+        newList = [...prev];
+        newList[existingIdx] = newDraft;
+      } else {
+        newList = [...prev, newDraft];
+      }
+      
+      localStorage.setItem('vendorFormDrafts', JSON.stringify(newList));
+      return newList;
+    });
+  }, [formData, checkboxes, activeDraftId, isUpdateMode]);
+
+  const handleDeleteDraft = async (id: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (window.confirm("Are you sure you want to delete this draft?")) {
+      await clearFilesDB(id);
+      setDraftsList(prev => {
+        const newList = prev.filter(d => d.id !== id);
+        localStorage.setItem('vendorFormDrafts', JSON.stringify(newList));
+        return newList;
+      });
+      if (activeDraftId === id) {
+        setActiveDraftId(null);
+        setStep(1);
+      }
+    }
+  };
+
+  const handleStartNew = () => {
+    setFormData({
+      categories: [], otherCategory: '', serviceCapabilities: [], oemBrands: ['', '', ''],
+      companyName: '', panNumber: '', gstNumber: '', email: '', phone: '', specialities: '',
+      description: '', authorizedPerson: '', escContact: '', techTeamStrength: '', installedBase: ''
+    });
+    setCheckboxes({ verifiedInfo: false, documentsUploaded: false, authSignatory: false });
+    setFiles({});
+    setActiveDraftId(Date.now().toString());
+    setIsUpdateMode(false);
+    setStep(2);
+  };
+
+  const handleResumeDraft = async (draft: any) => {
+    setFormData(draft.formData);
+    setCheckboxes(draft.checkboxes);
+    setActiveDraftId(draft.id);
+    setIsUpdateMode(false);
+    const savedFiles = await getFilesFromDB(draft.id);
+    if (Object.keys(savedFiles).length > 0) {
+      setFiles(savedFiles);
+    } else {
+      setFiles({});
+    }
+    setDraftsModalOpen(false);
+    setStep(2);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     let value = e.target.value;
@@ -584,7 +663,7 @@ const VendorRegistration: React.FC = () => {
   const handleFileSelect = (key: string) => async (e: React.ChangeEvent<HTMLInputElement> | null) => {
     if (e === null) {
       setFiles(prev => ({ ...prev, [key]: null }));
-      await removeFileFromDB(key);
+      await removeFileFromDB(activeDraftId || '', key);
     } else if (e.target.files && e.target.files[0]) {
       const file = e.target.files![0];
 
@@ -596,7 +675,7 @@ const VendorRegistration: React.FC = () => {
       }
 
       setFiles(prev => ({ ...prev, [key]: file }));
-      await saveFileToDB(key, file);
+      await saveFileToDB(activeDraftId || '', key, file);
     }
   };
 
@@ -812,8 +891,13 @@ const VendorRegistration: React.FC = () => {
           throw new Error(result.message);
         }
 
-        localStorage.removeItem('vendorFormDraft');
-        clearFilesDB();
+        setDraftsList(prev => {
+          const newList = prev.filter(d => d.id !== activeDraftId);
+          localStorage.setItem('vendorFormDrafts', JSON.stringify(newList));
+          return newList;
+        });
+        clearFilesDB(activeDraftId || '');
+        setActiveDraftId(null);
         setStep(3);
       } catch (fetchErr: any) {
         console.error("GAS Fetch Error:", fetchErr);
@@ -853,17 +937,34 @@ const VendorRegistration: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => setStep(2)}
-                className="bg-red-600 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white hover:text-black transition-all flex-1"
-              >
-                Begin Registration <ArrowRight className="w-6 h-6" />
-              </button>
+              {draftsList.length > 0 ? (
+                <>
+                  <button
+                    onClick={() => setDraftsModalOpen(true)}
+                    className="bg-red-600 text-white px-8 py-6 text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-white hover:text-black transition-all flex-1"
+                  >
+                    Resume Saved Draft ({draftsList.length}) <ArrowRight className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={handleStartNew}
+                    className="bg-transparent border border-white/20 text-white px-8 py-6 text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-white/10 transition-all flex-1"
+                  >
+                    Start New
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleStartNew}
+                  className="bg-red-600 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white hover:text-black transition-all flex-1"
+                >
+                  Begin Registration <ArrowRight className="w-6 h-6" />
+                </button>
+              )}
               <button
                 onClick={() => setResumeModalOpen(true)}
-                className="bg-transparent border border-white/20 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white/10 transition-all flex-1"
+                className="bg-transparent border border-white/20 text-white px-12 py-6 text-sm sm:text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white/10 transition-all flex-1"
               >
-                Update Existing <ArrowRight className="w-6 h-6" />
+                Update Existing <ArrowRight className="w-5 sm:w-6 h-5 sm:h-6" />
               </button>
             </div>
           </div>
@@ -894,6 +995,36 @@ const VendorRegistration: React.FC = () => {
                   {isResuming ? 'Loading...' : 'Fetch Application'}
                 </button>
               </form>
+            </div>
+          </div>
+        )}
+
+        {draftsModalOpen && (
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+            <div className="bg-neutral-900 border border-white/10 p-6 sm:p-8 max-w-2xl w-full relative mx-4">
+              <button onClick={() => setDraftsModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
+                <X className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4">Saved Drafts</h2>
+              
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                {draftsList.map(draft => (
+                  <div key={draft.id} className="bg-black border border-white/5 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-white/20 transition-all">
+                    <div>
+                      <h4 className="text-lg font-black uppercase text-white">{draft.companyName}</h4>
+                      <p className="text-xs text-neutral-500 font-bold tracking-widest mt-1">LAST SAVED: {new Date(draft.lastModified).toLocaleString()}</p>
+                    </div>
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-neutral-900 border border-white/10 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
+                        Delete
+                      </button>
+                      <button onClick={() => handleResumeDraft(draft)} className="bg-red-600 text-white px-6 py-3 text-xs font-black uppercase hover:bg-white hover:text-black transition-all flex-1 sm:flex-none">
+                        Continue
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -1068,11 +1199,21 @@ const VendorRegistration: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-8">
+              <div className="pt-8 flex flex-col sm:flex-row gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert("Your progress has been saved as a draft on your device.");
+                    setStep(1);
+                  }}
+                  className="w-full sm:w-1/3 bg-transparent border border-white/20 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all"
+                >
+                  Save Draft & Exit
+                </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                  className="w-full sm:w-2/3 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                 >
                   {isSubmitting ? 'Securing Data...' : 'Submit Application'}
                 </button>
