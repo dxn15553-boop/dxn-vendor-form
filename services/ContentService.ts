@@ -74,15 +74,7 @@ export const INITIAL_CONTENT = {
       features: ["pH Balanced", "Vitamin E Enriched", "Suitable for all Skin Types"],
       status: "Available"
     },
-    {
-      id: "prod-4",
-      name: "Spirulina Cereal",
-      category: "Nutraceuticals",
-      description: "A balanced alkaline food source combining high-grade Spirulina with cereal fiber for optimal digestive health.",
-      image: "/nutra/nutraDivision.png",
-      features: ["Complete Protein", "Rich in GLA", "Superfood Blend"],
-      status: "Available"
-    },
+
     {
       id: "prod-5",
       name: "Saffron Kombucha",
@@ -229,7 +221,7 @@ const mergeProducts = (fetchedProducts: any) => {
         if (merged[idx].id === "prod-1") merged[idx].image = "/nutra/ReishiGanoProduct.png";
         if (merged[idx].id === "prod-2") merged[idx].image = "/coffee/lingzhi.png";
         if (merged[idx].id === "prod-3") merged[idx].image = "/cosmetics/Ganozhisoap.png";
-        if (merged[idx].id === "prod-4") merged[idx].image = "/nutra/nutraDivision.png";
+
         if (merged[idx].id === "prod-5") merged[idx].image = "/kombucha/safronKombucha.png";
         if (merged[idx].id === "prod-10") merged[idx].image = "/kombucha/Butterfly pea copy.png";
         if (merged[idx].id === "prod-11") merged[idx].image = "/kombucha/classicKomucha.png";
