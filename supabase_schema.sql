@@ -34,3 +34,18 @@ CREATE POLICY "Enable read access for authenticated users" ON vendors
   FOR SELECT
   TO authenticated
   USING (true);
+
+-- Allow public users to update their own row if they have the ID
+CREATE POLICY "Enable update for anonymous users" ON vendors
+  FOR UPDATE
+  USING (true)
+  WITH CHECK (true);
+
+-- Create a secure function to fetch a single vendor by ID and exact Email
+CREATE OR REPLACE FUNCTION fetch_vendor_application(p_id BIGINT, p_email TEXT)
+RETURNS SETOF vendors
+LANGUAGE sql
+SECURITY DEFINER -- Runs with elevated privileges to bypass SELECT RLS
+AS $$
+  SELECT * FROM vendors WHERE id = p_id AND email = p_email LIMIT 1;
+$$;

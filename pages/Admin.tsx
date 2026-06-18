@@ -477,7 +477,7 @@ const Admin: React.FC = () => {
                        <div className="space-y-4">
                            <div className="flex items-center gap-3">
                               <span className={`px-3 py-1 text-[8px] font-black uppercase border ${(vendor.status === 'accepted' || vendor.status === 'approved') ? 'border-green-500 text-green-500' : (vendor.status === 'observation' || vendor.status === 'rejected') ? 'border-amber-500 text-amber-500' : 'border-neutral-500 text-neutral-500'}`}>{(vendor.status === 'accepted' || vendor.status === 'approved') ? 'Completed' : (vendor.status === 'observation' || vendor.status === 'rejected') ? 'Under Observation' : vendor.status}</span>
-                              <h4 className="text-xl font-black uppercase text-white">{vendor.companyName}</h4>
+                              <h4 className="text-xl font-black uppercase text-white">{vendor.companyName} <span className="text-neutral-500 font-light lowercase text-base ml-2">#{vendor.id}</span></h4>
                            </div>
                            <div className="grid grid-cols-2 gap-x-12 gap-y-2 text-xs">
                               <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Contact Person:</span> <span className="text-neutral-300">{vendor.authorizedPerson || 'N/A'}</span></p>

@@ -62,6 +62,46 @@ const SERVICE_CAPABILITIES = [
   "Installation & Commissioning", "AMC Support", "Breakdown Support"
 ];
 
+const MANDATORY_FILES = [
+  'companyRegistration', 'panCard', 'gstCertificate', 'companyProfile',
+  'cancelledCheque', 'bankAccountDetails',
+  'conflictOfInterest', 'antiBribery', 'complianceDecl', 'blacklistingDecl',
+  'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
+  'manufacturingFacility', 'serviceInfrastructure'
+];
+
+const OPTIONAL_FILES = [
+  'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration',
+  'profTaxRegistration', 'labourLicense', 'auditedFinancials', 'itrAcknowledgement', 'iso9001', 'iso14001', 'iso45001',
+  'gmp', 'ce', 'otherCertifications', 'vendorRegistrationForm', 'nda',
+  'codeOfConduct', 'paymentTerms', 'purchaseTerms', 'authorizationLetter'
+];
+
+const FIELD_LABELS: Record<string, string> = {
+  techTeamStrength: 'Technical Team Strength',
+  installedBase: 'Installed Base Details',
+  serviceCapabilities: 'Service Capabilities',
+  oemBrands: 'OEM Brands',
+  orgChart: 'Organization Chart',
+  msmeCertificate: 'MSME Certificate',
+  pfRegistration: 'PF Registration Certificate',
+  esiRegistration: 'ESI Registration Certificate',
+  profTaxRegistration: 'Professional Tax Registration',
+  labourLicense: 'Labour License',
+  iso9001: 'ISO 9001',
+  iso14001: 'ISO 14001',
+  iso45001: 'ISO 45001',
+  gmp: 'GMP',
+  ce: 'CE',
+  otherCertifications: 'Other Relevant Certifications',
+  vendorRegistrationForm: 'Vendor Registration Form',
+  nda: 'NDA',
+  codeOfConduct: 'Code of Conduct Acceptance',
+  paymentTerms: 'Payment Terms Acceptance',
+  purchaseTerms: 'Purchase Terms & Conditions Acceptance',
+  authorizationLetter: 'Authorization Letter'
+};
+
 const FileUploadField = ({
   label,
   icon: Icon,
@@ -353,6 +393,15 @@ const VendorRegistration: React.FC = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<"Complete" | "Observation">("Complete");
+  const [applicationId, setApplicationId] = useState<number | null>(null);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [resumeModalOpen, setResumeModalOpen] = useState(false);
+  const [resumeAppId, setResumeAppId] = useState('');
+  const [resumeEmail, setResumeEmail] = useState('');
+  const [resumeError, setResumeError] = useState('');
+  const [isResuming, setIsResuming] = useState(false);
+  const [previouslyUploadedFiles, setPreviouslyUploadedFiles] = useState<string[]>([]);
+  const [originalData, setOriginalData] = useState<any>(null);
 
   const [formData, setFormData] = useState({
     categories: [] as string[],
@@ -379,6 +428,92 @@ const VendorRegistration: React.FC = () => {
     documentsUploaded: false,
     authSignatory: false,
   });
+
+  const handleResume = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResumeError('');
+    setIsResuming(true);
+
+    try {
+      const { data, error } = await supabase.rpc('fetch_vendor_application', {
+        p_id: parseInt(resumeAppId),
+        p_email: resumeEmail.trim()
+      });
+
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        throw new Error("No application found with that ID and Email combination.");
+      }
+
+      const vendor = data[0];
+      setApplicationId(vendor.id);
+      setIsUpdateMode(true);
+
+      const categoryArray = (vendor.vendor_category || '').split(',').map((c: string) => c.trim()).filter(Boolean);
+      const allStandardCats = Object.values(VENDOR_CATEGORIES).flat();
+      const standardCats = categoryArray.filter((c: string) => allStandardCats.includes(c));
+      const otherCats = categoryArray.filter((c: string) => !allStandardCats.includes(c));
+
+      if (otherCats.length > 0) standardCats.push('Other');
+
+      const oemArray = (vendor.oem_brands || '').split(',').map((c: string) => c.trim());
+      const oemBrands: [string, string, string] = [oemArray[0] || '', oemArray[1] || '', oemArray[2] || ''];
+
+      const newFormData = {
+        categories: standardCats,
+        otherCategory: otherCats.join(', '),
+        serviceCapabilities: (vendor.service_capabilities || '').split(',').map((c: string) => c.trim()).filter(Boolean),
+        oemBrands: oemBrands,
+        companyName: vendor.company_name || '',
+        panNumber: vendor.pan_number || '',
+        gstNumber: vendor.gst_number || '',
+        email: vendor.email || '',
+        phone: vendor.phone || '',
+        specialities: vendor.specialities || '',
+        description: vendor.facility_description || '',
+        authorizedPerson: vendor.contact_person || '',
+        escContact: vendor.escalation_contact || '',
+        techTeamStrength: vendor.tech_team_strength || '',
+        installedBase: vendor.installed_base || '',
+      };
+
+      setFormData(newFormData);
+
+      setOriginalData(newFormData);
+
+      setCheckboxes({
+        verifiedInfo: true,
+        documentsUploaded: true,
+        authSignatory: true
+      });
+
+      const missingItemsStr = vendor.missing_items || '';
+      const newFiles: Record<string, File | null> = {};
+      const uploadedFileKeys: string[] = [];
+      MANDATORY_FILES.forEach(key => {
+        newFiles[key] = new File([], "✅ Previously Uploaded", { type: "application/pdf" });
+        uploadedFileKeys.push(key);
+      });
+      OPTIONAL_FILES.forEach(key => {
+        const label = FIELD_LABELS[key] || key;
+        if (!missingItemsStr.includes(label)) {
+          newFiles[key] = new File([], "✅ Previously Uploaded", { type: "application/pdf" });
+          uploadedFileKeys.push(key);
+        }
+      });
+      setFiles(newFiles);
+      setPreviouslyUploadedFiles(uploadedFileKeys);
+
+      setResumeModalOpen(false);
+      setStep(2);
+
+      alert("Application loaded successfully. You can now update your details and resubmit.");
+    } catch (err: any) {
+      setResumeError(err.message || "Failed to fetch application");
+    } finally {
+      setIsResuming(false);
+    }
+  };
 
   useEffect(() => {
     const savedDraft = localStorage.getItem('vendorFormDraft');
@@ -452,6 +587,14 @@ const VendorRegistration: React.FC = () => {
       await removeFileFromDB(key);
     } else if (e.target.files && e.target.files[0]) {
       const file = e.target.files![0];
+
+      // Immediate 5MB file size validation
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`File "${file.name}" is too large. Maximum allowed size is 5MB.`);
+        if (e.target) e.target.value = ''; // Clear the input
+        return;
+      }
+
       setFiles(prev => ({ ...prev, [key]: file }));
       await saveFileToDB(key, file);
     }
@@ -495,23 +638,6 @@ const VendorRegistration: React.FC = () => {
     }
 
     // Determine Submission Status (Observation vs Complete)
-    const mandatoryFiles = [
-      'companyRegistration', 'panCard', 'gstCertificate', 'companyProfile',
-      'cancelledCheque', 'bankAccountDetails',
-      'conflictOfInterest', 'antiBribery', 'complianceDecl', 'blacklistingDecl',
-      'confidentialityDecl', 'majorCustomerList', 'customerReferences', 'productCatalogue',
-      'manufacturingFacility', 'serviceInfrastructure'
-    ];
-
-    const optionalFiles = [
-      'orgChart', 'msmeCertificate', 'pfRegistration', 'esiRegistration',
-      'profTaxRegistration', 'labourLicense', 'auditedFinancials', 'itrAcknowledgement', 'iso9001', 'iso14001', 'iso45001',
-      'gmp', 'ce', 'otherCertifications', 'vendorRegistrationForm', 'nda',
-      'codeOfConduct', 'paymentTerms', 'purchaseTerms', 'authorizationLetter'
-    ];
-
-    const missingMandatoryFiles = mandatoryFiles.filter(key => !files[key]);
-
     const mandatoryFields = [
       'companyName', 'panNumber', 'gstNumber', 'email', 'phone',
       'specialities', 'description', 'authorizedPerson', 'escContact'
@@ -532,47 +658,19 @@ const VendorRegistration: React.FC = () => {
       missingMandatoryFields.push('otherCategory');
     }
 
-    if (missingMandatoryFiles.length > 0 || missingMandatoryFields.length > 0) {
-      alert("Please fill all mandatory fields (marked with *) and upload all required documents.");
-      return;
-    }
-
-    const missingOptionalFiles = optionalFiles.filter(key => !files[key]);
+    const missingMandatoryFiles = MANDATORY_FILES.filter(key => !files[key]);
+    const missingOptionalFiles = OPTIONAL_FILES.filter(key => !files[key]);
     const missingOptionalFields = optionalFields.filter(key => {
       const val = formData[key as keyof typeof formData];
       return Array.isArray(val) ? val.length === 0 : (typeof val === 'string' && !val.trim());
     });
 
-    const currentStatus = (missingOptionalFiles.length > 0 || missingOptionalFields.length > 0)
+    // Status depends on both Mandatory and Optional items
+    const currentStatus = (missingMandatoryFiles.length > 0 || missingOptionalFiles.length > 0 || missingOptionalFields.length > 0)
       ? "Observation"
       : "Complete";
 
-    const fieldLabels: Record<string, string> = {
-      techTeamStrength: 'Technical Team Strength',
-      installedBase: 'Installed Base Details',
-      serviceCapabilities: 'Service Capabilities',
-      oemBrands: 'OEM Brands',
-      orgChart: 'Organization Chart',
-      msmeCertificate: 'MSME Certificate',
-      pfRegistration: 'PF Registration Certificate',
-      esiRegistration: 'ESI Registration Certificate',
-      profTaxRegistration: 'Professional Tax Registration',
-      labourLicense: 'Labour License',
-      iso9001: 'ISO 9001',
-      iso14001: 'ISO 14001',
-      iso45001: 'ISO 45001',
-      gmp: 'GMP',
-      ce: 'CE',
-      otherCertifications: 'Other Relevant Certifications',
-      vendorRegistrationForm: 'Vendor Registration Form',
-      nda: 'NDA',
-      codeOfConduct: 'Code of Conduct Acceptance',
-      paymentTerms: 'Payment Terms Acceptance',
-      purchaseTerms: 'Purchase Terms & Conditions Acceptance',
-      authorizationLetter: 'Authorization Letter'
-    };
-
-    const missingItemsList = [...missingOptionalFields, ...missingOptionalFiles].map(key => fieldLabels[key] || key);
+    const missingItemsList = [...missingMandatoryFields, ...missingMandatoryFiles, ...missingOptionalFields, ...missingOptionalFiles].map(key => FIELD_LABELS[key] || key);
 
     setSubmissionStatus(currentStatus);
     setIsSubmitting(true);
@@ -597,7 +695,7 @@ const VendorRegistration: React.FC = () => {
 
       // 1. Convert all attached files to Base64 sequentially to prevent mobile browser crashes
       const base64Files = [];
-      const validFiles = Object.entries(files).filter(([_, file]) => file !== null);
+      const validFiles = Object.entries(files).filter(([_, file]) => file !== null && file.size > 0);
       for (const [key, file] of validFiles) {
         try {
           const b64 = await fileToBase64(file as File, key, formData.companyName);
@@ -607,8 +705,34 @@ const VendorRegistration: React.FC = () => {
         }
       }
 
+      // Calculate what was updated
+      const updatedFields: string[] = [];
+      if (isUpdateMode && originalData) {
+        Object.keys(formData).forEach(key => {
+          const oldVal = JSON.stringify(originalData[key as keyof typeof originalData]);
+          const newVal = JSON.stringify(formData[key as keyof typeof formData]);
+          if (oldVal !== newVal) {
+            updatedFields.push(`${key}: changed to ${newVal}`);
+          }
+        });
+        const newUploadedFiles = validFiles.filter(([key, _]) => !previouslyUploadedFiles.includes(key));
+        if (newUploadedFiles.length > 0) {
+          updatedFields.push(`New Documents Uploaded: ${newUploadedFiles.map(f => f[0]).join(', ')}`);
+        }
+      }
+
+      // Generate ID early if new application so GAS gets it
+      let currentAppId = applicationId;
+      if (!isUpdateMode) {
+        currentAppId = Date.now();
+      }
+
       // 3. Prepare payload
       const payload = {
+        applicationId: currentAppId,
+        id: currentAppId, // Backward compatibility for old Google Apps Script
+        isUpdateMode,
+        updatedFields,
         formData: {
           ...formData,
           category: formData.categories.includes('Other')
@@ -631,7 +755,7 @@ const VendorRegistration: React.FC = () => {
       try {
         // Log to Supabase Database
         if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
-          const { error: supabaseError } = await supabase.from('vendors').insert([{
+          const vendorData = {
             company_name: payload.formData.companyName,
             pan_number: payload.formData.panNumber,
             gst_number: payload.formData.gstNumber,
@@ -648,11 +772,25 @@ const VendorRegistration: React.FC = () => {
             facility_description: payload.formData.description,
             missing_items: payload.missingItems,
             status: payload.submissionStatus
-          }]);
+          };
 
-          if (supabaseError) {
-            console.error("Supabase Error:", supabaseError);
-            // We don't throw here to allow GAS to still execute even if Supabase fails
+          if (isUpdateMode && applicationId) {
+            const { error: supabaseError } = await supabase.rpc('update_vendor_application', {
+              p_id: applicationId,
+              p_vendor_data: vendorData
+            });
+            if (supabaseError) {
+              console.error("Supabase Error:", supabaseError);
+              alert("Warning: Failed to update Supabase database. Make sure you ran the SQL policy script! The system will still attempt to email the updates.");
+            }
+          } else {
+            // Use the ID we generated for the payload
+            const { error: supabaseError } = await supabase.from('vendors').insert([{
+              id: payload.applicationId,
+              ...vendorData
+            }]);
+            if (supabaseError) console.error("Supabase Error:", supabaseError);
+            if (!supabaseError) setApplicationId(payload.applicationId);
           }
         }
 
@@ -714,17 +852,54 @@ const VendorRegistration: React.FC = () => {
               </div>
             </div>
 
-            <button
-              onClick={() => setStep(2)}
-              className="bg-red-600 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center gap-4 hover:bg-white hover:text-black transition-all"
-            >
-              Begin Registration <ArrowRight className="w-6 h-6" />
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => setStep(2)}
+                className="bg-red-600 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white hover:text-black transition-all flex-1"
+              >
+                Begin Registration <ArrowRight className="w-6 h-6" />
+              </button>
+              <button
+                onClick={() => setResumeModalOpen(true)}
+                className="bg-transparent border border-white/20 text-white px-12 py-6 text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white/10 transition-all flex-1"
+              >
+                Update Existing <ArrowRight className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {resumeModalOpen && (
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+            <div className="bg-neutral-900 border border-white/10 p-6 sm:p-8 max-w-md w-full relative mx-4">
+              <button onClick={() => setResumeModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
+                <X className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-black uppercase text-white mb-2">Resume Application</h2>
+              <p className="text-neutral-400 text-sm mb-6">Enter your Application ID and Email to resume a saved or submitted application.</p>
+
+              <form onSubmit={handleResume} className="space-y-4">
+                <div>
+                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Application ID</label>
+                  <input required type="number" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value)} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="e.g. 125" />
+                </div>
+                <div>
+                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Registered Email</label>
+                  <input required type="email" value={resumeEmail} onChange={(e) => setResumeEmail(e.target.value)} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="email@company.com" />
+                </div>
+
+                {resumeError && <div className="p-3 bg-red-950/50 border border-red-900 text-red-500 text-sm">{resumeError}</div>}
+
+                <button type="submit" disabled={isResuming} className="w-full bg-red-600 text-white font-bold uppercase p-4 hover:bg-red-700 disabled:opacity-50 mt-4">
+                  {isResuming ? 'Loading...' : 'Fetch Application'}
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
         {step === 2 && (
-          <div className="max-w-5xl mx-auto bg-neutral-900 border border-white/10 p-8 md:p-12 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
+          <div className="max-w-5xl mx-auto bg-neutral-900 border border-white/10 p-4 sm:p-8 md:p-12 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
             <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">Entity Verification</h2>
             <p className="text-neutral-500 mb-8 border-b border-white/5 pb-6">Please complete the mandatory document checklist.</p>
 
@@ -911,8 +1086,8 @@ const VendorRegistration: React.FC = () => {
             <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-green-600/20">
               <CheckCircle className="w-24 h-24 text-red-600 mb-8 animate-bounce" />
             </div>
-            <h2 className="text-4xl font-black uppercase tracking-tighter text-white mb-4">
-              {submissionStatus === 'Observation' ? 'Submitted with Observations' : 'Application Submitted Successfully'}
+            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter text-white mb-4">
+              {submissionStatus === 'Observation' ? 'Registration Under Observation' : 'Registration Completed'}
             </h2>
             <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-12">
               {submissionStatus === 'Observation'
@@ -938,6 +1113,13 @@ const VendorRegistration: React.FC = () => {
                 <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Contact Person</span><span className="text-white">{formData.authorizedPerson}</span></div>
               </div>
               <p className="text-xs text-neutral-500 mt-8 italic">A detailed confirmation has been sent to your email.</p>
+              {applicationId && (
+                <div className="mt-6 p-4 bg-red-600/10 border border-red-600/30 text-center">
+                  <span className="text-xs font-black uppercase tracking-widest text-red-500 block mb-1">Your Application ID</span>
+                  <span className="text-2xl font-black text-white">#{applicationId}</span>
+                  <p className="text-xs text-neutral-400 mt-2">Save this ID. You can use it to update your registration later.</p>
+                </div>
+              )}
             </div>
 
             <button
@@ -950,6 +1132,8 @@ const VendorRegistration: React.FC = () => {
                 });
                 setFiles({});
                 setCheckboxes({ verifiedInfo: false, documentsUploaded: false, authSignatory: false });
+                setApplicationId(null);
+                setIsUpdateMode(false);
                 setStep(1);
               }}
               className="mx-auto block bg-red-600 text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all"

@@ -2,24 +2,24 @@
 const DRIVE_FOLDER_ID = "12gnSdi9yZMIThQXii1qAQREN_hXPkDi7"; // Replace with your Drive Folder ID
 
 
-const NOTIFICATION_EMAIL = "layasriireni@gmail.com"; 
+const NOTIFICATION_EMAIL = "layasriireni@gmail.com";
 // ---------------------
 
 const VENDOR_CATEGORIES = {
-  "Nature of Business": [ "OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner", "Service Provider", "Contractor", "Consultant", "Trader / Reseller", "Importer", "Other" ],
-  "Packaging Machines & Automation": [ "Tube Filling Machine", "Liquid Filling Machine", "Carbonated Filling Machine", "Capping Machine", "Labeling Machine", "Shrink Sleeve Machine", "Case Erector", "Carton Sealer", "Band Sealer", "Check Weigher", "Online Weighing System", "Conveyor System", "Handy Printer", "Inkjet Printer", "Coding Machine", "Palletizer", "Stretch Wrapping Machine" ],
-  "Process & Production Equipment": [ "Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer", "Soap Manufacturing Equipment", "Liquid Processing Equipment", "Powder Handling Equipment", "Material Transfer System" ],
-  "Utility Equipment": [ "Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler", "Cooling Tower", "DG Set", "RO Plant", "Water Treatment Plant", "Utility Piping" ],
-  "Electrical, Automation & Instrumentation": [ "PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell", "Instrumentation", "Industrial Automation", "Electrical Contractor" ],
-  "Mechanical Fabrication & Engineering Services": [ "SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work", "Machine Modification", "Welding Services", "Installation & Commissioning" ],
-  "MRO & Industrial Consumables": [ "Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics", "Power Tools", "Hand Tools", "Industrial Consumables" ],
-  "Laboratory & Quality Equipment": [ "Laboratory Instruments", "Testing Equipment", "Calibration Services", "Validation Services", "Weighing Instruments" ],
-  "Civil & Infrastructure": [ "Civil Construction", "Flooring", "Waterproofing", "Roofing", "Interior Works", "Painting" ],
-  "HVAC & Clean Room": [ "HVAC", "Air Handling Unit", "Clean Room", "Ducting", "Ventilation System", "Exhaust System" ],
-  "Safety & Fire Protection": [ "Fire Fighting System", "Fire Extinguishers", "PPE", "Safety Audit", "Safety Signage" ],
-  "Facility Management Services": [ "Housekeeping", "Pest Control", "Security Services", "Gardening", "Waste Management" ],
-  "Logistics & Transportation": [ "Transport Services", "Courier Services", "Freight Forwarding", "Warehouse Services", "Packers & Movers" ],
-  "Professional Services": [ "Legal Consultant", "Chartered Accountant", "Technical Consultant", "Environmental Consultant", "HR Consultant", "Training Services" ]
+  "Nature of Business": ["OEM / Manufacturer", "Authorized Distributor", "Authorized Dealer", "Channel Partner", "Service Provider", "Contractor", "Consultant", "Trader / Reseller", "Importer", "Other"],
+  "Packaging Machines & Automation": ["Tube Filling Machine", "Liquid Filling Machine", "Carbonated Filling Machine", "Capping Machine", "Labeling Machine", "Shrink Sleeve Machine", "Case Erector", "Carton Sealer", "Band Sealer", "Check Weigher", "Online Weighing System", "Conveyor System", "Handy Printer", "Inkjet Printer", "Coding Machine", "Palletizer", "Stretch Wrapping Machine"],
+  "Process & Production Equipment": ["Aloe Peeling Machine", "Mixing Tank", "Storage Tank", "Reactor", "Homogenizer", "Soap Manufacturing Equipment", "Liquid Processing Equipment", "Powder Handling Equipment", "Material Transfer System"],
+  "Utility Equipment": ["Air Compressor", "Blower System", "Vacuum System", "Pump", "Chiller", "Boiler", "Cooling Tower", "DG Set", "RO Plant", "Water Treatment Plant", "Utility Piping"],
+  "Electrical, Automation & Instrumentation": ["PLC", "SCADA", "HMI", "VFD", "Control Panel", "Sensors", "Load Cell", "Instrumentation", "Industrial Automation", "Electrical Contractor"],
+  "Mechanical Fabrication & Engineering Services": ["SS Fabrication", "MS Fabrication", "Structural Fabrication", "Piping Work", "Machine Modification", "Welding Services", "Installation & Commissioning"],
+  "MRO & Industrial Consumables": ["Bearings", "Belts", "Fasteners", "Lubricants", "Pneumatics", "Hydraulics", "Power Tools", "Hand Tools", "Industrial Consumables"],
+  "Laboratory & Quality Equipment": ["Laboratory Instruments", "Testing Equipment", "Calibration Services", "Validation Services", "Weighing Instruments"],
+  "Civil & Infrastructure": ["Civil Construction", "Flooring", "Waterproofing", "Roofing", "Interior Works", "Painting"],
+  "HVAC & Clean Room": ["HVAC", "Air Handling Unit", "Clean Room", "Ducting", "Ventilation System", "Exhaust System"],
+  "Safety & Fire Protection": ["Fire Fighting System", "Fire Extinguishers", "PPE", "Safety Audit", "Safety Signage"],
+  "Facility Management Services": ["Housekeeping", "Pest Control", "Security Services", "Gardening", "Waste Management"],
+  "Logistics & Transportation": ["Transport Services", "Courier Services", "Freight Forwarding", "Warehouse Services", "Packers & Movers"],
+  "Professional Services": ["Legal Consultant", "Chartered Accountant", "Technical Consultant", "Environmental Consultant", "HR Consultant", "Training Services"]
 };
 
 function formatCategory(categoryString) {
@@ -27,7 +27,7 @@ function formatCategory(categoryString) {
   const items = categoryString.split(",").map(s => s.trim()).filter(Boolean);
   let html = "";
   const matchedItems = new Set();
-  
+
   Object.keys(VENDOR_CATEGORIES).forEach(parent => {
     const matched = VENDOR_CATEGORIES[parent].filter(item => items.includes(item));
     if (matched.length > 0) {
@@ -35,12 +35,12 @@ function formatCategory(categoryString) {
       matched.forEach(m => matchedItems.add(m));
     }
   });
-  
+
   const others = items.filter(item => !matchedItems.has(item) && item !== "Other");
   if (others.length > 0) {
     html += '<div style="margin-bottom: 8px;"><strong>Other</strong><ul style="margin: 4px 0 0; padding-left: 16px;">' + others.map(m => '<li>' + m + '</li>').join('') + '</ul></div>';
   }
-  
+
   return html || categoryString;
 }
 
@@ -49,66 +49,80 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     const mainFolder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    
+
     let fileLinks = [];
     let vendorFolderUrl = "";
-    
+
     // 1. Process and save uploaded files to Google Drive
     if (data.files && data.files.length > 0) {
       // Create a subfolder for this specific vendor
       const vendorFolder = mainFolder.createFolder(data.formData.companyName + " - " + new Date().getTime());
       vendorFolderUrl = vendorFolder.getUrl(); // Get the link to the folder itself!
-      
-      data.files.forEach(function(fileObj) {
+
+      data.files.forEach(function (fileObj) {
         // Decode base64 and create the file
         const blob = Utilities.newBlob(
-          Utilities.base64Decode(fileObj.base64), 
-          fileObj.mimeType, 
+          Utilities.base64Decode(fileObj.base64),
+          fileObj.mimeType,
           fileObj.name
         );
         const savedFile = vendorFolder.createFile(blob);
         fileLinks.push(`<li><a href="${savedFile.getUrl()}">${fileObj.name}</a></li>`);
       });
     }
-    
+
     // 2. Append data to Google Sheet
     // If sheet is empty, add headers first
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
-        "Timestamp", 
+        "Timestamp",
         "Vendor Category",
         "Service Capabilities",
         "OEM Brands",
-        "Company Name", 
+        "Company Name",
         "PAN Number",
         "GST Number",
-        "Contact Person", 
-        "Email", 
-        "Phone", 
+        "Contact Person",
+        "Email",
+        "Phone",
         "Escalation Contact",
         "Tech Team Strength",
         "Installed Base",
-        "Specialities", 
-        "Facility Description", 
+        "Specialities",
+        "Facility Description",
         "Declarations Confirmed",
         "Vendor Drive Folder" // Changed this to just be the folder link
       ]);
       sheet.getRange(1, 1, 1, 17).setFontWeight("bold");
     }
-    
+
     const docsString = fileLinks.length > 0 ? `<ul>${fileLinks.join("")}</ul>` : "<p>No documents attached.</p>";
-    
+
     const decls = data.declarations || {};
     const declString = `Verified: ${decls.verifiedInfo ? 'Yes' : 'No'}, Docs Uploaded: ${decls.documentsUploaded ? 'Yes' : 'No'}, Auth Signatory: ${decls.authSignatory ? 'Yes' : 'No'}`;
-    
+
     const formatList = (str) => {
       if (!str || str === "N/A") return "N/A";
       const items = str.split(",").map(s => s.trim()).filter(Boolean);
       if (items.length <= 1) return str;
       return `<ul style="margin: 0; padding-left: 16px;">${items.map(i => `<li>${i}</li>`).join("")}</ul>`;
     };
+
+    let isUpdate = data.isUpdateMode === true;
+    let rowToUpdate = -1;
     
-    sheet.appendRow([
+    if (isUpdate) {
+      // Find row by Email (Column I -> index 8)
+      const emails = sheet.getRange(2, 9, Math.max(1, sheet.getLastRow() - 1), 1).getValues();
+      for (let i = 0; i < emails.length; i++) {
+        if (emails[i][0] === data.formData.email) {
+          rowToUpdate = i + 2; // +2 because start row is 2
+          break;
+        }
+      }
+    }
+
+    const rowData = [
       new Date(),
       data.formData.category || "",
       data.formData.serviceCapabilities || "",
@@ -125,15 +139,33 @@ function doPost(e) {
       data.formData.specialities || "",
       data.formData.description || "",
       declString,
-      vendorFolderUrl || "No documents attached" // Paste the single folder link!
-    ]);
-    
+      vendorFolderUrl || "Updated/No new docs"
+    ];
+
+    if (rowToUpdate !== -1) {
+      sheet.getRange(rowToUpdate, 1, 1, rowData.length).setValues([rowData]);
+    } else {
+      sheet.appendRow(rowData);
+    }
+
     // 3. Send Email Notification
+    let updateBanner = "";
+    if (isUpdate && data.updatedFields && data.updatedFields.length > 0) {
+       let updatesList = data.updatedFields.map(u => `<li>${u}</li>`).join('');
+       updateBanner = `<div style="background-color: #fff3cd; color: #856404; padding: 15px; border-left: 5px solid #ffeeba; margin-bottom: 20px;">
+         <h3 style="margin-top: 0;">This is an UPDATE to an existing application!</h3>
+         <p><strong>The following fields were updated:</strong></p>
+         <ul>${updatesList}</ul>
+       </div>`;
+    }
+
     const emailHtmlBody = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
-        <h2 style="color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px;">New Vendor Registration Received</h2>
+        <h2 style="color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 10px;">${isUpdate ? 'UPDATED Vendor Registration' : 'New Vendor Registration Received'}</h2>
+        ${updateBanner}
         
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+          <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Application ID:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee; font-size: 16px; font-weight: bold; color: #d32f2f;">#${data.applicationId}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company Name:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.companyName || "N/A"}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>PAN Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.panNumber || "N/A"}</td></tr>
           <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>GST Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.gstNumber || "N/A"}</td></tr>
@@ -172,14 +204,14 @@ function doPost(e) {
         </div>
       </div>
     `;
-    
+
     GmailApp.sendEmail(
       NOTIFICATION_EMAIL,
-      "New Vendor Registration: " + data.formData.companyName,
+      (isUpdate ? "[UPDATE] " : "New Vendor Registration: ") + data.formData.companyName,
       "Please view this email in an HTML-compatible client.",
       { htmlBody: emailHtmlBody }
     );
-    
+
     if (data.formData.email) {
       const vendorHtmlBody = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
@@ -187,6 +219,12 @@ function doPost(e) {
           <p>Dear ${data.formData.authorizedPerson || "Vendor"},</p>
           <p>Thank you for submitting your Vendor Registration application to DXN Global. Below is a summary of the details you provided:</p>
           
+          <div style="background-color: #f9f9f9; border-left: 4px solid #d32f2f; padding: 15px; margin-bottom: 20px;">
+            <p style="margin: 0; font-size: 14px;"><strong>Your Application ID:</strong></p>
+            <p style="margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: #d32f2f;">#${data.applicationId}</p>
+            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Please keep this ID safe. You can use it along with your email address to update your application later.</p>
+          </div>
+
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Company Name:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.companyName || "N/A"}</td></tr>
             <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>PAN Number:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${data.formData.panNumber || "N/A"}</td></tr>
@@ -240,11 +278,11 @@ function doPost(e) {
         // Ignore if vendor email fails
       }
     }
-    
+
     // 4. Return success to the React App
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
       .setMimeType(ContentService.MimeType.JSON);
-      
+
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({ status: "error", message: error.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
