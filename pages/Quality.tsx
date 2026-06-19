@@ -1,7 +1,7 @@
 
 import React from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { useAssets } from '../App';
+import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
 import { ShieldCheck, Microscope, ClipboardList, CheckCircle, Activity, Award, BadgeCheck, FileCheck } from 'lucide-react';
 
@@ -9,11 +9,11 @@ const Quality: React.FC = () => {
   const { assets } = useAssets();
   const { content } = useContent();
   const quality = content.quality;
-  
+
   return (
-    <div className="pt-32 pb-20 bg-neutral-950">
+    <div className="bg-neutral-950 text-neutral-300">
       {/* Hero Section */}
-      <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32">
+      <section className="pt-36 pb-20 md:pb-32 px-6 md:px-12 max-w-[1440px] mx-auto">
         <SectionTitle subtitle="Commitment" title={quality.headline} light />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div>
@@ -21,38 +21,38 @@ const Quality: React.FC = () => {
               {quality.description}
             </p>
             <div className="grid grid-cols-1 gap-8">
-               <div className="flex gap-8 group">
-                  <div className="shrink-0 w-20 h-20 bg-red-600 rounded flex items-center justify-center text-white shadow-2xl group-hover:scale-105 transition-transform"><Microscope className="w-10 h-10" /></div>
-                  <div>
-                    <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Integrated Quality Lab</h3>
-                    <p className="text-neutral-400 leading-relaxed font-medium">
-                      Equipped with high-precision analytical and microbiological tools, our R&D center performs comprehensive inbound, in-process, and outbound verification across the entire production lifecycle.
-                    </p>
-                  </div>
-               </div>
+              <div className="flex gap-8 group">
+                <div className="shrink-0 w-20 h-20 bg-red-600 rounded flex items-center justify-center text-white shadow-2xl group-hover:scale-105 transition-transform"><Microscope className="w-10 h-10" /></div>
+                <div>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Integrated Quality Lab</h3>
+                  <p className="text-neutral-400 leading-relaxed font-medium">
+                    Equipped with high-precision analytical and microbiological tools, our R&D center performs comprehensive inbound, in-process, and outbound verification across the entire production lifecycle.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div className="relative group">
-             <div className="absolute -inset-2 bg-red-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-             <img src={assets.QUALITY_PPE} alt="Quality Control PPE" className="relative rounded border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 w-full" />
-             <div className="absolute bottom-8 right-8">
-                <div className="bg-red-600 p-8 shadow-2xl">
-                   <ShieldCheck className="w-12 h-12 text-white" />
-                   <p className="mt-4 text-white text-xs font-black uppercase tracking-[0.2em]">Zero-Defect Goal</p>
-                </div>
-             </div>
+            <div className="absolute -inset-2 bg-red-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <img src={assets.QUALITY_PPE} alt="Quality Control PPE" className="relative rounded border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 w-full" />
+            <div className="absolute bottom-8 right-8">
+              <div className="bg-red-600 p-8 shadow-2xl">
+                <ShieldCheck className="w-12 h-12 text-white" />
+                <p className="mt-4 text-white text-xs font-black uppercase tracking-[0.2em]">Zero-Defect Goal</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Triple Verification Framework */}
-      <section className="bg-neutral-900 py-32 border-y border-white/5">
+      <section className="bg-neutral-900 py-20 md:py-32 border-y border-white/5">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="mb-20 text-center">
-             <h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600 mb-6">Compliance Protocol</h2>
-             <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Triple Verification Framework</h3>
+            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-red-600 mb-6">Compliance Protocol</h2>
+            <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Triple Verification Framework</h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {quality.tripleVerification.map((step: any, i: number) => (
               <div key={i} className="p-12 bg-neutral-950 border border-white/5 hover:border-red-600/30 transition-all group">
@@ -67,10 +67,10 @@ const Quality: React.FC = () => {
       </section>
 
       {/* Certifications Grid */}
-      <section className="py-32">
+      <section className="py-20 md:py-32">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <SectionTitle subtitle="Global Standards" title="Accreditations & Trust" light />
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {quality.certifications.map((cert: any, i: number) => (
               <div key={i} className={`p-8 border border-white/5 transition-all flex flex-col justify-between h-64 ${cert.status === 'active' ? 'bg-neutral-900/50 hover:bg-neutral-900' : 'bg-transparent opacity-50'}`}>

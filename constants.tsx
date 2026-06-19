@@ -1,13 +1,13 @@
 
 import React from 'react';
 import { Stat, Division, Certification, Milestone } from './types';
-import { 
-  Dna, 
-  Coffee, 
-  Sparkles, 
-  FlaskConical, 
-  Soup, 
-  Utensils, 
+import {
+  Dna,
+  Coffee,
+  Sparkles,
+  FlaskConical,
+  Soup,
+  Utensils,
   Sprout,
   ShieldCheck,
   Globe,
@@ -45,12 +45,12 @@ export const DEFAULT_ASSETS = {
   CSR_WATER: "https://images.unsplash.com/photo-1538300342682-cf57afb97285?q=80&w=2070&auto=format&fit=crop",
   CSR_TRAINING: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
   // Division-specific visuals
-  DIV_NUTRA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766486527/bafd72a0-0740-49b5-b94b-5a1a82f910f3_ljy8n7.jpg?q=80&w=2069&auto=format&fit=crop",
-  DIV_COFFEE: "https://res.cloudinary.com/dmslyftme/image/upload/v1766490150/WhatsApp_Image_2025-12-23_at_16.57.50_pvp9rt.jpg?q=80&w=2070&auto=format&fit=crop",
-  DIV_COSMETICS: "https://res.cloudinary.com/dmslyftme/image/upload/v1766490779/569b5c14-3d9e-4ae4-b903-9f18b4edf901_fuvxfk.jpg?q=80&w=2070&auto=format&fit=crop",
-  DIV_KOMBUCHA: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489267/DSC_0513_go7gvi.jpg?q=80&w=1974&auto=format&fit=crop",
-  DIV_WETFOOD: "https://res.cloudinary.com/dmslyftme/image/upload/v1766489920/DSC01159_vgvyqg.jpg?q=80&w=2071&auto=format&fit=crop",
-  DIV_AGRO: "https://res.cloudinary.com/dmslyftme/image/upload/v1766491717/a11897fa-b45e-4eed-ac32-c9bdb45bf8a2_i0h5gl.jpg?q=80&w=2048&auto=format&fit=crop",
+  DIV_NUTRA: "/nutra/nutraDivision.png",
+  DIV_COFFEE: "/coffee/lingzhi_coffeeDivision.png",
+  DIV_COSMETICS: "/cosmetics/cosmeticsDivision.jpeg",
+  DIV_KOMBUCHA: "/kombucha/komuchaDivision.jpeg",
+  DIV_WETFOOD: "/wetfood/wetFood.jpeg",
+  DIV_AGRO: "/agro/agroDivision.png",
 };
 
 export const CORPORATE_EVENTS = [
@@ -118,7 +118,8 @@ export const DIVISIONS: Division[] = [
       'Automated Encapsulation Technology',
       'Precision Multi-Stage Granulation'
     ],
-    capacity: 'Millions of dosages per day for global export'
+    capacity: 'Millions of dosages per day for global export',
+    image: '/nutra/nutraDivision.png'
   },
   {
     id: 'coffee',
@@ -132,7 +133,8 @@ export const DIVISIONS: Division[] = [
       'Automated Multi-Lane Sachet Packing',
       'Integrated Roast-to-Pack Logistics'
     ],
-    capacity: 'High-volume sachet production across 12 automated lines'
+    capacity: 'High-volume sachet production across 12 automated lines',
+    image: '/coffee/coffeeDivision.jpeg'
   },
   {
     id: 'cosmetics',
@@ -146,7 +148,8 @@ export const DIVISIONS: Division[] = [
       'Microbiological Purity Control',
       'Fragrance Stability Testing Labs'
     ],
-    capacity: 'Fully integrated personal care manufacturing ecosystem'
+    capacity: 'Fully integrated personal care manufacturing ecosystem',
+    image: '/cosmetics/cosmeticsDivision.jpeg'
   },
   {
     id: 'kombucha',
@@ -160,7 +163,8 @@ export const DIVISIONS: Division[] = [
       'Saffron Infusion Technology',
       'Real-time pH & Temperature Monitoring'
     ],
-    capacity: 'Scaling production for Saffron variants globally'
+    capacity: 'Scaling production for Saffron variants globally',
+    image: '/kombucha/komuchaDivision.jpeg'
   },
   {
     id: 'wetfood',
@@ -174,7 +178,8 @@ export const DIVISIONS: Division[] = [
       'High-Pressure Pasteurization',
       'Concentrate Recovery Systems'
     ],
-    capacity: 'High-speed bottling and aseptic pouch filling'
+    capacity: 'High-speed bottling and aseptic pouch filling',
+    image: '/wetfood/wetFood.jpeg'
   },
   {
     id: 'agro',
@@ -188,7 +193,8 @@ export const DIVISIONS: Division[] = [
       'Subcritical Extraction for Essential Oils',
       'Modified Atmosphere Packaging (MAP)'
     ],
-    capacity: 'Integrated farm-to-fork manufacturing capacity'
+    capacity: 'Integrated farm-to-fork manufacturing capacity',
+    image: '/agro/agroDivision.png'
   }
 ];
 

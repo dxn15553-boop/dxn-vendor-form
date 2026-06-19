@@ -388,7 +388,7 @@ const clearFilesDB = async (draftId: string) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');
     const store = tx.objectStore(STORE_NAME);
     const request = store.getAllKeys();
-    
+
     request.onsuccess = () => {
       const keys = request.result as string[];
       keys.forEach(k => {
@@ -546,7 +546,7 @@ const VendorRegistration: React.FC = () => {
 
   useEffect(() => {
     if (!activeDraftId || isUpdateMode) return;
-    
+
     const hasData = formData.companyName || formData.email || formData.phone || formData.categories.length > 0;
     if (!hasData) return;
 
@@ -559,7 +559,7 @@ const VendorRegistration: React.FC = () => {
         formData,
         checkboxes
       };
-      
+
       let newList;
       if (existingIdx >= 0) {
         newList = [...prev];
@@ -567,7 +567,7 @@ const VendorRegistration: React.FC = () => {
       } else {
         newList = [...prev, newDraft];
       }
-      
+
       localStorage.setItem('vendorFormDrafts', JSON.stringify(newList));
       return newList;
     });
@@ -1006,7 +1006,7 @@ const VendorRegistration: React.FC = () => {
                 <X className="w-6 h-6" />
               </button>
               <h2 className="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4">Saved Drafts</h2>
-              
+
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 {draftsList.map(draft => (
                   <div key={draft.id} className="bg-black border border-white/5 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-white/20 transition-all">

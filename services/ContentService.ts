@@ -52,7 +52,7 @@ export const INITIAL_CONTENT = {
       name: "Reishi Gano (RG)",
       category: "Nutraceuticals",
       description: "Derived from the fruit body of Ganoderma lucidum, RG is harvested from a 90-day cultivation cycle to ensure maximum Polysaccharide content.",
-      image: "https://images.unsplash.com/photo-1615485925763-867c49f632a9?q=80&w=2070&auto=format&fit=crop",
+      image: "/nutra/ReishiGanoProduct.png",
       features: ["100% Ganoderma", "Detoxification Support", "Immune Modulation"],
       status: "Available"
     },
@@ -61,7 +61,7 @@ export const INITIAL_CONTENT = {
       name: "Lingzhi Coffee 3-in-1",
       category: "Coffee",
       description: "The world's first healthy coffee blend, combining premium Brazilian coffee beans with 100% organic Ganoderma extract.",
-      image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1974&auto=format&fit=crop",
+      image: "/coffee/lingzhi.png",
       features: ["Low Acidity", "No Artificial Colors", "Organic Extract"],
       status: "Available"
     },
@@ -70,27 +70,64 @@ export const INITIAL_CONTENT = {
       name: "Ganozhi Soap",
       category: "Cosmetics",
       description: "A specialized formula enriched with Ganoderma extract and palm oil to gently cleanse and moisturize the skin while preserving natural oils.",
-      image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?q=80&w=2070&auto=format&fit=crop",
+      image: "/cosmetics/Ganozhisoap.png",
       features: ["pH Balanced", "Vitamin E Enriched", "Suitable for all Skin Types"],
       status: "Available"
     },
-    {
-      id: "prod-4",
-      name: "Spirulina Cereal",
-      category: "Nutraceuticals",
-      description: "A balanced alkaline food source combining high-grade Spirulina with cereal fiber for optimal digestive health.",
-      image: "https://images.unsplash.com/photo-1584555613497-9ecf9dd06f68?q=80&w=1974&auto=format&fit=crop",
-      features: ["Complete Protein", "Rich in GLA", "Superfood Blend"],
-      status: "Available"
-    },
+
     {
       id: "prod-5",
       name: "Saffron Kombucha",
       category: "Kombucha",
       description: "A premium fermented tea infused with Grade A Kashmiri Saffron cultivated right here in our Siddipet indoor facility.",
-      image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=2070&auto=format&fit=crop",
+      image: "/kombucha/safronKombucha.png",
       features: ["Probiotic Rich", "Antioxidant Boost", "Indigenous Saffron"],
-      status: "Coming Soon"
+      status: "Available"
+    },
+    {
+      id: "prod-10",
+      name: "Butterfly Kombucha",
+      category: "Kombucha",
+      description: "A refreshing fermented tea infused with natural Butterfly Pea flower for a distinct flavor and antioxidant benefits.",
+      image: "/kombucha/Butterfly pea copy.png",
+      features: ["Probiotic Rich", "Antioxidant Boost", "Unique Flavor"],
+      status: "Available"
+    },
+    {
+      id: "prod-11",
+      name: "Classic Kombucha",
+      category: "Kombucha",
+      description: "Our signature fermented tea, traditionally brewed to perfection for a balanced, refreshing taste.",
+      image: "/kombucha/classicKomucha.png",
+      features: ["Probiotic Rich", "Gut Health", "Naturally Carbonated"],
+      status: "Available"
+    },
+    {
+      id: "prod-6",
+      name: "DXN Cocozhi",
+      category: "Coffee",
+      description: "This unique blend combines premium ingredients. DXN Cocozhi is a unique blend of Non-Dairy Creamer and cocoa, combining the rich flavors of these ingredients. Packaged in a convenient 500g powder form containing 20 sachets.",
+      image: "/coffee/cocozhi.png",
+      features: ["Premium Cocoa Blend", "Ganoderma Extract", "20 Servings Per Bag"],
+      status: "Available"
+    },
+    {
+      id: "prod-7",
+      name: "DXN Cordyceps Coffee 3 in 1",
+      category: "Coffee",
+      description: "500 gm powder form of coffee with Cordyceps powder (Each sachet contains 20 gm). Premium coffee premix that is smooth, aromatic, and revitalizing.",
+      image: "/coffee/cordyceps.png",
+      features: ["Organic Cordyceps", "Premium Instant Coffee", "25 Servings Per Bag"],
+      status: "Available"
+    },
+    {
+      id: "prod-9",
+      name: "DXN Veg Mayonnaise",
+      category: "Agro",
+      description: "A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format. 100% vegetarian.",
+      image: "/agro/veg_minus.png",
+      features: ["Eggless & Cholesterol Free", "Smooth Consistency", "25 Servings Per Pack"],
+      status: "Available"
     }
   ] as Product[],
   imageCategories: ['Campus', 'R&D', 'Manufacturing', 'Quality', 'Agronomy', 'Sustainability', 'Ecosystem'],
@@ -106,49 +143,49 @@ export const INITIAL_CONTENT = {
     { url: DEFAULT_ASSETS.WORKERS_GROUP, category: "Ecosystem", title: "Local Talent Development" },
   ],
   galleryVideos: [
-    { 
-      title: "The Siddipet Vision: Corporate Documentary", 
-      thumbnail: DEFAULT_ASSETS.HERO_BG, 
+    {
+      title: "The Siddipet Vision: Corporate Documentary",
+      thumbnail: DEFAULT_ASSETS.HERO_BG,
       duration: "4:32",
       category: "Corporate",
       id: "vid-1"
     },
-    { 
-      title: "Advanced Manufacturing Excellence", 
-      thumbnail: DEFAULT_ASSETS.DIV_NUTRA, 
+    {
+      title: "Advanced Manufacturing Excellence",
+      thumbnail: DEFAULT_ASSETS.DIV_NUTRA,
       duration: "3:15",
       category: "Technical",
       id: "vid-2"
     },
-    { 
-      title: "One World One Market: Global Reach", 
-      thumbnail: DEFAULT_ASSETS.MAP_OVERLAY, 
+    {
+      title: "One World One Market: Global Reach",
+      thumbnail: DEFAULT_ASSETS.MAP_OVERLAY,
       duration: "2:45",
       category: "Global Impact",
       id: "vid-3"
     }
   ],
   team: [
-    { 
-      name: "Datuk Lim Siow Jin", 
-      role: "Founder & Chairman", 
+    {
+      name: "Datuk Lim Siow Jin",
+      role: "Founder & Chairman",
       image: DEFAULT_ASSETS.FOUNDER_PHOTO,
       linkedin: "#",
-      email: "" 
+      email: ""
     },
-    { 
-      name: "Dr. Rajesh savera", 
-      role: "Director of Manufacturing", 
+    {
+      name: "Dr. Rajesh savera",
+      role: "Director of Manufacturing",
       image: "https://res.cloudinary.com/dmslyftme/image/upload/v1766475024/1737196861500_oaac8m.jpg?q=80&w=1000&auto=format&fit=crop",
       linkedin: "#",
-      email: "rajesh@dxn2u.com" 
+      email: "rajesh@dxn2u.com"
     },
-    { 
-      name: "Mr. Giri K Vijayan", 
-      role: "Regional Head of Factories", 
+    {
+      name: "Mr. Giri K Vijayan",
+      role: "Regional Head of Factories",
       image: "https://res.cloudinary.com/dmslyftme/image/upload/v1766476971/23b46cc3-6e7e-4a9e-8457-966e9968b551_tgyjee.jpg?q=80&w=1000&auto=format&fit=crop",
       linkedin: "#",
-      email: "giri@dxn2u.com" 
+      email: "giri@dxn2u.com"
     }
   ],
   jobs: [
@@ -173,6 +210,29 @@ export const INITIAL_CONTENT = {
   assets: DEFAULT_ASSETS
 };
 
+const mergeProducts = (fetchedProducts: any) => {
+  const merged = [...INITIAL_CONTENT.products];
+  if (Array.isArray(fetchedProducts)) {
+    fetchedProducts.forEach((cp: any) => {
+      const idx = merged.findIndex(ip => ip.id === cp.id);
+      if (idx > -1) {
+        merged[idx] = cp;
+        // Hotfix: Enforce correct local images even if cached from older CMS state
+        if (merged[idx].id === "prod-1") merged[idx].image = "/nutra/ReishiGanoProduct.png";
+        if (merged[idx].id === "prod-2") merged[idx].image = "/coffee/lingzhi.png";
+        if (merged[idx].id === "prod-3") merged[idx].image = "/cosmetics/Ganozhisoap.png";
+
+        if (merged[idx].id === "prod-5") merged[idx].image = "/kombucha/safronKombucha.png";
+        if (merged[idx].id === "prod-10") merged[idx].image = "/kombucha/Butterfly pea copy.png";
+        if (merged[idx].id === "prod-11") merged[idx].image = "/kombucha/classicKomucha.png";
+      } else {
+        merged.push(cp);
+      }
+    });
+  }
+  return merged;
+};
+
 export const ContentService = {
   async fetchAll() {
     try {
@@ -188,11 +248,11 @@ export const ContentService = {
           quality: { ...INITIAL_CONTENT.quality, ...(cloudData.quality || {}) },
           csr: { ...INITIAL_CONTENT.csr, ...(cloudData.csr || {}) },
           mediaKit: { ...INITIAL_CONTENT.mediaKit, ...(cloudData.mediaKit || {}) },
-          
+
           // Arrays: Replace entirely if they exist in cloud, else default
           roadmap: Array.isArray(cloudData.roadmap) ? cloudData.roadmap : INITIAL_CONTENT.roadmap,
           timeline: Array.isArray(cloudData.timeline) ? cloudData.timeline : INITIAL_CONTENT.timeline,
-          products: Array.isArray(cloudData.products) ? cloudData.products : INITIAL_CONTENT.products,
+          products: mergeProducts(cloudData.products),
           imageCategories: Array.isArray(cloudData.imageCategories) ? cloudData.imageCategories : INITIAL_CONTENT.imageCategories,
           videoCategories: Array.isArray(cloudData.videoCategories) ? cloudData.videoCategories : INITIAL_CONTENT.videoCategories,
           galleryImages: Array.isArray(cloudData.galleryImages) ? cloudData.galleryImages : INITIAL_CONTENT.galleryImages,
@@ -210,7 +270,7 @@ export const ContentService = {
     }
 
     // 2. Fallback to LocalStorage (Offline / Backup)
-    const saved = localStorage.getItem('dxn_managed_content');
+    const saved = localStorage.getItem('dxn_india_managed_content');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -224,7 +284,7 @@ export const ContentService = {
           mediaKit: { ...INITIAL_CONTENT.mediaKit, ...(parsed.mediaKit || {}) },
           roadmap: Array.isArray(parsed.roadmap) ? parsed.roadmap : INITIAL_CONTENT.roadmap,
           timeline: Array.isArray(parsed.timeline) ? parsed.timeline : INITIAL_CONTENT.timeline,
-          products: Array.isArray(parsed.products) ? parsed.products : INITIAL_CONTENT.products,
+          products: mergeProducts(parsed.products),
           imageCategories: Array.isArray(parsed.imageCategories) ? parsed.imageCategories : INITIAL_CONTENT.imageCategories,
           videoCategories: Array.isArray(parsed.videoCategories) ? parsed.videoCategories : INITIAL_CONTENT.videoCategories,
           galleryImages: Array.isArray(parsed.galleryImages) ? parsed.galleryImages : INITIAL_CONTENT.galleryImages,
@@ -247,10 +307,10 @@ export const ContentService = {
     try {
       // 1. Save to Cloud (Primary)
       await saveSiteConfig(content);
-      
+
       // 2. Save to Local (Backup/Cache)
-      localStorage.setItem('dxn_managed_content', JSON.stringify(content));
-      
+      localStorage.setItem('dxn_india_managed_content', JSON.stringify(content));
+
       console.log("Content successfully deployed to global database.");
       return { success: true };
     } catch (e) {
