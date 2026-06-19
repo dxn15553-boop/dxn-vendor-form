@@ -36,3 +36,15 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: public_html/
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          agro/**
+          coffee/**
+          cosmetics/**
+          kombucha/**
+          nutra/**
+          quality/**
+          wetfood/**
+          *.mp4
