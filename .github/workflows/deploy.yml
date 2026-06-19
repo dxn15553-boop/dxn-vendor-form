@@ -31,7 +31,7 @@ jobs:
     - name: Install FTP client
       run: sudo apt-get update && sudo apt-get install -y lftp
       
-    - name: 🔍 Debug FTP Server
+    - name: 📂 Force deploy exactly the required files
       env:
         FTP_SERVER: ${{ secrets.FTP_SERVER }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -40,8 +40,19 @@ jobs:
         lftp -c "
         set ssl:verify-certificate no;
         open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
-        echo '--- CONTENTS OF FTP ROOT (/) ---'
-        ls -la /
-        echo '--- CONTENTS OF public_html ---'
-        ls -la /public_html/
+        
+        # Try path 1: Primary domain root
+        mkdir -p /public_html/assets;
+        mirror -R -e -v ./dist/assets/ /public_html/assets/ || true;
+        put -O /public_html/ ./dist/index.html || true;
+        
+        # Try path 2: Add-on domain root
+        mkdir -p /domains/dxnmanufacturing.com/public_html/assets;
+        mirror -R -e -v ./dist/assets/ /domains/dxnmanufacturing.com/public_html/assets/ || true;
+        put -O /domains/dxnmanufacturing.com/public_html/ ./dist/index.html || true;
+        
+        # Try path 3: Relative current directory
+        mkdir -p ./assets;
+        mirror -R -e -v ./dist/assets/ ./assets/ || true;
+        put -O ./ ./dist/index.html || true;
         "
