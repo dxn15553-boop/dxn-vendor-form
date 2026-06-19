@@ -28,10 +28,7 @@ jobs:
         VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
       run: npm run build
       
-    - name: Install FTP client
-      run: sudo apt-get update && sudo apt-get install -y lftp
-      
-    - name: 📂 Force deploy exactly the required files
+    - name: 📂 Deploy to Hostinger
       env:
         FTP_SERVER: ${{ secrets.FTP_SERVER }}
         FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -39,20 +36,10 @@ jobs:
       run: |
         lftp -c "
         set ssl:verify-certificate no;
+        set net:timeout 30;
         open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
-        
-        # Try path 1: Primary domain root
-        mkdir -p /public_html/assets;
-        mirror -R -e -v ./dist/assets/ /public_html/assets/ || true;
-        put -O /public_html/ ./dist/index.html || true;
-        
-        # Try path 2: Add-on domain root
-        mkdir -p /domains/dxnmanufacturing.com/public_html/assets;
-        mirror -R -e -v ./dist/assets/ /domains/dxnmanufacturing.com/public_html/assets/ || true;
-        put -O /domains/dxnmanufacturing.com/public_html/ ./dist/index.html || true;
-        
-        # Try path 3: Relative current directory
-        mkdir -p ./assets;
-        mirror -R -e -v ./dist/assets/ ./assets/ || true;
-        put -O ./ ./dist/index.html || true;
+        rm -rf /public_html/assets || true;
+        glob -a mirror -R ./dist/assets/ /public_html/assets/;
+        put -O /public_html/ ./dist/index.html;
         "
+
