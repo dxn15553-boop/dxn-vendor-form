@@ -49,3 +49,15 @@ SECURITY DEFINER -- Runs with elevated privileges to bypass SELECT RLS
 AS $$
   SELECT * FROM vendors WHERE id = p_id AND email = p_email LIMIT 1;
 $$;
+
+-- Create a secure function to fetch a single vendor by ID or PAN Number and exact Email
+CREATE OR REPLACE FUNCTION fetch_vendor_application_by_id_or_pan(p_identifier TEXT, p_email TEXT)
+RETURNS SETOF vendors
+LANGUAGE sql
+SECURITY DEFINER -- Runs with elevated privileges to bypass SELECT RLS
+AS $$
+  SELECT * FROM vendors 
+  WHERE email = p_email 
+  AND (id::text = p_identifier OR pan_number = p_identifier) 
+  LIMIT 1;
+$$;

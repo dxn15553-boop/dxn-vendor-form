@@ -452,14 +452,14 @@ const VendorRegistration: React.FC = () => {
     setIsResuming(true);
 
     try {
-      const { data, error } = await supabase.rpc('fetch_vendor_application', {
-        p_id: parseInt(resumeAppId),
+      const { data, error } = await supabase.rpc('fetch_vendor_application_by_id_or_pan', {
+        p_identifier: resumeAppId.trim(),
         p_email: resumeEmail.trim()
       });
 
       if (error) throw error;
       if (!data || data.length === 0) {
-        throw new Error("No application found with that ID and Email combination.");
+        throw new Error("No application found with that ID/PAN and Email combination.");
       }
 
       const vendor = data[0];
@@ -981,8 +981,8 @@ const VendorRegistration: React.FC = () => {
 
               <form onSubmit={handleResume} className="space-y-4">
                 <div>
-                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Application ID</label>
-                  <input required type="number" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value)} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="e.g. 125" />
+                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Application ID / PAN Number</label>
+                  <input required type="text" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value.toUpperCase())} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="e.g. 125 or ABCDE1234F" />
                 </div>
                 <div>
                   <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Registered Email</label>
