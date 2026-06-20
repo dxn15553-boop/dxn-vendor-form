@@ -46,7 +46,7 @@ const Cordyceps: React.FC = () => {
   return (
     <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
-      <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-24 pb-12 lg:py-24">
+      <section className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-neutral-950 via-black to-neutral-900 mb-10 lg:mb-20 border-b border-white/5 pt-40 pb-12 lg:pt-40 lg:pb-32">
         {/* Subtle grid pattern overlay */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -60,7 +60,7 @@ const Cordyceps: React.FC = () => {
               <span className="text-xs font-black uppercase tracking-[0.3em] text-amber-400">Coffee Division</span>
             </div>
             <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase leading-[0.9] text-white">
-              DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 drop-shadow-lg">Cordyceps</span><br />
+              DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600 drop-shadow-lg">Cordyceps</span><br />
               <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Coffee</span>
             </h1>
           </div>
