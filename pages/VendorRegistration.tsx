@@ -150,14 +150,14 @@ const FileUploadField = ({
               className="absolute top-2 right-2 bg-black/50 hover:bg-red-600 rounded-full p-1.5 transition-colors z-10"
               title="Remove File"
             >
-              <X className="w-4 h-4 text-white" />
+              <X className="w-4 h-4 text-gray-900" />
             </button>
             <CheckCircle className="w-5 h-5 text-green-500" />
             <p className="text-[10px] font-bold tracking-wider text-gray-900 truncate max-w-full px-2">{file.name}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-2">
-            <Upload className="w-5 h-5 text-neutral-600 group-hover:text-red-600 transition-colors" />
+            <Upload className="w-5 h-5 text-gray-400 group-hover:text-red-600 transition-colors" />
             <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Upload Document</p>
           </div>
         )}
@@ -193,7 +193,7 @@ const TextInputField = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
+      <label className="text-xs font-black uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
         <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
         <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
@@ -247,7 +247,7 @@ const SelectInputField = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2">
+      <label className="text-xs font-black uppercase tracking-[0.2em] text-gray-500 flex items-center gap-2">
         <span className="text-base">{(isValid !== undefined ? isValid : value.trim() !== '') ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
         <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
@@ -264,7 +264,7 @@ const SelectInputField = ({
             <option key={opt} value={opt} className="bg-white text-gray-900">{opt}</option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
           <ChevronDown className="w-5 h-5" />
         </div>
       </div>
@@ -289,7 +289,7 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
             <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">{selectedCount}</span>
           )}
         </span>
-        {isOpen ? <ChevronUp className="w-5 h-5 text-neutral-400" /> : <ChevronDown className="w-5 h-5 text-neutral-400" />}
+        {isOpen ? <ChevronUp className="w-5 h-5 text-gray-600" /> : <ChevronDown className="w-5 h-5 text-gray-600" />}
       </button>
       {isOpen && (
         <div className="px-6 py-4 bg-white border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -311,8 +311,8 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
 };
 
 const SectionHeading = ({ title }: { title: string }) => (
-  <div className="mt-12 mb-6 border-b border-white/10 pb-4 col-span-1 md:col-span-2">
-    <h3 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
+  <div className="mt-12 mb-6 border-b border-gray-200 pb-4 col-span-1 md:col-span-2">
+    <h3 className="text-xl font-black uppercase tracking-widest text-gray-900 flex items-center gap-3">
       {title}
     </h3>
   </div>
@@ -933,13 +933,13 @@ const VendorRegistration: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 pb-20 min-h-screen bg-neutral-950">
+    <div className="pt-32 pb-20 min-h-screen bg-[#F8F9FC]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
 
         {step === 1 && (
           <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <SectionTitle subtitle="Partnership" title="Vendor Onboarding Portal" light />
-            <p className="text-2xl text-neutral-400 font-light leading-relaxed mb-12">
+            <SectionTitle subtitle="Partnership" title="Vendor Onboarding Portal" />
+            <p className="text-2xl text-gray-600 font-light leading-relaxed mb-12">
               Join the DXN Global supply chain. We are looking for elite manufacturing partners, raw material suppliers, and technical service providers who align with our <span className="text-white font-bold">"One World One Market"</span> philosophy.
             </p>
 
@@ -954,7 +954,7 @@ const VendorRegistration: React.FC = () => {
                   </button>
                   <button
                     onClick={handleStartNew}
-                    className="bg-transparent border border-white/20 text-white px-8 py-6 text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-white/10 transition-all flex-1"
+                    className="bg-transparent border border-gray-300 text-white px-8 py-6 text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-white/10 transition-all flex-1"
                   >
                     Start New
                   </button>
@@ -969,44 +969,44 @@ const VendorRegistration: React.FC = () => {
               )}
               <button
                 onClick={() => setResumeModalOpen(true)}
-                className="bg-transparent border border-white/20 text-white px-12 py-6 text-sm sm:text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white/10 transition-all flex-1"
+                className="bg-transparent border border-gray-300 text-white px-12 py-6 text-sm sm:text-lg font-black uppercase tracking-widest flex items-center justify-center gap-4 hover:bg-white/10 transition-all flex-1"
               >
                 Update Existing <ArrowRight className="w-5 sm:w-6 h-5 sm:h-6" />
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
+              <div className="p-10 bg-white shadow-sm rounded-xl border border-gray-100 hover:border-red-600/30 transition-all">
                 <ShieldCheck className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Compliance First</h3>
-                <p className="text-neutral-500 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
+                <h3 className="text-xl font-bold uppercase tracking-widest text-gray-900 mb-4">Compliance First</h3>
+                <p className="text-gray-500 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
               </div>
-              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
+              <div className="p-10 bg-white shadow-sm rounded-xl border border-gray-100 hover:border-red-600/30 transition-all">
                 <FileText className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Documented Excellence</h3>
-                <p className="text-neutral-500 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
+                <h3 className="text-xl font-bold uppercase tracking-widest text-gray-900 mb-4">Documented Excellence</h3>
+                <p className="text-gray-500 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
               </div>
             </div>
           </div>
         )}
 
         {resumeModalOpen && (
-          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-            <div className="bg-neutral-900 border border-white/10 p-6 sm:p-8 max-w-md w-full relative mx-4">
-              <button onClick={() => setResumeModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
+          <div className="fixed inset-0 z-[120] bg-white/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-white shadow-sm rounded-xl border border-gray-200 p-6 sm:p-8 max-w-md w-full relative mx-4">
+              <button onClick={() => setResumeModalOpen(false)} className="absolute top-4 right-4 text-gray-900/50 hover:text-gray-900">
                 <X className="w-6 h-6" />
               </button>
-              <h2 className="text-2xl font-black uppercase text-white mb-2">Resume Application</h2>
-              <p className="text-neutral-400 text-sm mb-6">Enter your Application ID and Email to resume a saved or submitted application.</p>
+              <h2 className="text-2xl font-black uppercase text-gray-900 mb-2">Resume Application</h2>
+              <p className="text-gray-600 text-sm mb-6">Enter your Application ID and Email to resume a saved or submitted application.</p>
 
               <form onSubmit={handleResume} className="space-y-4">
                 <div>
-                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Application ID / PAN Number</label>
-                  <input required type="text" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value.toUpperCase())} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="e.g. 125 or ABCDE1234F" />
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-2 block">Application ID / PAN Number</label>
+                  <input required type="text" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value.toUpperCase())} className="w-full bg-white border border-gray-300 p-3 rounded-lg text-gray-900 focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="e.g. 125 or ABCDE1234F" />
                 </div>
                 <div>
-                  <label className="text-xs font-black uppercase text-neutral-500 mb-2 block">Registered Email</label>
-                  <input required type="email" value={resumeEmail} onChange={(e) => setResumeEmail(e.target.value)} className="w-full bg-black border border-white/10 p-3 text-white focus:border-red-600 outline-none" placeholder="email@company.com" />
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-2 block">Registered Email</label>
+                  <input required type="email" value={resumeEmail} onChange={(e) => setResumeEmail(e.target.value)} className="w-full bg-white border border-gray-300 p-3 rounded-lg text-gray-900 focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="email@company.com" />
                 </div>
 
                 {resumeError && <div className="p-3 bg-red-950/50 border border-red-900 text-red-500 text-sm">{resumeError}</div>}
@@ -1020,22 +1020,22 @@ const VendorRegistration: React.FC = () => {
         )}
 
         {draftsModalOpen && (
-          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-            <div className="bg-neutral-900 border border-white/10 p-6 sm:p-8 max-w-2xl w-full relative mx-4">
-              <button onClick={() => setDraftsModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
+          <div className="fixed inset-0 z-[120] bg-white/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-white shadow-sm rounded-xl border border-gray-200 p-6 sm:p-8 max-w-2xl w-full relative mx-4">
+              <button onClick={() => setDraftsModalOpen(false)} className="absolute top-4 right-4 text-gray-900/50 hover:text-gray-900">
                 <X className="w-6 h-6" />
               </button>
-              <h2 className="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4">Saved Drafts</h2>
+              <h2 className="text-2xl font-black uppercase text-gray-900 mb-6 border-b border-gray-200 pb-4">Saved Drafts</h2>
 
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 {draftsList.map(draft => (
-                  <div key={draft.id} className="bg-black border border-white/5 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-white/20 transition-all">
+                  <div key={draft.id} className="bg-white border border-gray-100 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gray-300 transition-all">
                     <div>
-                      <h4 className="text-lg font-black uppercase text-white">{draft.companyName}</h4>
+                      <h4 className="text-lg font-black uppercase text-gray-900">{draft.companyName}</h4>
                       <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">LAST SAVED: {new Date(draft.lastModified).toLocaleString()}</p>
                     </div>
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-neutral-900 border border-white/10 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
+                      <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-white shadow-sm rounded-xl border border-gray-200 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
                         Delete
                       </button>
                       <button onClick={() => handleResumeDraft(draft)} className="bg-red-600 text-white px-6 py-3 text-xs font-black uppercase hover:bg-white hover:text-black transition-all flex-1 sm:flex-none">

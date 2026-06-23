@@ -1,15 +1,14 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useContent } from '../context/ContentContext';
 import {
    Save, Layout, Database, Image as ImageIcon, CheckCircle, Lock, Plus, Trash2,
-   Video, Film, Briefcase, LogOut, Settings, ChevronRight, Tag, RotateCcw, X,
+   Video, Film, Briefcase, LogOut, Settings, ChevronRight, ChevronDown, Tag, RotateCcw, X,
    Users, FileText, Package, Download, Upload, AlertCircle, AlertTriangle, Truck, RefreshCw, ExternalLink,
-   Calendar, Phone, MapPin, BarChart3, PlayCircle
+   Calendar, Phone, MapPin, BarChart3, PlayCircle, Mail, Building, ShieldCheck, Search
 } from 'lucide-react';
 import SectionTitle from '../components/SectionTitle';
 import { ICON_MAP } from '../constants';
-import { getVendors, updateVendorStatus } from '../services/FirebaseService';
+import { getVendors, updateVendorStatus, getVendorDocuments } from '../services/SupabaseService';
 import { Product } from '../types';
 
 const ADMIN_PASSWORD = 'dxn2025';
@@ -37,6 +36,293 @@ const InputGroup = ({ label, value, onChange, type = "text", rows = 1 }: any) =>
    </div>
 );
 
+
+const categorizeMissingItems = (itemsString: string) => {
+   const items = itemsString.split(',').map((i: string) => i.trim()).filter(Boolean);
+   const categories: Record<string, string[]> = {
+      'Mandatory Registrations & Tax': [],
+      'Financial & Bank Details': [],
+      'Compliance & Declarations': [],
+      'Certifications & Quality': [],
+      'Other Observations': []
+   };
+
+   items.forEach((item: string) => {
+      const lower = item.toLowerCase();
+      if (lower.includes('pan') || lower.includes('gst') || lower.includes('company registration') || lower.includes('profile')) {
+         categories['Mandatory Registrations & Tax'].push(item);
+      } else if (lower.includes('bank') || lower.includes('cheque') || lower.includes('financial') || lower.includes('itr')) {
+         categories['Financial & Bank Details'].push(item);
+      } else if (lower.includes('decl') || lower.includes('conflict') || lower.includes('bribery') || lower.includes('confidentiality') || lower.includes('code of conduct') || lower.includes('nda')) {
+         categories['Compliance & Declarations'].push(item);
+      } else if (lower.includes('iso') || lower.includes('gmp') || lower.includes('ce') || lower.includes('certificate') || lower.includes('license') || lower.includes('registration')) {
+         categories['Certifications & Quality'].push(item);
+      } else {
+         categories['Other Observations'].push(item);
+      }
+   });
+
+   return categories;
+};
+
+const DOCUMENT_CATEGORIES: Record<string, string[]> = {
+   'Entity Documentation': ['COMPANYREGISTRATION', 'PANCARD', 'GSTCERTIFICATE', 'COMPANYPROFILE', 'ORGCHART', 'CANCELLEDCHEQUE', 'BANKACCOUNTDETAILS'],
+   'Statutory Compliance': ['MSMECERTIFICATE', 'PFREGISTRATION', 'ESIREGISTRATION', 'PROFTAXREGISTRATION', 'LABOURLICENSE'],
+   'Financial Information': ['AUDITEDFINANCIALS', 'ITRACKNOWLEDGEMENT'],
+   'Declarations': ['CONFLICTOFINTEREST', 'ANTIBRIBERY', 'COMPLIANCEDECL', 'BLACKLISTINGDECL', 'CONFIDENTIALITYDECL'],
+   'Quality & Business Capability': ['MAJORCUSTOMERLIST', 'CUSTOMERREFERENCES', 'PRODUCTCATALOGUE', 'MANUFACTURINGFACILITY', 'SERVICEINFRASTRUCTURE'],
+   'Certifications': ['ISO9001', 'ISO14001', 'ISO45001', 'GMP', 'CE', 'OTHERCERTIFICATIONS']
+};
+
+const categorizeDocuments = (docs: { name: string; url: string }[]) => {
+   const categorized: Record<string, { name: string; url: string }[]> = {
+      'Entity Documentation': [],
+      'Statutory Compliance': [],
+      'Financial Information': [],
+      'Declarations': [],
+      'Quality & Business Capability': [],
+      'Certifications': [],
+      'Other / Uncategorized': []
+   };
+
+   docs.forEach(doc => {
+      const match = doc.name.match(/^\[(.*?)\]/);
+      let foundCategory = false;
+      
+      if (match) {
+         const key = match[1].toUpperCase();
+         for (const [catName, keys] of Object.entries(DOCUMENT_CATEGORIES)) {
+            if (keys.includes(key)) {
+               categorized[catName].push(doc);
+               foundCategory = true;
+               break;
+            }
+         }
+      } else {
+         // Heuristic fallback for older files
+         const lower = doc.name.toLowerCase();
+         if (lower.includes('pan') || lower.includes('gst') || lower.includes('profile') || lower.includes('cheque') || lower.includes('bank') || lower.includes('company')) {
+            categorized['Entity Documentation'].push(doc);
+            foundCategory = true;
+         } else if (lower.includes('msme') || lower.includes('pf') || lower.includes('esi') || lower.includes('labour') || lower.includes('tax')) {
+            categorized['Statutory Compliance'].push(doc);
+            foundCategory = true;
+         } else if (lower.includes('audit') || lower.includes('itr') || lower.includes('financial')) {
+            categorized['Financial Information'].push(doc);
+            foundCategory = true;
+         } else if (lower.includes('decl') || lower.includes('conflict') || lower.includes('bribery') || lower.includes('nda') || lower.includes('conduct')) {
+            categorized['Declarations'].push(doc);
+            foundCategory = true;
+         } else if (lower.includes('iso') || lower.includes('gmp') || lower.includes('ce') || lower.includes('cert')) {
+            categorized['Certifications'].push(doc);
+            foundCategory = true;
+         } else if (lower.includes('customer') || lower.includes('catalogue') || lower.includes('facility') || lower.includes('infrastructure') || lower.includes('brochure')) {
+            categorized['Quality & Business Capability'].push(doc);
+            foundCategory = true;
+         }
+      }
+
+      if (!foundCategory) {
+         categorized['Other / Uncategorized'].push(doc);
+      }
+   });
+
+   return categorized;
+};
+
+const VENDOR_CATEGORIES: Record<string, string[]> = {
+  "Nature of Business": [
+    "OEM / Manufacturer",
+    "Authorized Distributor",
+    "Authorized Dealer",
+    "Channel Partner",
+    "Service Provider",
+    "Contractor",
+    "Consultant",
+    "Trader / Reseller",
+    "Importer",
+    "Other"
+  ],
+  "Packaging Machines & Automation": [
+    "Tube Filling Machine",
+    "Liquid Filling Machine",
+    "Carbonated Filling Machine",
+    "Capping Machine",
+    "Labeling Machine",
+    "Shrink Sleeve Machine",
+    "Case Erector",
+    "Carton Sealer",
+    "Band Sealer",
+    "Check Weigher",
+    "Online Weighing System",
+    "Conveyor System"
+  ],
+  "Process & Production Equipment": [
+    "Storage Tank",
+    "Homogenizer",
+    "Liquid Processing Equipment",
+    "Material Transfer System",
+    "Mixing Tank",
+    "Powder Handling Equipment"
+  ],
+  "Utility Equipment": [
+    "Air Compressor",
+    "Chiller",
+    "Cooling Tower",
+    "Boiler",
+    "RO Plant",
+    "Generator",
+    "Pumps",
+    "Motors",
+    "Valves",
+    "Piping & Fittings",
+    "Heat Exchanger"
+  ],
+  "Electrical, Automation & Instrumentation": [
+    "Load Cell",
+    "Weighing Scale",
+    "Transformer",
+    "Panel / Switchgear",
+    "Cables & Wires",
+    "PLC / SCADA System",
+    "VFD",
+    "Sensors / Transmitters",
+    "UPS / Battery",
+    "Lighting System"
+  ],
+  "Mechanical Fabrication & Engineering Services": [
+    "Fabrication (SS/MS)",
+    "Machining Parts",
+    "Structural Steel Work",
+    "Sheet Metal Work",
+    "Die / Mold Making",
+    "Engineering Design (CAD/CAM)"
+  ],
+  "MRO & Industrial Consumables": [
+    "Bearings",
+    "Fasteners",
+    "Pneumatics",
+    "Hydraulics",
+    "Belts",
+    "Filters",
+    "Lubricants",
+    "Gaskets / Seals",
+    "Tools & Tackles",
+    "Industrial Consumables",
+    "Packaging Material (Primary/Secondary)",
+    "Chemicals / Solvents"
+  ],
+  "Laboratory & Quality Equipment": [
+    "Lab Equipment",
+    "Testing Instruments",
+    "Calibration Services",
+    "Glassware",
+    "Lab Consumables"
+  ],
+  "Civil & Infrastructure": [
+    "Civil Construction",
+    "Painting",
+    "Flooring",
+    "Waterproofing",
+    "Interior Works"
+  ],
+  "HVAC & Clean Room": [
+    "HVAC System",
+    "Clean Room Equipment",
+    "AHU",
+    "Ducting",
+    "Clean Room Consumables"
+  ],
+  "Safety & Fire Protection": [
+    "PPE",
+    "Fire Hydrant System",
+    "Fire Extinguisher",
+    "Safety Equipment",
+    "CCTV / Access Control"
+  ],
+  "Facility Management Services": [
+    "Housekeeping",
+    "Security Services",
+    "Pest Control",
+    "Scrap Dealer",
+    "Canteen / Catering",
+    "Transport / Cab Services"
+  ],
+  "Logistics & Transportation": [
+    "Freight Forwarder",
+    "Custom House Agent",
+    "Transporter",
+    "Courier Services",
+    "Warehousing"
+  ],
+  "Professional Services": [
+    "IT Services",
+    "Manpower Supply",
+    "Legal / Statutory Consulting",
+    "Event Management",
+    "Marketing / Advertising",
+    "Travel Agency"
+  ]
+};
+
+const renderCategorizedVendorCategory = (categoryString: string) => {
+   const emptyFallback = (
+      <tr className="border-b border-neutral-100 hover:bg-neutral-50/50 transition-colors">
+         <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">Vendor Category</th>
+         <td className="py-3 px-4 font-medium text-neutral-900"><span className="text-neutral-500 italic">Not provided</span></td>
+      </tr>
+   );
+   if (!categoryString) return emptyFallback;
+   const selectedItems = categoryString.split(',').map(item => item.trim()).filter(Boolean);
+   if (selectedItems.length === 0) return emptyFallback;
+
+   // Group items by category
+   const grouped: Record<string, string[]> = {};
+   const uncategorized: string[] = [];
+
+   selectedItems.forEach(item => {
+      let found = false;
+      for (const [parentCategory, options] of Object.entries(VENDOR_CATEGORIES)) {
+         if (options.includes(item)) {
+            if (!grouped[parentCategory]) grouped[parentCategory] = [];
+            grouped[parentCategory].push(item);
+            found = true;
+            break;
+         }
+      }
+      if (!found) uncategorized.push(item);
+   });
+
+   return (
+      <>
+         {Object.entries(grouped).map(([parentCat, items]) => (
+            <tr key={parentCat} className="border-b border-neutral-100 hover:bg-neutral-50/50 transition-colors">
+               <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">{parentCat}</th>
+               <td className="py-3 px-4 font-medium text-neutral-900">
+                  <div className="flex flex-wrap gap-1.5">
+                     {items.map((item, i) => (
+                        <span key={i} className="bg-red-600/10 border border-red-600/30 text-red-600 px-2 py-0.5 text-[9px] font-black uppercase rounded-sm">{item}</span>
+                     ))}
+                  </div>
+               </td>
+            </tr>
+         ))}
+         {uncategorized.length > 0 && (
+            <tr className="border-b border-neutral-100 hover:bg-neutral-50/50 transition-colors">
+               <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">Other Categories</th>
+               <td className="py-3 px-4 font-medium text-neutral-900">
+                  <div className="flex flex-wrap gap-1.5">
+                     {uncategorized.map((item, i) => (
+                        <span key={i} className="bg-red-600/10 border border-red-600/30 text-red-600 px-2 py-0.5 text-[9px] font-black uppercase rounded-sm">{item}</span>
+                     ))}
+                  </div>
+               </td>
+            </tr>
+         )}
+      </>
+   );
+};
+
 const Admin: React.FC = () => {
    const { content, updateContent, loading } = useContent();
    const [localContent, setLocalContent] = useState(content);
@@ -47,9 +333,16 @@ const Admin: React.FC = () => {
    const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success'>('idle');
    const [isDirty, setIsDirty] = useState(false);
    const [vendors, setVendors] = useState<any[]>([]);
+   const [vendorPage, setVendorPage] = useState(1);
+   const VENDORS_PER_PAGE = 5;
    const [isLoadingVendors, setIsLoadingVendors] = useState(false);
+   const [selectedVendor, setSelectedVendor] = useState<any | null>(null);
+   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string }[]>([]);
+   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
+   const [vendorEmailPreview, setVendorEmailPreview] = useState(false);
    const [newImageCategory, setNewImageCategory] = useState('');
    const [newVideoCategory, setNewVideoCategory] = useState('');
+   const [vendorSearch, setVendorSearch] = useState('');
 
    // Sync ref
    const hasSyncedRef = useRef(false);
@@ -123,6 +416,7 @@ const Admin: React.FC = () => {
       const newStatus = 'approved';
       try {
          setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
+         if (selectedVendor?.id === id) setSelectedVendor((prev: any) => ({ ...prev, status: newStatus }));
          if (typeof id === 'string') {
             await updateVendorStatus(id, newStatus);
          } else {
@@ -139,6 +433,7 @@ const Admin: React.FC = () => {
       const newStatus = 'rejected';
       try {
          setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
+         if (selectedVendor?.id === id) setSelectedVendor((prev: any) => ({ ...prev, status: newStatus }));
          if (typeof id === 'string') {
             await updateVendorStatus(id, newStatus);
          } else {
@@ -151,9 +446,37 @@ const Admin: React.FC = () => {
       }
    };
 
+   const handleViewVendor = async (vendor: any) => {
+      setSelectedVendor(vendor);
+      setVendorEmailPreview(false);
+      setIsLoadingDocs(true);
+      try {
+         const docs = await getVendorDocuments(String(vendor.id));
+         setVendorDocs(docs);
+      } catch {
+         setVendorDocs([]);
+      } finally {
+         setIsLoadingDocs(false);
+      }
+   };
+
+   const filteredVendors = vendors.filter((v: any) => {
+      if (!vendorSearch) return true;
+      const term = vendorSearch.toLowerCase();
+      return (
+         (v.company_name || v.companyName || '').toLowerCase().includes(term) ||
+         (v.email || '').toLowerCase().includes(term) ||
+         (v.pan_number || v.panNumber || '').toLowerCase().includes(term) ||
+         (v.phone || '').toLowerCase().includes(term) ||
+         (v.gst_number || v.gstNumber || '').toLowerCase().includes(term) ||
+         (v.status || '').toLowerCase().includes(term)
+      );
+   });
+   const totalVendorPages = Math.max(1, Math.ceil(filteredVendors.length / VENDORS_PER_PAGE));
+
    if (loading) return null;
    if (!isAuth) return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-6">
+      <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32">
          <div className="max-w-md w-full bg-neutral-900 border border-white/10 p-12 rounded-sm">
             <div className="text-center mb-10"><Lock className="w-12 h-12 text-red-600 mx-auto mb-6" /><h2 className="text-2xl font-black uppercase text-white">Management Suite</h2></div>
             <form onSubmit={handleLogin} className="space-y-6">
@@ -165,6 +488,7 @@ const Admin: React.FC = () => {
    );
 
    return (
+      <>
       <div className="pt-32 pb-20 bg-neutral-950 min-h-screen">
          <div className="max-w-[1440px] mx-auto px-6 md:px-12">
             <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
@@ -194,7 +518,7 @@ const Admin: React.FC = () => {
                      { id: 'careers', label: 'Careers', icon: Briefcase },
                      { id: 'contact', label: 'Contact Info', icon: MapPin },
                   ].map((tab) => (
-                     <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`w-full flex items-center justify-between p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-500 hover:text-neutral-300'}`}>
+                     <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`w-full flex items-center justify-between p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
                         <div className="flex items-center gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
                      </button>
                   ))}
@@ -438,57 +762,96 @@ const Admin: React.FC = () => {
                   {/* VENDORS TAB */}
                   {activeTab === 'vendors' && (
                      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
-                        <div className="flex justify-between items-center border-b border-white/5 pb-6">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-6 gap-4">
                            <div>
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Vendor Management System</h3>
                               <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-1">Review entity applications and compliance status</p>
                            </div>
-                           <button onClick={fetchVendorData} className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-full transition-colors" title="Refresh List">
-                              <RefreshCw className={`w-4 h-4 ${isLoadingVendors ? 'animate-spin' : ''}`} />
-                           </button>
+                           <div className="flex items-center gap-4 w-full md:w-auto">
+                              <div className="relative flex-grow md:flex-grow-0">
+                                 <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                                 <input
+                                    type="text"
+                                    placeholder="Search vendors..."
+                                    value={vendorSearch}
+                                    onChange={(e) => {
+                                       setVendorSearch(e.target.value);
+                                       setVendorPage(1);
+                                    }}
+                                    className="bg-black border border-white text-white pl-10 pr-4 py-2 text-xs outline-none focus:border-red-600 transition-colors w-full md:w-64"
+                                 />
+                                 {vendorSearch && (
+                                    <button onClick={() => { setVendorSearch(''); setVendorPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white">
+                                       <X className="w-3 h-3" />
+                                    </button>
+                                 )}
+                              </div>
+                              <button onClick={fetchVendorData} className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-full shrink-0 transition-colors" title="Refresh List">
+                                 <RefreshCw className={`w-4 h-4 ${isLoadingVendors ? 'animate-spin' : ''}`} />
+                              </button>
+                           </div>
                         </div>
 
-                        <div className="grid gap-6">
+                        <div className="grid gap-4">
                            {vendors.length === 0 && !isLoadingVendors && <div className="p-12 text-center border border-dashed border-white/10 text-neutral-600 uppercase text-xs">No pending applications</div>}
+    {vendors.length > 0 && filteredVendors.length === 0 && <div className="p-12 text-center border border-dashed border-white/10 text-neutral-600 uppercase text-xs">No vendors match your search</div>}
                            {isLoadingVendors && <div className="p-12 text-center text-neutral-500 uppercase text-xs">Syncing with secure database...</div>}
 
-                           {vendors.map((vendor) => (
-                              <div key={vendor.id} className="bg-black p-8 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-8">
-                                 <div className="space-y-4">
+                           {filteredVendors.slice((vendorPage - 1) * VENDORS_PER_PAGE, vendorPage * VENDORS_PER_PAGE).map((vendor) => (
+                              <div key={vendor.id} className="bg-black p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-6 hover:border-white/10 transition-all">
+                                 <div className="space-y-3 flex-grow">
                                     <div className="flex items-center gap-3">
-                                       <span className={`px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'approved' ? 'border-green-500 text-green-500' : vendor.status === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status}</span>
-                                       <h4 className="text-xl font-black uppercase text-white">{vendor.companyName}</h4>
+                                       <span className={`px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'approved' ? 'border-green-500 text-green-500' : vendor.status === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
+                                       <h4 className="text-lg font-black uppercase text-white">{vendor.company_name || vendor.companyName}</h4>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-x-12 gap-y-2 text-xs">
-                                       <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Email:</span> <span className="text-neutral-300">{vendor.email}</span></p>
-                                       <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Phone:</span> <span className="text-neutral-300">{vendor.phone}</span></p>
-                                       <p><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Tax ID:</span> <span className="text-neutral-300">{vendor.taxId}</span></p>
-                                       <p className="col-span-2"><span className="text-neutral-600 uppercase font-black tracking-widest text-[9px]">Specialities:</span> <span className="text-red-500">{Array.isArray(vendor.specialities) ? vendor.specialities.join(', ') : vendor.specialities}</span></p>
-                                       {vendor.description && (
-                                          <p className="col-span-2 mt-2 pt-2 border-t border-white/10 text-neutral-500 italic">"{vendor.description}"</p>
-                                       )}
-                                       {vendor.documents && vendor.documents.length > 0 && (
-                                          <div className="col-span-2 mt-4">
-                                             <a href={vendor.documents[0].url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 hover:bg-red-600 hover:text-white transition-all rounded-sm text-[9px] font-black uppercase tracking-widest text-neutral-400">
-                                                <Download className="w-3 h-3" /> View Profile Doc
-                                             </a>
-                                          </div>
-                                       )}
+                                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 text-xs">
+                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">Email: </span><span className="text-neutral-300">{vendor.email}</span></p>
+                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">Phone: </span><span className="text-neutral-300">{vendor.phone}</span></p>
+                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">PAN: </span><span className="text-neutral-300">{vendor.pan_number || vendor.panNumber || '—'}</span></p>
+                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">GST: </span><span className="text-neutral-300">{vendor.gst_number || vendor.gstNumber || '—'}</span></p>
+                                       </div>
                                     </div>
-                                 </div>
-                                 <div className="flex gap-4">
+                                 <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                                    <button
+                                       onClick={() => handleViewVendor(vendor)}
+                                       className="bg-white/5 border border-white/10 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors flex items-center gap-2"
+                                    >
+                                       <FileText className="w-3.5 h-3.5" /> View Details
+                                    </button>
                                     {vendor.status === 'pending' && (
                                        <>
-                                          <button onClick={() => handleApproveVendor(vendor.id)} className="bg-green-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
-                                          <button onClick={() => handleRejectVendor(vendor.id)} className="bg-red-600 text-white px-6 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
+                                          <button onClick={() => handleApproveVendor(vendor.id)} className="bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
+                                          <button onClick={() => handleRejectVendor(vendor.id)} className="bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
                                        </>
                                     )}
                                     {(vendor.status === 'approved' || vendor.status === 'rejected') && (
-                                       <button disabled className="bg-neutral-800 text-neutral-500 px-6 py-3 text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Processed</button>
+                                       <button disabled className="bg-neutral-800 text-neutral-500 px-5 py-2.5 text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Processed</button>
                                     )}
                                  </div>
                               </div>
                            ))}
+
+                           {filteredVendors.length > VENDORS_PER_PAGE && (
+                              <div className="flex justify-between items-center mt-6 pt-6 border-t border-white/5">
+                                 <button
+                                    onClick={() => setVendorPage(prev => Math.max(prev - 1, 1))}
+                                    disabled={vendorPage === 1}
+                                    className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${vendorPage === 1 ? 'text-neutral-600 bg-white/5 cursor-not-allowed' : 'text-white bg-white/10 hover:bg-white/20'}`}
+                                 >
+                                    Previous
+                                 </button>
+                                 <span className="text-neutral-400 text-xs font-bold">
+                                    Page {vendorPage} of {totalVendorPages}
+                                 </span>
+                                 <button
+                                    onClick={() => setVendorPage(prev => Math.min(prev + 1, totalVendorPages))}
+                                    disabled={vendorPage === totalVendorPages}
+                                    className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${vendorPage === totalVendorPages ? 'text-neutral-600 bg-white/5 cursor-not-allowed' : 'text-white bg-white/10 hover:bg-white/20'}`}
+                                 >
+                                    Next
+                                 </button>
+                              </div>
+                           )}
                         </div>
                      </div>
                   )}
@@ -946,6 +1309,284 @@ const Admin: React.FC = () => {
             </div>
          </div>
       </div>
+
+      {/* ======= VENDOR DETAIL MODAL ======= */}
+      {selectedVendor && (
+         <div className="fixed inset-0 z-[120] bg-black/95 flex flex-col overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-8 py-5 bg-neutral-900 border-b border-white/10 shrink-0">
+               <div className="flex items-center gap-4">
+                  <button
+                     onClick={() => setSelectedVendor(null)}
+                     className="text-neutral-500 hover:text-white p-2 hover:bg-white/5 rounded transition-colors"
+                  >
+                     <X className="w-5 h-5" />
+                  </button>
+                  <div>
+                     <h2 className="text-white font-black uppercase tracking-tight text-lg">{selectedVendor.company_name || selectedVendor.companyName}</h2>
+                     <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">Application ID: #{selectedVendor.id}</p>
+                  </div>
+                  <span className={`ml-4 px-3 py-1 text-[8px] font-black uppercase border ${
+                     selectedVendor.status === 'approved' ? 'border-green-500 text-green-500 bg-green-500/5' :
+                     selectedVendor.status === 'rejected' ? 'border-red-700 text-red-700 bg-red-700/5' :
+                     'border-amber-500 text-amber-500 bg-amber-500/5'
+                  }`}>{selectedVendor.status || 'pending'}</span>
+               </div>
+               <div className="flex items-center gap-3">
+                  <button
+                     onClick={() => setVendorEmailPreview(p => !p)}
+                     className={`flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-600 border-red-600 text-white' : 'border-white/20 text-neutral-400 hover:text-white hover:bg-white/5'}`}
+                  >
+                     <Mail className="w-3.5 h-3.5" /> {vendorEmailPreview ? 'Hide Email Preview' : 'Email Preview'}
+                  </button>
+                  <button
+                     onClick={() => window.print()}
+                     className="flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border border-white/20 text-neutral-400 hover:text-white hover:bg-white/5 transition-all print:hidden"
+                  >
+                     <Download className="w-3.5 h-3.5" /> Print / Save PDF
+                  </button>
+                  {selectedVendor.status === 'pending' && (
+                     <>
+                        <button onClick={() => handleApproveVendor(selectedVendor.id)} className="bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
+                        <button onClick={() => handleRejectVendor(selectedVendor.id)} className="bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
+                     </>
+                  )}
+               </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-grow overflow-y-auto">
+               <div className="max-w-5xl mx-auto px-8 py-10 space-y-6">
+
+                  {/* Email Preview Panel */}
+                  {vendorEmailPreview && (
+                     <div className="bg-white shadow-sm border border-neutral-200 rounded-sm overflow-hidden">
+                        <div className="px-6 py-4 bg-white border-b border-neutral-200 flex items-center gap-3">
+                           <Mail className="w-4 h-4 text-red-500" />
+                           <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs">Gmail Notification Preview — Exact Content Sent to Vendor</h3>
+                        </div>
+                        <div className="p-8 font-mono text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap bg-neutral-50">
+{`Dear ${selectedVendor.contact_person || selectedVendor.authorizedPerson || 'Vendor'},
+
+Thank you for submitting your vendor registration with DXN India Manufacturing.
+
+Your application has been received and is currently under review by our procurement team.
+
+──────────────────────────────────
+APPLICATION SUMMARY
+──────────────────────────────────
+Application ID   : #${selectedVendor.id}
+Company Name     : ${selectedVendor.company_name || selectedVendor.companyName || '—'}
+Contact Person   : ${selectedVendor.contact_person || selectedVendor.authorizedPerson || '—'}
+Email            : ${selectedVendor.email || '—'}
+Phone            : ${selectedVendor.phone || '—'}
+Escalation Ctct  : ${selectedVendor.escalation_contact || selectedVendor.escContact || '—'}
+PAN Number       : ${selectedVendor.pan_number || selectedVendor.panNumber || '—'}
+GST Number       : ${selectedVendor.gst_number || selectedVendor.gstNumber || '—'}
+
+Vendor Category  : ${selectedVendor.vendor_category || selectedVendor.categories?.join(', ') || '—'}
+Service Caps     : ${selectedVendor.service_capabilities || selectedVendor.serviceCapabilities?.join(', ') || '—'}
+OEM Brands       : ${selectedVendor.oem_brands || selectedVendor.oemBrands?.join(', ') || '—'}
+Specialities     : ${selectedVendor.specialities || '—'}
+Tech Team Str.   : ${selectedVendor.tech_team_strength || selectedVendor.techTeamStrength || '—'}
+Installed Base   : ${selectedVendor.installed_base || selectedVendor.installedBase || '—'}
+
+Facility Overview:
+${selectedVendor.facility_description || selectedVendor.description || '—'}
+
+Submission Status: ${selectedVendor.status?.toUpperCase() || 'PENDING'}
+${selectedVendor.missing_items ? `Missing Items    : ${selectedVendor.missing_items}` : ''}
+──────────────────────────────────
+
+Our team will review your application and contact you within 7-10 business days.
+
+For any queries, please contact: procurement@dxnindia.com
+
+Warm Regards,
+DXN India Manufacturing — Procurement Team
+Global Flagship Hub, Siddipet, Telangana`}
+                        </div>
+                     </div>
+                  )}
+
+                  {/* Main Unified Table Container */}
+                  <div className="bg-white shadow-xl rounded-sm border border-neutral-200 overflow-hidden divide-y divide-neutral-200">
+                  {/* Submission Status */}
+                  <div className="bg-white p-8 flex flex-row items-center justify-center gap-6 border-b border-neutral-200">
+                     <h3 className="text-neutral-900 font-black uppercase tracking-widest text-sm flex items-center gap-2"><AlertCircle className="w-5 h-5 text-red-500" /> Application Status:</h3>
+                     <span className={`inline-block px-5 py-2 text-sm font-black uppercase border-2 ${
+                        selectedVendor.status === 'approved' ? 'border-green-500 text-green-600 bg-green-50' :
+                        selectedVendor.status === 'rejected' ? 'border-red-700 text-red-700 bg-red-50' :
+                        'border-amber-500 text-amber-600 bg-amber-50'
+                     }`}>{selectedVendor.status || 'Pending Review'}</span>
+                  </div>
+
+                  {/* Registration Info Grid */}
+                  
+
+                     {/* Company & Contact Info */}
+                     <details open className="group bg-white">
+                        <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
+                           <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Building className="w-3.5 h-3.5 text-red-500" /> Company & Contact Info</h3>
+                           <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
+                        </summary>
+                        <div className="p-5 pt-4">
+                        <div className="overflow-x-auto">
+                           <table className="w-full text-left border-collapse text-sm text-neutral-700">
+                              <tbody>
+                                 {[
+                                    { label: 'Company Legal Name', value: selectedVendor.company_name || selectedVendor.companyName },
+                                    { label: 'Authorized Contact Person', value: selectedVendor.contact_person || selectedVendor.authorizedPerson },
+                                    { label: 'Email Address', value: selectedVendor.email },
+                                    { label: 'Mobile Number', value: selectedVendor.phone },
+                                    { label: 'Escalation Contact', value: selectedVendor.escalation_contact || selectedVendor.escContact },
+                                    { label: 'PAN Number', value: selectedVendor.pan_number || selectedVendor.panNumber },
+                                    { label: 'GST Number', value: selectedVendor.gst_number || selectedVendor.gstNumber },
+                                    { label: 'Applied On', value: selectedVendor.created_at ? new Date(selectedVendor.created_at).toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' }) : '—' },
+                                 ].map(({ label, value }) => (
+                                    <tr key={label} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors">
+                                       <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">{label}</th>
+                                       <td className="py-3 px-4 font-medium text-neutral-900">{value || <span className="text-neutral-500 italic">Not provided</span>}</td>
+                                    </tr>
+                                 ))}
+                              </tbody>
+                           </table>
+                        </div>
+                        </div>
+                     </details>
+
+                     {/* Business Details */}
+                     <details open className="group bg-white">
+                        <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
+                           <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Briefcase className="w-3.5 h-3.5 text-red-500" /> Business Details</h3>
+                           <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
+                        </summary>
+                        <div className="p-5 pt-4">
+                        <div className="overflow-x-auto">
+                           <table className="w-full text-left border-collapse text-sm text-neutral-700">
+                              <tbody>
+                                 {renderCategorizedVendorCategory(selectedVendor.vendor_category || selectedVendor.categories?.join(', ') || '')}
+                                 {/* Other Business Details */}
+                                 {[
+                                    { label: 'Service Capabilities', value: selectedVendor.service_capabilities || selectedVendor.serviceCapabilities?.join(', ') },
+                                    { label: 'OEM Brands', value: selectedVendor.oem_brands || selectedVendor.oemBrands?.filter(Boolean).join(', ') },
+                                    { label: 'Specialities', value: selectedVendor.specialities },
+                                    { label: 'Technical Team Strength', value: selectedVendor.tech_team_strength || selectedVendor.techTeamStrength },
+                                    { label: 'Installed Base Details', value: selectedVendor.installed_base || selectedVendor.installedBase },
+                                 ].map(({ label, value }) => (
+                                    <tr key={label} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
+                                       <th className="py-3 px-2 font-black uppercase text-[10px] tracking-widest text-neutral-500 w-1/3 align-top">{label}</th>
+                                       <td className="py-3 px-2 font-medium text-neutral-900">
+                                          {label === 'Service Capabilities' ? (
+                                             <div className="flex flex-wrap gap-1.5">
+                                                {(value || '').split(',').filter(Boolean).map((item, i) => (
+                                                   <span key={i} className="bg-white/5 border border-neutral-200 text-neutral-700 px-2 py-0.5 text-[9px] font-black uppercase rounded-sm">{item.trim()}</span>
+                                                ))}
+                                             </div>
+                                          ) : (
+                                             value || <span className="text-neutral-500 italic">Not provided</span>
+                                          )}
+                                       </td>
+                                    </tr>
+                                 ))}
+                              </tbody>
+                           </table>
+                        </div>
+                        </div>
+                     </details>
+
+                  {/* Facility Overview */}
+                  <details open className="group bg-white">
+                     <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
+                        <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-red-500" /> Facility Capabilities Overview</h3>
+                        <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
+                     </summary>
+                     <div className="p-5 pt-4">
+                     <p className="text-neutral-700 text-sm leading-relaxed whitespace-pre-wrap">{selectedVendor.facility_description || selectedVendor.description || <span className="text-neutral-500 italic">No description provided.</span>}</p>
+                  </div>
+                  </details>
+
+                  {/* Observations / Missing Items */}
+                  {selectedVendor.missing_items && (
+                     <div className="bg-amber-50 border-l-4 border-l-amber-500 p-6">
+                        <h3 className="text-black font-black uppercase tracking-widest text-xs mb-4 flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-600" /> Action Required: Missing / Observation Items</h3>
+                        <div className="mt-4 border border-amber-200 shadow-sm rounded-sm divide-y divide-amber-200">
+                           {Object.entries(categorizeMissingItems(selectedVendor.missing_items)).map(([cat, items]) => {
+                              if (items.length === 0) return null;
+                              return (
+                                 <details key={cat} open className="group bg-white/50">
+                                    <summary className="bg-amber-100/80 py-3 px-4 font-black uppercase text-[10px] tracking-widest text-amber-900 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-amber-100 [&::-webkit-details-marker]:hidden">
+                                       {cat}
+                                       <ChevronDown className="w-4 h-4 text-amber-700 transition-transform group-open:rotate-180" />
+                                    </summary>
+                                    <div className="p-0 border-t border-amber-200">
+                                       <table className="w-full text-left border-collapse text-sm">
+                                          <tbody>
+                                             {items.map((item, i) => (
+                                                <tr key={i} className="border-b border-amber-100 last:border-0 hover:bg-amber-50 transition-colors">
+                                                   <td className="py-3 px-4 font-bold text-amber-900 flex items-start gap-3">
+                                                      <div className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0 mt-1.5" />
+                                                      <span>{item}</span>
+                                                   </td>
+                                                </tr>
+                                             ))}
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </details>
+                              );
+                           })}
+                        </div>
+                     </div>
+                  )}
+                  {!selectedVendor.missing_items && (
+                     <div className="bg-green-50 border-l-4 border-l-green-500 p-6">
+                        <h3 className="text-black font-black uppercase tracking-widest text-xs mb-2 flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600" /> Status Complete</h3>
+                        <p className="text-green-800 text-sm font-bold">All required forms and documents have been successfully submitted.</p>
+                     </div>
+                  )}
+
+                  {/* Categorized Uploaded Documents */}
+                  {isLoadingDocs ? (
+                     <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-widest flex flex-col items-center gap-3 bg-white"><RefreshCw className="w-5 h-5 animate-spin text-red-500" /> Fetching documents...</div>
+                  ) : vendorDocs.length === 0 ? (
+                     <div className="p-8 text-center text-neutral-500 text-xs italic bg-white">No documents found in storage. Documents from new registrations are automatically uploaded.</div>
+                  ) : (
+                     Object.entries(categorizeDocuments(vendorDocs)).map(([catName, docs]) => {
+                        if (docs.length === 0) return null;
+                        return (
+                           <details key={catName} open className="group bg-white">
+                              <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
+                                 <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Upload className="w-3.5 h-3.5 text-red-500" /> {catName}</h3>
+                                 <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
+                              </summary>
+                              <div className="p-5 pt-4">
+                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                    {docs.map((doc) => (
+                                       <a
+                                          key={doc.name}
+                                          href={doc.url}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className="flex items-center gap-3 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:bg-red-600/5 transition-all group shadow-sm rounded-sm"
+                                       >
+                                          <FileText className="w-4 h-4 text-red-500 shrink-0" />
+                                          <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}>{doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}</span>
+                                          <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-neutral-900 ml-auto shrink-0" />
+                                       </a>
+                                    ))}
+                                 </div>
+                              </div>
+                           </details>
+                        );
+                     })
+                  )}
+                  </div>
+               </div>
+            </div>
+          </div>
+      )}
+      </>
    );
 };
 
