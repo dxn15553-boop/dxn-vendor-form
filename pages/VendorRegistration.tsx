@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { uploadVendorDocument } from '../services/SupabaseService';
 
 const VENDOR_CATEGORIES = {
   "Nature of Business": [
@@ -126,12 +127,12 @@ const FileUploadField = ({
 
   return (
     <div className="flex flex-col h-full gap-2 relative">
-      <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 shrink-0">
+      <label className="text-[11px] font-bold uppercase tracking-widest text-gray-600 flex items-center gap-2 shrink-0">
         <span className="text-base">{file ? '✅' : '⬜'}</span> <Icon className="w-3 h-3" />
         <span>{label} {!isOptional && <span className="text-red-600 text-lg leading-none ml-1">*</span>}</span>
       </label>
       <div
-        className={`p-4 bg-black border border-dashed text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] relative ${file ? 'border-green-600' : 'border-white/10 hover:border-red-600'}`}
+        className={`p-4 bg-white border-2 border-dashed rounded-lg text-center group cursor-pointer transition-colors flex-grow flex flex-col justify-center min-h-[100px] relative ${file ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-red-600 hover:bg-gray-50'}`}
         onClick={() => fileInputRef.current?.click()}
       >
         <input
@@ -152,12 +153,12 @@ const FileUploadField = ({
               <X className="w-4 h-4 text-white" />
             </button>
             <CheckCircle className="w-5 h-5 text-green-500" />
-            <p className="text-[10px] font-black uppercase tracking-widest text-white truncate max-w-full px-2">{file.name}</p>
+            <p className="text-[10px] font-bold tracking-wider text-gray-900 truncate max-w-full px-2">{file.name}</p>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-2">
             <Upload className="w-5 h-5 text-neutral-600 group-hover:text-red-600 transition-colors" />
-            <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">Upload Document</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Upload Document</p>
           </div>
         )}
       </div>
@@ -204,7 +205,7 @@ const TextInputField = ({
           onChange={onChange}
           placeholder={placeholder}
           rows={4}
-          className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all resize-none"
+          className="w-full bg-white border border-gray-300 rounded-lg px-6 py-4 text-gray-900 shadow-sm focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all resize-none"
         />
       ) : (
         <input
@@ -214,7 +215,7 @@ const TextInputField = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="w-full bg-black border border-white/10 px-6 py-4 text-white outline-none focus:border-red-600 transition-all"
+          className="w-full bg-white border border-gray-300 rounded-lg px-6 py-4 text-gray-900 shadow-sm focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all"
         />
       )}
     </div>
@@ -256,11 +257,11 @@ const SelectInputField = ({
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full bg-black border border-white/10 px-6 py-4 pr-12 text-white outline-none focus:border-red-600 transition-all appearance-none cursor-pointer"
+          className="w-full bg-white border border-gray-300 rounded-lg px-6 py-4 pr-12 text-gray-900 shadow-sm focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all appearance-none cursor-pointer"
         >
           <option value="" disabled>Select {label}</option>
           {options.map((opt) => (
-            <option key={opt} value={opt} className="bg-black text-white">{opt}</option>
+            <option key={opt} value={opt} className="bg-white text-gray-900">{opt}</option>
           ))}
         </select>
         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500">
@@ -276,13 +277,13 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
   const selectedCount = options.filter(opt => selected.includes(opt)).length;
 
   return (
-    <div className="border border-white/10 bg-neutral-900 overflow-hidden mb-4">
+    <div className="border border-gray-200 bg-gray-50 rounded-xl overflow-hidden mb-4 shadow-sm">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+        className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white transition-colors"
       >
-        <span className="font-bold text-white uppercase tracking-wider text-sm flex items-center gap-3">
+        <span className="font-bold text-gray-900 uppercase tracking-wider text-sm flex items-center gap-3">
           {title}
           {selectedCount > 0 && (
             <span className="bg-red-600 text-white text-xs px-2 py-0.5 rounded-full">{selectedCount}</span>
@@ -291,16 +292,16 @@ const CategoryAccordion = ({ title, options, selected, onToggle }: { title: stri
         {isOpen ? <ChevronUp className="w-5 h-5 text-neutral-400" /> : <ChevronDown className="w-5 h-5 text-neutral-400" />}
       </button>
       {isOpen && (
-        <div className="px-6 py-4 bg-black border-t border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="px-6 py-4 bg-white border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-4">
           {options.map(opt => (
             <label key={opt} className="flex items-center gap-3 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={selected.includes(opt)}
                 onChange={() => onToggle(opt)}
-                className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
+                className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
               />
-              <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">{opt}</span>
+              <span className="text-sm text-gray-700 group-hover:text-red-600 transition-colors">{opt}</span>
             </label>
           ))}
         </div>
@@ -869,26 +870,45 @@ const VendorRegistration: React.FC = () => {
               ...vendorData
             }]);
             if (supabaseError) console.error("Supabase Error:", supabaseError);
-            if (!supabaseError) setApplicationId(payload.applicationId);
+            if (!supabaseError) {
+              setApplicationId(payload.applicationId);
+              // Upload files to Supabase Storage so admin can access them
+              const uploadVendorId = String(payload.applicationId);
+              for (const [key, file] of validFiles) {
+                try {
+                  if ((file as File).size > 0) {
+                    await uploadVendorDocument(uploadVendorId, file as File);
+                  }
+                } catch (uploadErr) {
+                  console.warn(`Failed to upload file ${key} to storage:`, uploadErr);
+                }
+              }
+            }
           }
         }
 
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-          redirect: "follow",
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(payload)
-        });
+        const isTestSubmission = payload.formData.companyName.toLowerCase().includes('test');
 
-        if (!response.ok) {
-          throw new Error("Server responded with status: " + response.status);
-        }
+        if (!isTestSubmission) {
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            redirect: "follow",
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+            body: JSON.stringify(payload)
+          });
 
-        const result = await response.json();
-        if (result.status === "error") {
-          throw new Error(result.message);
+          if (!response.ok) {
+            throw new Error("Server responded with status: " + response.status);
+          }
+
+          const result = await response.json();
+          if (result.status === "error") {
+            throw new Error(result.message);
+          }
+        } else {
+          console.log("Test submission detected. Skipping email notification.");
         }
 
         setDraftsList(prev => {
@@ -923,20 +943,7 @@ const VendorRegistration: React.FC = () => {
               Join the DXN Global supply chain. We are looking for elite manufacturing partners, raw material suppliers, and technical service providers who align with our <span className="text-white font-bold">"One World One Market"</span> philosophy.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
-                <ShieldCheck className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Compliance First</h3>
-                <p className="text-neutral-500 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
-              </div>
-              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
-                <FileText className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Documented Excellence</h3>
-                <p className="text-neutral-500 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mb-16">
               {draftsList.length > 0 ? (
                 <>
                   <button
@@ -966,6 +973,19 @@ const VendorRegistration: React.FC = () => {
               >
                 Update Existing <ArrowRight className="w-5 sm:w-6 h-5 sm:h-6" />
               </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
+                <ShieldCheck className="w-12 h-12 text-red-600 mb-6" />
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Compliance First</h3>
+                <p className="text-neutral-500 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
+              </div>
+              <div className="p-10 bg-neutral-900 border border-white/5 hover:border-red-600/30 transition-all">
+                <FileText className="w-12 h-12 text-red-600 mb-6" />
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Documented Excellence</h3>
+                <p className="text-neutral-500 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
+              </div>
             </div>
           </div>
         )}
@@ -1012,7 +1032,7 @@ const VendorRegistration: React.FC = () => {
                   <div key={draft.id} className="bg-black border border-white/5 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-white/20 transition-all">
                     <div>
                       <h4 className="text-lg font-black uppercase text-white">{draft.companyName}</h4>
-                      <p className="text-xs text-neutral-500 font-bold tracking-widest mt-1">LAST SAVED: {new Date(draft.lastModified).toLocaleString()}</p>
+                      <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">LAST SAVED: {new Date(draft.lastModified).toLocaleString()}</p>
                     </div>
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                       <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-neutral-900 border border-white/10 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
@@ -1030,17 +1050,17 @@ const VendorRegistration: React.FC = () => {
         )}
 
         {step === 2 && (
-          <div className="max-w-5xl mx-auto bg-neutral-900 border border-white/10 p-4 sm:p-8 md:p-12 shadow-2xl animate-in fade-in zoom-in-95 duration-500">
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-2">Entity Verification</h2>
-            <p className="text-neutral-500 mb-8 border-b border-white/5 pb-6">Please complete the mandatory document checklist.</p>
+          <div className="max-w-5xl mx-auto bg-slate-50 border-t-[6px] border-t-red-600 rounded-2xl p-4 sm:p-8 md:p-12 shadow-[0_0_80px_-15px_rgba(0,0,0,0.8)] animate-in fade-in zoom-in-95 duration-500">
+            <h2 className="text-3xl font-black uppercase tracking-tighter text-gray-900 mb-2">Entity Verification</h2>
+            <p className="text-gray-500 mb-8 border-b border-gray-200 pb-6">Please complete the mandatory document checklist.</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <SectionHeading title="Company Information" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Company Information</h3></div>
 
                 <div className="col-span-1 md:col-span-2 mb-4">
-                  <label className="text-xs font-black uppercase tracking-[0.2em] text-neutral-500 flex items-center gap-2 mb-4">
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-gray-600 flex items-center gap-2 mb-4">
                     <Building className="w-3 h-3" />
                     <span>Vendor Category (Select all that apply) <span className="text-red-600 text-lg leading-none ml-1">*</span></span>
                   </label>
@@ -1096,38 +1116,38 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Company Profile" icon={FileText} file={files.companyProfile} onFileSelect={handleFileSelect('companyProfile')} />
                 <FileUploadField label="Organization Chart (Optional)" icon={FileText} file={files.orgChart} onFileSelect={handleFileSelect('orgChart')} />
 
-                <SectionHeading title="Entity Documentation" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Entity Documentation</h3></div>
                 <div className="col-span-1 md:col-span-2 text-red-500 text-sm mb-4">
                   * Note: Maximum file size is 2MB per document. Please upload compressed PDFs or images.
                 </div>
                 <FileUploadField label="Cancelled Cheque OR Bank Verification Letter" icon={FileText} file={files.cancelledCheque} onFileSelect={handleFileSelect('cancelledCheque')} />
                 <FileUploadField label="Bank Account Details Form" icon={FileText} file={files.bankAccountDetails} onFileSelect={handleFileSelect('bankAccountDetails')} />
 
-                <SectionHeading title="Statutory Compliance" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Statutory Compliance</h3></div>
                 <FileUploadField label="MSME Certificate (If Applicable)" icon={FileText} file={files.msmeCertificate} onFileSelect={handleFileSelect('msmeCertificate')} />
                 <FileUploadField label="PF Registration Certificate (If Applicable)" icon={FileText} file={files.pfRegistration} onFileSelect={handleFileSelect('pfRegistration')} />
                 <FileUploadField label="ESI Registration Certificate (If Applicable)" icon={FileText} file={files.esiRegistration} onFileSelect={handleFileSelect('esiRegistration')} />
                 <FileUploadField label="Professional Tax Registration (If Applicable)" icon={FileText} file={files.profTaxRegistration} onFileSelect={handleFileSelect('profTaxRegistration')} />
                 <FileUploadField label="Labour License (If Applicable)" icon={FileText} file={files.labourLicense} onFileSelect={handleFileSelect('labourLicense')} />
 
-                <SectionHeading title="Financial Information" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Financial Information</h3></div>
                 <FileUploadField label="Latest Audited Financial Statement (or last 2 yrs) (Optional)" icon={FileText} file={files.auditedFinancials} onFileSelect={handleFileSelect('auditedFinancials')} />
                 <FileUploadField label="Income Tax Return Acknowledgement (Last FY) (Optional)" icon={FileText} file={files.itrAcknowledgement} onFileSelect={handleFileSelect('itrAcknowledgement')} />
 
-                <SectionHeading title="Contact Details" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Contact Details</h3></div>
                 <TextInputField label="Authorized Contact Person" icon={User} name="authorizedPerson" value={formData.authorizedPerson} onChange={handleInputChange} required />
                 <TextInputField label="Mobile Number" icon={Phone} name="phone" value={formData.phone} onChange={handleInputChange} required type="tel" />
                 <TextInputField label="Email Address" icon={Mail} name="email" value={formData.email} onChange={handleInputChange} type="email" required />
                 <TextInputField label="Escalation Contact Details" icon={Phone} name="escContact" value={formData.escContact} onChange={handleInputChange} required type="tel" />
 
-                <SectionHeading title="Declarations" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Declarations</h3></div>
                 <FileUploadField label="Conflict of Interest Declaration" icon={FileText} file={files.conflictOfInterest} onFileSelect={handleFileSelect('conflictOfInterest')} />
                 <FileUploadField label="Anti-Bribery & Anti-Corruption Declaration" icon={FileText} file={files.antiBribery} onFileSelect={handleFileSelect('antiBribery')} />
                 <FileUploadField label="Compliance Declaration" icon={FileText} file={files.complianceDecl} onFileSelect={handleFileSelect('complianceDecl')} />
                 <FileUploadField label="Blacklisting Declaration" icon={FileText} file={files.blacklistingDecl} onFileSelect={handleFileSelect('blacklistingDecl')} />
                 <FileUploadField label="Confidentiality Declaration" icon={FileText} file={files.confidentialityDecl} onFileSelect={handleFileSelect('confidentialityDecl')} />
 
-                <SectionHeading title="Quality & Business Capability" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Quality & Business Capability</h3></div>
                 <FileUploadField label="Major Customer List" icon={FileText} file={files.majorCustomerList} onFileSelect={handleFileSelect('majorCustomerList')} />
                 <FileUploadField label="Customer References" icon={FileText} file={files.customerReferences} onFileSelect={handleFileSelect('customerReferences')} />
                 <FileUploadField label="Product Catalogue / Service Brochure" icon={FileText} file={files.productCatalogue} onFileSelect={handleFileSelect('productCatalogue')} />
@@ -1142,29 +1162,29 @@ const VendorRegistration: React.FC = () => {
                   <TextInputField label="Facility Capabilities Overview" icon={FileText} name="description" value={formData.description} onChange={handleInputChange} type="textarea" />
                 </div>
 
-                <SectionHeading title="Service Capability" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Service Capability</h3></div>
                 <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                   {SERVICE_CAPABILITIES.map(opt => (
-                    <label key={opt} className="flex items-center gap-3 cursor-pointer group p-3 border border-white/10 bg-neutral-900 hover:bg-white/5 transition-colors">
+                    <label key={opt} className="flex items-center gap-3 cursor-pointer group p-3 bg-white border border-gray-200 rounded-md shadow-sm hover:border-red-600 hover:bg-red-50 transition-all">
                       <input
                         type="checkbox"
                         checked={formData.serviceCapabilities.includes(opt)}
                         onChange={() => handleServiceToggle(opt)}
-                        className="w-4 h-4 accent-red-600 bg-neutral-900 border-white/20"
+                        className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
                       />
-                      <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">{opt}</span>
+                      <span className="text-sm text-gray-700 group-hover:text-red-600 transition-colors">{opt}</span>
                     </label>
                   ))}
                 </div>
 
-                <SectionHeading title="OEM / Brand Representation" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">OEM / Brand Representation</h3></div>
                 <TextInputField label="Brand / OEM 1 (Optional)" icon={Tag} name="oemBrand1" value={formData.oemBrands[0]} onChange={(e) => handleOemBrandChange(0, e.target.value)} />
                 <TextInputField label="Brand / OEM 2 (Optional)" icon={Tag} name="oemBrand2" value={formData.oemBrands[1]} onChange={(e) => handleOemBrandChange(1, e.target.value)} />
                 <TextInputField label="Brand / OEM 3 (Optional)" icon={Tag} name="oemBrand3" value={formData.oemBrands[2]} onChange={(e) => handleOemBrandChange(2, e.target.value)} />
                 <FileUploadField label="Upload Authorization Letter (Optional)" icon={FileText} file={files.authorizationLetter} onFileSelect={handleFileSelect('authorizationLetter')} />
 
 
-                <SectionHeading title="Certifications (If Available)" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Certifications (If Available)</h3></div>
                 <FileUploadField label="ISO 9001 (If Available)" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
                 <FileUploadField label="ISO 14001 (If Available)" icon={ShieldCheck} file={files.iso14001} onFileSelect={handleFileSelect('iso14001')} />
                 <FileUploadField label="ISO 45001 (If Available)" icon={ShieldCheck} file={files.iso45001} onFileSelect={handleFileSelect('iso45001')} />
@@ -1172,7 +1192,7 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="CE (If Available)" icon={ShieldCheck} file={files.ce} onFileSelect={handleFileSelect('ce')} />
                 <FileUploadField label="Other Relevant Certifications (If Available)" icon={ShieldCheck} file={files.otherCertifications} onFileSelect={handleFileSelect('otherCertifications')} />
 
-                <SectionHeading title="Agreements" />
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Agreements</h3></div>
                 <FileUploadField label="Vendor Registration Form (Optional)" icon={FileText} file={files.vendorRegistrationForm} onFileSelect={handleFileSelect('vendorRegistrationForm')} />
                 <FileUploadField label="NDA (If Applicable)" icon={FileText} file={files.nda} onFileSelect={handleFileSelect('nda')} />
                 <FileUploadField label="Code of Conduct Acceptance (Optional)" icon={FileText} file={files.codeOfConduct} onFileSelect={handleFileSelect('codeOfConduct')} />
@@ -1182,19 +1202,19 @@ const VendorRegistration: React.FC = () => {
               </div>
 
               <div className="mt-8">
-                <SectionHeading title="Final Submission / Checklist" />
-                <div className="space-y-4 bg-black p-8 border border-white/10">
+                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Final Submission / Checklist</h3></div>
+                <div className="space-y-4 bg-gray-50 p-8 border border-gray-200 rounded-xl">
                   <label className="flex items-center gap-4 cursor-pointer group">
-                    <input type="checkbox" name="verifiedInfo" checked={checkboxes.verifiedInfo} onChange={handleCheckboxChange} className="w-5 h-5 accent-red-600 bg-neutral-900 border-white/20" />
-                    <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">All Information Verified</span>
+                    <input type="checkbox" name="verifiedInfo" checked={checkboxes.verifiedInfo} onChange={handleCheckboxChange} className="w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-600" />
+                    <span className="text-sm font-semibold text-gray-700 group-hover:text-red-600 transition-colors">All Information Verified</span>
                   </label>
                   <label className="flex items-center gap-4 cursor-pointer group">
-                    <input type="checkbox" name="documentsUploaded" checked={checkboxes.documentsUploaded} onChange={handleCheckboxChange} className="w-5 h-5 accent-red-600 bg-neutral-900 border-white/20" />
-                    <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">Documents Uploaded</span>
+                    <input type="checkbox" name="documentsUploaded" checked={checkboxes.documentsUploaded} onChange={handleCheckboxChange} className="w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-600" />
+                    <span className="text-sm font-semibold text-gray-700 group-hover:text-red-600 transition-colors">Documents Uploaded</span>
                   </label>
                   <label className="flex items-center gap-4 cursor-pointer group">
-                    <input type="checkbox" name="authSignatory" checked={checkboxes.authSignatory} onChange={handleCheckboxChange} className="w-5 h-5 accent-red-600 bg-neutral-900 border-white/20" />
-                    <span className="text-sm text-neutral-300 group-hover:text-white transition-colors">Authorized Signatory Confirmation</span>
+                    <input type="checkbox" name="authSignatory" checked={checkboxes.authSignatory} onChange={handleCheckboxChange} className="w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-600" />
+                    <span className="text-sm font-semibold text-gray-700 group-hover:text-red-600 transition-colors">Authorized Signatory Confirmation</span>
                   </label>
                 </div>
               </div>
@@ -1206,14 +1226,14 @@ const VendorRegistration: React.FC = () => {
                     alert("Your progress has been saved as a draft on your device.");
                     setStep(1);
                   }}
-                  className="w-full sm:w-1/3 bg-transparent border border-white/20 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all"
+                  className="w-full sm:w-1/3 bg-white border border-gray-300 text-gray-700 py-6 font-black uppercase tracking-widest text-sm hover:bg-gray-50 hover:text-red-600 transition-all shadow-sm rounded-lg"
                 >
                   Save Draft & Exit
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-2/3 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                  className="w-full sm:w-2/3 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-md rounded-lg"
                 >
                   {isSubmitting ? 'Securing Data...' : 'Submit Application'}
                 </button>
@@ -1223,62 +1243,62 @@ const VendorRegistration: React.FC = () => {
         )}
 
         {step === 3 && (
-          <div className="max-w-2xl mx-auto text-center py-20 animate-in zoom-in duration-700">
-            <div className="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-green-600/20">
-              <CheckCircle className="w-24 h-24 text-red-600 mb-8 animate-bounce" />
+          <div className="max-w-2xl mx-auto bg-slate-50 border-t-[6px] border-t-green-600 rounded-2xl shadow-[0_0_80px_-15px_rgba(0,0,0,0.8)] text-center py-16 px-8 sm:px-12 animate-in zoom-in duration-700 mt-10">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner shadow-green-600/20">
+              <CheckCircle className="w-16 h-16 text-green-600 animate-bounce" />
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter text-gray-900 mb-4">
               {submissionStatus === 'Observation' ? 'Registration Under Observation' : 'Registration Completed'}
             </h2>
-            <p className="text-xl text-neutral-400 font-light max-w-2xl text-center leading-relaxed mb-12">
+            <p className="text-lg text-gray-600 font-medium max-w-2xl text-center leading-relaxed mb-10">
               {submissionStatus === 'Observation'
                 ? 'Registration received with observations. We will contact you soon.'
                 : 'Thank you for registering. We will review your profile and get back to you soon.'}
             </p>
 
-            <div className="bg-neutral-900 border border-white/10 p-8 text-left mb-12 max-w-lg mx-auto">
-              <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-6 border-b border-white/10 pb-4">Submission Summary</h3>
+            <div className="bg-white shadow-sm border border-gray-200 rounded-xl p-8 text-left mb-12 max-w-lg mx-auto">
+              <h3 className="text-xl font-bold uppercase tracking-widest text-gray-900 mb-6 border-b border-gray-200 pb-4">Submission Summary</h3>
               <div className="space-y-4">
-                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Company Name</span><span className="text-white">{formData.companyName}</span></div>
+                <div><span className="text-gray-500 uppercase text-[10px] font-bold tracking-widest block mb-1">Company Name</span><span className="text-gray-900 font-semibold">{formData.companyName}</span></div>
                 <div>
-                  <span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-2">Category</span>
+                  <span className="text-gray-500 uppercase text-xs font-black tracking-widest block mb-2">Category</span>
                   <div className="flex flex-wrap gap-2">
                     {(formData.categories.includes('Other') ? formData.categories.filter(c => c !== 'Other').concat(formData.otherCategory) : formData.categories).map((cat, i) => (
-                      <span key={i} className="inline-block bg-neutral-800 border border-white/10 px-3 py-1 rounded-sm text-[10px] uppercase font-bold text-neutral-300">
+                      <span key={i} className="inline-block bg-white border border-gray-300 px-3 py-1 rounded-md shadow-sm text-[10px] uppercase font-bold text-gray-700">
                         {cat}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Email</span><span className="text-white">{formData.email}</span></div>
-                <div><span className="text-neutral-500 uppercase text-xs font-black tracking-widest block mb-1">Contact Person</span><span className="text-white">{formData.authorizedPerson}</span></div>
+                <div><span className="text-gray-500 uppercase text-[10px] font-bold tracking-widest block mb-1">Email</span><span className="text-gray-900 font-semibold">{formData.email}</span></div>
+                <div><span className="text-gray-500 uppercase text-[10px] font-bold tracking-widest block mb-1">Contact Person</span><span className="text-gray-900 font-semibold">{formData.authorizedPerson}</span></div>
               </div>
-              <p className="text-xs text-neutral-500 mt-8 italic">A detailed confirmation has been sent to your email.</p>
+              <p className="text-xs text-gray-500 mt-8 italic">A detailed confirmation has been sent to your email.</p>
               {applicationId && (
-                <div className="mt-6 p-4 bg-red-600/10 border border-red-600/30 text-center">
+                <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg text-center shadow-sm">
                   <span className="text-xs font-black uppercase tracking-widest text-red-500 block mb-1">Your Application ID</span>
-                  <span className="text-2xl font-black text-white">#{applicationId}</span>
-                  <p className="text-xs text-neutral-400 mt-2">Save this ID. You can use it to update your registration later.</p>
+                  <span className="text-2xl font-black text-red-600">#{applicationId}</span>
+                  <p className="text-xs text-red-800 mt-2 font-medium">Save this ID. You can use it to update your registration later.</p>
                 </div>
               )}
             </div>
 
-            <button
-              onClick={() => {
-                setFormData({
-                  categories: [], serviceCapabilities: [], oemBrands: ['', '', ''],
-                  otherCategory: '', companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
-                  specialities: '', description: '', authorizedPerson: '', escContact: '',
-                  techTeamStrength: '', installedBase: ''
-                });
-                setFiles({});
-                setCheckboxes({ verifiedInfo: false, documentsUploaded: false, authSignatory: false });
-                setApplicationId(null);
-                setIsUpdateMode(false);
-                setStep(1);
-              }}
-              className="mx-auto block bg-red-600 text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all"
-            >
+              <button
+                onClick={() => {
+                  setFormData({
+                    categories: [], serviceCapabilities: [], oemBrands: ['', '', ''],
+                    otherCategory: '', companyName: '', panNumber: '', gstNumber: '', email: '', phone: '',
+                    specialities: '', description: '', authorizedPerson: '', escContact: '',
+                    techTeamStrength: '', installedBase: ''
+                  });
+                  setFiles({});
+                  setCheckboxes({ verifiedInfo: false, documentsUploaded: false, authSignatory: false });
+                  setApplicationId(null);
+                  setIsUpdateMode(false);
+                  setStep(1);
+                }}
+                className="mx-auto block bg-red-600 text-white px-8 py-4 font-black uppercase tracking-widest text-xs hover:bg-red-700 transition-all rounded-lg shadow-md mb-8"
+              >
               Submit Another Application
             </button>
           </div>
