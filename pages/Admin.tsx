@@ -550,7 +550,7 @@ const Admin: React.FC = () => {
                   </div>
 
                   {/* Main Content */}
-                  <div className="lg:col-span-9 bg-neutral-900 border border-white/5 p-4 md:p-8 lg:p-12 overflow-hidden">
+                  <div className="lg:col-span-9 bg-neutral-900 border border-white/5 p-4 md:p-8 lg:p-12">
 
                      {/* HOME TAB */}
                      {activeTab === 'home' && (
@@ -874,7 +874,7 @@ const Admin: React.FC = () => {
                               {isLoadingVendors && <div className="p-12 text-center text-neutral-500 uppercase text-xs">Syncing with secure database...</div>}
 
                               {filteredVendors.slice((vendorPage - 1) * VENDORS_PER_PAGE, vendorPage * VENDORS_PER_PAGE).map((vendor) => (
-                                 <div key={vendor.id} className="bg-black p-4 md:p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 hover:border-white/10 transition-all overflow-hidden">
+                                 <div key={vendor.id} className="bg-black p-4 md:p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 hover:border-white/10 transition-all">
                                     <div className="space-y-4 md:space-y-3 flex-grow w-full md:w-auto">
                                        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-3">
                                           <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${['approved', 'complete'].includes((vendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500' : (vendor.status || '').toLowerCase() === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
