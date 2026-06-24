@@ -100,7 +100,25 @@ const FIELD_LABELS: Record<string, string> = {
   codeOfConduct: 'Code of Conduct Acceptance',
   paymentTerms: 'Payment Terms Acceptance',
   purchaseTerms: 'Purchase Terms & Conditions Acceptance',
-  authorizationLetter: 'Authorization Letter'
+  authorizationLetter: 'Authorization Letter',
+  companyRegistration: 'Company Registration Cert. (ROC/Deed/MSME)',
+  panCard: 'PAN Card',
+  gstCertificate: 'GST Registration Certificate',
+  companyProfile: 'Company Profile',
+  cancelledCheque: 'Cancelled Cheque OR Bank Verification Letter',
+  bankAccountDetails: 'Bank Account Details Form',
+  conflictOfInterest: 'Conflict of Interest Declaration',
+  antiBribery: 'Anti-Bribery & Anti-Corruption Declaration',
+  complianceDecl: 'Compliance Declaration',
+  blacklistingDecl: 'Blacklisting Declaration',
+  confidentialityDecl: 'Confidentiality Declaration',
+  majorCustomerList: 'Major Customer List',
+  customerReferences: 'Customer References',
+  productCatalogue: 'Product Catalogue / Service Brochure',
+  manufacturingFacility: 'Manufacturing Facility Details',
+  serviceInfrastructure: 'Service Infrastructure Details',
+  auditedFinancials: 'Latest Audited Financial Statement',
+  itrAcknowledgement: 'Income Tax Return Acknowledgement'
 };
 
 const FileUploadField = ({
@@ -509,12 +527,15 @@ const VendorRegistration: React.FC = () => {
       const newFiles: Record<string, File | null> = {};
       const uploadedFileKeys: string[] = [];
       MANDATORY_FILES.forEach(key => {
-        newFiles[key] = new File([], "✅ Previously Uploaded", { type: "application/pdf" });
-        uploadedFileKeys.push(key);
+        const label = FIELD_LABELS[key] || key;
+        if (!missingItemsStr.includes(label) && !missingItemsStr.includes(key)) {
+          newFiles[key] = new File([], "✅ Previously Uploaded", { type: "application/pdf" });
+          uploadedFileKeys.push(key);
+        }
       });
       OPTIONAL_FILES.forEach(key => {
         const label = FIELD_LABELS[key] || key;
-        if (!missingItemsStr.includes(label)) {
+        if (!missingItemsStr.includes(label) && !missingItemsStr.includes(key)) {
           newFiles[key] = new File([], "✅ Previously Uploaded", { type: "application/pdf" });
           uploadedFileKeys.push(key);
         }
@@ -933,13 +954,13 @@ const VendorRegistration: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 pb-20 min-h-screen bg-[#F8F9FC]">
+    <div className="pt-32 pb-20 min-h-screen bg-black">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
 
         {step === 1 && (
           <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <SectionTitle subtitle="Partnership" title="Vendor Onboarding Portal" />
-            <p className="text-2xl text-gray-600 font-light leading-relaxed mb-12">
+            <SectionTitle subtitle="Partnership" title="Vendor Onboarding Portal" light />
+            <p className="text-2xl text-gray-400 font-light leading-relaxed mb-12">
               Join the DXN Global supply chain. We are looking for elite manufacturing partners, raw material suppliers, and technical service providers who align with our <span className="text-white font-bold">"One World One Market"</span> philosophy.
             </p>
 
@@ -976,37 +997,37 @@ const VendorRegistration: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="p-10 bg-white shadow-sm rounded-xl border border-gray-100 hover:border-red-600/30 transition-all">
+              <div className="p-10 bg-neutral-900 shadow-sm rounded-xl border border-white/10 hover:border-red-600/50 transition-all">
                 <ShieldCheck className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-gray-900 mb-4">Compliance First</h3>
-                <p className="text-gray-500 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Compliance First</h3>
+                <p className="text-gray-400 text-sm">All vendors must adhere to DXN’s global quality standards (GMP, ISO, Halal).</p>
               </div>
-              <div className="p-10 bg-white shadow-sm rounded-xl border border-gray-100 hover:border-red-600/30 transition-all">
+              <div className="p-10 bg-neutral-900 shadow-sm rounded-xl border border-white/10 hover:border-red-600/50 transition-all">
                 <FileText className="w-12 h-12 text-red-600 mb-6" />
-                <h3 className="text-xl font-bold uppercase tracking-widest text-gray-900 mb-4">Documented Excellence</h3>
-                <p className="text-gray-500 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
+                <h3 className="text-xl font-bold uppercase tracking-widest text-white mb-4">Documented Excellence</h3>
+                <p className="text-gray-400 text-sm">Valid Tax IDs (GST/PAN) and Speciality Certifications are mandatory.</p>
               </div>
             </div>
           </div>
         )}
 
         {resumeModalOpen && (
-          <div className="fixed inset-0 z-[120] bg-white/90 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-white shadow-sm rounded-xl border border-gray-200 p-6 sm:p-8 max-w-md w-full relative mx-4">
-              <button onClick={() => setResumeModalOpen(false)} className="absolute top-4 right-4 text-gray-900/50 hover:text-gray-900">
+          <div className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-neutral-900 shadow-sm rounded-xl border border-white/10 p-6 sm:p-8 max-w-md w-full relative mx-4">
+              <button onClick={() => setResumeModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
                 <X className="w-6 h-6" />
               </button>
-              <h2 className="text-2xl font-black uppercase text-gray-900 mb-2">Resume Application</h2>
-              <p className="text-gray-600 text-sm mb-6">Enter your Application ID and Email to resume a saved or submitted application.</p>
+              <h2 className="text-2xl font-black uppercase text-white mb-2">Resume Application</h2>
+              <p className="text-gray-400 text-sm mb-6">Enter your Application ID and Email to resume a saved or submitted application.</p>
 
               <form onSubmit={handleResume} className="space-y-4">
                 <div>
                   <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-2 block">Application ID / PAN Number</label>
-                  <input required type="text" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value.toUpperCase())} className="w-full bg-white border border-gray-300 p-3 rounded-lg text-gray-900 focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="e.g. 125 or ABCDE1234F" />
+                  <input required type="text" value={resumeAppId} onChange={(e) => setResumeAppId(e.target.value.toUpperCase())} className="w-full bg-black border border-white/20 p-3 rounded-lg text-white focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="e.g. 125 or ABCDE1234F" />
                 </div>
                 <div>
                   <label className="text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-2 block">Registered Email</label>
-                  <input required type="email" value={resumeEmail} onChange={(e) => setResumeEmail(e.target.value)} className="w-full bg-white border border-gray-300 p-3 rounded-lg text-gray-900 focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="email@company.com" />
+                  <input required type="email" value={resumeEmail} onChange={(e) => setResumeEmail(e.target.value)} className="w-full bg-black border border-white/20 p-3 rounded-lg text-white focus:border-red-600 focus:ring-4 focus:ring-red-600/10 outline-none transition-all shadow-sm" placeholder="email@company.com" />
                 </div>
 
                 {resumeError && <div className="p-3 bg-red-950/50 border border-red-900 text-red-500 text-sm">{resumeError}</div>}
@@ -1020,22 +1041,22 @@ const VendorRegistration: React.FC = () => {
         )}
 
         {draftsModalOpen && (
-          <div className="fixed inset-0 z-[120] bg-white/90 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-white shadow-sm rounded-xl border border-gray-200 p-6 sm:p-8 max-w-2xl w-full relative mx-4">
-              <button onClick={() => setDraftsModalOpen(false)} className="absolute top-4 right-4 text-gray-900/50 hover:text-gray-900">
+          <div className="fixed inset-0 z-[120] bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-neutral-900 shadow-sm rounded-xl border border-white/10 p-6 sm:p-8 max-w-2xl w-full relative mx-4">
+              <button onClick={() => setDraftsModalOpen(false)} className="absolute top-4 right-4 text-white/50 hover:text-white">
                 <X className="w-6 h-6" />
               </button>
-              <h2 className="text-2xl font-black uppercase text-gray-900 mb-6 border-b border-gray-200 pb-4">Saved Drafts</h2>
+              <h2 className="text-2xl font-black uppercase text-white mb-6 border-b border-white/10 pb-4">Saved Drafts</h2>
 
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 {draftsList.map(draft => (
-                  <div key={draft.id} className="bg-white border border-gray-100 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-gray-300 transition-all">
+                  <div key={draft.id} className="bg-black border border-white/10 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-white/20 transition-all">
                     <div>
-                      <h4 className="text-lg font-black uppercase text-gray-900">{draft.companyName}</h4>
+                      <h4 className="text-lg font-black uppercase text-white">{draft.companyName}</h4>
                       <p className="text-xs text-gray-500 font-bold tracking-widest mt-1">LAST SAVED: {new Date(draft.lastModified).toLocaleString()}</p>
                     </div>
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-white shadow-sm rounded-xl border border-gray-200 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
+                      <button onClick={(e) => handleDeleteDraft(draft.id, e)} className="bg-neutral-800 shadow-sm rounded-xl border border-white/10 text-white px-4 py-3 text-xs font-black uppercase hover:bg-red-600 transition-all flex-1 sm:flex-none">
                         Delete
                       </button>
                       <button onClick={() => handleResumeDraft(draft)} className="bg-red-600 text-white px-6 py-3 text-xs font-black uppercase hover:bg-white hover:text-black transition-all flex-1 sm:flex-none">
