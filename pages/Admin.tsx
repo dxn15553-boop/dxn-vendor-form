@@ -1642,11 +1642,30 @@ Global Flagship Hub, Siddipet, Telangana`}
                                                 href={doc.url}
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                className="flex items-center gap-3 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:bg-red-600/5 transition-all group shadow-sm rounded-sm"
+                                                className="flex flex-col gap-1.5 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:bg-red-600/5 transition-all group shadow-sm rounded-sm"
                                              >
-                                                <FileText className="w-4 h-4 text-red-500 shrink-0" />
-                                                <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}>{doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}</span>
-                                                <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-neutral-900 ml-auto shrink-0" />
+                                                <div className="flex items-center gap-3 w-full">
+                                                   <FileText className="w-4 h-4 text-red-500 shrink-0" />
+                                                   <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}>{doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}</span>
+                                                   <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-neutral-900 ml-auto shrink-0" />
+                                                </div>
+                                                {doc.created_at && (
+                                                   <div className="pl-7">
+                                                      {new Date(doc.created_at).setHours(0,0,0,0) === new Date().setHours(0,0,0,0) ? (
+                                                         <div className="flex items-center gap-1.5">
+                                                            <CheckCircle className="w-3 h-3 text-green-500" />
+                                                            <span className="text-green-500 text-[9px] font-black uppercase tracking-widest">Updated Today</span>
+                                                         </div>
+                                                      ) : new Date(doc.created_at).setHours(0,0,0,0) === new Date(new Date().setDate(new Date().getDate() - 1)).setHours(0,0,0,0) ? (
+                                                         <div className="flex items-center gap-1.5">
+                                                            <CheckCircle className="w-3 h-3 text-amber-500" />
+                                                            <span className="text-amber-500 text-[9px] font-black uppercase tracking-widest">Updated Yesterday</span>
+                                                         </div>
+                                                      ) : (
+                                                         <span className="text-neutral-400 text-[9px] font-bold uppercase tracking-widest">Uploaded: {new Date(doc.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                                      )}
+                                                   </div>
+                                                )}
                                              </a>
                                           ))}
                                        </div>
