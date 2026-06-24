@@ -850,7 +850,7 @@ const Admin: React.FC = () => {
                               <div key={vendor.id} className="bg-black p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-6 hover:border-white/10 transition-all">
                                  <div className="space-y-4 md:space-y-3 flex-grow w-full md:w-auto">
                                     <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-3">
-                                       <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'approved' ? 'border-green-500 text-green-500' : vendor.status === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
+                                       <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${['approved', 'complete'].includes((vendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500' : (vendor.status || '').toLowerCase() === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
                                        <h4 className="text-lg font-black uppercase text-white">{vendor.company_name || vendor.companyName}</h4>
                                     </div>
                                     <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-1 text-xs mt-2 md:mt-0">
