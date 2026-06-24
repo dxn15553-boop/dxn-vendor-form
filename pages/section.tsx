@@ -16,7 +16,7 @@ const Products: React.FC = () => {
 
     // Explicitly define all categories so divisions like Agro and Wetfood always appear
     const categories = useMemo(() => {
-        return ['All', 'Nutraceuticals', 'Coffee', 'Cosmetics', 'Kombucha', 'Wetfood', 'Agro'];
+        return ['All', 'Nutraceuticals', 'Coffee', 'Cosmetics', 'Kombucha', 'Wetfood', 'Agro', 'R&D'];
     }, []);
 
     const filteredProducts = useMemo(() => {

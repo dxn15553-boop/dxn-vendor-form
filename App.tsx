@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles, Microscope } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -25,6 +25,9 @@ import Cordyceps from './pages/Cordyceps';
 import Lingzhi from './pages/Lingzhi';
 import Lingzhi2in1 from './pages/Lingzhi2in1';
 import GanozhiSoap from './pages/GanozhiSoap';
+import GanozhiShampoo from './pages/GanozhiShampoo';
+import DishCleen from './pages/DishCleen';
+import TomatoKetchup from './pages/TomatoKetchup';
 import SaffronKombucha from './pages/SaffronKombucha';
 import ButterflyKombucha from './pages/ButterflyKombucha';
 import ClassicKombucha from './pages/ClassicKombucha';
@@ -92,7 +95,9 @@ const Navbar: React.FC = () => {
           path: '/products?category=Cosmetics',
           icon: Sparkles,
           dropdown: [
-            { name: 'DXN Ganozhi Soap', path: '/products/ganozhi-soap', icon: Package }
+            { name: 'DXN Ganozhi Soap', path: '/products/ganozhi-soap', icon: Package },
+            { name: 'DXN Ganozhi Shampoo', path: '/products/ganozhi-shampoo', icon: Package },
+            { name: 'DXN Dish Cleen', path: '/products/dish-cleen', icon: Package }
           ]
         },
         {
@@ -110,9 +115,11 @@ const Navbar: React.FC = () => {
           path: '/products?category=agro',
           icon: Leaf,
           dropdown: [
-            { name: 'Veg Mayonnaise', path: '/products/veg-minus', icon: Sprout }
+            { name: 'Veg Mayonnaise', path: '/products/veg-minus', icon: Sprout },
+            { name: 'DXN Tomato Ketchup', path: '/products/tomato-ketchup', icon: Package }
           ]
         },
+
       ]
     },
     {
@@ -457,6 +464,9 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/products/lingzhi-2in1" element={<PageTransition><Lingzhi2in1 /></PageTransition>} />
         <Route path="/products/cordyceps" element={<PageTransition><Cordyceps /></PageTransition>} />
         <Route path="/products/ganozhi-soap" element={<PageTransition><GanozhiSoap /></PageTransition>} />
+        <Route path="/products/ganozhi-shampoo" element={<PageTransition><GanozhiShampoo /></PageTransition>} />
+        <Route path="/products/dish-cleen" element={<PageTransition><DishCleen /></PageTransition>} />
+        <Route path="/products/tomato-ketchup" element={<PageTransition><TomatoKetchup /></PageTransition>} />
         <Route path="/products/saffron-kombucha" element={<PageTransition><SaffronKombucha /></PageTransition>} />
         <Route path="/products/butterfly-kombucha" element={<PageTransition><ButterflyKombucha /></PageTransition>} />
         <Route path="/products/classic-kombucha" element={<PageTransition><ClassicKombucha /></PageTransition>} />

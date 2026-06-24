@@ -1,7 +1,7 @@
 
 import { DEFAULT_ASSETS, KEY_STATS, DIVISIONS, CORPORATE_EVENTS, MEDIA_NEWS, CERTIFICATIONS, TIMELINE, ADDRESS } from '../constants';
 import { Product } from '../types';
-import { getSiteConfig, saveSiteConfig } from './FirebaseService';
+import { getSiteConfig, saveSiteConfig } from './SupabaseService';
 
 export const INITIAL_CONTENT = {
   hero: {
@@ -56,6 +56,7 @@ export const INITIAL_CONTENT = {
       features: ["100% Ganoderma", "Detoxification Support", "Immune Modulation"],
       status: "Available"
     },
+
     {
       id: "prod-2",
       name: "Lingzhi Coffee 3-in-1",
@@ -72,6 +73,15 @@ export const INITIAL_CONTENT = {
       description: "A specialized formula enriched with Ganoderma extract and palm oil to gently cleanse and moisturize the skin while preserving natural oils.",
       image: "/cosmetics/Ganozhisoap.png",
       features: ["pH Balanced", "Vitamin E Enriched", "Suitable for all Skin Types"],
+      status: "Available"
+    },
+    {
+      id: "prod-dish-cleen",
+      name: "DXN Dish Cleen",
+      category: "Cosmetics",
+      description: "1 litre and 500 ml of viscous liquid form of dish cleen. A concentrated dishwashing liquid that effectively removes grease and food residues.",
+      image: "/cosmetics/DishCleen.png",
+      features: ["Grease Remover", "No Smell", "Aloe Vera Extract"],
       status: "Available"
     },
 
@@ -141,6 +151,8 @@ export const INITIAL_CONTENT = {
     { url: DEFAULT_ASSETS.AGRO_INDOOR, category: "Agronomy", title: "Indoor Saffron Cultivation" },
     { url: DEFAULT_ASSETS.SUSTAIN_NATURE, category: "Sustainability", title: "Integrated Organic Farm" },
     { url: DEFAULT_ASSETS.WORKERS_GROUP, category: "Ecosystem", title: "Local Talent Development" },
+    { url: "/gallery/facility1.jpg", category: "Manufacturing", title: "Advanced Manufacturing Line" },
+    { url: "/gallery/facility2.jpg", category: "Manufacturing", title: "Automated Production Facility" },
   ],
   galleryVideos: [
     {

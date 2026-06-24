@@ -35,7 +35,7 @@ export const DEFAULT_ASSETS = {
   MAP_OVERLAY: "https://res.cloudinary.com/dmslyftme/image/upload/v1766587481/Screenshot_2025-12-24_200707_ephdxd.png?q=80&w=1974&auto=format&fit=crop",
   AGRO_INDOOR: "https://res.cloudinary.com/dmslyftme/image/upload/v1766473763/DXN-Holding_BC22052023_thumb_tem_uldtzb.jpg",
   // Gallery Heros
-  GALLERY_HERO: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?q=80&w=2070&auto=format&fit=crop",
+  GALLERY_HERO: "/flagship_image/company.png",
   VIDEO_HERO: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=2070&auto=format&fit=crop",
   EVENTS_HERO: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=crop",
   MEDIA_HERO: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop",

@@ -114,7 +114,7 @@ const Cordyceps: React.FC = () => {
                     <img
                       src="/coffee/cordyceps.png"
                       alt="DXN Cordyceps Coffee Packaging"
-                      className="w-full h-full object-contain scale-[1.3] md:scale-[1.4] filter drop-shadow-[0_20px_40px_rgba(245,158,11,0.3)] contrast-[1.1] saturate-[1.05]"
+                      className="w-full h-full object-contain scale-100 filter drop-shadow-[0_20px_40px_rgba(245,158,11,0.3)] contrast-[1.1] saturate-[1.05]"
                       style={{ imageRendering: '-webkit-optimize-contrast' }}
                     />
                   </div>

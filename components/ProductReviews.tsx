@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Star, CheckCircle, ThumbsUp, Filter, MessageSquare, Send } from 'lucide-react';
-import { getProductReviews, addReview } from '../services/FirebaseService';
+import { Star, CheckCircle, ThumbsUp, Filter, MessageSquare, Send, Trash2 } from 'lucide-react';
+import { getProductReviews, addReview, deleteReview } from '../services/SupabaseService';
 
 
 export type Review = {
@@ -19,38 +19,7 @@ interface ProductReviewsProps {
   reviews?: Review[];
 }
 
-const defaultReviews: Review[] = [
-  {
-    id: 1,
-    author: "Arjun M.",
-    rating: 5,
-    date: "May 12, 2026",
-    title: "Incredible Quality and Taste",
-    content: "I've tried many kombuchas, but the Saffron Kombucha from DXN is on another level. You can actually taste the premium saffron, and it leaves me feeling energized all day. The packaging is also top-notch.",
-    verifiedPurchase: true,
-    helpfulCount: 24
-  },
-  {
-    id: 2,
-    author: "Neha Patel",
-    rating: 5,
-    date: "April 28, 2026",
-    title: "My daily wellness routine",
-    content: "Absolutely love it. It's refreshing and not too sweet. Knowing it's manufactured at the new Siddipet facility gives me confidence in the hygiene and quality standards.",
-    verifiedPurchase: true,
-    helpfulCount: 15
-  },
-  {
-    id: 3,
-    author: "Dr. K. Rao",
-    rating: 4,
-    date: "March 15, 2026",
-    title: "Great probiotic profile",
-    content: "From a clinical perspective, the fermentation process they use yields an excellent probiotic profile. I dock one star only because I wish it came in larger bottles!",
-    verifiedPurchase: true,
-    helpfulCount: 42
-  }
-];
+const defaultReviews: Review[] = [];
 
 const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: initialReviews = defaultReviews }) => {
   const [filter, setFilter] = useState<'all' | '5' | '4' | '3' | '2' | '1'>('all');
@@ -59,6 +28,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [isWriting, setIsWriting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | number | null>(null);
   const [newReview, setNewReview] = useState({ author: '', title: '', content: '', rating: 5 });
 
   // Fetch reviews from Firebase on mount
@@ -97,6 +67,21 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
       alert("Failed to submit review. Please try again.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Handle Delete
+  const handleDelete = async (reviewId: string | number) => {
+    if (!window.confirm('Remove this review?')) return;
+    setDeletingId(reviewId);
+    try {
+      await deleteReview(String(reviewId));
+      setReviews(prev => prev.filter(r => r.id !== reviewId));
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      alert('Failed to delete review. Please try again.');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -249,7 +234,19 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
                           )}
                         </div>
                       </div>
-                      <span className="text-xs text-neutral-600 font-bold uppercase tracking-widest shrink-0">{review.date}</span>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-xs text-neutral-600 font-bold uppercase tracking-widest">{review.date}</span>
+                        <button
+                          onClick={() => handleDelete(review.id)}
+                          disabled={deletingId === review.id}
+                          title="Remove review"
+                          className="p-1.5 text-neutral-700 hover:text-red-500 hover:bg-red-500/10 rounded transition-all disabled:opacity-40"
+                        >
+                          {deletingId === review.id
+                            ? <span className="text-[10px] text-neutral-500">…</span>
+                            : <Trash2 className="w-3.5 h-3.5" />}
+                        </button>
+                      </div>
                     </div>
 
                     <p className="text-neutral-400 text-sm leading-relaxed mb-6">
