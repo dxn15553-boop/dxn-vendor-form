@@ -74,8 +74,8 @@ const DOCUMENT_CATEGORIES: Record<string, string[]> = {
    'Certifications': ['ISO9001', 'ISO14001', 'ISO45001', 'GMP', 'CE', 'OTHERCERTIFICATIONS']
 };
 
-const categorizeDocuments = (docs: { name: string; url: string }[]) => {
-   const categorized: Record<string, { name: string; url: string }[]> = {
+const categorizeDocuments = (docs: { name: string; url: string; created_at?: string }[]) => {
+   const categorized: Record<string, { name: string; url: string; created_at?: string }[]> = {
       'Entity Documentation': [],
       'Statutory Compliance': [],
       'Financial Information': [],
@@ -337,7 +337,7 @@ const Admin: React.FC = () => {
    const VENDORS_PER_PAGE = 5;
    const [isLoadingVendors, setIsLoadingVendors] = useState(false);
    const [selectedVendor, setSelectedVendor] = useState<any | null>(null);
-   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string }[]>([]);
+   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string; created_at?: string }[]>([]);
    const [isLoadingDocs, setIsLoadingDocs] = useState(false);
    const [vendorEmailPreview, setVendorEmailPreview] = useState(false);
    const [newImageCategory, setNewImageCategory] = useState('');
