@@ -510,7 +510,7 @@ const Admin: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                {/* Sidebar */}
-               <div className="lg:col-span-3 space-y-2">
+               <div className="lg:col-span-3 flex lg:flex-col gap-2 lg:gap-0 lg:space-y-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide snap-x">
                   {[
                      { id: 'home', label: 'Home Page', icon: Layout },
                      { id: 'divisions', label: 'Divisions', icon: Database },
@@ -524,10 +524,10 @@ const Admin: React.FC = () => {
                      { id: 'careers', label: 'Careers', icon: Briefcase },
                      { id: 'contact', label: 'Contact Info', icon: MapPin },
                   ].map((tab) => (
-                     <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`w-full flex items-center justify-between p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
-                        <div className="flex items-center gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
+                     <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`shrink-0 snap-start whitespace-nowrap lg:w-full flex items-center justify-between p-4 lg:p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
+                        <div className="flex items-center gap-3 lg:gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
                         {tab.count !== undefined && (
-                           <span className={`px-2 py-0.5 rounded text-[9px] ${activeTab === tab.id ? 'bg-black/20 text-white' : 'bg-white/5 text-neutral-500'}`}>
+                           <span className={`ml-3 px-2 py-0.5 rounded text-[9px] ${activeTab === tab.id ? 'bg-black/20 text-white' : 'bg-white/5 text-neutral-500'}`}>
                               {tab.count}
                            </span>
                         )}
