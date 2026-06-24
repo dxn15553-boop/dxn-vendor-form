@@ -474,6 +474,12 @@ const Admin: React.FC = () => {
    });
    const totalVendorPages = Math.max(1, Math.ceil(filteredVendors.length / VENDORS_PER_PAGE));
 
+   const todayMs = new Date().setHours(0, 0, 0, 0);
+   const registeredToday = vendors.filter(v => v.created_at && new Date(v.created_at).setHours(0,0,0,0) === todayMs).length;
+   const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0,0,0,0) === todayMs && new Date(v.created_at).setHours(0,0,0,0) !== todayMs).length;
+   const fullyCompleted = vendors.filter(v => v.status === 'approved' || (!v.missing_items || v.missing_items.trim().length === 0)).length;
+   const underObservation = vendors.filter(v => v.status === 'Observation' || (v.missing_items && v.missing_items.length > 0 && v.status !== 'approved' && v.status !== 'rejected')).length;
+
    if (loading) return null;
    if (!isAuth) return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32">
@@ -510,7 +516,7 @@ const Admin: React.FC = () => {
                      { id: 'divisions', label: 'Divisions', icon: Database },
                      { id: 'team', label: 'Leadership', icon: Users },
                      { id: 'products', label: 'Catalog', icon: Package },
-                     { id: 'vendors', label: 'Vendors', icon: Truck },
+                     { id: 'vendors', label: 'Vendors', icon: Truck, count: vendors.length },
                      { id: 'gallery', label: 'Gallery', icon: ImageIcon },
                      { id: 'events', label: 'Events', icon: Calendar },
                      { id: 'timeline', label: 'Timeline', icon: RefreshCw },
@@ -520,6 +526,11 @@ const Admin: React.FC = () => {
                   ].map((tab) => (
                      <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`w-full flex items-center justify-between p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
                         <div className="flex items-center gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
+                        {tab.count !== undefined && (
+                           <span className={`px-2 py-0.5 rounded text-[9px] ${activeTab === tab.id ? 'bg-black/20 text-white' : 'bg-white/5 text-neutral-500'}`}>
+                              {tab.count}
+                           </span>
+                        )}
                      </button>
                   ))}
                </div>
@@ -764,7 +775,14 @@ const Admin: React.FC = () => {
                      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-6 gap-4">
                            <div>
-                              <h3 className="text-xl font-black uppercase tracking-tighter text-white">Vendor Management System</h3>
+                              <div className="flex items-center gap-3">
+                                 <h3 className="text-xl font-black uppercase tracking-tighter text-white">Vendor Management System</h3>
+                                 {!isLoadingVendors && (
+                                    <span className="bg-red-600/20 text-red-500 border border-red-600/20 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest">
+                                       {vendors.length} Total
+                                    </span>
+                                 )}
+                              </div>
                               <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-1">Review entity applications and compliance status</p>
                            </div>
                            <div className="flex items-center gap-4 w-full md:w-auto">
@@ -789,6 +807,37 @@ const Admin: React.FC = () => {
                               <button onClick={fetchVendorData} className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-full shrink-0 transition-colors" title="Refresh List">
                                  <RefreshCw className={`w-4 h-4 ${isLoadingVendors ? 'animate-spin' : ''}`} />
                               </button>
+                           </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                           <div className="bg-black border border-white/5 p-4 rounded-xl">
+                              <div className="flex items-center gap-2 mb-2">
+                                 <Plus className="w-4 h-4 text-neutral-500" />
+                                 <p className="text-[10px] font-black uppercase tracking-widest text-neutral-500">Registered Today</p>
+                              </div>
+                              <p className="text-3xl font-black text-white">{registeredToday}</p>
+                           </div>
+                           <div className="bg-black border border-white/5 p-4 rounded-xl">
+                              <div className="flex items-center gap-2 mb-2">
+                                 <RefreshCw className="w-4 h-4 text-blue-500" />
+                                 <p className="text-[10px] font-black uppercase tracking-widest text-blue-500">Updated Today</p>
+                              </div>
+                              <p className="text-3xl font-black text-white">{updatedToday}</p>
+                           </div>
+                           <div className="bg-black border border-white/5 p-4 rounded-xl">
+                              <div className="flex items-center gap-2 mb-2">
+                                 <CheckCircle className="w-4 h-4 text-green-500" />
+                                 <p className="text-[10px] font-black uppercase tracking-widest text-green-500">Fully Completed</p>
+                              </div>
+                              <p className="text-3xl font-black text-white">{fullyCompleted}</p>
+                           </div>
+                           <div className="bg-black border border-red-900/30 p-4 rounded-xl">
+                              <div className="flex items-center gap-2 mb-2">
+                                 <AlertCircle className="w-4 h-4 text-red-500" />
+                                 <p className="text-[10px] font-black uppercase tracking-widest text-red-500">Under Observation</p>
+                              </div>
+                              <p className="text-3xl font-black text-red-500">{underObservation}</p>
                            </div>
                         </div>
 
