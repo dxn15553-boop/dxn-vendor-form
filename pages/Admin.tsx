@@ -1363,41 +1363,43 @@ const Admin: React.FC = () => {
       {selectedVendor && (
          <div className="fixed inset-0 z-[120] bg-black/95 flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-8 py-5 bg-neutral-900 border-b border-white/10 shrink-0">
-               <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-5 md:px-8 bg-neutral-900 border-b border-white/10 shrink-0 gap-4">
+               <div className="flex items-start md:items-center gap-3 md:gap-4 w-full md:w-auto overflow-hidden">
                   <button
                      onClick={() => setSelectedVendor(null)}
-                     className="text-neutral-500 hover:text-white p-2 hover:bg-white/5 rounded transition-colors"
+                     className="text-neutral-500 hover:text-white p-2 hover:bg-white/5 rounded transition-colors shrink-0 mt-0.5 md:mt-0"
                   >
                      <X className="w-5 h-5" />
                   </button>
-                  <div>
-                     <h2 className="text-white font-black uppercase tracking-tight text-lg">{selectedVendor.company_name || selectedVendor.companyName}</h2>
-                     <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest">Application ID: #{selectedVendor.id}</p>
+                  <div className="flex flex-col gap-1 w-full overflow-hidden">
+                     <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                        <h2 className="text-white font-black uppercase tracking-tight text-lg leading-tight break-words">{selectedVendor.company_name || selectedVendor.companyName}</h2>
+                        <span className={`self-start shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${
+                           ['approved', 'complete'].includes((selectedVendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500 bg-green-500/5' :
+                           (selectedVendor.status || '').toLowerCase() === 'rejected' ? 'border-red-700 text-red-700 bg-red-700/5' :
+                           'border-amber-500 text-amber-500 bg-amber-500/5'
+                        }`}>{selectedVendor.status || 'pending'}</span>
+                     </div>
+                     <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest truncate">Application ID: #{selectedVendor.id}</p>
                   </div>
-                  <span className={`ml-4 px-3 py-1 text-[8px] font-black uppercase border ${
-                     selectedVendor.status === 'approved' ? 'border-green-500 text-green-500 bg-green-500/5' :
-                     selectedVendor.status === 'rejected' ? 'border-red-700 text-red-700 bg-red-700/5' :
-                     'border-amber-500 text-amber-500 bg-amber-500/5'
-                  }`}>{selectedVendor.status || 'pending'}</span>
                </div>
-               <div className="flex items-center gap-3">
+               <div className="flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3 pl-[44px] md:pl-0">
                   <button
                      onClick={() => setVendorEmailPreview(p => !p)}
-                     className={`flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-600 border-red-600 text-white' : 'border-white/20 text-neutral-400 hover:text-white hover:bg-white/5'}`}
+                     className={`flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-600 border-red-600 text-white' : 'border-white/20 text-neutral-400 hover:text-white hover:bg-white/5'}`}
                   >
-                     <Mail className="w-3.5 h-3.5" /> {vendorEmailPreview ? 'Hide Email Preview' : 'Email Preview'}
+                     <Mail className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">{vendorEmailPreview ? 'Hide Preview' : 'Email Preview'}</span>
                   </button>
                   <button
                      onClick={() => window.print()}
-                     className="flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border border-white/20 text-neutral-400 hover:text-white hover:bg-white/5 transition-all print:hidden"
+                     className="flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border border-white/20 text-neutral-400 hover:text-white hover:bg-white/5 transition-all print:hidden"
                   >
-                     <Download className="w-3.5 h-3.5" /> Print / Save PDF
+                     <Download className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Save PDF</span>
                   </button>
                   {selectedVendor.status === 'pending' && (
                      <>
-                        <button onClick={() => handleApproveVendor(selectedVendor.id)} className="bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
-                        <button onClick={() => handleRejectVendor(selectedVendor.id)} className="bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
+                        <button onClick={() => handleApproveVendor(selectedVendor.id)} className="flex-grow md:flex-grow-0 justify-center bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
+                        <button onClick={() => handleRejectVendor(selectedVendor.id)} className="flex-grow md:flex-grow-0 justify-center bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
                      </>
                   )}
                </div>
