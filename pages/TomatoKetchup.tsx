@@ -106,7 +106,7 @@ const TomatoKetchup: React.FC = () => {
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/agro/tomato ketchup.png"
+                      src="/agro/tomato-ketchup.png"
                       alt="DXN Tomato Ketchup"
                       className="w-full h-full object-contain rounded-[2rem] filter drop-shadow-[0_20px_40px_rgba(239,68,68,0.25)]"
                     />
@@ -139,7 +139,7 @@ const TomatoKetchup: React.FC = () => {
                   {/* Product Image / Video */}
                   <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl bg-black flex items-center justify-center">
                     <video
-                      src="/agro/Tomato_ketchup_drizzled_on_pizza_202606201219.mp4"
+                      src="/agro/tomato-ketchup-video.mp4"
                       autoPlay
                       loop
                       muted

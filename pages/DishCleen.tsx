@@ -107,7 +107,7 @@ const DishCleen: React.FC = () => {
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/cosmetics/3D Dish Cleen.png"
+                      src="/cosmetics/3d-dish-cleen.png"
                       alt="DXN Dish Cleen"
                       className="w-full h-full object-contain scale-[1.2] filter drop-shadow-[0_20px_40px_rgba(234,179,8,0.3)]"
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
