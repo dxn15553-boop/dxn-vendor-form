@@ -848,22 +848,22 @@ const Admin: React.FC = () => {
 
                            {filteredVendors.slice((vendorPage - 1) * VENDORS_PER_PAGE, vendorPage * VENDORS_PER_PAGE).map((vendor) => (
                               <div key={vendor.id} className="bg-black p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-6 hover:border-white/10 transition-all">
-                                 <div className="space-y-3 flex-grow">
-                                    <div className="flex items-center gap-3">
-                                       <span className={`px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'approved' ? 'border-green-500 text-green-500' : vendor.status === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
+                                 <div className="space-y-4 md:space-y-3 flex-grow w-full md:w-auto">
+                                    <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-3">
+                                       <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${vendor.status === 'approved' ? 'border-green-500 text-green-500' : vendor.status === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
                                        <h4 className="text-lg font-black uppercase text-white">{vendor.company_name || vendor.companyName}</h4>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-x-10 gap-y-1 text-xs">
-                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">Email: </span><span className="text-neutral-300">{vendor.email}</span></p>
-                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">Phone: </span><span className="text-neutral-300">{vendor.phone}</span></p>
-                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">PAN: </span><span className="text-neutral-300">{vendor.pan_number || vendor.panNumber || '—'}</span></p>
-                                       <p><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px]">GST: </span><span className="text-neutral-300">{vendor.gst_number || vendor.gstNumber || '—'}</span></p>
-                                       </div>
+                                    <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-1 text-xs mt-2 md:mt-0">
+                                       <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">Email: </span><span className="text-neutral-300 break-all sm:break-normal">{vendor.email}</span></p>
+                                       <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">Phone: </span><span className="text-neutral-300">{vendor.phone}</span></p>
+                                       <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">PAN: </span><span className="text-neutral-300">{vendor.pan_number || vendor.panNumber || '—'}</span></p>
+                                       <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">GST: </span><span className="text-neutral-300">{vendor.gst_number || vendor.gstNumber || '—'}</span></p>
                                     </div>
-                                 <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                                 </div>
+                                 <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto mt-2 md:mt-0">
                                     <button
                                        onClick={() => handleViewVendor(vendor)}
-                                       className="bg-white/5 border border-white/10 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors flex items-center gap-2"
+                                       className="w-full md:w-auto justify-center bg-white/5 border border-white/10 text-white px-5 py-3 md:py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors flex items-center gap-2"
                                     >
                                        <FileText className="w-3.5 h-3.5" /> View Details
                                     </button>
