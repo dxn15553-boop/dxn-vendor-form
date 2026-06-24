@@ -510,7 +510,7 @@ const Admin: React.FC = () => {
    return (
       <>
          <div className="pt-32 pb-20 bg-neutral-950 min-h-screen">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+            <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-12">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                   <SectionTitle subtitle="Management" title="Content Controller" light />
                   <div className="flex gap-4">
@@ -550,11 +550,11 @@ const Admin: React.FC = () => {
                   </div>
 
                   {/* Main Content */}
-                  <div className="lg:col-span-9 bg-neutral-900 border border-white/5 p-12">
+                  <div className="lg:col-span-9 bg-neutral-900 border border-white/5 p-4 md:p-8 lg:p-12 overflow-hidden">
 
                      {/* HOME TAB */}
                      {activeTab === 'home' && (
-                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-12">
                            <div>
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white mb-6 border-b border-white/5 pb-4">Hero Section</h3>
                               <div className="grid gap-6">
@@ -592,7 +592,7 @@ const Admin: React.FC = () => {
 
                      {/* DIVISIONS TAB */}
                      {activeTab === 'divisions' && (
-                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-12">
                            <h3 className="text-xl font-black uppercase tracking-tighter text-white mb-6 border-b border-white/5 pb-4">Manufacturing Divisions</h3>
                            {localContent.divisions.map((div, idx) => (
                               <div key={div.id} className="p-6 bg-black border border-white/5 flex gap-6 items-start">
@@ -639,7 +639,7 @@ const Admin: React.FC = () => {
 
                      {/* TEAM TAB */}
                      {activeTab === 'team' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Leadership Team</h3>
                               <button
@@ -698,7 +698,7 @@ const Admin: React.FC = () => {
 
                      {/* CATALOG TAB */}
                      {activeTab === 'products' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Product Catalog</h3>
                               <button
@@ -786,10 +786,10 @@ const Admin: React.FC = () => {
 
                      {/* VENDORS TAB */}
                      {activeTab === 'vendors' && (
-                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-12">
                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-6 gap-4">
                               <div>
-                                 <div className="flex items-center gap-3">
+                                 <div className="flex flex-wrap items-center gap-2 md:gap-3">
                                     <h3 className="text-xl font-black uppercase tracking-tighter text-white">Vendor Management System</h3>
                                     {!isLoadingVendors && (
                                        <span className="bg-red-600/20 text-red-500 border border-red-600/20 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest">
@@ -874,7 +874,7 @@ const Admin: React.FC = () => {
                               {isLoadingVendors && <div className="p-12 text-center text-neutral-500 uppercase text-xs">Syncing with secure database...</div>}
 
                               {filteredVendors.slice((vendorPage - 1) * VENDORS_PER_PAGE, vendorPage * VENDORS_PER_PAGE).map((vendor) => (
-                                 <div key={vendor.id} className="bg-black p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-6 hover:border-white/10 transition-all">
+                                 <div key={vendor.id} className="bg-black p-4 md:p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 hover:border-white/10 transition-all overflow-hidden">
                                     <div className="space-y-4 md:space-y-3 flex-grow w-full md:w-auto">
                                        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-3">
                                           <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${['approved', 'complete'].includes((vendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500' : (vendor.status || '').toLowerCase() === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
@@ -934,7 +934,7 @@ const Admin: React.FC = () => {
 
                      {/* GALLERY TAB */}
                      {activeTab === 'gallery' && (
-                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-12">
                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-4 mb-6 gap-6">
                               <div className="flex items-center gap-6">
                                  <h3 className="text-xl font-black uppercase tracking-tighter text-white">Media Assets</h3>
@@ -1165,7 +1165,7 @@ const Admin: React.FC = () => {
 
                      {/* EVENTS TAB */}
                      {activeTab === 'events' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Corporate Events</h3>
                               <button
@@ -1219,7 +1219,7 @@ const Admin: React.FC = () => {
 
                      {/* TIMELINE TAB */}
                      {activeTab === 'timeline' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Company Timeline</h3>
                               <button
@@ -1264,7 +1264,7 @@ const Admin: React.FC = () => {
                      )}
 
                      {activeTab === 'roadmap' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Future Roadmap</h3>
                               <button
@@ -1309,7 +1309,7 @@ const Admin: React.FC = () => {
                      )}
 
                      {activeTab === 'careers' && (
-                        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-8">
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
                               <h3 className="text-xl font-black uppercase tracking-tighter text-white">Job Openings</h3>
                               <button
@@ -1357,7 +1357,7 @@ const Admin: React.FC = () => {
                      )}
 
                      {activeTab === 'contact' && (
-                        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4">
+                        <div className="space-y-12">
                            <h3 className="text-xl font-black uppercase tracking-tighter text-white mb-6 border-b border-white/5 pb-4">Contact Information</h3>
                            <div className="grid gap-6">
                               <InputGroup label="Official Address" value={localContent.contactInfo.address} onChange={(v: string) => setLocalContent({ ...localContent, contactInfo: { ...localContent.contactInfo, address: v } })} rows={2} />
