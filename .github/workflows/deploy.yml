@@ -42,7 +42,6 @@ jobs:
         set net:timeout 60;
         set ftp:passive-mode yes;
         open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER;
-        mirror -R --verbose ./dist/assets/ /domains/dxnmanufacturing.com/public_html/assets/;
-        put -O /domains/dxnmanufacturing.com/public_html/ ./dist/index.html;
+        mirror -R --verbose ./dist/ /domains/dxnmanufacturing.com/public_html/;
         "
 
