@@ -343,6 +343,7 @@ const Admin: React.FC = () => {
    const [newImageCategory, setNewImageCategory] = useState('');
    const [newVideoCategory, setNewVideoCategory] = useState('');
    const [vendorSearch, setVendorSearch] = useState('');
+   const [vendorActivityFilter, setVendorActivityFilter] = useState<'all' | 'registered_today' | 'updated_today' | 'completed' | 'observation'>('all');
 
    // Sync ref
    const hasSyncedRef = useRef(false);
@@ -460,7 +461,22 @@ const Admin: React.FC = () => {
       }
    };
 
+   const todayMs = new Date().setHours(0, 0, 0, 0);
+
    const filteredVendors = vendors.filter((v: any) => {
+      if (vendorActivityFilter === 'registered_today') {
+         if (!(v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs)) return false;
+      }
+      if (vendorActivityFilter === 'updated_today') {
+         if (!(v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs)) return false;
+      }
+      if (vendorActivityFilter === 'completed') {
+         if (!(v.status === 'approved' || (!v.missing_items || v.missing_items.trim().length === 0))) return false;
+      }
+      if (vendorActivityFilter === 'observation') {
+         if (!(v.missing_items && v.missing_items.trim().length > 0 && v.status !== 'approved')) return false;
+      }
+
       if (!vendorSearch) return true;
       const term = vendorSearch.toLowerCase();
       return (
@@ -473,8 +489,6 @@ const Admin: React.FC = () => {
       );
    });
    const totalVendorPages = Math.max(1, Math.ceil(filteredVendors.length / VENDORS_PER_PAGE));
-
-   const todayMs = new Date().setHours(0, 0, 0, 0);
    const registeredToday = vendors.filter(v => v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs).length;
    const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs).length;
    const fullyCompleted = vendors.filter(v => v.status === 'approved' || (!v.missing_items || v.missing_items.trim().length === 0)).length;
@@ -804,6 +818,17 @@ const Admin: React.FC = () => {
                                        </button>
                                     )}
                                  </div>
+                                 <select
+                                    value={vendorActivityFilter}
+                                    onChange={(e) => { setVendorActivityFilter(e.target.value as any); setVendorPage(1); }}
+                                    className="bg-black border border-white/20 text-white px-4 py-2 text-xs outline-none focus:border-red-600 transition-colors cursor-pointer shrink-0"
+                                 >
+                                    <option value="all">All Activity</option>
+                                    <option value="registered_today">Registered Today</option>
+                                    <option value="updated_today">Updated Today</option>
+                                    <option value="completed">Fully Completed</option>
+                                    <option value="observation">Under Observation</option>
+                                 </select>
                                  <button onClick={fetchVendorData} className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-full shrink-0 transition-colors" title="Refresh List">
                                     <RefreshCw className={`w-4 h-4 ${isLoadingVendors ? 'animate-spin' : ''}`} />
                                  </button>
