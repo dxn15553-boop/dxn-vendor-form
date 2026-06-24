@@ -960,11 +960,8 @@ const VendorRegistration: React.FC = () => {
         {step === 1 && (
           <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <SectionTitle subtitle="Partnership" title="Vendor Onboarding Portal" light />
-            <p className="text-2xl text-gray-400 font-light leading-relaxed mb-12">
-              Join the DXN Global supply chain. We are looking for elite manufacturing partners, raw material suppliers, and technical service providers who align with our <span className="text-white font-bold">"One World One Market"</span> philosophy.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 mb-16">
+            
+            <div className="flex flex-col sm:flex-row gap-4 mt-8 mb-12">
               {draftsList.length > 0 ? (
                 <>
                   <button
@@ -995,6 +992,10 @@ const VendorRegistration: React.FC = () => {
                 Update Existing <ArrowRight className="w-5 sm:w-6 h-5 sm:h-6" />
               </button>
             </div>
+
+            <p className="text-2xl text-gray-400 font-light leading-relaxed mb-16">
+              Join the DXN Global supply chain. We are looking for elite manufacturing partners, raw material suppliers, and technical service providers who align with our <span className="text-white font-bold">"One World One Market"</span> philosophy.
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div className="p-10 bg-neutral-900 shadow-sm rounded-xl border border-white/10 hover:border-red-600/50 transition-all">
