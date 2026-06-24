@@ -13,7 +13,7 @@ const tBodyStart = content.indexOf(tBodyStartStr, blockStartIndex);
 const tBodyEndStr = '</tbody>';
 const tBodyEnd = content.indexOf(tBodyEndStr, tBodyStart) + tBodyEndStr.length;
 
-const correctTBody = \`<tbody>
+const correctTBody = `<tbody>
                                  {/* Vendor Category is handled separately for advanced grouping */}
                                  <tr className="border-b border-neutral-100 hover:bg-neutral-50 transition-colors">
                                     <th className="py-3 px-2 font-black uppercase text-[10px] tracking-widest text-neutral-500 w-1/3 align-top">Vendor Category</th>
@@ -44,7 +44,7 @@ const correctTBody = \`<tbody>
                                        </td>
                                     </tr>
                                  ))}
-                              </tbody>\`;
+                              </tbody>`;
 
 if (tBodyStart !== -1 && tBodyEnd !== -1) {
     content = content.substring(0, tBodyStart) + correctTBody + content.substring(tBodyEnd);

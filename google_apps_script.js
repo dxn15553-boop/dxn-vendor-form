@@ -110,7 +110,7 @@ function doPost(e) {
 
     let isUpdate = data.isUpdateMode === true;
     let rowToUpdate = -1;
-    
+
     if (isUpdate) {
       // Find row by Email (Column I -> index 8)
       const emails = sheet.getRange(2, 9, Math.max(1, sheet.getLastRow() - 1), 1).getValues();
@@ -151,8 +151,8 @@ function doPost(e) {
     // 3. Send Email Notification
     let updateBanner = "";
     if (isUpdate && data.updatedFields && data.updatedFields.length > 0) {
-       let updatesList = data.updatedFields.map(u => `<li>${u}</li>`).join('');
-       updateBanner = `<div style="background-color: #fff3cd; color: #856404; padding: 15px; border-left: 5px solid #ffeeba; margin-bottom: 20px;">
+      let updatesList = data.updatedFields.map(u => `<li>${u}</li>`).join('');
+      updateBanner = `<div style="background-color: #fff3cd; color: #856404; padding: 15px; border-left: 5px solid #ffeeba; margin-bottom: 20px;">
          <h3 style="margin-top: 0;">This is an UPDATE to an existing application!</h3>
          <p><strong>The following fields were updated:</strong></p>
          <ul>${updatesList}</ul>
