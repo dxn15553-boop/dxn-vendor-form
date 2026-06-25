@@ -138,7 +138,7 @@ const ArjunaCapsule: React.FC = () => {
                     <Package className="absolute top-[35%] right-[15%] w-5 h-5 text-green-500/10 animate-float delay-500" />
                   </div>
 
-                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl bg-neutral-950 flex items-center justify-center">
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-neutral-950 flex items-center justify-center">
                     <img
                       src="/nutra/arjuna.png"
                       className="w-full h-full object-cover filter scale-[1.25] brightness-[1.1] contrast-[1.1] opacity-70"

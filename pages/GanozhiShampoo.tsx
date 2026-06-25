@@ -262,12 +262,6 @@ const GanozhiShampoo: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="mt-6 p-4 bg-amber-500/5 border border-amber-500/10 rounded-xl">
-                      <h5 className="font-bold text-amber-400 mb-2 uppercase text-[9px] tracking-widest">Label Claim</h5>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        DXN Shampoo is mild and suits all types of hair. Use it regularly for healthier, softer and shinier hair.
-                      </p>
-                    </div>
                   </div>
                 </div>
               </FadeInSection>

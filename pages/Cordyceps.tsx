@@ -153,7 +153,7 @@ const Cordyceps: React.FC = () => {
 
 
 
-                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
                     <video
                       src="/coffee/Preparing_Cordyceps_Coffee_swirl…_202606051003.mp4"
                       autoPlay

@@ -28,6 +28,10 @@ import GanozhiSoap from './pages/GanozhiSoap';
 import GanozhiShampoo from './pages/GanozhiShampoo';
 import DishCleen from './pages/DishCleen';
 import TomatoKetchup from './pages/TomatoKetchup';
+import TomatoSauce from './pages/TomatoSauce';
+import InstantUpma from './pages/InstantUpma';
+import CutChilliVinegar from './pages/CutChilliVinegar';
+import DBurgerPattyDough from './pages/DBurgerPattyDough';
 import SaffronKombucha from './pages/SaffronKombucha';
 import ButterflyKombucha from './pages/ButterflyKombucha';
 import ClassicKombucha from './pages/ClassicKombucha';
@@ -116,7 +120,11 @@ const Navbar: React.FC = () => {
           icon: Leaf,
           dropdown: [
             { name: 'Veg Mayonnaise', path: '/products/veg-minus', icon: Sprout },
-            { name: 'DXN Tomato Ketchup', path: '/products/tomato-ketchup', icon: Package }
+            { name: 'DXN Tomato Ketchup', path: '/products/tomato-ketchup', icon: Package },
+            { name: 'DXN Tomato Sauce', path: '/products/tomato-sauce', icon: Package },
+            { name: 'DXN Instant Upma', path: '/products/instant-upma', icon: Package },
+            { name: 'DXN Cut Chilli Vinegar', path: '/products/cut-chilli-vinegar', icon: Package },
+            { name: "D'Burger Patty Dough", path: '/products/dburger-patty-dough', icon: Package }
           ]
         },
 
@@ -467,6 +475,10 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/products/ganozhi-shampoo" element={<PageTransition><GanozhiShampoo /></PageTransition>} />
         <Route path="/products/dish-cleen" element={<PageTransition><DishCleen /></PageTransition>} />
         <Route path="/products/tomato-ketchup" element={<PageTransition><TomatoKetchup /></PageTransition>} />
+        <Route path="/products/tomato-sauce" element={<PageTransition><TomatoSauce /></PageTransition>} />
+        <Route path="/products/instant-upma" element={<PageTransition><InstantUpma /></PageTransition>} />
+        <Route path="/products/cut-chilli-vinegar" element={<PageTransition><CutChilliVinegar /></PageTransition>} />
+        <Route path="/products/dburger-patty-dough" element={<PageTransition><DBurgerPattyDough /></PageTransition>} />
         <Route path="/products/saffron-kombucha" element={<PageTransition><SaffronKombucha /></PageTransition>} />
         <Route path="/products/butterfly-kombucha" element={<PageTransition><ButterflyKombucha /></PageTransition>} />
         <Route path="/products/classic-kombucha" element={<PageTransition><ClassicKombucha /></PageTransition>} />

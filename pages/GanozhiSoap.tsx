@@ -150,7 +150,7 @@ const GanozhiSoap: React.FC = () => {
                     <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-pink-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                   </div>
 
-                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
                     <video
                       src="/cosmetics/Person_washing_hands_face_202606090916.mp4"
                       autoPlay

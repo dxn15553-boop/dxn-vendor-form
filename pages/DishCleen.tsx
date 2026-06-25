@@ -139,7 +139,7 @@ const DishCleen: React.FC = () => {
                   </div>
 
                   {/* Visual Representation Area */}
-                  <div className="relative z-10 w-full h-[320px] rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06]">
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/[0.06]">
                     <video
                       src="/cosmetics/dishClean.mp4"
                       autoPlay loop muted playsInline
@@ -265,12 +265,6 @@ const DishCleen: React.FC = () => {
                       </div>
                     ))}
 
-                    <div className="mt-4 p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-xl">
-                      <h5 className="font-bold text-yellow-400 mb-2 uppercase text-[9px] tracking-widest">Label Claim</h5>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        Dish Cleen Liquid is a powerful and effective dishwashing detergent that keeps your dishes sparkling clean, removes tough food stains and leaves dishes spotless and hygienic.
-                      </p>
-                    </div>
                   </div>
                 </div>
               </FadeInSection>

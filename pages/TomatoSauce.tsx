@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Package, Check, ShieldCheck, Leaf, Sprout, Info, AlertTriangle, Droplet } from 'lucide-react';
+import { Package, Check, ShieldCheck, Leaf, Sprout, Info, AlertTriangle, Droplet, PlayCircle } from 'lucide-react';
 import ProductReviews from '../components/ProductReviews';
 
 // Custom Hook for Scroll Animations
@@ -36,7 +36,7 @@ const FadeInSection: React.FC<{ children: React.ReactNode; delay?: string }> = (
   );
 };
 
-const TomatoKetchup: React.FC = () => {
+const TomatoSauce: React.FC = () => {
   return (
     <div className="bg-neutral-950 text-neutral-300 overflow-hidden perspective-1000 pb-16">
       {/* Hero Section */}
@@ -54,7 +54,7 @@ const TomatoKetchup: React.FC = () => {
             </div>
             <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase leading-[0.9] text-white">
               DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 drop-shadow-lg">Tomato</span><br />
-              <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Ketchup</span>
+              <span className="text-3xl sm:text-4xl text-white/50 tracking-tight">Sauce</span>
             </h1>
           </div>
 
@@ -76,12 +76,12 @@ const TomatoKetchup: React.FC = () => {
 
                       <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-black tracking-tighter uppercase leading-[0.9] mb-8 text-white">
                         DXN <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 drop-shadow-lg">Tomato</span><br />
-                        <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Ketchup</span>
+                        <span className="text-3xl md:text-5xl text-white/50 tracking-tight">Sauce</span>
                       </h1>
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      DXN Tomato Ketchup is made from red tomatoes, sugar, acetic acid, salt and a blend of spices. It has a smooth texture and tangy-savoy flavor — perfect as a base for pasta, pizzas, marinades and many more recipes.
+                      DXN Tomato Sauce is made from ripe tomatoes, acetic acid, and a blend of spices. It has a smooth texture and a tangy-savory flavor. This versatile sauce is commonly used as a base for foods like pasta dishes, pizzas, marinades, and more.
                     </p>
 
                     <div className="flex flex-wrap gap-3">
@@ -89,7 +89,7 @@ const TomatoKetchup: React.FC = () => {
                         500g Bag
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-red-500/30 bg-red-500/10 rounded-full text-red-400 backdrop-blur-md">
-                        No Artificial Flavours
+                        No Artificial Flavors
                       </span>
                       <span className="px-5 py-2.5 text-xs font-bold uppercase tracking-widest border border-red-500/30 bg-red-500/10 rounded-full text-red-400 backdrop-blur-md">
                         No Preservatives
@@ -106,8 +106,8 @@ const TomatoKetchup: React.FC = () => {
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                      src="/agro/tomato-ketchup.png"
-                      alt="DXN Tomato Ketchup"
+                      src="/agro/tomatoSauce.png"
+                      alt="DXN Tomato Sauce"
                       className="w-full h-full object-contain rounded-[2rem] filter drop-shadow-[0_20px_40px_rgba(239,68,68,0.25)]"
                     />
                   </div>
@@ -136,16 +136,10 @@ const TomatoKetchup: React.FC = () => {
                     <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-red-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
                   </div>
 
-                  {/* Product Image / Video */}
-                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black flex items-center justify-center">
-                    <video
-                      src="/agro/tomato-ketchup-video.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
+                  {/* Product Image / Video Placeholder */}
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black flex flex-col items-center justify-center border border-white/5">
+                    <PlayCircle className="w-16 h-16 text-white/10 mb-4" />
+                    <span className="text-white/30 text-xs font-bold tracking-widest uppercase">Video Coming Soon</span>
                   </div>
 
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-red-600/20 blur-2xl rounded-full"></div>
@@ -161,11 +155,11 @@ const TomatoKetchup: React.FC = () => {
                 <ul className="space-y-4 relative z-10">
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 hover:border-red-500/20 transition-colors">
                     <span className="text-neutral-400 font-medium">Appearance</span>
-                    <span className="text-white font-medium text-right max-w-[55%] leading-snug">Semi liquid, smooth, viscous with glossy finish</span>
+                    <span className="text-white font-medium text-right max-w-[55%] leading-snug">Semi-liquid, smooth, viscous texture with a reddish colour and glossy appearance.</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 hover:border-red-500/20 transition-colors">
                     <span className="text-neutral-400 font-medium">Colour</span>
-                    <span className="text-white font-medium">Bright Red</span>
+                    <span className="text-white font-medium">Reddish Colour</span>
                   </li>
                   <li className="flex justify-between items-center text-sm border-b border-white/[0.04] pb-3 hover:border-red-500/20 transition-colors">
                     <span className="text-neutral-400 font-medium">Type of Product</span>
@@ -215,10 +209,10 @@ const TomatoKetchup: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-4">
-                  DXN Tomato Ketchup is made from high-quality Red Tomatoes, Sugar, Salt, and Corn flour, blended with Cardamom, Black Pepper powder, Turmeric powder, Cinnamon Stick, Cloves and Red Chilli Powder for a rich and authentic taste.
+                  DXN Tomato Sauce is made from high-quality tomatoes, sugar, salt, and corn flour. Tomato Sauce is expertly blended with black pepper powder, turmeric powder, and red chilli powder to create a rich and authentic taste.
                 </p>
                 <p className="text-neutral-400 text-sm font-light leading-relaxed mb-8">
-                  Enhanced with Acetic Acid, Garlic Cloves, and RO Water — delivering the perfect balance of flavour and freshness. Free from artificial flavour, colour and preservatives.
+                  Enhanced with acetic acid, garlic cloves, and RO water, our sauce delivers the perfect balance of flavors and freshness. DXN Tomato Sauce is known for its rich red color, free from artificial flavors, colors and preservatives.
                 </p>
               </FadeInSection>
 
@@ -248,17 +242,13 @@ const TomatoKetchup: React.FC = () => {
                   <ul className="space-y-3">
                     {[
                       'Red Tomatoes',
-                      'Sugar',
                       'Salt',
-                      'Corn Flour',
-                      'Cardamom',
-                      'Black Pepper Powder',
-                      'Turmeric Powder',
-                      'Cinnamon Stick',
-                      'Cloves',
-                      'Red Chilli Powder',
-                      'Acetic Acid',
-                      'Garlic Cloves',
+                      'Red chilli powder',
+                      'Corn flour',
+                      'Black Pepper powder',
+                      'Turmeric powder',
+                      'Garlic cloves',
+                      'Acetic acid',
                       'RO Water',
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-sm text-neutral-300 group/item">
@@ -280,14 +270,14 @@ const TomatoKetchup: React.FC = () => {
                     <div className="group/item">
                       <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Directions for Use</h5>
                       <ol className="list-decimal pl-4 space-y-2 marker:text-red-500">
-                        <li>Remove the cap, pour desired amount of DXN Tomato Ketchup on the dish.</li>
-                        <li>After using, store the bag appropriately to prevent air exposure and keep in fridge for freshness.</li>
+                        <li>Remove the cap, pour the desired amount of DXN Tomato sauce on the dish.</li>
+                        <li>After using, store the bag appropriately to prevent air exposure and keep in the fridge for freshness.</li>
                       </ol>
                     </div>
                     <div className="group/item mt-6 pt-6 border-t border-white/[0.08]">
                       <h5 className="font-bold text-white mb-3 uppercase text-[9px] tracking-widest group-hover/item:text-red-400 transition-colors">Storage Conditions</h5>
                       <p className="leading-relaxed text-neutral-400">
-                        Do not use if the product is bloated / leakage / damaged. Store in a cool and dry hygienic place. Once opened, keep in refrigerator and consume within 2 months or best before date whichever is earlier.
+                        Do not use if the product is bloated / leakage / damaged. Store in a cool and dry hygienic place. Once opened, keep in refrigerator and consume within 2 months or best before the date whichever is earlier.
                       </p>
                     </div>
 
@@ -304,10 +294,10 @@ const TomatoKetchup: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { title: 'Real Tomatoes', desc: 'Made from fresh, high-quality red tomatoes' },
-                    { title: 'No Preservatives', desc: 'Free from artificial flavour, colour &amp; preservatives' },
-                    { title: 'Tangy &amp; Savory', desc: 'Perfect balance of tanginess and rich spice blend' },
-                    { title: 'Versatile Use', desc: 'Great for pasta, pizzas, marinades and dipping' },
+                    { title: 'Rich Tomato Base', desc: 'Made from ripe tomatoes, acetic acid, and spices' },
+                    { title: 'No Preservatives', desc: 'Free from artificial flavors, colors and preservatives' },
+                    { title: 'Tangy-Savory Flavor', desc: 'Expertly blended for an authentic taste' },
+                    { title: 'Versatile Sauce', desc: 'Perfect for pasta dishes, pizzas, marinades, and more' },
                   ].map((benefit, idx) => (
                     <div key={idx} className="flex items-start gap-3 p-4 bg-white/[0.02] rounded-xl border border-white/[0.04] hover:border-red-500/20 transition-colors">
                       <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
@@ -338,9 +328,9 @@ const TomatoKetchup: React.FC = () => {
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-delayed { animation: float-delayed 8s ease-in-out infinite; animation-delay: 2s; }
       `}</style>
-      <ProductReviews productName="Tomato Ketchup" />
+      <ProductReviews productName="Tomato Sauce" />
     </div>
   );
 };
 
-export default TomatoKetchup;
+export default TomatoSauce;

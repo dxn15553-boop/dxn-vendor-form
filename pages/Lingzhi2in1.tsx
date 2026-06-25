@@ -150,7 +150,7 @@ const Lingzhi2in1: React.FC = () => {
                     <div className="absolute top-[50%] right-[8%] w-2 h-2 rounded-full bg-yellow-500/30 animate-float-delayed delay-1000 blur-[1px]"></div>
                   </div>
 
-                  <div className="relative z-10 w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
                     <video
                       src="/coffee/coffee_video.mp4"
                       autoPlay
