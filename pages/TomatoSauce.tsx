@@ -103,7 +103,7 @@ const TomatoSauce: React.FC = () => {
             {/* Right Column: Image */}
             <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
               <FadeInSection delay="200ms">
-                <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
+                <div className="relative w-full max-w-xl aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
                       src="/agro/tomatoSauce.png"
