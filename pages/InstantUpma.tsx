@@ -136,10 +136,16 @@ const InstantUpma: React.FC = () => {
                     <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-orange-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
                   </div>
 
-                  {/* Product Video Placeholder */}
-                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black flex flex-col items-center justify-center border border-white/5">
-                    <PlayCircle className="w-16 h-16 text-white/10 mb-4" />
-                    <span className="text-white/30 text-xs font-bold tracking-widest uppercase">Video Coming Soon</span>
+                  {/* Product Video */}
+                  <div className="relative z-10 w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-black flex flex-col items-center justify-center border border-white/5">
+                    <video 
+                      src="/agro/Instant_Upma.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-orange-600/20 blur-2xl rounded-full"></div>
