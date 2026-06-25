@@ -134,7 +134,7 @@ const DBurgerPattyDough: React.FC = () => {
                   </div>
 
                   {/* Product Video */}
-                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                  <div className="relative z-10 w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/5">
                     <video
                       className="w-full h-full object-cover"
                       src="/agro/d_burger.mp4"
@@ -142,7 +142,6 @@ const DBurgerPattyDough: React.FC = () => {
                       muted
                       loop
                       playsInline
-                      controls
                     />
                   </div>
 
