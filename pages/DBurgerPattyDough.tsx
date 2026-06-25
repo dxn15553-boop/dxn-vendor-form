@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Package, Check, ShieldCheck, Leaf, Sprout, Info, AlertTriangle, Droplet, PlayCircle } from 'lucide-react';
+import { Package, Check, ShieldCheck, Leaf, Sprout, Info, AlertTriangle, Droplet } from 'lucide-react';
 import ProductReviews from '../components/ProductReviews';
 
 // Custom Hook for Scroll Animations
@@ -133,10 +133,17 @@ const DBurgerPattyDough: React.FC = () => {
                     <div className="absolute bottom-[20%] left-[25%] w-2 h-2 rounded-full bg-pink-500/40 animate-float-delayed delay-700 blur-[2px]"></div>
                   </div>
 
-                  {/* Product Video Placeholder */}
-                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black flex flex-col items-center justify-center border border-white/5">
-                    <PlayCircle className="w-16 h-16 text-white/10 mb-4" />
-                    <span className="text-white/30 text-xs font-bold tracking-widest uppercase">Video Coming Soon</span>
+                  {/* Product Video */}
+                  <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5">
+                    <video
+                      className="w-full h-full object-cover"
+                      src="/agro/d_burger.mp4"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                    />
                   </div>
 
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-pink-600/20 blur-2xl rounded-full"></div>
