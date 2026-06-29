@@ -124,21 +124,13 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
               {[5, 4, 3, 2, 1].map((rating) => {
                 const count = ratingCounts[rating as keyof typeof ratingCounts];
                 const percentage = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
-
                 return (
-                  <div
-                    key={rating}
-                    className="flex items-center gap-3 cursor-pointer group"
-                    onClick={() => setFilter(rating.toString() as any)}
-                  >
+                  <div key={rating} className="flex items-center gap-3 cursor-pointer group" onClick={() => setFilter(rating.toString() as any)}>
                     <div className="flex items-center gap-1 w-12 text-xs font-bold text-neutral-400 group-hover:text-white transition-colors">
                       {rating} <Star className="w-3 h-3" />
                     </div>
                     <div className="flex-grow h-1.5 bg-neutral-900 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-red-600 transition-all duration-500"
-                        style={{ width: `${percentage}%` }}
-                      ></div>
+                      <div className="h-full bg-red-600 transition-all duration-500" style={{ width: `${percentage}%` }}></div>
                     </div>
                     <div className="w-8 text-right text-xs font-bold text-neutral-500">{count}</div>
                   </div>
@@ -153,7 +145,6 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
               <MessageSquare className="w-4 h-4" /> {isWriting ? 'Cancel' : 'Write a Review'}
             </button>
 
-            {/* NEW FORM SECTION */}
             {isWriting && (
               <form onSubmit={handleSubmit} className="mt-8 bg-neutral-900 border border-white/10 p-6 rounded-sm animate-in fade-in slide-in-from-top-4">
                 <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-4">Submit Your Review</h4>
@@ -162,11 +153,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
                   <label className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold mb-2 block">Rating</label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`w-6 h-6 cursor-pointer transition-colors ${star <= newReview.rating ? 'text-red-500 fill-current' : 'text-neutral-700 hover:text-red-500/50'}`}
-                        onClick={() => setNewReview({ ...newReview, rating: star })}
-                      />
+                      <Star key={star} className={`w-6 h-6 cursor-pointer transition-colors ${star <= newReview.rating ? 'text-red-500 fill-current' : 'text-neutral-700 hover:text-red-500/50'}`} onClick={() => setNewReview({ ...newReview, rating: star })} />
                     ))}
                   </div>
                 </div>
@@ -191,8 +178,6 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
                 </button>
               </form>
             )}
-            {/* END NEW FORM SECTION */}
-
           </div>
 
           <div className="md:w-2/3 lg:w-3/4">
@@ -200,12 +185,8 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
               <h4 className="text-lg font-bold uppercase tracking-widest text-white">
                 {filter === 'all' ? 'All Reviews' : `${filter} Star Reviews`}
               </h4>
-
               {filter !== 'all' && (
-                <button
-                  onClick={() => setFilter('all')}
-                  className="text-xs font-bold text-red-500 hover:text-red-400 uppercase tracking-widest flex items-center gap-1"
-                >
+                <button onClick={() => setFilter('all')} className="text-xs font-bold text-red-500 hover:text-red-400 uppercase tracking-widest flex items-center gap-1">
                   <Filter className="w-3 h-3" /> Clear Filter
                 </button>
               )}
@@ -236,23 +217,12 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
                       </div>
                       <div className="flex items-center gap-3 shrink-0">
                         <span className="text-xs text-neutral-600 font-bold uppercase tracking-widest">{review.date}</span>
-                        <button
-                          onClick={() => handleDelete(review.id)}
-                          disabled={deletingId === review.id}
-                          title="Remove review"
-                          className="p-1.5 text-neutral-700 hover:text-red-500 hover:bg-red-500/10 rounded transition-all disabled:opacity-40"
-                        >
-                          {deletingId === review.id
-                            ? <span className="text-[10px] text-neutral-500">…</span>
-                            : <Trash2 className="w-3.5 h-3.5" />}
+                        <button onClick={() => handleDelete(review.id)} disabled={deletingId === review.id} title="Remove review" className="p-1.5 text-neutral-700 hover:text-red-500 hover:bg-red-500/10 rounded transition-all disabled:opacity-40">
+                          {deletingId === review.id ? <span className="text-[10px] text-neutral-500">…</span> : <Trash2 className="w-3.5 h-3.5" />}
                         </button>
                       </div>
                     </div>
-
-                    <p className="text-neutral-400 text-sm leading-relaxed mb-6">
-                      {review.content}
-                    </p>
-
+                    <p className="text-neutral-400 text-sm leading-relaxed mb-6">{review.content}</p>
                     <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-white transition-colors">
                       <ThumbsUp className="w-3.5 h-3.5" /> Helpful ({review.helpfulCount})
                     </button>
@@ -260,7 +230,7 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productName, reviews: i
                 ))
               ) : (
                 <div className="py-12 text-center border border-dashed border-white/10">
-                  <p className="text-neutral-500 text-sm uppercase tracking-widest font-bold">No reviews found for this filter.</p>
+                  <p className="text-neutral-500 text-sm uppercase tracking-widest font-bold">No reviews yet. Be the first to write one!</p>
                 </div>
               )}
             </div>

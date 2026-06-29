@@ -70,7 +70,7 @@ const SaffronKombucha: React.FC = () => {
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
               <FadeInSection>
-                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-rose-500/30 transition-all duration-700">
+                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-6 md:p-8 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-rose-500/30 transition-all duration-700">
                   {/* Soft decorative background glow inside the card */}
                   <div className="absolute -inset-20 bg-gradient-to-br from-rose-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
 
@@ -129,7 +129,7 @@ const SaffronKombucha: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
           {/* Left Column: Quick Facts */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-24 self-start">
             <FadeInSection delay="200ms">
               <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 group">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 transition-colors group-hover:text-white">
@@ -163,27 +163,24 @@ const SaffronKombucha: React.FC = () => {
                 </p>
               </FadeInSection>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FadeInSection delay="100ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-rose-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-rose-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Shelf Life</h4>
-                    <p className="text-lg font-bold text-white">36 Months</p>
+              <FadeInSection delay="100ms">
+                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] rounded-xl p-5 flex gap-6 divide-x divide-white/[0.06]">
+                  <div className="flex-1">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Shelf Life</h4>
+                    <p className="text-base font-bold text-white">36 Months</p>
                   </div>
-                </FadeInSection>
-
-                <FadeInSection delay="200ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-rose-600 p-6 rounded-xl transition-all duration-500 hover:border-white/15 hover:border-l-rose-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Serves Per Pack About</h4>
-                    <p className="text-lg font-bold text-white">16 bottles in one master box</p>
+                  <div className="flex-1 pl-6">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Serves Per Pack About</h4>
+                    <p className="text-base font-bold text-white">16 bottles in one master box</p>
                   </div>
-                </FadeInSection>
-              </div>
+                </div>
+              </FadeInSection>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               <FadeInSection delay="300ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-yellow-500/50 pl-3">
                     <Sparkles className="w-4 h-4 text-rose-500" /> Ingredients
                   </h3>
                   <ul className="space-y-4">
@@ -204,7 +201,7 @@ const SaffronKombucha: React.FC = () => {
 
               <FadeInSection delay="400ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-yellow-500/50 pl-3">
                     <Droplet className="w-4 h-4 text-rose-500" /> Directions & Storage
                   </h3>
                   <div className="space-y-6 text-sm text-neutral-300">

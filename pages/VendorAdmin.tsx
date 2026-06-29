@@ -497,10 +497,13 @@ const VendorAdmin: React.FC = () => {
                            </div>
                         )}
                         <input
-                           type="date"
+                           type={dateFilter ? "date" : "text"}
+                           placeholder="Filter Date"
+                           onFocus={(e) => e.target.type = 'date'}
+                           onBlur={(e) => { if (!e.target.value) e.target.type = 'text'; }}
                            value={dateFilter}
                            onChange={e => { setDateFilter(e.target.value); setVendorPage(1); }}
-                           className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-blue-500/50 transition-colors"
+                           className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-blue-500/50 transition-colors cursor-pointer"
                            style={{ background: 'rgba(255,255,255,0.05)' }}
                            title="Filter by registration date"
                         />

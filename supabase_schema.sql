@@ -17,8 +17,10 @@ CREATE TABLE vendors (
   tech_team_strength TEXT,
   installed_base TEXT,
   facility_description TEXT,
-  missing_items TEXT,
-  status TEXT
+  missing_items JSONB DEFAULT '[]'::jsonb,
+  category_list TEXT[] DEFAULT ARRAY[]::TEXT[],
+  last_activity_at TIMESTAMP WITH TIME ZONE,
+  status TEXT DEFAULT 'pending'
 );
 
 -- Set up Row Level Security (RLS) to allow anonymous inserts
@@ -102,4 +104,29 @@ ON CONFLICT (id) DO NOTHING;
 -- Storage policies
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'vendor-documents');
 CREATE POLICY "Public Uploads" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'vendor-documents');
+
+-- Table to store audit log entries for vendor status changes
+CREATE TABLE vendor_audit (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  vendor_id BIGINT REFERENCES vendors(id) ON DELETE CASCADE,
+  actor TEXT NOT NULL,
+  action TEXT NOT NULL,
+  ts TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Table to store admin saved filter views
+CREATE TABLE saved_views (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  admin_id UUID NOT NULL,
+  name TEXT NOT NULL,
+  filters JSONB NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Table for email templates used by edge functions
+CREATE TABLE email_templates (
+  type TEXT PRIMARY KEY,
+  subject TEXT NOT NULL,
+  html TEXT NOT NULL
+);
 

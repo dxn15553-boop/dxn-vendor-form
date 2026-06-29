@@ -131,12 +131,57 @@ export const INITIAL_CONTENT = {
       status: "Available"
     },
     {
+      id: "prod-8",
+      name: "DXN Zhi Mocha",
+      category: "Coffee",
+      description: "500 gm Powder form of coffee DXN Zhi mocha powder (Each Sachet contains 20gm). A premium instant coffee blend that combines the rich flavors of fine cocoa powder and Ganoderma extract.",
+      image: "/coffee/zhimocha.png",
+      features: ["Coffee Blend", "Ganoderma Extract", "25 Servings Per Bag"],
+      status: "Available"
+    },
+    {
+      id: "prod-8b",
+      name: "DXN Hibiscus Floral Tea",
+      category: "Coffee",
+      description: "Each paper canister box contains 30g of dried Hibiscus flowers. This full-bodied flower produces a brilliant crimson-red tea featuring a tangy-sweet flavor.",
+      image: "/coffee/hibiscus.png",
+      features: ["Sun Dried Hibiscus", "Rich in Antioxidants", "35 Servings Per Pack"],
+      status: "Available"
+    },
+    {
+      id: "prod-8c",
+      name: "DXN Wedelia Floral Tea",
+      category: "Coffee",
+      description: "Each paper canister box contains 30g of dried Wedelia flowers. This naturally aromatic flower brews into a delicate, fragrant tea with a mild floral taste.",
+      image: "/coffee/wedelia.png",
+      features: ["Sun Dried Wedelia", "Rich in Antioxidants", "75 Servings Per Pack"],
+      status: "Available"
+    },
+    {
+      id: "prod-8d",
+      name: "DXN Butterfly Pea Floral Tea",
+      category: "Coffee",
+      description: "Each paper canister box contains 30g of dried Butterfly Pea flowers. This unique, naturally coloured tea offers a mild, earthy floral flavour and promotes memory function.",
+      image: "/coffee/butterflyPea.png",
+      features: ["Sun Dried Butterfly Pea", "Promotes Brain Health", "75 Servings Per Pack"],
+      status: "Available"
+    },
+    {
       id: "prod-9",
       name: "DXN Veg Mayonnaise",
       category: "Agro",
       description: "A creamy, eggless spread crafted for sandwiches, salads, and dips. Packaged in a convenient 500g format. 100% vegetarian.",
       image: "/agro/veg_minus.png",
       features: ["Eggless & Cholesterol Free", "Smooth Consistency", "25 Servings Per Pack"],
+      status: "Available"
+    },
+    {
+      id: "prod-10",
+      name: "DXN Radish Salt",
+      category: "Agro",
+      description: "A premium seasoning known as 'radish salt' created by combining salt and finely crushed radish. Packaged in a 200 ml PET bottle.",
+      image: "/agro/radish_salt.png",
+      features: ["Flavour Enhancer", "Salt Alternative", "100% Natural"],
       status: "Available"
     }
   ] as Product[],

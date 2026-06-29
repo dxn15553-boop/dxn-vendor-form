@@ -64,7 +64,7 @@ const DishCleen: React.FC = () => {
             {/* Left Column: Content */}
             <div className="flex flex-col items-start text-left order-2 lg:order-1">
               <FadeInSection>
-                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-8 md:p-12 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-yellow-500/30 transition-all duration-700">
+                <div className="bg-neutral-900/30 backdrop-blur-xl border border-white/[0.08] p-6 md:p-8 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden group hover:border-yellow-500/30 transition-all duration-700">
                   <div className="absolute -inset-20 bg-gradient-to-br from-yellow-500/10 via-transparent to-transparent blur-3xl pointer-events-none rounded-3xl"></div>
 
                   <div className="relative z-10 flex flex-col items-start">
@@ -126,11 +126,11 @@ const DishCleen: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
           {/* Left Column: Quick Facts */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-24 self-start">
             <FadeInSection>
               <div className="relative group">
                 <div className="absolute -inset-2 bg-gradient-to-r from-yellow-500/5 to-amber-500/5 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
-                <div className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-6 md:p-12 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-yellow-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]">
+                <div className="bg-neutral-900/25 backdrop-blur-xl border border-white/[0.06] p-4 md:p-6 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] relative overflow-hidden transition-all duration-500 hover:border-yellow-500/20 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]">
                   {/* Floating particles */}
                   <div className="absolute inset-0 pointer-events-none z-0">
                     <Sparkles className="absolute top-[15%] left-[10%] w-4 h-4 text-yellow-500/20 animate-float delay-100 filter blur-[0.5px]" />
@@ -191,27 +191,25 @@ const DishCleen: React.FC = () => {
                 </p>
               </FadeInSection>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FadeInSection delay="100ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-yellow-600 p-6 rounded-xl transition-all duration-500 hover:border-l-yellow-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Shelf Life</h4>
-                    <p className="text-lg font-bold text-white">36 Months</p>
+              <FadeInSection delay="100ms">
+                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] rounded-xl p-5 flex gap-6 divide-x divide-white/[0.06]">
+                  <div className="flex-1">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Shelf Life</h4>
+                    <p className="text-base font-bold text-white">36 Months</p>
                   </div>
-                </FadeInSection>
-                <FadeInSection delay="200ms">
-                  <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] border-l-[3px] border-l-yellow-600 p-6 rounded-xl transition-all duration-500 hover:border-l-yellow-500 hover:bg-neutral-900/50 hover:shadow-[0_15px_30px_rgba(0,0,0,0.3)] hover:-translate-y-0.5">
-                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5">Division</h4>
-                    <p className="text-lg font-bold text-white">Home Care</p>
+                  <div className="flex-1 pl-6">
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Division</h4>
+                    <p className="text-base font-bold text-white">Home Care</p>
                   </div>
-                </FadeInSection>
-              </div>
+                </div>
+              </FadeInSection>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               {/* Ingredients */}
               <FadeInSection delay="300ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-sky-500/50 pl-3">
                     <Sparkles className="w-4 h-4 text-yellow-500" /> Ingredients
                   </h3>
                   <ul className="space-y-3">
@@ -243,7 +241,7 @@ const DishCleen: React.FC = () => {
               {/* Directions */}
               <FadeInSection delay="400ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 h-full group">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-sky-500/50 pl-3">
                     <Droplet className="w-4 h-4 text-yellow-500" /> Directions for Use
                   </h3>
                   <div className="space-y-5 text-sm text-neutral-300">
@@ -273,7 +271,7 @@ const DishCleen: React.FC = () => {
             {/* Key Benefits */}
             <FadeInSection delay="500ms">
               <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-yellow-500/20 hover:bg-neutral-900/50 group">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-sky-500/50 pl-3">
                   <ShieldCheck className="w-4 h-4 text-yellow-500" /> Key Benefits
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
