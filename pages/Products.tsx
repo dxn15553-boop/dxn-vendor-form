@@ -2,17 +2,26 @@ import React, { useState, useMemo, useRef } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { useAssets } from '../context/AssetContext';
 import { useContent } from '../context/ContentContext';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Package, Check, Filter, ArrowRight, AlertCircle, X, Download, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 const Products: React.FC = () => {
    const { assets } = useAssets();
    const { content } = useContent();
    const location = useLocation();
+   const navigate = useNavigate();
    const [activeCategory, setActiveCategory] = useState(() => {
       const params = new URLSearchParams(location.search);
       return params.get('category') || 'All';
    });
+
+   const handleCategoryChange = (cat: string) => {
+      setActiveCategory(cat);
+      navigate(`?category=${encodeURIComponent(cat)}`, { replace: true });
+      if (carouselRef.current) {
+         carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+   };
 
    React.useEffect(() => {
       const params = new URLSearchParams(location.search);
@@ -97,7 +106,7 @@ const Products: React.FC = () => {
                   {categories.map((cat) => (
                      <button
                         key={cat}
-                        onClick={() => setActiveCategory(cat)}
+                        onClick={() => handleCategoryChange(cat)}
                         className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-sm border ${activeCategory === cat
                            ? 'bg-red-600 border-red-600 text-white shadow-lg shadow-red-900/20'
                            : 'bg-transparent border-white/10 text-neutral-500 hover:border-white/30 hover:text-white'
