@@ -86,7 +86,7 @@ export const INITIAL_CONTENT = {
     },
 
     {
-      id: "prod-5",
+      id: "prod-kombucha-saffron",
       name: "Saffron Kombucha",
       category: "Kombucha",
       description: "A premium fermented tea infused with Grade A Kashmiri Saffron cultivated right here in our Siddipet indoor facility.",
@@ -95,7 +95,7 @@ export const INITIAL_CONTENT = {
       status: "Available"
     },
     {
-      id: "prod-10",
+      id: "prod-kombucha-butterfly",
       name: "Butterfly Kombucha",
       category: "Kombucha",
       description: "A refreshing fermented tea infused with natural Butterfly Pea flower for a distinct flavor and antioxidant benefits.",
@@ -104,7 +104,7 @@ export const INITIAL_CONTENT = {
       status: "Available"
     },
     {
-      id: "prod-11",
+      id: "prod-kombucha-classic",
       name: "Classic Kombucha",
       category: "Kombucha",
       description: "Our signature fermented tea, traditionally brewed to perfection for a balanced, refreshing taste.",
@@ -369,9 +369,9 @@ const mergeProducts = (fetchedProducts: any) => {
         if (merged[idx].id === "prod-2") merged[idx].image = "/coffee/lingzhi.png";
         if (merged[idx].id === "prod-3") merged[idx].image = "/cosmetics/Ganozhisoap.png";
 
-        if (merged[idx].id === "prod-5") merged[idx].image = "/kombucha/safronKombucha.png";
-        if (merged[idx].id === "prod-10") merged[idx].image = "/kombucha/Butterfly pea copy.png";
-        if (merged[idx].id === "prod-11") merged[idx].image = "/kombucha/classicKomucha.png";
+        if (merged[idx].id === "prod-kombucha-saffron") merged[idx].image = "/kombucha/safronKombucha.png";
+        if (merged[idx].id === "prod-kombucha-butterfly") merged[idx].image = "/kombucha/Butterfly pea copy.png";
+        if (merged[idx].id === "prod-kombucha-classic") merged[idx].image = "/kombucha/classicKomucha.png";
       } else {
         merged.push(cp);
       }
@@ -417,7 +417,7 @@ export const ContentService = {
     }
 
     // 2. Fallback to LocalStorage (Offline / Backup)
-    const saved = localStorage.getItem('dxn_india_managed_content');
+    const saved = localStorage.getItem('dxn_india_managed_content_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -456,7 +456,7 @@ export const ContentService = {
       await saveSiteConfig(content);
 
       // 2. Save to Local (Backup/Cache)
-      localStorage.setItem('dxn_india_managed_content', JSON.stringify(content));
+      localStorage.setItem('dxn_india_managed_content_v2', JSON.stringify(content));
 
       console.log("Content successfully deployed to global database.");
       return { success: true };
