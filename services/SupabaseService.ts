@@ -96,6 +96,21 @@ export const getVendors = async () => {
   return data;
 };
 
+export const getVendorById = async (id: string | number) => {
+  const { data, error } = await supabase
+    .from('vendors')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error("Failed to fetch vendor by ID:", error);
+    return null;
+  }
+  return data;
+};
+
+
 export const updateVendorStatus = async (docId: string, status: string) => {
   const { error } = await supabase
     .from('vendors')
@@ -124,6 +139,88 @@ export const getVendorDocuments = async (vendorId: string) => {
       .getPublicUrl(`vendors/${vendorId}/${file.name}`);
     return { name: file.name, url: publicUrl };
   });
+};
+
+export const getVendorsFiltered = async (filters: {
+  search?: string;
+  activity?: string[];
+  categories?: string[];
+  status?: string[];
+}) => {
+  let query = supabase.from('vendors').select('*');
+  if (filters.search) {
+    // using or to search multiple fields
+    query = query.or(`company_name.ilike.%${filters.search}%,email.ilike.%${filters.search}%,pan_number.ilike.%${filters.search}%,gst_number.ilike.%${filters.search}%,phone.ilike.%${filters.search}%`);
+  }
+  if (filters.activity && filters.activity.length > 0) {
+    // In a real scenario, this might be more complex. We map activity to status for now if needed, or handle custom logic.
+    // For now we will rely on status if activity is just status chips. 
+    // If activity means 'registered_today' we would need custom date filters.
+    // Assuming status handles it for now or we filter in memory.
+  }
+  if (filters.status && filters.status.length > 0) {
+    query = query.in('status', filters.status);
+  }
+  if (filters.categories && filters.categories.length > 0) {
+    query = query.contains('category_list', filters.categories);
+  }
+  const { data, error } = await query.order('created_at', { ascending: false });
+  if (error) {
+    console.warn('Vendor filter error', error);
+    return [];
+  }
+  return data;
+};
+
+export const saveAdminView = async (adminId: string, name: string, filters: any) => {
+  const { error } = await supabase.from('saved_views').insert({
+    admin_id: adminId,
+    name,
+    filters,
+  });
+  if (error) throw new Error(error.message);
+};
+
+export const getSavedViews = async (adminId: string) => {
+  const { data, error } = await supabase
+    .from('saved_views')
+    .select('*')
+    .eq('admin_id', adminId)
+    .order('created_at', { ascending: false });
+  if (error) {
+    console.warn(error);
+    return [];
+  }
+  return data;
+};
+
+export const batchUpdateStatus = async (ids: number[], newStatus: string) => {
+  const { error } = await supabase.rpc('batch_update_status', {
+    ids,
+    new_status: newStatus,
+  });
+  if (error) throw new Error(error.message);
+};
+
+export const exportVendorsCsv = async (ids: number[]) => {
+  const { data, error } = await supabase.from('vendors').select('*').in('id', ids);
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) return '';
+  
+  const headers = Object.keys(data[0]).filter(key => key !== 'pan_numbet');
+  const csvRows = [headers.join(',')];
+  
+  for (const row of data) {
+    const values = headers.map(header => {
+      let val = row[header];
+      if (val === null || val === undefined) val = '';
+      if (typeof val === 'object') val = JSON.stringify(val);
+      val = String(val).replace(/"/g, '""');
+      return `"${val}"`;
+    });
+    csvRows.push(values.join(','));
+  }
+  return csvRows.join('\n');
 };
 
 // --- PRODUCT REVIEWS ---
@@ -157,7 +254,7 @@ export const addReview = async (productName: string, reviewData: any) => {
     .single();
 
   if (error) {
-    console.error("Error adding review:", error);
+    console.error("Error adding review — code:", error.code, "| message:", error.message, "| details:", error.details, "| hint:", error.hint);
     throw new Error(error.message);
   }
   return data.id;

@@ -20,9 +20,14 @@ import Products from './pages/Products';
 import Quality from './pages/Quality';
 import Sustainability from './pages/Sustainability';
 import VegMinus from './pages/VegMinus';
+import RadishSalt from './pages/RadishSalt';
 import Cocozhi from './pages/Cocozhi';
+import ZhiMocha from './pages/ZhiMocha';
 import Cordyceps from './pages/Cordyceps';
 import Lingzhi from './pages/Lingzhi';
+import HibiscusTea from './pages/HibiscusTea';
+import WedeliaTea from './pages/WedeliaTea';
+import ButterflyPeaTea from './pages/ButterflyPeaTea';
 import Lingzhi2in1 from './pages/Lingzhi2in1';
 import GanozhiSoap from './pages/GanozhiSoap';
 import GanozhiShampoo from './pages/GanozhiShampoo';
@@ -44,6 +49,8 @@ import Media from './pages/Media';
 import Admin from './pages/Admin';
 import Team from './pages/Team';
 import VendorRegistration from './pages/VendorRegistration';
+import VendorAdmin from './pages/VendorAdmin';
+import VendorDetailAdmin from './pages/VendorDetailAdmin';
 import { ContentProvider } from './context/ContentContext';
 import { COMPANY_NAME, DEFAULT_ASSETS, SHOW_ASSET_MANAGER } from './constants';
 
@@ -91,7 +98,11 @@ const Navbar: React.FC = () => {
             { name: 'DXN Lingzhi 3 in 1', path: '/products/lingzhi', icon: Package },
             { name: 'DXN Lingzhi 2 in 1', path: '/products/lingzhi-2in1', icon: Package },
             { name: 'DXN Cocozhi', path: '/products/cocozhi', icon: Package },
-            { name: 'DXN Cordyceps Coffee', path: '/products/codyceps', icon: Package }
+            { name: 'DXN Zhi Mocha', path: '/products/zhi-mocha', icon: Package },
+            { name: 'DXN Cordyceps Coffee', path: '/products/codyceps', icon: Package },
+            { name: 'DXN Hibiscus Floral Tea', path: '/products/hibiscus-tea', icon: Package },
+            { name: 'DXN Wedelia Floral Tea', path: '/products/wedelia-tea', icon: Package },
+            { name: 'DXN Butterfly Pea Floral Tea', path: '/products/butterfly-pea-tea', icon: Package }
           ]
         },
         {
@@ -124,7 +135,8 @@ const Navbar: React.FC = () => {
             { name: 'DXN Tomato Sauce', path: '/products/tomato-sauce', icon: Package },
             { name: 'DXN Instant Upma', path: '/products/instant-upma', icon: Package },
             { name: 'DXN Cut Chilli Vinegar', path: '/products/cut-chilli-vinegar', icon: Package },
-            { name: "D'Burger Patty Dough", path: '/products/dburger-patty-dough', icon: Package }
+            { name: "D'Burger Patty Dough", path: '/products/dburger-patty-dough', icon: Package },
+            { name: 'DXN Radish Salt', path: '/products/radish-salt', icon: Package }
           ]
         },
 
@@ -466,7 +478,12 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/divisions" element={<PageTransition><Divisions /></PageTransition>} />
         <Route path="/products/" element={<PageTransition><Products /></PageTransition>} />
         <Route path="/products/veg-minus" element={<PageTransition><VegMinus /></PageTransition>} />
+        <Route path="/products/radish-salt" element={<PageTransition><RadishSalt /></PageTransition>} />
         <Route path="/products/cocozhi" element={<PageTransition><Cocozhi /></PageTransition>} />
+        <Route path="/products/zhi-mocha" element={<PageTransition><ZhiMocha /></PageTransition>} />
+        <Route path="/products/hibiscus-tea" element={<PageTransition><HibiscusTea /></PageTransition>} />
+        <Route path="/products/wedelia-tea" element={<PageTransition><WedeliaTea /></PageTransition>} />
+        <Route path="/products/butterfly-pea-tea" element={<PageTransition><ButterflyPeaTea /></PageTransition>} />
         <Route path="/products/codyceps" element={<PageTransition><Cordyceps /></PageTransition>} />
         <Route path="/products/lingzhi" element={<PageTransition><Lingzhi /></PageTransition>} />
         <Route path="/products/lingzhi-2in1" element={<PageTransition><Lingzhi2in1 /></PageTransition>} />
@@ -491,6 +508,8 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/events" element={<PageTransition><Events /></PageTransition>} />
         <Route path="/media" element={<PageTransition><Media /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
+        <Route path="/admin/vendors" element={<PageTransition><VendorAdmin /></PageTransition>} />
+        <Route path="/admin/vendors/:id" element={<PageTransition><VendorDetailAdmin /></PageTransition>} />
         <Route path="/vendor/register" element={<PageTransition><VendorRegistration /></PageTransition>} />
       </Routes>
     </AnimatePresence>

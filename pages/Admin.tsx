@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 import {
    Save, Layout, Database, Image as ImageIcon, CheckCircle, Lock, Plus, Trash2,
@@ -37,7 +38,7 @@ const InputGroup = ({ label, value, onChange, type = "text", rows = 1 }: any) =>
 );
 
 
-const categorizeMissingItems = (itemsString: string) => {
+export const categorizeMissingItems = (itemsString: string) => {
    const items = itemsString.split(',').map((i: string) => i.trim()).filter(Boolean);
    const categories: Record<string, string[]> = {
       'Mandatory Registrations & Tax': [],
@@ -65,7 +66,7 @@ const categorizeMissingItems = (itemsString: string) => {
    return categories;
 };
 
-const DOCUMENT_CATEGORIES: Record<string, string[]> = {
+export const DOCUMENT_CATEGORIES: Record<string, string[]> = {
    'Entity Documentation': ['COMPANYREGISTRATION', 'PANCARD', 'GSTCERTIFICATE', 'COMPANYPROFILE', 'ORGCHART', 'CANCELLEDCHEQUE', 'BANKACCOUNTDETAILS'],
    'Statutory Compliance': ['MSMECERTIFICATE', 'PFREGISTRATION', 'ESIREGISTRATION', 'PROFTAXREGISTRATION', 'LABOURLICENSE'],
    'Financial Information': ['AUDITEDFINANCIALS', 'ITRACKNOWLEDGEMENT'],
@@ -74,7 +75,7 @@ const DOCUMENT_CATEGORIES: Record<string, string[]> = {
    'Certifications': ['ISO9001', 'ISO14001', 'ISO45001', 'GMP', 'CE', 'OTHERCERTIFICATIONS']
 };
 
-const categorizeDocuments = (docs: { name: string; url: string; created_at?: string }[]) => {
+export const categorizeDocuments = (docs: { name: string; url: string; created_at?: string }[]) => {
    const categorized: Record<string, { name: string; url: string; created_at?: string }[]> = {
       'Entity Documentation': [],
       'Statutory Compliance': [],
@@ -130,7 +131,7 @@ const categorizeDocuments = (docs: { name: string; url: string; created_at?: str
    return categorized;
 };
 
-const VENDOR_CATEGORIES: Record<string, string[]> = {
+export const VENDOR_CATEGORIES: Record<string, string[]> = {
    "Nature of Business": [
       "OEM / Manufacturer",
       "Authorized Distributor",
@@ -265,7 +266,7 @@ const VENDOR_CATEGORIES: Record<string, string[]> = {
    ]
 };
 
-const renderCategorizedVendorCategory = (categoryString: string) => {
+export const renderCategorizedVendorCategory = (categoryString: string) => {
    const emptyFallback = (
       <tr className="border-b border-neutral-100 hover:bg-neutral-50/50 transition-colors">
          <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">Vendor Category</th>
@@ -328,22 +329,12 @@ const Admin: React.FC = () => {
    const [localContent, setLocalContent] = useState(content);
    const [isAuth, setIsAuth] = useState(false);
    const [password, setPassword] = useState('');
-   const [activeTab, setActiveTab] = useState<'home' | 'divisions' | 'products' | 'gallery' | 'careers' | 'team' | 'media' | 'vendors' | 'events' | 'contact' | 'roadmap' | 'timeline'>('home');
+   const [activeTab, setActiveTab] = useState<'home' | 'divisions' | 'products' | 'gallery' | 'careers' | 'team' | 'media' | 'events' | 'contact' | 'roadmap' | 'timeline'>('home');
    const [galleryMode, setGalleryMode] = useState<'images' | 'videos'>('images');
    const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success'>('idle');
    const [isDirty, setIsDirty] = useState(false);
-   const [vendors, setVendors] = useState<any[]>([]);
-   const [vendorPage, setVendorPage] = useState(1);
-   const VENDORS_PER_PAGE = 5;
-   const [isLoadingVendors, setIsLoadingVendors] = useState(false);
-   const [selectedVendor, setSelectedVendor] = useState<any | null>(null);
-   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string; created_at?: string }[]>([]);
-   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
-   const [vendorEmailPreview, setVendorEmailPreview] = useState(false);
    const [newImageCategory, setNewImageCategory] = useState('');
    const [newVideoCategory, setNewVideoCategory] = useState('');
-   const [vendorSearch, setVendorSearch] = useState('');
-   const [vendorActivityFilter, setVendorActivityFilter] = useState<'all' | 'registered_today' | 'updated_today' | 'completed' | 'observation'>('all');
 
    // Sync ref
    const hasSyncedRef = useRef(false);
@@ -352,7 +343,6 @@ const Admin: React.FC = () => {
       const session = sessionStorage.getItem(AUTH_TOKEN_KEY);
       if (session === 'authenticated') {
          setIsAuth(true);
-         fetchVendorData();
       }
    }, []);
 
@@ -368,31 +358,11 @@ const Admin: React.FC = () => {
       if (hasSyncedRef.current) setIsDirty(true);
    }, [localContent]);
 
-   const fetchVendorData = async () => {
-      setIsLoadingVendors(true);
-      try {
-         const fbVendors = await getVendors();
-         if (fbVendors) {
-            setVendors(fbVendors);
-         } else {
-            const savedVendors = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
-            setVendors(savedVendors);
-         }
-      } catch (e) {
-         console.warn("Firebase fetch failed, using local storage", e);
-         const savedVendors = JSON.parse(localStorage.getItem('dxn_pending_vendors') || '[]');
-         setVendors(savedVendors);
-      } finally {
-         setIsLoadingVendors(false);
-      }
-   };
-
    const handleLogin = (e: React.FormEvent) => {
       e.preventDefault();
       if (password === ADMIN_PASSWORD) {
          setIsAuth(true);
          sessionStorage.setItem(AUTH_TOKEN_KEY, 'authenticated');
-         fetchVendorData();
       } else {
          alert('Unauthorized');
       }
@@ -413,87 +383,6 @@ const Admin: React.FC = () => {
       setTimeout(() => setSaveStatus('idle'), 2000);
    };
 
-   const handleApproveVendor = async (id: any) => {
-      const newStatus = 'approved';
-      try {
-         setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
-         if (selectedVendor?.id === id) setSelectedVendor((prev: any) => ({ ...prev, status: newStatus }));
-         if (typeof id === 'string') {
-            await updateVendorStatus(id, newStatus);
-         } else {
-            const updated = vendors.map(v => v.id === id ? { ...v, status: newStatus } : v);
-            localStorage.setItem('dxn_pending_vendors', JSON.stringify(updated));
-         }
-      } catch (e) {
-         console.error("Update failed", e);
-         fetchVendorData();
-      }
-   };
-
-   const handleRejectVendor = async (id: any) => {
-      const newStatus = 'rejected';
-      try {
-         setVendors(prev => prev.map(v => v.id === id ? { ...v, status: newStatus } : v));
-         if (selectedVendor?.id === id) setSelectedVendor((prev: any) => ({ ...prev, status: newStatus }));
-         if (typeof id === 'string') {
-            await updateVendorStatus(id, newStatus);
-         } else {
-            const updated = vendors.map(v => v.id === id ? { ...v, status: newStatus } : v);
-            localStorage.setItem('dxn_pending_vendors', JSON.stringify(updated));
-         }
-      } catch (e) {
-         console.error("Update failed", e);
-         fetchVendorData();
-      }
-   };
-
-   const handleViewVendor = async (vendor: any) => {
-      setSelectedVendor(vendor);
-      setVendorEmailPreview(false);
-      setIsLoadingDocs(true);
-      try {
-         const docs = await getVendorDocuments(String(vendor.id));
-         setVendorDocs(docs);
-      } catch {
-         setVendorDocs([]);
-      } finally {
-         setIsLoadingDocs(false);
-      }
-   };
-
-   const todayMs = new Date().setHours(0, 0, 0, 0);
-
-   const filteredVendors = vendors.filter((v: any) => {
-      if (vendorActivityFilter === 'registered_today') {
-         if (!(v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs)) return false;
-      }
-      if (vendorActivityFilter === 'updated_today') {
-         if (!(v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs)) return false;
-      }
-      if (vendorActivityFilter === 'completed') {
-         if (!(v.status === 'approved' || (!v.missing_items || v.missing_items.trim().length === 0))) return false;
-      }
-      if (vendorActivityFilter === 'observation') {
-         if (!(v.missing_items && v.missing_items.trim().length > 0 && v.status !== 'approved')) return false;
-      }
-
-      if (!vendorSearch) return true;
-      const term = vendorSearch.toLowerCase();
-      return (
-         (v.company_name || v.companyName || '').toLowerCase().includes(term) ||
-         (v.email || '').toLowerCase().includes(term) ||
-         (v.pan_number || v.panNumber || '').toLowerCase().includes(term) ||
-         (v.phone || '').toLowerCase().includes(term) ||
-         (v.gst_number || v.gstNumber || '').toLowerCase().includes(term) ||
-         (v.status || '').toLowerCase().includes(term)
-      );
-   });
-   const totalVendorPages = Math.max(1, Math.ceil(filteredVendors.length / VENDORS_PER_PAGE));
-   const registeredToday = vendors.filter(v => v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs).length;
-   const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs).length;
-   const fullyCompleted = vendors.filter(v => v.status === 'approved' || (!v.missing_items || v.missing_items.trim().length === 0)).length;
-   const underObservation = vendors.filter(v => v.status === 'Observation' || (v.missing_items && v.missing_items.length > 0 && v.status !== 'approved' && v.status !== 'rejected')).length;
-
    if (loading) return null;
    if (!isAuth) return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32">
@@ -513,7 +402,10 @@ const Admin: React.FC = () => {
             <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-12">
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                   <SectionTitle subtitle="Management" title="Content Controller" light />
-                  <div className="flex gap-4">
+                  <div className="flex flex-wrap gap-4">
+                     <Link to="/admin/vendors" className="bg-neutral-900 border border-white/10 text-white px-6 py-4 text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:border-red-600/50 transition-colors">
+                        <Truck className="w-4 h-4 text-red-600" /> Vendor Portal
+                     </Link>
                      <button onClick={() => { setIsAuth(false); sessionStorage.removeItem(AUTH_TOKEN_KEY); }} className="bg-neutral-900 border border-white/10 text-white px-6 py-4 text-xs font-black uppercase tracking-widest">Logout</button>
                      <button onClick={handleSave} className="bg-red-600 text-white px-8 py-4 text-xs font-black uppercase tracking-widest flex items-center gap-2">
                         {saveStatus === 'saving' ? <RefreshCw className="animate-spin w-4 h-4" /> : <Save className="w-4 h-4" />}
@@ -524,29 +416,27 @@ const Admin: React.FC = () => {
 
                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                   {/* Sidebar */}
-                  <div className="lg:col-span-3 flex lg:flex-col gap-2 lg:gap-0 lg:space-y-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide snap-x">
-                     {[
-                        { id: 'home', label: 'Home Page', icon: Layout },
-                        { id: 'divisions', label: 'Divisions', icon: Database },
-                        { id: 'team', label: 'Leadership', icon: Users },
-                        { id: 'products', label: 'Catalog', icon: Package },
-                        { id: 'vendors', label: 'Vendors', icon: Truck, count: vendors.length },
-                        { id: 'gallery', label: 'Gallery', icon: ImageIcon },
-                        { id: 'events', label: 'Events', icon: Calendar },
-                        { id: 'timeline', label: 'Timeline', icon: RefreshCw },
-                        { id: 'roadmap', label: 'Roadmap', icon: BarChart3 },
-                        { id: 'careers', label: 'Careers', icon: Briefcase },
-                        { id: 'contact', label: 'Contact Info', icon: MapPin },
-                     ].map((tab) => (
-                        <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`shrink-0 snap-start whitespace-nowrap lg:w-full flex items-center justify-between p-4 lg:p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
-                           <div className="flex items-center gap-3 lg:gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
-                           {tab.count !== undefined && (
-                              <span className={`ml-3 px-2 py-0.5 rounded text-[9px] ${activeTab === tab.id ? 'bg-black/20 text-white' : 'bg-white/5 text-neutral-500'}`}>
-                                 {tab.count}
-                              </span>
-                           )}
-                        </button>
-                     ))}
+                  <div className="lg:col-span-3 flex lg:flex-col gap-6 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide snap-x">
+
+                     <div className="flex lg:flex-col gap-2 lg:gap-0 lg:space-y-2">
+                        <div className="hidden lg:block text-[9px] font-black uppercase tracking-widest text-neutral-600 mb-2 px-2">Content Management</div>
+                        {[
+                           { id: 'home', label: 'Home Page', icon: Layout },
+                           { id: 'divisions', label: 'Divisions', icon: Database },
+                           { id: 'team', label: 'Leadership', icon: Users },
+                           { id: 'products', label: 'Catalog', icon: Package },
+                           { id: 'gallery', label: 'Gallery', icon: ImageIcon },
+                           { id: 'events', label: 'Events', icon: Calendar },
+                           { id: 'timeline', label: 'Timeline', icon: RefreshCw },
+                           { id: 'roadmap', label: 'Roadmap', icon: BarChart3 },
+                           { id: 'careers', label: 'Careers', icon: Briefcase },
+                           { id: 'contact', label: 'Contact Info', icon: MapPin },
+                        ].map((tab) => (
+                           <button key={tab.id} onClick={() => setActiveTab(tab.id as any)} className={`shrink-0 snap-start whitespace-nowrap lg:w-full flex items-center justify-between p-4 lg:p-5 text-[11px] font-black uppercase tracking-widest transition-all border ${activeTab === tab.id ? 'bg-red-600 border-red-600 text-white shadow-lg' : 'bg-neutral-900/50 border-white/5 text-neutral-400 hover:text-white'}`}>
+                              <div className="flex items-center gap-3 lg:gap-4"><tab.icon className="w-4 h-4" /> {tab.label}</div>
+                           </button>
+                        ))}
+                     </div>
                   </div>
 
                   {/* Main Content */}
@@ -780,154 +670,6 @@ const Admin: React.FC = () => {
                                     </button>
                                  </div>
                               ))}
-                           </div>
-                        </div>
-                     )}
-
-                     {/* VENDORS TAB */}
-                     {activeTab === 'vendors' && (
-                        <div className="space-y-12">
-                           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-6 gap-4">
-                              <div>
-                                 <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                                    <h3 className="text-xl font-black uppercase tracking-tighter text-white">Vendor Management System</h3>
-                                    {!isLoadingVendors && (
-                                       <span className="bg-red-600/20 text-red-500 border border-red-600/20 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest">
-                                          {vendors.length} Total
-                                       </span>
-                                    )}
-                                 </div>
-                                 <p className="text-neutral-500 text-xs font-bold uppercase tracking-widest mt-1">Review entity applications and compliance status</p>
-                              </div>
-                              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-                                 <div className="relative flex-grow md:flex-grow-0 w-full">
-                                    <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                                    <input
-                                       type="text"
-                                       placeholder="Search vendors..."
-                                       value={vendorSearch}
-                                       onChange={(e) => {
-                                          setVendorSearch(e.target.value);
-                                          setVendorPage(1);
-                                       }}
-                                       className="bg-black border border-white/20 text-white pl-10 pr-4 py-2 text-xs outline-none focus:border-red-600 transition-colors w-full md:w-64"
-                                    />
-                                    {vendorSearch && (
-                                       <button onClick={() => { setVendorSearch(''); setVendorPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white">
-                                          <X className="w-3 h-3" />
-                                       </button>
-                                    )}
-                                 </div>
-                                 <div className="flex items-center gap-2 w-full sm:w-auto">
-                                    <select
-                                       value={vendorActivityFilter}
-                                       onChange={(e) => { setVendorActivityFilter(e.target.value as any); setVendorPage(1); }}
-                                       className="bg-black border border-white/20 text-white px-4 py-2 text-xs outline-none focus:border-red-600 transition-colors cursor-pointer w-full sm:w-auto"
-                                    >
-                                       <option value="all">All Activity</option>
-                                       <option value="registered_today">Registered Today</option>
-                                       <option value="updated_today">Updated Today</option>
-                                       <option value="completed">Fully Completed</option>
-                                       <option value="observation">Under Observation</option>
-                                    </select>
-                                    <button onClick={fetchVendorData} className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-md shrink-0 transition-colors flex items-center justify-center border border-white/10" title="Refresh List">
-                                       <RefreshCw className={`w-4 h-4 ${isLoadingVendors ? 'animate-spin' : ''}`} />
-                                    </button>
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-                              <div className="bg-black border border-white/5 p-3 sm:p-4 rounded-xl flex flex-col justify-between">
-                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 mb-2 sm:mb-4">
-                                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-500 shrink-0" />
-                                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest text-neutral-500 leading-tight">Registered Today</p>
-                                 </div>
-                                 <p className="text-2xl sm:text-3xl font-black text-white">{registeredToday}</p>
-                              </div>
-                              <div className="bg-black border border-white/5 p-3 sm:p-4 rounded-xl flex flex-col justify-between">
-                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 mb-2 sm:mb-4">
-                                    <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 shrink-0" />
-                                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest text-blue-500 leading-tight">Updated Today</p>
-                                 </div>
-                                 <p className="text-2xl sm:text-3xl font-black text-white">{updatedToday}</p>
-                              </div>
-                              <div className="bg-black border border-white/5 p-3 sm:p-4 rounded-xl flex flex-col justify-between">
-                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 mb-2 sm:mb-4">
-                                    <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-500 shrink-0" />
-                                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest text-green-500 leading-tight">Fully Completed</p>
-                                 </div>
-                                 <p className="text-2xl sm:text-3xl font-black text-white">{fullyCompleted}</p>
-                              </div>
-                              <div className="bg-black border border-red-900/30 p-3 sm:p-4 rounded-xl flex flex-col justify-between">
-                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 mb-2 sm:mb-4">
-                                    <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 shrink-0" />
-                                    <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider sm:tracking-widest text-red-500 leading-tight">Under Observation</p>
-                                 </div>
-                                 <p className="text-2xl sm:text-3xl font-black text-red-500">{underObservation}</p>
-                              </div>
-                           </div>
-
-                           <div className="grid gap-4">
-                              {vendors.length === 0 && !isLoadingVendors && <div className="p-12 text-center border border-dashed border-white/10 text-neutral-600 uppercase text-xs">No pending applications</div>}
-                              {vendors.length > 0 && filteredVendors.length === 0 && <div className="p-12 text-center border border-dashed border-white/10 text-neutral-600 uppercase text-xs">No vendors match your search</div>}
-                              {isLoadingVendors && <div className="p-12 text-center text-neutral-500 uppercase text-xs">Syncing with secure database...</div>}
-
-                              {filteredVendors.slice((vendorPage - 1) * VENDORS_PER_PAGE, vendorPage * VENDORS_PER_PAGE).map((vendor) => (
-                                 <div key={vendor.id} className="bg-black p-4 md:p-6 border border-white/5 flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 hover:border-white/10 transition-all">
-                                    <div className="space-y-4 md:space-y-3 flex-grow w-full md:w-auto">
-                                       <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-3">
-                                          <span className={`shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${['approved', 'complete'].includes((vendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500' : (vendor.status || '').toLowerCase() === 'rejected' ? 'border-red-900 text-red-900' : 'border-amber-500 text-amber-500'}`}>{vendor.status || 'pending'}</span>
-                                          <h4 className="text-lg font-black uppercase text-white">{vendor.company_name || vendor.companyName}</h4>
-                                       </div>
-                                       <div className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-1 text-xs mt-2 md:mt-0">
-                                          <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">Email: </span><span className="text-neutral-300 break-all sm:break-normal">{vendor.email}</span></p>
-                                          <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">Phone: </span><span className="text-neutral-300">{vendor.phone}</span></p>
-                                          <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">PAN: </span><span className="text-neutral-300">{vendor.pan_number || vendor.panNumber || '—'}</span></p>
-                                          <p className="flex flex-col sm:block gap-0.5"><span className="text-neutral-400 uppercase font-black tracking-widest text-[9px] mr-1">GST: </span><span className="text-neutral-300">{vendor.gst_number || vendor.gstNumber || '—'}</span></p>
-                                       </div>
-                                    </div>
-                                    <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto mt-2 md:mt-0">
-                                       <button
-                                          onClick={() => handleViewVendor(vendor)}
-                                          className="w-full md:w-auto justify-center bg-neutral-800 border border-neutral-700 text-neutral-300 px-5 py-3 md:py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-neutral-700 hover:text-white transition-colors flex items-center gap-2 rounded-sm shadow-sm"
-                                       >
-                                          <FileText className="w-3.5 h-3.5" /> View Details
-                                       </button>
-                                       {vendor.status === 'pending' && (
-                                          <>
-                                             <button onClick={() => handleApproveVendor(vendor.id)} className="bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
-                                             <button onClick={() => handleRejectVendor(vendor.id)} className="bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
-                                          </>
-                                       )}
-                                       {(vendor.status === 'approved' || vendor.status === 'rejected') && (
-                                          <button disabled className="bg-neutral-800 text-neutral-500 px-5 py-2.5 text-[10px] font-black uppercase tracking-widest cursor-not-allowed">Processed</button>
-                                       )}
-                                    </div>
-                                 </div>
-                              ))}
-
-                              {filteredVendors.length > VENDORS_PER_PAGE && (
-                                 <div className="flex justify-between items-center mt-6 pt-6 border-t border-white/5">
-                                    <button
-                                       onClick={() => setVendorPage(prev => Math.max(prev - 1, 1))}
-                                       disabled={vendorPage === 1}
-                                       className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${vendorPage === 1 ? 'text-neutral-600 bg-white/5 cursor-not-allowed' : 'text-white bg-white/10 hover:bg-white/20'}`}
-                                    >
-                                       Previous
-                                    </button>
-                                    <span className="text-neutral-400 text-xs font-bold">
-                                       Page {vendorPage} of {totalVendorPages}
-                                    </span>
-                                    <button
-                                       onClick={() => setVendorPage(prev => Math.min(prev + 1, totalVendorPages))}
-                                       disabled={vendorPage === totalVendorPages}
-                                       className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all ${vendorPage === totalVendorPages ? 'text-neutral-600 bg-white/5 cursor-not-allowed' : 'text-white bg-white/10 hover:bg-white/20'}`}
-                                    >
-                                       Next
-                                    </button>
-                                 </div>
-                              )}
                            </div>
                         </div>
                      )}
@@ -1386,301 +1128,7 @@ const Admin: React.FC = () => {
             </div>
          </div>
 
-         {/* ======= VENDOR DETAIL MODAL ======= */}
-         {selectedVendor && (
-            <div className="fixed inset-0 z-[120] bg-black/95 flex flex-col overflow-hidden">
-               {/* Modal Header */}
-               <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-5 md:px-8 bg-neutral-900 border-b border-white/10 shrink-0 gap-4">
-                  <div className="flex items-start md:items-center gap-3 md:gap-4 w-full md:w-auto overflow-hidden">
-                     <button
-                        onClick={() => setSelectedVendor(null)}
-                        className="text-neutral-500 hover:text-white p-2 hover:bg-white/5 rounded transition-colors shrink-0 mt-0.5 md:mt-0"
-                     >
-                        <X className="w-5 h-5" />
-                     </button>
-                     <div className="flex flex-col gap-1 w-full overflow-hidden">
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                           <h2 className="text-white font-black uppercase tracking-tight text-lg leading-tight break-words">{selectedVendor.company_name || selectedVendor.companyName}</h2>
-                           <span className={`self-start shrink-0 px-3 py-1 text-[8px] font-black uppercase border ${['approved', 'complete'].includes((selectedVendor.status || '').toLowerCase()) ? 'border-green-500 text-green-500 bg-green-500/5' :
-                              (selectedVendor.status || '').toLowerCase() === 'rejected' ? 'border-red-700 text-red-700 bg-red-700/5' :
-                                 'border-amber-500 text-amber-500 bg-amber-500/5'
-                              }`}>{selectedVendor.status || 'pending'}</span>
-                        </div>
-                        <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest truncate">Application ID: #{selectedVendor.id}</p>
-                     </div>
-                  </div>
-                  <div className="flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3 pl-[44px] md:pl-0">
-                     <button
-                        onClick={() => setVendorEmailPreview(p => !p)}
-                        className={`flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-600 border-red-600 text-white' : 'border-white/20 text-neutral-400 hover:text-white hover:bg-white/5'}`}
-                     >
-                        <Mail className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">{vendorEmailPreview ? 'Hide Preview' : 'Email Preview'}</span>
-                     </button>
-                     <button
-                        onClick={() => window.print()}
-                        className="flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border border-white/20 text-neutral-400 hover:text-white hover:bg-white/5 transition-all print:hidden"
-                     >
-                        <Download className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Save PDF</span>
-                     </button>
-                     {selectedVendor.status === 'pending' && (
-                        <>
-                           <button onClick={() => handleApproveVendor(selectedVendor.id)} className="flex-grow md:flex-grow-0 justify-center bg-green-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-green-500 transition-colors">Approve</button>
-                           <button onClick={() => handleRejectVendor(selectedVendor.id)} className="flex-grow md:flex-grow-0 justify-center bg-red-600 text-white px-5 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 transition-colors">Reject</button>
-                        </>
-                     )}
-                  </div>
-               </div>
 
-               {/* Modal Body */}
-               <div className="flex-grow overflow-y-auto">
-                  <div className="max-w-5xl mx-auto px-8 py-10 space-y-6">
-
-                     {/* Email Preview Panel */}
-                     {vendorEmailPreview && (
-                        <div className="bg-white shadow-sm border border-neutral-200 rounded-sm overflow-hidden">
-                           <div className="px-6 py-4 bg-white border-b border-neutral-200 flex items-center gap-3">
-                              <Mail className="w-4 h-4 text-red-500" />
-                              <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs">Gmail Notification Preview — Exact Content Sent to Vendor</h3>
-                           </div>
-                           <div className="p-8 font-mono text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap bg-neutral-50">
-                              {`Dear ${selectedVendor.contact_person || selectedVendor.authorizedPerson || 'Vendor'},
-
-Thank you for submitting your vendor registration with DXN India Manufacturing.
-
-Your application has been received and is currently under review by our procurement team.
-
-──────────────────────────────────
-APPLICATION SUMMARY
-──────────────────────────────────
-Application ID   : #${selectedVendor.id}
-Company Name     : ${selectedVendor.company_name || selectedVendor.companyName || '—'}
-Contact Person   : ${selectedVendor.contact_person || selectedVendor.authorizedPerson || '—'}
-Email            : ${selectedVendor.email || '—'}
-Phone            : ${selectedVendor.phone || '—'}
-Escalation Ctct  : ${selectedVendor.escalation_contact || selectedVendor.escContact || '—'}
-PAN Number       : ${selectedVendor.pan_number || selectedVendor.panNumber || '—'}
-GST Number       : ${selectedVendor.gst_number || selectedVendor.gstNumber || '—'}
-
-Vendor Category  : ${selectedVendor.vendor_category || selectedVendor.categories?.join(', ') || '—'}
-Service Caps     : ${selectedVendor.service_capabilities || selectedVendor.serviceCapabilities?.join(', ') || '—'}
-OEM Brands       : ${selectedVendor.oem_brands || selectedVendor.oemBrands?.join(', ') || '—'}
-Specialities     : ${selectedVendor.specialities || '—'}
-Tech Team Str.   : ${selectedVendor.tech_team_strength || selectedVendor.techTeamStrength || '—'}
-Installed Base   : ${selectedVendor.installed_base || selectedVendor.installedBase || '—'}
-
-Facility Overview:
-${selectedVendor.facility_description || selectedVendor.description || '—'}
-
-Submission Status: ${selectedVendor.status?.toUpperCase() || 'PENDING'}
-${selectedVendor.missing_items ? `Missing Items    : ${selectedVendor.missing_items}` : ''}
-──────────────────────────────────
-
-Our team will review your application and contact you within 7-10 business days.
-
-For any queries, please contact: procurement@dxnindia.com
-
-Warm Regards,
-DXN India Manufacturing — Procurement Team
-Global Flagship Hub, Siddipet, Telangana`}
-                           </div>
-                        </div>
-                     )}
-
-                     {/* Main Unified Table Container */}
-                     <div className="bg-white shadow-xl rounded-sm border border-neutral-200 overflow-hidden divide-y divide-neutral-200">
-                        {/* Submission Status */}
-                        <div className="bg-white p-8 flex flex-row items-center justify-center gap-6 border-b border-neutral-200">
-                           <h3 className="text-neutral-900 font-black uppercase tracking-widest text-sm flex items-center gap-2"><AlertCircle className="w-5 h-5 text-red-500" /> Application Status:</h3>
-                           <span className={`inline-block px-5 py-2 text-sm font-black uppercase border-2 ${selectedVendor.status === 'approved' ? 'border-green-500 text-green-600 bg-green-50' :
-                              selectedVendor.status === 'rejected' ? 'border-red-700 text-red-700 bg-red-50' :
-                                 'border-amber-500 text-amber-600 bg-amber-50'
-                              }`}>{selectedVendor.status || 'Pending Review'}</span>
-                        </div>
-
-                        {/* Registration Info Grid */}
-
-
-                        {/* Company & Contact Info */}
-                        <details open className="group bg-white">
-                           <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
-                              <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Building className="w-3.5 h-3.5 text-red-500" /> Company & Contact Info</h3>
-                              <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
-                           </summary>
-                           <div className="p-5 pt-4">
-                              <div className="overflow-x-auto">
-                                 <table className="w-full text-left border-collapse text-sm text-neutral-700">
-                                    <tbody>
-                                       {[
-                                          { label: 'Company Legal Name', value: selectedVendor.company_name || selectedVendor.companyName },
-                                          { label: 'Authorized Contact Person', value: selectedVendor.contact_person || selectedVendor.authorizedPerson },
-                                          { label: 'Email Address', value: selectedVendor.email },
-                                          { label: 'Mobile Number', value: selectedVendor.phone },
-                                          { label: 'Escalation Contact', value: selectedVendor.escalation_contact || selectedVendor.escContact },
-                                          { label: 'PAN Number', value: selectedVendor.pan_number || selectedVendor.panNumber },
-                                          { label: 'GST Number', value: selectedVendor.gst_number || selectedVendor.gstNumber },
-                                          { label: 'Applied On', value: selectedVendor.created_at ? new Date(selectedVendor.created_at).toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short' }) : '—' },
-                                       ].map(({ label, value }) => (
-                                          <tr key={label} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors">
-                                             <th className="py-3 px-4 bg-neutral-50 border-r border-neutral-100 font-black uppercase text-[10px] tracking-widest text-neutral-600 w-1/3 align-top">{label}</th>
-                                             <td className="py-3 px-4 font-medium text-neutral-900">{value || <span className="text-neutral-500 italic">Not provided</span>}</td>
-                                          </tr>
-                                       ))}
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                        </details>
-
-                        {/* Business Details */}
-                        <details open className="group bg-white">
-                           <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
-                              <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Briefcase className="w-3.5 h-3.5 text-red-500" /> Business Details</h3>
-                              <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
-                           </summary>
-                           <div className="p-5 pt-4">
-                              <div className="overflow-x-auto">
-                                 <table className="w-full text-left border-collapse text-sm text-neutral-700">
-                                    <tbody>
-                                       {renderCategorizedVendorCategory(selectedVendor.vendor_category || selectedVendor.categories?.join(', ') || '')}
-                                       {/* Other Business Details */}
-                                       {[
-                                          { label: 'Service Capabilities', value: selectedVendor.service_capabilities || selectedVendor.serviceCapabilities?.join(', ') },
-                                          { label: 'OEM Brands', value: selectedVendor.oem_brands || selectedVendor.oemBrands?.filter(Boolean).join(', ') },
-                                          { label: 'Specialities', value: selectedVendor.specialities },
-                                          { label: 'Technical Team Strength', value: selectedVendor.tech_team_strength || selectedVendor.techTeamStrength },
-                                          { label: 'Installed Base Details', value: selectedVendor.installed_base || selectedVendor.installedBase },
-                                       ].map(({ label, value }) => (
-                                          <tr key={label} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors">
-                                             <th className="py-3 px-2 font-black uppercase text-[10px] tracking-widest text-neutral-500 w-1/3 align-top">{label}</th>
-                                             <td className="py-3 px-2 font-medium text-neutral-900">
-                                                {label === 'Service Capabilities' ? (
-                                                   <div className="flex flex-wrap gap-1.5">
-                                                      {(value || '').split(',').filter(Boolean).map((item, i) => (
-                                                         <span key={i} className="bg-white/5 border border-neutral-200 text-neutral-700 px-2 py-0.5 text-[9px] font-black uppercase rounded-sm">{item.trim()}</span>
-                                                      ))}
-                                                   </div>
-                                                ) : (
-                                                   value || <span className="text-neutral-500 italic">Not provided</span>
-                                                )}
-                                             </td>
-                                          </tr>
-                                       ))}
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                        </details>
-
-                        {/* Facility Overview */}
-                        <details open className="group bg-white">
-                           <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
-                              <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><FileText className="w-3.5 h-3.5 text-red-500" /> Facility Capabilities Overview</h3>
-                              <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
-                           </summary>
-                           <div className="p-5 pt-4">
-                              <p className="text-neutral-700 text-sm leading-relaxed whitespace-pre-wrap">{selectedVendor.facility_description || selectedVendor.description || <span className="text-neutral-500 italic">No description provided.</span>}</p>
-                           </div>
-                        </details>
-
-                        {/* Observations / Missing Items */}
-                        {selectedVendor.missing_items && (
-                           <div className="bg-amber-50 border-l-4 border-l-amber-500 p-6">
-                              <h3 className="text-black font-black uppercase tracking-widest text-xs mb-4 flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-600" /> Action Required: Missing / Observation Items</h3>
-                              <div className="mt-4 border border-amber-200 shadow-sm rounded-sm divide-y divide-amber-200">
-                                 {Object.entries(categorizeMissingItems(selectedVendor.missing_items)).map(([cat, items]) => {
-                                    if (items.length === 0) return null;
-                                    return (
-                                       <details key={cat} open className="group bg-white/50">
-                                          <summary className="bg-amber-100/80 py-3 px-4 font-black uppercase text-[10px] tracking-widest text-amber-900 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-amber-100 [&::-webkit-details-marker]:hidden">
-                                             {cat}
-                                             <ChevronDown className="w-4 h-4 text-amber-700 transition-transform group-open:rotate-180" />
-                                          </summary>
-                                          <div className="p-0 border-t border-amber-200">
-                                             <table className="w-full text-left border-collapse text-sm">
-                                                <tbody>
-                                                   {items.map((item, i) => (
-                                                      <tr key={i} className="border-b border-amber-100 last:border-0 hover:bg-amber-50 transition-colors">
-                                                         <td className="py-3 px-4 font-bold text-amber-900 flex items-start gap-3">
-                                                            <div className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0 mt-1.5" />
-                                                            <span>{item}</span>
-                                                         </td>
-                                                      </tr>
-                                                   ))}
-                                                </tbody>
-                                             </table>
-                                          </div>
-                                       </details>
-                                    );
-                                 })}
-                              </div>
-                           </div>
-                        )}
-                        {!selectedVendor.missing_items && (
-                           <div className="bg-green-50 border-l-4 border-l-green-500 p-6">
-                              <h3 className="text-black font-black uppercase tracking-widest text-xs mb-2 flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-600" /> Status Complete</h3>
-                              <p className="text-green-800 text-sm font-bold">All required forms and documents have been successfully submitted.</p>
-                           </div>
-                        )}
-
-                        {/* Categorized Uploaded Documents */}
-                        {isLoadingDocs ? (
-                           <div className="p-8 text-center text-neutral-500 text-xs uppercase tracking-widest flex flex-col items-center gap-3 bg-white"><RefreshCw className="w-5 h-5 animate-spin text-red-500" /> Fetching documents...</div>
-                        ) : vendorDocs.length === 0 ? (
-                           <div className="p-8 text-center text-neutral-500 text-xs italic bg-white">No documents found in storage. Documents from new registrations are automatically uploaded.</div>
-                        ) : (
-                           Object.entries(categorizeDocuments(vendorDocs)).map(([catName, docs]) => {
-                              if (docs.length === 0) return null;
-                              return (
-                                 <details key={catName} open className="group bg-white">
-                                    <summary className="p-5 cursor-pointer list-none flex justify-between items-center transition-colors hover:bg-neutral-50 [&::-webkit-details-marker]:hidden border-b border-transparent group-open:border-neutral-200 mb-4 group-open:mb-0">
-                                       <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs flex items-center gap-2"><Upload className="w-3.5 h-3.5 text-red-500" /> {catName}</h3>
-                                       <ChevronDown className="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180 shrink-0" />
-                                    </summary>
-                                    <div className="p-5 pt-4">
-                                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                          {docs.map((doc) => (
-                                             <a
-                                                key={doc.name}
-                                                href={doc.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="flex flex-col gap-1.5 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:bg-red-600/5 transition-all group shadow-sm rounded-sm"
-                                             >
-                                                <div className="flex items-center gap-3 w-full">
-                                                   <FileText className="w-4 h-4 text-red-500 shrink-0" />
-                                                   <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}>{doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}</span>
-                                                   <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-neutral-900 ml-auto shrink-0" />
-                                                </div>
-                                                {doc.created_at && (
-                                                   <div className="pl-7">
-                                                      {new Date(doc.created_at).setHours(0,0,0,0) === new Date().setHours(0,0,0,0) ? (
-                                                         <div className="flex items-center gap-1.5">
-                                                            <CheckCircle className="w-3 h-3 text-green-500" />
-                                                            <span className="text-green-500 text-[9px] font-black uppercase tracking-widest">Updated Today</span>
-                                                         </div>
-                                                      ) : new Date(doc.created_at).setHours(0,0,0,0) === new Date(new Date().setDate(new Date().getDate() - 1)).setHours(0,0,0,0) ? (
-                                                         <div className="flex items-center gap-1.5">
-                                                            <CheckCircle className="w-3 h-3 text-amber-500" />
-                                                            <span className="text-amber-500 text-[9px] font-black uppercase tracking-widest">Updated Yesterday</span>
-                                                         </div>
-                                                      ) : (
-                                                         <span className="text-neutral-400 text-[9px] font-bold uppercase tracking-widest">Uploaded: {new Date(doc.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
-                                                      )}
-                                                   </div>
-                                                )}
-                                             </a>
-                                          ))}
-                                       </div>
-                                    </div>
-                                 </details>
-                              );
-                           })
-                        )}
-                     </div>
-                  </div>
-               </div>
-            </div>
-         )}
       </>
    );
 };
