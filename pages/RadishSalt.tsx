@@ -112,7 +112,7 @@ const RadishSalt: React.FC = () => {
                     <img
                       src="/agro/Radist Salt.png"
                       alt="DXN Radish Salt Packaging"
-                      className="w-full h-full object-contain scale-[1.3] md:scale-[1.4] filter drop-shadow-[0_20px_40px_rgba(16,185,129,0.3)]"
+                      className="w-full h-full object-cover filter drop-shadow-[0_20px_40px_rgba(16,185,129,0.3)] rounded-2xl"
                     />
                   </div>
                 </div>
@@ -145,7 +145,7 @@ const RadishSalt: React.FC = () => {
                     <img
                       src="/agro/Radist Salt.png"
                       alt="DXN Radish Salt"
-                      className="w-full h-full object-contain scale-[1.25] filter brightness-[1.1] contrast-[1.1]"
+                      className="w-full h-full object-cover filter brightness-[1.0] contrast-[1.1]"
                     />
                   </div>
 

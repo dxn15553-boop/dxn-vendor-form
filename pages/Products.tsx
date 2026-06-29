@@ -167,7 +167,7 @@ const Products: React.FC = () => {
                                              : product.image === '/coffee/hibiscus.png' || product.image === '/coffee/wedelia.png' || product.image === '/coffee/butterflyPea.png'
                                                 ? 'object-contain scale-[0.8] group-hover:scale-[0.9]'
                                                 : product.image === '/agro/Radist Salt.png'
-                                                   ? 'object-contain scale-[1.5] group-hover:scale-[1.6]'
+                                                   ? 'object-cover scale-100 group-hover:scale-105'
                                                    : product.image?.startsWith('/') && product.image?.endsWith('.png')
                                                       ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
                                                       : 'object-cover group-hover:scale-105'
@@ -275,7 +275,7 @@ const Products: React.FC = () => {
                                        : selectedProduct.image === '/coffee/hibiscus.png' || selectedProduct.image === '/coffee/wedelia.png' || selectedProduct.image === '/coffee/butterflyPea.png'
                                           ? 'w-full h-full object-contain scale-[0.85]'
                                           : selectedProduct.image === '/agro/Radist Salt.png'
-                                             ? 'w-full h-full object-contain scale-[1.5]'
+                                             ? 'w-full h-full object-contain scale-[1.0]'
                                              : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
                                                 ? 'w-full h-full object-contain scale-[1.2]'
                                                 : 'w-full h-full object-contain'
