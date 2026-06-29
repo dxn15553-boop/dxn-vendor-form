@@ -180,7 +180,7 @@ export const INITIAL_CONTENT = {
       name: "DXN Radish Salt",
       category: "Agro",
       description: "A premium seasoning known as 'radish salt' created by combining salt and finely crushed radish. Packaged in a 200 ml PET bottle.",
-      image: "/agro/radish_salt.png",
+      image: "",
       features: ["Flavour Enhancer", "Salt Alternative", "100% Natural"],
       status: "Available"
     },

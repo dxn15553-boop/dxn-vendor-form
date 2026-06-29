@@ -109,12 +109,8 @@ const RadishSalt: React.FC = () => {
               <FadeInSection delay="200ms">
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   {/* Image Container */}
-                  <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
-                    <img
-                      src="/agro/radish_salt.png"
-                      alt="DXN Radish Salt Packaging"
-                      className="w-full h-full object-contain scale-[1.1] md:scale-[1.15] filter drop-shadow-[0_20px_40px_rgba(16,185,129,0.3)]"
-                    />
+                  <div className="relative w-full h-full flex items-center justify-center">
+                     {/* Intentionally left empty as per request */}
                   </div>
                 </div>
               </FadeInSection>
@@ -143,11 +139,7 @@ const RadishSalt: React.FC = () => {
                   <div className="absolute -inset-2 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent blur-2xl pointer-events-none"></div>
 
                   <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black border border-white/5 flex items-center justify-center">
-                    <img
-                      src="/agro/radish_salt.png"
-                      alt="DXN Radish Salt"
-                      className="w-full h-full object-contain filter brightness-[1.1] contrast-[1.1]"
-                    />
+                      <span className="text-neutral-600 font-bold uppercase tracking-widest text-xs">Image Coming Soon</span>
                   </div>
 
                   {/* Floor reflection effect */}

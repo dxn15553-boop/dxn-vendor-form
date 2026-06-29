@@ -154,21 +154,27 @@ const Products: React.FC = () => {
 
                         {/* Image Area */}
                         <div className="h-80 relative overflow-hidden bg-black flex items-center justify-center">
-                           <img
-                              src={product.image || FALLBACK_IMAGE}
-                              alt={product.name}
-                              className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${product.category === 'Kombucha'
-                                    ? 'object-contain scale-[0.8] group-hover:scale-90'
-                                    : product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
-                                       ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
-                                       : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
-                                          ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
-                                          : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                             ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                             : 'object-cover group-hover:scale-105'
-                                 }`}
-                              style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
-                           />
+                           {product.image ? (
+                              <img
+                                 src={product.image}
+                                 alt={product.name}
+                                 className={`w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700 ${product.category === 'Kombucha'
+                                       ? 'object-contain scale-[0.8] group-hover:scale-90'
+                                       : product.image === '/coffee/cocozhi.png' || product.image === '/coffee/lingzhi2in1.png'
+                                          ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
+                                          : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
+                                             ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
+                                             : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                                ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                                : 'object-cover group-hover:scale-105'
+                                    }`}
+                                 style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
+                              />
+                           ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                 <span className="text-neutral-600 font-bold uppercase tracking-widest text-xs">Image Coming Soon</span>
+                              </div>
+                           )}
                            <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent z-10 pointer-events-none"></div>
                            <div className="absolute bottom-4 left-4 z-20">
                               <span className="inline-block px-3 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-sm shadow-xl">{product.category}</span>
@@ -252,20 +258,26 @@ const Products: React.FC = () => {
 
                   {/* Image Side */}
                   <div className="relative h-64 lg:h-auto bg-neutral-950 flex items-center justify-center overflow-hidden p-4">
-                     <img
-                        src={selectedProduct.image || FALLBACK_IMAGE}
-                        alt={selectedProduct.name}
-                        className={`opacity-90 transition-transform duration-500 ${selectedProduct.category === 'Kombucha'
-                              ? 'w-auto h-auto max-h-[300px] lg:max-h-[450px] object-contain'
-                              : selectedProduct.image === '/coffee/cocozhi.png' || selectedProduct.image === '/coffee/lingzhi2in1.png'
-                                 ? 'w-full h-full object-contain scale-[1.0]'
-                                 : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
-                                    ? 'w-full h-full object-contain scale-[1.2]'
-                                    : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                     {selectedProduct.image ? (
+                        <img
+                           src={selectedProduct.image}
+                           alt={selectedProduct.name}
+                           className={`opacity-90 transition-transform duration-500 ${selectedProduct.category === 'Kombucha'
+                                 ? 'w-auto h-auto max-h-[300px] lg:max-h-[450px] object-contain'
+                                 : selectedProduct.image === '/coffee/cocozhi.png' || selectedProduct.image === '/coffee/lingzhi2in1.png'
+                                    ? 'w-full h-full object-contain scale-[1.0]'
+                                    : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
                                        ? 'w-full h-full object-contain scale-[1.2]'
-                                       : 'w-full h-full object-contain'
-                           }`}
-                     />
+                                       : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                                          ? 'w-full h-full object-contain scale-[1.2]'
+                                          : 'w-full h-full object-contain'
+                              }`}
+                        />
+                     ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center opacity-50">
+                           <span className="text-neutral-500 font-bold uppercase tracking-widest text-sm">Image Coming Soon</span>
+                        </div>
+                     )}
                      <div className="absolute top-6 left-6 z-10">
                         <span className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest border backdrop-blur-md shadow-lg ${selectedProduct.status === 'Available' ? 'bg-green-950/80 border-green-500 text-green-400' :
                            selectedProduct.status === 'Coming Soon' ? 'bg-amber-950/80 border-amber-500 text-amber-400' :
