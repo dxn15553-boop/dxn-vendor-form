@@ -80,7 +80,7 @@ export const INITIAL_CONTENT = {
       name: "DXN Dish Cleen",
       category: "Cosmetics",
       description: "1 litre and 500 ml of viscous liquid form of dish cleen. A concentrated dishwashing liquid that effectively removes grease and food residues.",
-      image: "/cosmetics/DishCleen.png",
+      image: "/cosmetics/3d-dish-cleen.png",
       features: ["Grease Remover", "No Smell", "Aloe Vera Extract"],
       status: "Available"
     },
@@ -417,7 +417,7 @@ export const ContentService = {
     }
 
     // 2. Fallback to LocalStorage (Offline / Backup)
-    const saved = localStorage.getItem('dxn_india_managed_content_v2');
+    const saved = localStorage.getItem('dxn_india_managed_content_v3');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -456,7 +456,7 @@ export const ContentService = {
       await saveSiteConfig(content);
 
       // 2. Save to Local (Backup/Cache)
-      localStorage.setItem('dxn_india_managed_content_v2', JSON.stringify(content));
+      localStorage.setItem('dxn_india_managed_content_v3', JSON.stringify(content));
 
       console.log("Content successfully deployed to global database.");
       return { success: true };
