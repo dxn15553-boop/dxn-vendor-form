@@ -114,7 +114,7 @@ const Lingzhi: React.FC = () => {
                     <img
                       src="/coffee/lingzhi.png"
                       alt="DXN Lingzhi Coffee Packaging"
-                      className="w-full h-full object-contain scale-[1.3] md:scale-[1.4] filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
+                      className="w-full h-full object-contain scale-100 filter drop-shadow-[0_20px_40px_rgba(249,115,22,0.3)]"
                     />
                   </div>
                 </div>
