@@ -164,9 +164,11 @@ const Products: React.FC = () => {
                                           ? 'object-contain scale-[1.05] group-hover:scale-[1.12]'
                                           : product.image === '/coffee/lingzhi.png' || product.image === '/coffee/cordyceps.png'
                                              ? 'object-contain scale-[1.35] group-hover:scale-[1.45]'
-                                             : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                                ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                                : 'object-cover group-hover:scale-105'
+                                             : product.image === '/coffee/hibiscus.png' || product.image === '/coffee/wedelia.png' || product.image === '/coffee/butterflyPea.png'
+                                                ? 'object-contain scale-[0.8] group-hover:scale-[0.9]'
+                                                : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                                   ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                                   : 'object-cover group-hover:scale-105'
                                     }`}
                                  style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
                               />
@@ -268,9 +270,11 @@ const Products: React.FC = () => {
                                     ? 'w-full h-full object-contain scale-[1.0]'
                                     : selectedProduct.image === '/coffee/lingzhi.png' || selectedProduct.image === '/coffee/cordyceps.png'
                                        ? 'w-full h-full object-contain scale-[1.2]'
-                                       : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
-                                          ? 'w-full h-full object-contain scale-[1.2]'
-                                          : 'w-full h-full object-contain'
+                                       : selectedProduct.image === '/coffee/hibiscus.png' || selectedProduct.image === '/coffee/wedelia.png' || selectedProduct.image === '/coffee/butterflyPea.png'
+                                          ? 'w-full h-full object-contain scale-[0.85]'
+                                          : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                                             ? 'w-full h-full object-contain scale-[1.2]'
+                                             : 'w-full h-full object-contain'
                               }`}
                         />
                      ) : (
