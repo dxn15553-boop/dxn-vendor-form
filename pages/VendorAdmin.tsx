@@ -76,6 +76,7 @@ const VendorAdmin: React.FC = () => {
    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
    const [selectedVendorIds, setSelectedVendorIds] = useState<number[]>([]);
    const [dateFilter, setDateFilter] = useState('');
+   const [isDateFocused, setIsDateFocused] = useState(false);
    const [sortField, setSortField] = useState<'id' | 'name' | 'date' | 'status'>('date');
    const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
    const [openStatusMenuId, setOpenStatusMenuId] = useState<any>(null);
@@ -497,10 +498,10 @@ const VendorAdmin: React.FC = () => {
                            </div>
                         )}
                         <input
-                           type={dateFilter ? "date" : "text"}
+                           type={(dateFilter || isDateFocused) ? "date" : "text"}
                            placeholder="Filter Date"
-                           onFocus={(e) => e.target.type = 'date'}
-                           onBlur={(e) => { if (!e.target.value) e.target.type = 'text'; }}
+                           onFocus={() => setIsDateFocused(true)}
+                           onBlur={() => setIsDateFocused(false)}
                            value={dateFilter}
                            onChange={e => { setDateFilter(e.target.value); setVendorPage(1); }}
                            className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-blue-500/50 transition-colors cursor-pointer"
