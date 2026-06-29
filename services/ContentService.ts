@@ -183,6 +183,96 @@ export const INITIAL_CONTENT = {
       image: "/agro/radish_salt.png",
       features: ["Flavour Enhancer", "Salt Alternative", "100% Natural"],
       status: "Available"
+    },
+    {
+      id: "prod-11",
+      name: "DXN Arjuna Capsule",
+      category: "Nutraceuticals",
+      description: "Arjuna (Terminalia arjuna) is used in Indian traditional medicine (Ayurveda). Arjuna bark is foremost used in cardio care and promotes healthy functioning of heart and it is also best for regulating blood pressure.",
+      image: "/nutra/Arjuna 3d Tablets.png",
+      features: ["Cardio Care", "Regulates Blood Pressure", "Ayurvedic Support"],
+      status: "Available"
+    },
+    {
+      id: "prod-12",
+      name: "DXN Pita Bhringaraja Hair Oil",
+      category: "Cosmetics",
+      description: "DXN Pita Bhringaraja Oil is a premium Ayurvedic hair oil crafted with traditional herbal ingredients. Gently massage into the scalp for conditioning and nourishment — leaving hair healthy, strong and revitalised.",
+      image: "/R and D/bhringaraja.png",
+      features: ["Ayurvedic Formula", "Nourishes Scalp", "Strengthens Hair"],
+      status: "Available"
+    },
+    {
+      id: "prod-13",
+      name: "DXN Cut Chilli Vinegar",
+      category: "Agro",
+      description: "By adding vinegar to chopped or sliced chillies, a flavoured vinegar known as 'DXN Cut Chilli Vinegar' is produced. The flavour of Indo-Chinese cuisines was the inspiration for the creation of DXN Cut Chilli Vinegar, which was made from the best green chillies.",
+      image: "/agro/Cut chilli.png",
+      features: ["Flavoured Vinegar", "Premium Green Chillies", "Indo-Chinese Inspired"],
+      status: "Available"
+    },
+    {
+      id: "prod-14",
+      name: "D'Burger Patty Dough",
+      category: "Agro",
+      description: "Vegetable Dough is made for cooked, boiled or reheated vegetables. Sandwich a veggie patty between two sandwich halves, then top with lettuce, mayonnaise, raw onion slices, and any additional topping you choose.",
+      image: "/agro/Dburger.jpg copy.png",
+      features: ["100% Vegetarian", "Easy to Cook", "Versatile Use"],
+      status: "Available"
+    },
+    {
+      id: "prod-15",
+      name: "DXN Ganozhi Shampoo",
+      category: "Cosmetics",
+      description: "Specially designed using Ganoderma extract with vitamin B5 (Panthenol), this refreshing shampoo makes hair smooth, healthy, soft and shiny. Suitable for all types of hair.",
+      image: "/cosmetics/shampoo.png",
+      features: ["Ganoderma Extract", "Vitamin B5", "For All Hair Types"],
+      status: "Available"
+    },
+    {
+      id: "prod-16",
+      name: "DXN Instant Upma",
+      category: "Agro",
+      description: "DXN Instant Upma is a tasty and healthy breakfast made with suji, lentils, and vegetables like onion, garlic, and green chilli. It's quick to make and packed with nutrients. No artificial preservatives, just a wholesome, vegetarian-friendly meal to start your day!",
+      image: "/agro/Upma.png",
+      features: ["Quick Breakfast", "Nutrient Packed", "No Artificial Preservatives"],
+      status: "Available"
+    },
+    {
+      id: "prod-17",
+      name: "DXN Lingzhi Coffee 2 in 1",
+      category: "Coffee",
+      description: "Lingzhi Coffee 2 in 1 is a unique blend of premium instant coffee mix and Ganoderma extract, designed to offer both a rich coffee experience and health-enhancing benefits. It contains no added sugar, making it ideal for health-conscious individuals who enjoy their coffee with a smooth, slightly earthy flavor.",
+      image: "/coffee/lingzhi2in1.png",
+      features: ["No Added Sugar", "Ganoderma Extract", "Premium Coffee Mix"],
+      status: "Available"
+    },
+    {
+      id: "prod-18",
+      name: "DXN Morinzhi",
+      category: "Nutraceuticals",
+      description: "Morinzhi is a health drink made from Noni fruit. It is prepared using a natural process and is commonly consumed daily to support overall health and wellness.",
+      image: "/kombucha/Morinzhi Bottle 600ml.png",
+      features: ["Noni Fruit Extract", "Natural Processing", "Daily Wellness"],
+      status: "Available"
+    },
+    {
+      id: "prod-19",
+      name: "DXN Tomato Ketchup",
+      category: "Agro",
+      description: "DXN Tomato Ketchup is made from red tomatoes, sugar, acetic acid, salt and a blend of spices. It has a smooth texture and tangy-savoy flavor — perfect as a base for pasta, pizzas, marinades and many more recipes.",
+      image: "/agro/tomato-ketchup.png",
+      features: ["Smooth Texture", "Tangy Flavor", "Versatile Base"],
+      status: "Available"
+    },
+    {
+      id: "prod-20",
+      name: "DXN Tomato Sauce",
+      category: "Agro",
+      description: "DXN Tomato Sauce is made from ripe tomatoes, acetic acid, and a blend of spices. It has a smooth texture and a tangy-savory flavor. This versatile sauce is commonly used as a base for foods like pasta dishes, pizzas, marinades, and more.",
+      image: "/agro/tomatoSauce.png",
+      features: ["Rich Flavor", "Ripe Tomatoes", "Versatile Use"],
+      status: "Available"
     }
   ] as Product[],
   imageCategories: ['Campus', 'R&D', 'Manufacturing', 'Quality', 'Agronomy', 'Sustainability', 'Ecosystem'],
