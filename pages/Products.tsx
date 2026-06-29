@@ -177,9 +177,11 @@ const Products: React.FC = () => {
                                                 ? 'object-contain scale-[0.8] group-hover:scale-[0.9]'
                                                 : product.image === '/agro/Radist Salt.png'
                                                    ? 'object-cover scale-100 group-hover:scale-105'
-                                                   : product.image?.startsWith('/') && product.image?.endsWith('.png')
-                                                      ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
-                                                      : 'object-cover group-hover:scale-105'
+                                                   : product.image === '/cosmetics/shampoo.png'
+                                                      ? 'object-contain scale-[0.85] group-hover:scale-[0.9]'
+                                                      : product.image?.startsWith('/') && product.image?.endsWith('.png')
+                                                         ? 'object-contain scale-[1.2] group-hover:scale-[1.3]'
+                                                         : 'object-cover group-hover:scale-105'
                                     }`}
                                  style={product.image === '/coffee/cordyceps.png' ? { imageRendering: '-webkit-optimize-contrast' } : undefined}
                               />
@@ -285,9 +287,11 @@ const Products: React.FC = () => {
                                           ? 'w-full h-full object-contain scale-[0.85]'
                                           : selectedProduct.image === '/agro/Radist Salt.png'
                                              ? 'w-full h-full object-contain scale-[1.0]'
-                                             : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
-                                                ? 'w-full h-full object-contain scale-[1.2]'
-                                                : 'w-full h-full object-contain'
+                                             : selectedProduct.image === '/cosmetics/shampoo.png'
+                                                ? 'w-full h-full object-contain scale-[0.85]'
+                                                : selectedProduct.image?.startsWith('/') && selectedProduct.image?.endsWith('.png')
+                                                   ? 'w-full h-full object-contain scale-[1.2]'
+                                                   : 'w-full h-full object-contain'
                               }`}
                         />
                      ) : (
