@@ -209,7 +209,7 @@ const VendorAdmin: React.FC = () => {
       if (anyToggle) {
          const s = (v.status || 'pending').toLowerCase();
          if (statusToggles.approved && ['approved', 'complete'].includes(s)) return true;
-         if (statusToggles.pending && s === 'pending') return true;
+         if (statusToggles.pending && ['pending', 'observation'].includes(s)) return true;
          if (statusToggles.rejected && s === 'rejected') return true;
          return false;
       }
@@ -386,7 +386,7 @@ const VendorAdmin: React.FC = () => {
             </div>
 
             {/* ── Unified Filter Panel ─────── */}
-            <div className="rounded-2xl border border-white/20 p-5 mb-5 backdrop-blur-sm" style={{ background: 'rgba(255,255,255,0.035)', boxShadow: '0 4px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
+            <div className="relative z-50 rounded-2xl border border-white/20 p-5 mb-5 backdrop-blur-sm" style={{ background: 'rgba(255,255,255,0.035)', boxShadow: '0 4px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)' }}>
                <div className="flex flex-col lg:flex-row gap-5">
 
                   {/* Activity */}
@@ -422,7 +422,7 @@ const VendorAdmin: React.FC = () => {
                            <ChevronDown className={`w-3.5 h-3.5 text-indigo-300 shrink-0 transition-transform ${isCategoryOpen ? 'rotate-180' : ''}`} />
                         </button>
                         {isCategoryOpen && (
-                           <div className="absolute top-full mt-2 left-0 right-0 max-h-56 overflow-y-auto border border-white shadow-2xl z-50 rounded-xl p-2"
+                           <div className="absolute top-full mt-2 left-0 right-0 max-h-56 overflow-y-auto border border-white shadow-2xl z-50 rounded-xl p-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full"
                               style={{ background: '#141e30', boxShadow: '0 20px 60px rgba(0,0,0,0.7)' }}>
                               {selectedCategories.length > 0 && (
                                  <button onClick={() => setSelectedCategories([])} className="w-full text-left text-[10px] font-black uppercase tracking-widest text-blue-400 px-2 pb-2 border-b border-white mb-1 hover:text-blue-300">
@@ -516,9 +516,11 @@ const VendorAdmin: React.FC = () => {
                   </div>
                </div>
 
-               {/* Column headers — sticky */}
-               <div className="sticky top-0 z-10 grid gap-2 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-indigo-300 border-b border-emerald-500/50"
-                  style={{ gridTemplateColumns: '1.5rem 2.5rem 1fr 0.8fr 1fr 1fr 0.8fr 6rem', background: '#0f1a2e' }}>
+               <div className="overflow-x-auto w-full [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full pb-2">
+                  <div className="min-w-[960px]">
+                     {/* Column headers — sticky */}
+                     <div className="sticky top-0 z-10 grid gap-2 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-indigo-300 border-b border-emerald-500/50"
+                        style={{ gridTemplateColumns: '1.5rem 2.5rem 1fr 0.8fr 1fr 1fr 0.8fr 6rem', background: '#0f1a2e' }}>
                   <div>
                      <input
                         type="checkbox"
@@ -709,6 +711,8 @@ const VendorAdmin: React.FC = () => {
                      </div>
                   );
                })}
+                  </div>
+               </div>
 
                {/* Pagination */}
                {sortedVendors.length > VENDORS_PER_PAGE && (
