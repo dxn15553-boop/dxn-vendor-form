@@ -275,7 +275,7 @@ const VendorAdmin: React.FC = () => {
          <button
             onClick={() => { setActivityFilter(isActive ? 'all' : id); setVendorPage(1); }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all border ${isActive
-               ? 'bg-blue-500 border-blue-400 text-white shadow-md shadow-blue-500/30'
+               ? 'bg-red-500 border-red-400 text-white shadow-md shadow-red-500/30'
                : 'border-white text-slate-300 hover:border-white hover:text-white'
                }`}
             style={{ background: isActive ? undefined : 'rgba(255,255,255,0.04)' }}
@@ -291,13 +291,13 @@ const VendorAdmin: React.FC = () => {
 
    // ── LOGIN ─────────────────────────────────────────────────────────────────
    if (!isAuth) return (
-      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'radial-gradient(ellipse at top, #0f1c2e 0%, #090e18 60%)' }}>
+      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'radial-gradient(ellipse at top, #171717 0%, #000000 60%)' }}>
          <div className="relative w-full max-w-md">
-            <div className="absolute inset-0 -z-10 blur-3xl opacity-20 rounded-full" style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
-            <div className="border border-white rounded-2xl p-12 shadow-2xl backdrop-blur-xl" style={{ background: 'rgba(15,28,46,0.8)' }}>
+            <div className="absolute inset-0 -z-10 blur-3xl opacity-20 rounded-full" style={{ background: 'radial-gradient(circle, #ef4444 0%, transparent 70%)' }} />
+            <div className="border border-white rounded-2xl p-12 shadow-2xl backdrop-blur-xl" style={{ background: 'rgba(23,23,23,0.8)' }}>
                <div className="text-center mb-10">
-                  <div className="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center mx-auto mb-6">
-                     <Lock className="w-7 h-7 text-blue-400" />
+                  <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/25 flex items-center justify-center mx-auto mb-6">
+                     <Lock className="w-7 h-7 text-red-400" />
                   </div>
                   <h2 className="text-2xl font-black uppercase text-white tracking-widest">Admin Suite</h2>
                   <p className="text-slate-500 text-xs mt-2 tracking-widest">DXN Vendor Management Portal</p>
@@ -306,13 +306,13 @@ const VendorAdmin: React.FC = () => {
                   <input
                      type="password"
                      placeholder="Enter Security Key"
-                     className="w-full border border-white/10 rounded-xl px-5 py-4 text-white text-center tracking-widest outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all placeholder-slate-600"
+                     className="w-full border border-white/10 rounded-xl px-5 py-4 text-white text-center tracking-widest outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all placeholder-slate-600"
                      style={{ background: 'rgba(0,0,0,0.3)' }}
                      value={password}
                      onChange={e => setPassword(e.target.value)}
                      autoFocus
                   />
-                  <button className="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all hover:shadow-lg hover:shadow-blue-600/30 active:scale-[0.98]">
+                  <button className="w-full bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all hover:shadow-lg hover:shadow-red-600/30 active:scale-[0.98]">
                      Authenticate
                   </button>
                </form>
@@ -345,7 +345,7 @@ const VendorAdmin: React.FC = () => {
                         placeholder="Search vendors, ID, or contact..."
                         value={search}
                         onChange={e => { setSearch(e.target.value); setVendorPage(1); }}
-                        className="w-64 md:w-80 border border-white rounded-xl pl-10 pr-9 py-2.5 text-sm text-white placeholder-indigo-300/60 outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all"
+                        className="w-64 md:w-80 border border-white rounded-xl pl-10 pr-9 py-2.5 text-sm text-white placeholder-indigo-300/60 outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/20 transition-all"
                         style={{ background: 'rgba(255,255,255,0.05)' }}
                      />
                      {search && (
@@ -426,7 +426,7 @@ const VendorAdmin: React.FC = () => {
                            <div className="absolute top-full mt-2 left-0 right-0 max-h-56 overflow-y-auto border border-white shadow-2xl z-50 rounded-xl p-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full"
                               style={{ background: '#141e30', boxShadow: '0 20px 60px rgba(0,0,0,0.7)' }}>
                               {selectedCategories.length > 0 && (
-                                 <button onClick={() => setSelectedCategories([])} className="w-full text-left text-[10px] font-black uppercase tracking-widest text-blue-400 px-2 pb-2 border-b border-white mb-1 hover:text-blue-300">
+                                 <button onClick={() => setSelectedCategories([])} className="w-full text-left text-[10px] font-black uppercase tracking-widest text-red-400 px-2 pb-2 border-b border-white mb-1 hover:text-red-300">
                                     Clear all
                                  </button>
                               )}
@@ -443,7 +443,7 @@ const VendorAdmin: React.FC = () => {
                                              onChange={() => setSelectedCategories(prev =>
                                                 prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
                                              )}
-                                             className="accent-blue-500 w-3.5 h-3.5 cursor-pointer"
+                                             className="accent-red-500 w-3.5 h-3.5 cursor-pointer"
                                           />
                                           <span className="text-xs text-slate-300 select-none">{cat}</span>
                                        </label>
@@ -493,7 +493,7 @@ const VendorAdmin: React.FC = () => {
                      <div className="flex items-center gap-2 ml-auto">
                         {dateFilter && (
                            <div className="flex items-center gap-2">
-                              <span className="text-xs text-blue-400 font-bold">Showing: {dateFilter}</span>
+                              <span className="text-xs text-red-400 font-bold">Showing: {dateFilter}</span>
                               <button onClick={() => setDateFilter('')} className="text-slate-500 hover:text-white transition-colors"><X className="w-3.5 h-3.5" /></button>
                            </div>
                         )}
@@ -504,7 +504,7 @@ const VendorAdmin: React.FC = () => {
                            onBlur={() => setIsDateFocused(false)}
                            value={dateFilter}
                            onChange={e => { setDateFilter(e.target.value); setVendorPage(1); }}
-                           className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-blue-500/50 transition-colors cursor-pointer"
+                           className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-red-500/50 transition-colors cursor-pointer"
                            style={{ background: 'rgba(255,255,255,0.05)' }}
                            title="Filter by registration date"
                         />
@@ -528,7 +528,7 @@ const VendorAdmin: React.FC = () => {
                   <div>
                      <input
                         type="checkbox"
-                        className="accent-blue-500 w-3.5 h-3.5 cursor-pointer"
+                        className="accent-red-500 w-3.5 h-3.5 cursor-pointer"
                         checked={pageVendors.length > 0 && pageVendors.every(v => selectedVendorIds.includes(v.id))}
                         onChange={e => {
                            if (e.target.checked) setSelectedVendorIds(p => [...new Set([...p, ...pageVendors.map(v => v.id)])]);
@@ -602,7 +602,7 @@ const VendorAdmin: React.FC = () => {
                      <div
                         key={vendor.id}
                         className={`vendor-row grid gap-2 px-5 py-4 items-center border-b border-emerald-500/50 last:border-0 transition-all duration-200 group ${
-                           isSelected ? 'bg-blue-600/10' :
+                           isSelected ? 'bg-red-600/10' :
                            isUrgent ? 'bg-red-500/[0.05] hover:bg-red-500/[0.08]' :
                            idx % 2 === 0 ? 'hover:bg-white/[0.025]' : 'bg-white/[0.015] hover:bg-white/[0.04]'
                         }`}
@@ -618,7 +618,7 @@ const VendorAdmin: React.FC = () => {
                         <div>
                            <input
                               type="checkbox"
-                              className="accent-blue-500 w-3.5 h-3.5 cursor-pointer"
+                              className="accent-red-500 w-3.5 h-3.5 cursor-pointer"
                               checked={isSelected}
                               onChange={e => {
                                  if (e.target.checked) setSelectedVendorIds(p => [...p, vendor.id]);
@@ -689,7 +689,7 @@ const VendorAdmin: React.FC = () => {
                            <Link
                               to={`/admin/vendors/${vendor.id}`}
                               title="View Details"
-                              className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 transition-all"
+                              className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
                            >
                               <Eye className="w-3.5 h-3.5" />
                            </Link>
