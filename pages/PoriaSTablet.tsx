@@ -104,10 +104,11 @@ const PoriaSTablet: React.FC = () => {
               <FadeInSection delay="200ms">
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
-                    {/* Placeholder image representation */}
-                    <div className="w-64 h-64 bg-neutral-800 rounded-full flex items-center justify-center border-4 border-green-500/30 shadow-[0_20px_40px_rgba(34,197,94,0.3)]">
-                      <Leaf className="w-24 h-24 text-green-500/50" />
-                    </div>
+                    <img
+                      src="/nutra/Porias-sTablet300mgx120tablets.png" 
+                      alt="DXN Poria-S Tablet 300mg"
+                      className="max-h-full max-w-full object-contain drop-shadow-[0_20px_40px_rgba(34,197,94,0.3)]"
+                    />
                   </div>
                 </div>
               </FadeInSection>
