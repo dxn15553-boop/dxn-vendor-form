@@ -52,7 +52,7 @@ const tabletsList = [
   { name: "DXN Amalaki Tablet", path: '/products/amalaki-tablet', image: '/nutra/AmalakiTablet120.png' },
   { name: "DXN Arjuna Tablet", path: '/products/arjuna-tablet', image: '/nutra/ArjunaTablet120.png' },
   { name: "DXN Meshashringi Tablet", path: '/products/meshashringi-tablet', image: '/nutra/MeshaShringiTablet120.png' },
-  { name: "DXN Harithaki Tablet", path: '/products/harithaki-tablet', image: '/nutra/HarithakiTablet120.png' },
+  { name: "DXN Harithaki Tablet", path: '/products/harithaki-tablet', image: '/nutra/harithaki_tablet.png' },
   { name: "DXN Lasuna Tablet", path: '/products/lasuna-tablet', image: '/nutra/LasunaTablet120.png' },
   { name: "DXN Manjista Tablet", path: '/products/manjista-tablet', image: '/nutra/ManjistaTablet120.png' },
   { name: "DXN Sh.Guggulu Tablet", path: '/products/sh-guggulu-tablet', image: '/nutra/Sh.GugguluTablet120.png' },

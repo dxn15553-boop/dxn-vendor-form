@@ -105,7 +105,7 @@ const HarithakiTablet: React.FC = () => {
                 <div className="relative w-full max-w-lg aspect-[4/5] lg:aspect-square group">
                   <div className="relative w-full h-full flex items-center justify-center transform transition-transform duration-700 hover:scale-[1.05]">
                     <img
-                    src="/nutra/HarithakiTablet120.png"
+                    src="/nutra/harithaki_tablet.png"
                     alt="DXN Harithaki Tablet"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
