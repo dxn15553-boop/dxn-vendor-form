@@ -164,12 +164,20 @@ const SaffronKombucha: React.FC = () => {
               </FadeInSection>
 
               <FadeInSection delay="100ms">
-                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] rounded-xl p-5 flex gap-6 divide-x divide-white/[0.06]">
-                  <div className="flex-1">
+                <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] rounded-xl p-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Serving Size</h4>
+                    <p className="text-base font-bold text-white">285 ml</p>
+                  </div>
+                  <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Allergen Information</h4>
+                    <p className="text-base font-bold text-white">NA</p>
+                  </div>
+                  <div>
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Shelf Life</h4>
                     <p className="text-base font-bold text-white">36 Months</p>
                   </div>
-                  <div className="flex-1 pl-6">
+                  <div>
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Serves Per Pack About</h4>
                     <p className="text-base font-bold text-white">16 bottles in one master box</p>
                   </div>

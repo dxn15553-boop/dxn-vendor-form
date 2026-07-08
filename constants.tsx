@@ -30,15 +30,15 @@ export const DEFAULT_ASSETS = {
   LAB_FACILITY: "https://res.cloudinary.com/dmslyftme/image/upload/v1766483410/0dcb2d69-9a35-4132-b479-529c72e3704d_hm8dof.jpg?q=80&w=2025&auto=format&fit=crop",
   FOUNDER_PHOTO: "https://res.cloudinary.com/dmslyftme/image/upload/v1766473599/285797857_567658841622771_7494164707927808850_n_11_mvqkfe.jpg",
   QUALITY_PPE: "https://res.cloudinary.com/dmslyftme/image/upload/v1766572623/36114_cfnzbx.jpg?q=80&w=2070&auto=format&fit=crop",
-  SUSTAIN_NATURE: "https://images.unsplash.com/photo-1530836361253-efad5cb2fe22?q=80&w=2070&auto=format&fit=crop",
-  WORKERS_GROUP: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=2070&auto=format&fit=crop",
+  SUSTAIN_NATURE: "https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=2070&auto=format&fit=crop",
+  WORKERS_GROUP: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop",
   MAP_OVERLAY: "https://res.cloudinary.com/dmslyftme/image/upload/v1766587481/Screenshot_2025-12-24_200707_ephdxd.png?q=80&w=1974&auto=format&fit=crop",
   AGRO_INDOOR: "https://res.cloudinary.com/dmslyftme/image/upload/v1766473763/DXN-Holding_BC22052023_thumb_tem_uldtzb.jpg",
   // Gallery Heros
   GALLERY_HERO: "/flagship_image/company.png",
   VIDEO_HERO: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=2070&auto=format&fit=crop",
   EVENTS_HERO: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=crop",
-  MEDIA_HERO: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop",
+  MEDIA_HERO: "/NEWs/DmPnVWwWsAE8l6J.jpg",
   PRODUCTS_HERO: "https://images.unsplash.com/photo-1563209259-797180eced1e?q=80&w=2070&auto=format&fit=crop",
   // CSR Assets
   CSR_HERO: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=2070&auto=format&fit=crop",
@@ -82,21 +82,28 @@ export const MEDIA_NEWS = [
     title: "DXN India Announces ₹100Cr Expansion Plan",
     date: "Jan 12, 2025",
     summary: "Strategic investment focused on Ayurveda tablets and floral tea lines at the Siddipet Hub.",
-    source: "Corporate News"
+    source: "Corporate News",
+    image: "/NEWs/HY07SIDDIINDUSTRIES.jpg",
+    url: "https://telanganatoday.com/siddipet-will-become-industrial-agriculture-hub-harish-rao"
   },
   {
     title: "FSSC 22000 Version 6 Certification Achieved",
     date: "Dec 05, 2024",
     summary: "Reinforcing global safety standards across all six manufacturing divisions in India.",
-    source: "Quality Updates"
+    source: "Quality Updates",
+    image: "/NEWs/165044-dxn.jpg",
+    url: "https://www.thehansindia.com/telangana/after-siddipet-dxn-to-enter-wanaparthy-521667"
   },
   {
     title: "Empowering Local Workforce in Telangana",
     date: "Oct 22, 2024",
     summary: "DXN Siddipet crosses the milestone of 1000 direct and indirect employment opportunities.",
-    source: "CSR"
+    source: "CSR",
+    image: "/NEWs/34536438_1944923605541505_3463471256811077632_n.jpg",
+    url: "https://telanganatoday.com/siddipet-will-become-industrial-agriculture-hub-harish-rao"
   }
 ];
+
 
 export const KEY_STATS: Stat[] = [
   { id: '1', label: 'Integrated Campus', value: '47', suffix: 'Acres' },

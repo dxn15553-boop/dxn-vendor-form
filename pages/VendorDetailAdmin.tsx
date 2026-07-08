@@ -203,14 +203,14 @@ const VendorDetailAdmin: React.FC = () => {
 
    if (isLoading) return (
       <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center text-center p-6">
-         <RefreshCw className="w-10 h-10 text-red-650 animate-spin mb-4" />
+         <RefreshCw className="w-10 h-10 text-red-600 animate-spin mb-4" />
          <p className="text-neutral-550 text-xs font-black uppercase tracking-widest">Loading application details...</p>
       </div>
    );
 
    if (!vendor) return (
       <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center text-center p-6 pt-32">
-         <AlertTriangle className="w-16 h-16 text-red-650 mb-6" />
+         <AlertTriangle className="w-16 h-16 text-red-600 mb-6" />
          <h2 className="text-2xl font-black text-white uppercase tracking-widest">Vendor Profile Not Found</h2>
          <p className="text-neutral-500 text-sm mt-2 max-w-sm">The vendor application ID matches no records in our database.</p>
          <Link to="/admin/vendors" className="mt-8 bg-red-600 text-white px-6 py-3 text-xs font-black uppercase tracking-widest hover:bg-red-500 transition-colors">
@@ -230,7 +230,7 @@ const VendorDetailAdmin: React.FC = () => {
             {/* Navigation back */}
             <div className="mb-8 print:hidden">
                <Link to="/admin/vendors" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-xs font-black uppercase tracking-widest">
-                  <ArrowLeft className="w-4 h-4 text-red-605" /> Back to Vendor Dashboard
+                  <ArrowLeft className="w-4 h-4 text-red-600" /> Back to Vendor Dashboard
                </Link>
             </div>
 
@@ -242,7 +242,7 @@ const VendorDetailAdmin: React.FC = () => {
                   <div className="flex flex-wrap md:flex-nowrap items-center gap-2">
                      <button
                         onClick={() => setVendorEmailPreview(p => !p)}
-                        className={`flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-650 border-red-650 text-white' : 'border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'}`}
+                        className={`flex-grow md:flex-grow-0 justify-center flex items-center gap-2 px-4 py-2.5 text-[10px] font-black uppercase tracking-widest border transition-all ${vendorEmailPreview ? 'bg-red-600 border-red-600 text-white' : 'border-neutral-200 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50'}`}
                      >
                         <Mail className="w-3.5 h-3.5 shrink-0" />
                         <span>{vendorEmailPreview ? 'Hide Preview' : 'Email Preview'}</span>
@@ -277,7 +277,7 @@ const VendorDetailAdmin: React.FC = () => {
                {vendorEmailPreview && (
                   <div className="bg-white border-b border-neutral-200">
                      <div className="px-6 py-4 bg-neutral-50 flex items-center gap-3">
-                        <Mail className="w-4 h-4 text-red-650" />
+                        <Mail className="w-4 h-4 text-red-600" />
                         <h3 className="text-neutral-900 font-black uppercase tracking-widest text-xs">Notification Preview — Email Sent to Vendor</h3>
                      </div>
                      <div className="p-8 font-mono text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap bg-white select-all">

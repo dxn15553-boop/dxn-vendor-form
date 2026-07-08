@@ -88,7 +88,7 @@ const RadishSalt: React.FC = () => {
                     </div>
 
                     <p className="text-neutral-300 max-w-xl text-lg md:text-xl font-light leading-relaxed mb-10 transition-all duration-300 hover:text-white">
-                      A premium seasoning created by combining salt and finely crushed radish. Packaged in a convenient 200 ml PET bottle (150g).
+                      200 ml PET bottle containing 150g of Radish salt
                     </p>
 
                     <div className="flex flex-wrap gap-3">
@@ -185,10 +185,11 @@ const RadishSalt: React.FC = () => {
               <FadeInSection>
                 <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-400">Product Information</h2>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-6">
-                  A seasoning known as "radish salt" is created by combining salt and finely crushed radish. This seasoning is frequently used to give food a unique taste and texture. The taste of radish salt is salty with a hint of spice and pungent flavour. It is frequently used as a boost for stews, vegetables, and grilled or roasted meat.
+                  A seasoning known as "radish salt" is created by combining salt and finely crushed radish. This seasoning is frequently used to give food a unique taste and texture. The taste of radish salt is salty with a hint of spice and pungent flavour. It is frequently used as a boost for stews, vegetables, and grilled or roasted meat. Overall, radish salt is a flavour that can provide depth and richness to a range of foods.
                 </p>
                 <p className="text-neutral-300 text-base md:text-lg font-light leading-relaxed mb-8">
-                  Overall, radish salt is a flavour that can provide depth and richness to a range of foods. DXN Radish Salt offers a fantastic alternative to traditional salt supplementation. It contains no artificial flavours, colours, or preservatives.
+                  <strong className="text-white">Label claim description:</strong><br />
+                  DXN Radish Salt is created by combining salt and finely crushed radish. This radish salt offers a alternative to salt supplementation. It can also be used in soups, stews, grilled or roasted meat and curries.
                 </p>
               </FadeInSection>
 
@@ -200,7 +201,7 @@ const RadishSalt: React.FC = () => {
                   </div>
                   <div className="flex-1 pl-6">
                     <h4 className="text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-1">Division</h4>
-                    <p className="text-base font-bold text-white">Seasoning or Condiment</p>
+                    <p className="text-base font-bold text-white">Seasoning or condiment</p>
                   </div>
                 </div>
               </FadeInSection>
@@ -211,23 +212,11 @@ const RadishSalt: React.FC = () => {
               <FadeInSection delay="200ms">
                 <div className="bg-neutral-900/30 backdrop-blur-md border border-white/[0.06] p-6 md:p-8 rounded-2xl transition-all duration-500 hover:border-white/15 hover:bg-neutral-900/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 group">
                   <h3 className="text-xs font-bold uppercase tracking-widest text-neutral-300 border-b border-white/[0.08] pb-4 mb-6 flex items-center gap-2.5 border-l-2 border-emerald-500/50 pl-3">
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" /> Key Benefits & Features
+                    <ShieldCheck className="w-4 h-4 text-emerald-500" /> Health Benefits
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                    {[
-                      { icon: Utensils, title: 'Flavour Enhancer', desc: 'Adds depth, richness, and a hint of spice to various dishes.' },
-                      { icon: Droplets, title: 'Salt Alternative', desc: 'A natural, healthier alternative to standard table salt supplementation.' },
-                      { icon: Sparkles, title: '100% Natural', desc: 'No artificial flavours, colours, or preservatives added.' },
-                      { icon: Check, title: 'Versatile Uses', desc: 'Perfect for soups, stews, vegetables, and roasted/grilled meat.' },
-                    ].map((benefit, idx) => (
-                      <div key={idx} className="flex flex-col gap-1 p-3 bg-white/[0.02] border border-white/[0.04] rounded-lg hover:border-emerald-500/20 transition-colors">
-                        <span className="text-sm font-bold text-white flex items-center gap-2">
-                          <benefit.icon className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> {benefit.title}
-                        </span>
-                        <span className="text-xs text-neutral-400 pl-5.5 leading-relaxed">{benefit.desc}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-sm text-neutral-300 leading-relaxed">
+                    Alternative to salt supplement. No Artificial flavours, colours and preservatives were added.
+                  </p>
                 </div>
               </FadeInSection>
             </div>
@@ -241,7 +230,7 @@ const RadishSalt: React.FC = () => {
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3 text-sm group/item">
                       <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">Finely Crushed Radish</span>
+                      <span className="font-semibold text-white block group-hover/item:translate-x-1 transition-transform">Radish</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm group/item">
                       <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />

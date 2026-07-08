@@ -22,7 +22,91 @@ import Sustainability from './pages/Sustainability';
 import VegMinus from './pages/VegMinus';
 import RadishSalt from './pages/RadishSalt';
 import Cocozhi from './pages/Cocozhi';
+import Lemonzhi from './pages/Lemonzhi';
 import ZhiMocha from './pages/ZhiMocha';
+import ArjunaCapsule from './pages/ArjunaCapsule';
+import ArjunaTablet from './pages/ArjunaTablet';
+import ArjunaPowder from './pages/ArjunaPowder';
+import AsanaPowder from './pages/AsanaPowder';
+import AsthisamharakaPowder from './pages/AsthisamharakaPowder';
+import AsvagandhaPowder from './pages/AsvagandhaPowder';
+import AtmaguptaPowder from './pages/AtmaguptaPowder';
+import BrahmiPowder from './pages/BrahmiPowder';
+import GandiraPowder from './pages/GandiraPowder';
+import GokshuraPowder from './pages/GokshuraPowder';
+import GuduciPowder from './pages/GuduciPowder';
+import HaridraPowder from './pages/HaridraPowder';
+import HarithakiPowder from './pages/HarithakiPowder';
+import KalameghPowder from './pages/KalameghPowder';
+import KaravallakaPowder from './pages/KaravallakaPowder';
+import KhadiraSaraPowder from './pages/KhadiraSaraPowder';
+import KunduruPowder from './pages/KunduruPowder';
+import LasunaPowder from './pages/LasunaPowder';
+import ManjistaPowder from './pages/ManjistaPowder';
+import MeshashringiPowder from './pages/MeshashringiPowder';
+import MethikaPowder from './pages/MethikaPowder';
+import NeemPowder from './pages/NeemPowder';
+import ShGugguluPowder from './pages/ShGugguluPowder';
+import RosellePremixPowder from './pages/RosellePremixPowder';
+import SpirulinaPowder from './pages/SpirulinaPowder';
+import SvarnapatriPowder from './pages/SvarnapatriPowder';
+import TulasiPowder from './pages/TulasiPowder';
+import YastimadhuChurnaPowder from './pages/YastimadhuChurnaPowder';
+import AmalakiCapsule from './pages/AmalakiCapsule';
+import AmalakiTablet from './pages/AmalakiTablet';
+import AmalakiChurna from './pages/AmalakiChurna';
+import AshwagandhaCapsule from './pages/AshwagandhaCapsule';
+import AshwagandhaTablet from './pages/AshwagandhaTablet';
+import AsthisamharakaTablet from './pages/AsthisamharakaTablet';
+import AtmaguptaTablet from './pages/AtmaguptaTablet';
+import DalchiniTablet from './pages/DalchiniTablet';
+import GandiraTablet from './pages/GandiraTablet';
+import GokshuraTablet from './pages/GokshuraTablet';
+import SpirulinaTablet from './pages/SpirulinaTablet';
+import ShatavariCapsule from './pages/ShatavariCapsule';
+import MeshashringiTablet from './pages/MeshashringiTablet';
+import HarithakiTablet from './pages/HarithakiTablet';
+import LasunaTablet from './pages/LasunaTablet';
+import ManjistaTablet from './pages/ManjistaTablet';
+import ShGugguluTablet from './pages/ShGugguluTablet';
+import TriphalaTablet from './pages/TriphalaTablet';
+import TulasiTablet from './pages/TulasiTablet';
+import YastimadhuTablet from './pages/YastimadhuTablet';
+import BrahmiCapsule from './pages/BrahmiCapsule';
+import BrahmiTablet from './pages/BrahmiTablet';
+import GiloyTablet from './pages/GiloyTablet';
+import GanoceliumCapsule from './pages/GanoceliumCapsule';
+import GiloyCapsule from './pages/GiloyCapsule';
+import HarithakiCapsule from './pages/HarithakiCapsule';
+import LasunaCapsule from './pages/LasunaCapsule';
+import ManjistaCapsule from './pages/ManjistaCapsule';
+import MeshashringiCapsule from './pages/MeshashringiCapsule';
+import NeemCapsule from './pages/NeemCapsule';
+import TriphalaCapsule from './pages/TriphalaCapsule';
+import TulasiCapsule from './pages/TulasiCapsule';
+import YastimadhuCapsule from './pages/YastimadhuCapsule';
+import AndroGCapsule from './pages/AndroGCapsule';
+import AsthisamharakaCapsule from './pages/AsthisamharakaCapsule';
+import AtmaguptaCapsule from './pages/AtmaguptaCapsule';
+import DalchiniCapsule from './pages/DalchiniCapsule';
+import GandiraCapsule from './pages/GandiraCapsule';
+import GokshuraCapsule from './pages/GokshuraCapsule';
+import SpirulinaCapsule from './pages/SpirulinaCapsule';
+import GanoceliumPowder from './pages/GanoceliumPowder';
+import LionsManeTablet from './pages/LionsManeTablet';
+import LionsManeCapsule from './pages/LionsManeCapsule';
+import CordycepsTablet from './pages/CordycepsTablet';
+import CordycepsCapsule from './pages/CordycepsCapsule';
+import FomesGCapsule from './pages/FomesGCapsule';
+import FomesGTablet from './pages/FomesGTablet';
+import PoriaSTablet from './pages/PoriaSTablet';
+import PoriaSCapsule from './pages/PoriaSCapsule';
+import PoriaSPowder from './pages/PoriaSPowder';
+import ZhiMint from './pages/ZhiMint';
+import ReishiGanoTablet from './pages/ReishiGanoTablet';
+import ReishiGanoCapsule from './pages/ReishiGanoCapsule';
+import ReishiGanoPowder from './pages/ReishiGanoPowder';
+import GanoceliumTablet from './pages/GanoceliumTablet';
 import Cordyceps from './pages/Cordyceps';
 import Lingzhi from './pages/Lingzhi';
 import HibiscusTea from './pages/HibiscusTea';
@@ -32,6 +116,8 @@ import Lingzhi2in1 from './pages/Lingzhi2in1';
 import GanozhiSoap from './pages/GanozhiSoap';
 import GanozhiShampoo from './pages/GanozhiShampoo';
 import DishCleen from './pages/DishCleen';
+import NutraProducts from './pages/NutraProducts';
+import GanoExtract from './pages/GanoExtract';
 import TomatoKetchup from './pages/TomatoKetchup';
 import TomatoSauce from './pages/TomatoSauce';
 import InstantUpma from './pages/InstantUpma';
@@ -40,6 +126,7 @@ import DBurgerPattyDough from './pages/DBurgerPattyDough';
 import SaffronKombucha from './pages/SaffronKombucha';
 import ButterflyKombucha from './pages/ButterflyKombucha';
 import ClassicKombucha from './pages/ClassicKombucha';
+import Morinzhi from './pages/Morinzhi';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
 import ImageGallery from './pages/ImageGallery';
@@ -63,14 +150,17 @@ const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeNestedDropdown, setActiveNestedDropdown] = useState<string | null>(null);
+  const [activeDeepNestedDropdown, setActiveDeepNestedDropdown] = useState<string | null>(null);
   const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
   const [mobileActiveNestedDropdown, setMobileActiveNestedDropdown] = useState<string | null>(null);
+  const [mobileActiveDeepNestedDropdown, setMobileActiveDeepNestedDropdown] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
     if (!isOpen) {
       setMobileActiveDropdown(null);
       setMobileActiveNestedDropdown(null);
+      setMobileActiveDeepNestedDropdown(null);
     }
   }, [isOpen]);
 
@@ -89,7 +179,28 @@ const Navbar: React.FC = () => {
       name: 'Products',
       path: '/products',
       dropdown: [
-        { name: 'Nutraceuticals', path: '/products?category=Nutraceuticals', icon: Dna },
+        { 
+          name: 'Nutraceuticals', 
+          path: '/products?category=Nutraceuticals', 
+          icon: Dna,
+          dropdown: [
+            {
+              name: 'Capsules',
+              path: '/nutra-products?type=Capsules',
+              icon: Package
+            },
+            {
+              name: 'Tablet',
+              path: '/nutra-products?type=Tablets',
+              icon: Package
+            },
+            {
+              name: 'Powder',
+              path: '/nutra-products?type=Powders',
+              icon: Package
+            }
+          ]
+        },
         {
           name: 'Coffee',
           path: '/products?category=Coffee',
@@ -98,6 +209,7 @@ const Navbar: React.FC = () => {
             { name: 'DXN Lingzhi 3 in 1', path: '/products/lingzhi', icon: Package },
             { name: 'DXN Lingzhi 2 in 1', path: '/products/lingzhi-2in1', icon: Package },
             { name: 'DXN Cocozhi', path: '/products/cocozhi', icon: Package },
+            { name: 'DXN Lemonzhi', path: '/products/lemonzhi', icon: Package },
             { name: 'DXN Zhi Mocha', path: '/products/zhi-mocha', icon: Package },
             { name: 'DXN Cordyceps Coffee', path: '/products/codyceps', icon: Package },
             { name: 'DXN Hibiscus Floral Tea', path: '/products/hibiscus-tea', icon: Package },
@@ -116,13 +228,14 @@ const Navbar: React.FC = () => {
           ]
         },
         {
-          name: 'Kombucha',
-          path: '/products?category=Kombucha',
+          name: 'Wetfood',
+          path: '/products?category=Wetfood',
           icon: FlaskConical,
           dropdown: [
             { name: 'Saffron Kombucha', path: '/products/saffron-kombucha', icon: Package },
             { name: 'Butterfly Kombucha', path: '/products/butterfly-kombucha', icon: Package },
-            { name: 'Classic Kombucha', path: '/products/classic-kombucha', icon: Package }
+            { name: 'Classic Kombucha', path: '/products/classic-kombucha', icon: Package },
+            { name: 'Morinzhi', path: '/products/morinzhi', icon: Package }
           ]
         },
         {
@@ -136,7 +249,8 @@ const Navbar: React.FC = () => {
             { name: 'DXN Instant Upma', path: '/products/instant-upma', icon: Package },
             { name: 'DXN Cut Chilli Vinegar', path: '/products/cut-chilli-vinegar', icon: Package },
             { name: "D'Burger Patty Dough", path: '/products/dburger-patty-dough', icon: Package },
-            { name: 'DXN Radish Salt', path: '/products/radish-salt', icon: Package }
+            { name: 'DXN Radish Salt', path: '/products/radish-salt', icon: Package },
+            { name: 'DXN GANO EXTRACT', path: '/products/gano-extract', icon: Package }
           ]
         },
 
@@ -228,18 +342,52 @@ const Navbar: React.FC = () => {
                                 <div className="bg-neutral-900 border border-white/10 p-3 shadow-2xl">
                                   <div className="grid gap-2">
                                     {sub.dropdown.map((nested: any) => (
-                                      <Link
+                                      <div
                                         key={nested.name + nested.path}
-                                        to={nested.path}
-                                        onClick={() => {
-                                          setActiveDropdown(null);
-                                          setActiveNestedDropdown(null);
-                                        }}
-                                        className="flex items-center gap-3 p-2 text-xs text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
+                                        className="relative"
+                                        onMouseEnter={() => nested.dropdown && setActiveDeepNestedDropdown(nested.name)}
+                                        onMouseLeave={() => setActiveDeepNestedDropdown(null)}
                                       >
-                                        <nested.icon className="w-3 h-3 text-red-600" />
-                                        {nested.name}
-                                      </Link>
+                                        <Link
+                                          to={nested.path}
+                                          onClick={() => {
+                                            setActiveDropdown(null);
+                                            setActiveNestedDropdown(null);
+                                            setActiveDeepNestedDropdown(null);
+                                          }}
+                                          className="flex items-center justify-between p-2 text-xs text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
+                                        >
+                                          <div className="flex items-center gap-3">
+                                            <nested.icon className="w-3 h-3 text-red-600" />
+                                            {nested.name}
+                                          </div>
+                                          {nested.dropdown && <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${activeDeepNestedDropdown === nested.name ? 'text-white' : 'text-neutral-600'}`} />}
+                                        </Link>
+                                        
+                                        {nested.dropdown && activeDeepNestedDropdown === nested.name && (
+                                          <div className={`absolute top-0 left-full pl-1 ${nested.dropdown.length > 15 ? 'w-[450px]' : 'w-48'} animate-in fade-in slide-in-from-left-2 duration-200 z-[120]`}>
+                                            <div className="bg-neutral-900 border border-white/10 p-3 shadow-2xl max-h-[70vh] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#525252 transparent' }}>
+                                              <div className={`grid gap-2 ${nested.dropdown.length > 15 ? 'grid-cols-2 gap-x-4' : 'grid-cols-1'}`}>
+                                                {nested.dropdown.map((deepNested: any) => (
+                                                  <Link
+                                                    key={deepNested.name + deepNested.path}
+                                                    to={deepNested.path}
+                                                    onClick={() => {
+                                                      setActiveDropdown(null);
+                                                      setActiveNestedDropdown(null);
+                                                      setActiveDeepNestedDropdown(null);
+                                                    }}
+                                                    className="flex items-center gap-3 p-2 text-[10px] text-neutral-400 hover:text-white hover:bg-white/5 transition-all"
+                                                  >
+                                                    <deepNested.icon className="w-2.5 h-2.5 text-red-600" />
+                                                    {deepNested.name}
+                                                  </Link>
+                                                ))}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
                                     ))}
                                   </div>
                                 </div>
@@ -276,7 +424,7 @@ const Navbar: React.FC = () => {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-black z-[105] lg:hidden transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ top: '72px' }}>
+      <div className={`fixed inset-0 bg-black z-[105] lg:hidden transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none invisible'}`} style={{ top: '72px' }}>
         <div className="flex flex-col h-full overflow-y-auto pb-24 px-6 sm:px-12 bg-black border-t border-white/10">
           <div className="flex flex-col pt-8">
             {navLinks.map((link) => (
@@ -339,19 +487,60 @@ const Navbar: React.FC = () => {
                         {sub.dropdown && mobileActiveNestedDropdown === sub.name && (
                           <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1">
                             {sub.dropdown.map((nested: any) => (
-                              <Link
-                                key={nested.name + nested.path}
-                                to={nested.path}
-                                onClick={() => {
-                                  setIsOpen(false);
-                                  setMobileActiveDropdown(null);
-                                  setMobileActiveNestedDropdown(null);
-                                }}
-                                className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-500 hover:text-white flex items-center gap-3 py-1.5"
-                              >
-                                <div className="w-1 h-1 bg-red-500 rounded-full"></div>
-                                {nested.name}
-                              </Link>
+                              <div key={nested.name + nested.path} className="flex flex-col">
+                                {nested.dropdown ? (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      setMobileActiveDeepNestedDropdown((prev) => prev === nested.name ? null : nested.name);
+                                    }}
+                                    className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-500 hover:text-white flex items-center justify-between py-1.5 w-full text-left"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+                                      {nested.name}
+                                    </div>
+                                    <ChevronDown className={`w-3.5 h-3.5 text-neutral-600 transition-transform duration-300 ${mobileActiveDeepNestedDropdown === nested.name ? 'rotate-180 text-white' : ''}`} />
+                                  </button>
+                                ) : (
+                                  <Link
+                                    to={nested.path}
+                                    onClick={() => {
+                                      setIsOpen(false);
+                                      setMobileActiveDropdown(null);
+                                      setMobileActiveNestedDropdown(null);
+                                      setMobileActiveDeepNestedDropdown(null);
+                                    }}
+                                    className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-neutral-500 hover:text-white flex items-center gap-3 py-1.5"
+                                  >
+                                    <div className="w-1 h-1 bg-red-500 rounded-full"></div>
+                                    {nested.name}
+                                  </Link>
+                                )}
+
+                                {nested.dropdown && mobileActiveDeepNestedDropdown === nested.name && (
+                                  <div className="pl-6 flex flex-col gap-2 border-l border-white/5 ml-1 mt-1">
+                                    {nested.dropdown.map((deepNested: any) => (
+                                      <Link
+                                        key={deepNested.name + deepNested.path}
+                                        to={deepNested.path}
+                                        onClick={() => {
+                                          setIsOpen(false);
+                                          setMobileActiveDropdown(null);
+                                          setMobileActiveNestedDropdown(null);
+                                          setMobileActiveDeepNestedDropdown(null);
+                                        }}
+                                        className="text-[9px] sm:text-[10px] font-medium uppercase tracking-wider text-neutral-600 hover:text-white flex items-center gap-3 py-1"
+                                      >
+                                        <div className="w-0.5 h-0.5 bg-red-400 rounded-full"></div>
+                                        {deepNested.name}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
                         )}
@@ -477,9 +666,95 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
         <Route path="/divisions" element={<PageTransition><Divisions /></PageTransition>} />
         <Route path="/products/" element={<PageTransition><Products /></PageTransition>} />
+        <Route path="/nutra-products" element={<PageTransition><NutraProducts /></PageTransition>} />
+        <Route path="/products/arjuna-capsule" element={<PageTransition><ArjunaCapsule /></PageTransition>} />
+        <Route path="/products/arjuna-tablet" element={<PageTransition><ArjunaTablet /></PageTransition>} />
+        <Route path="/products/arjuna-powder" element={<PageTransition><ArjunaPowder /></PageTransition>} />
+        <Route path="/products/asana-powder" element={<PageTransition><AsanaPowder /></PageTransition>} />
+        <Route path="/products/asthisamharaka-powder" element={<PageTransition><AsthisamharakaPowder /></PageTransition>} />
+        <Route path="/products/asvagandha-powder" element={<PageTransition><AsvagandhaPowder /></PageTransition>} />
+        <Route path="/products/atmagupta-powder" element={<PageTransition><AtmaguptaPowder /></PageTransition>} />
+        <Route path="/products/brahmi-powder" element={<PageTransition><BrahmiPowder /></PageTransition>} />
+        <Route path="/products/gandira-powder" element={<PageTransition><GandiraPowder /></PageTransition>} />
+        <Route path="/products/gokshura-powder" element={<PageTransition><GokshuraPowder /></PageTransition>} />
+        <Route path="/products/guduci-powder" element={<PageTransition><GuduciPowder /></PageTransition>} />
+        <Route path="/products/haridra-powder" element={<PageTransition><HaridraPowder /></PageTransition>} />
+        <Route path="/products/harithaki-powder" element={<PageTransition><HarithakiPowder /></PageTransition>} />
+        <Route path="/products/kalamegh-powder" element={<PageTransition><KalameghPowder /></PageTransition>} />
+        <Route path="/products/karavallaka-powder" element={<PageTransition><KaravallakaPowder /></PageTransition>} />
+        <Route path="/products/khadira-sara-powder" element={<PageTransition><KhadiraSaraPowder /></PageTransition>} />
+        <Route path="/products/kunduru-powder" element={<PageTransition><KunduruPowder /></PageTransition>} />
+        <Route path="/products/lasuna-powder" element={<PageTransition><LasunaPowder /></PageTransition>} />
+        <Route path="/products/manjista-powder" element={<PageTransition><ManjistaPowder /></PageTransition>} />
+        <Route path="/products/meshashringi-powder" element={<PageTransition><MeshashringiPowder /></PageTransition>} />
+        <Route path="/products/methika-powder" element={<PageTransition><MethikaPowder /></PageTransition>} />
+        <Route path="/products/neem-powder" element={<PageTransition><NeemPowder /></PageTransition>} />
+        <Route path="/products/sh-guggulu-powder" element={<PageTransition><ShGugguluPowder /></PageTransition>} />
+        <Route path="/products/roselle-premix-powder" element={<PageTransition><RosellePremixPowder /></PageTransition>} />
+        <Route path="/products/spirulina-powder" element={<PageTransition><SpirulinaPowder /></PageTransition>} />
+        <Route path="/products/svarnapatri-powder" element={<PageTransition><SvarnapatriPowder /></PageTransition>} />
+        <Route path="/products/tulasi-powder" element={<PageTransition><TulasiPowder /></PageTransition>} />
+        <Route path="/products/yastimadhu-churna" element={<PageTransition><YastimadhuChurnaPowder /></PageTransition>} />
+        <Route path="/products/amalaki-capsule" element={<PageTransition><AmalakiCapsule /></PageTransition>} />
+        <Route path="/products/amalaki-tablet" element={<PageTransition><AmalakiTablet /></PageTransition>} />
+        <Route path="/products/amalaki-churna" element={<PageTransition><AmalakiChurna /></PageTransition>} />
+        <Route path="/products/ashwagandha-capsule" element={<PageTransition><AshwagandhaCapsule /></PageTransition>} />
+        <Route path="/products/ashwagandha-tablet" element={<PageTransition><AshwagandhaTablet /></PageTransition>} />
+        <Route path="/products/asthisamharaka-tablet" element={<PageTransition><AsthisamharakaTablet /></PageTransition>} />
+        <Route path="/products/atmagupta-tablet" element={<PageTransition><AtmaguptaTablet /></PageTransition>} />
+        <Route path="/products/meshashringi-tablet" element={<PageTransition><MeshashringiTablet /></PageTransition>} />
+        <Route path="/products/harithaki-tablet" element={<PageTransition><HarithakiTablet /></PageTransition>} />
+        <Route path="/products/lasuna-tablet" element={<PageTransition><LasunaTablet /></PageTransition>} />
+        <Route path="/products/manjista-tablet" element={<PageTransition><ManjistaTablet /></PageTransition>} />
+        <Route path="/products/sh-guggulu-tablet" element={<PageTransition><ShGugguluTablet /></PageTransition>} />
+        <Route path="/products/triphala-tablet" element={<PageTransition><TriphalaTablet /></PageTransition>} />
+        <Route path="/products/tulasi-tablet" element={<PageTransition><TulasiTablet /></PageTransition>} />
+        <Route path="/products/yastimadhu-tablet" element={<PageTransition><YastimadhuTablet /></PageTransition>} />
+        <Route path="/products/brahmi-capsule" element={<PageTransition><BrahmiCapsule /></PageTransition>} />
+        <Route path="/products/brahmi-tablet" element={<PageTransition><BrahmiTablet /></PageTransition>} />
+        <Route path="/products/dalchini-tablet" element={<PageTransition><DalchiniTablet /></PageTransition>} />
+        <Route path="/products/gandira-tablet" element={<PageTransition><GandiraTablet /></PageTransition>} />
+        <Route path="/products/giloy-tablet" element={<PageTransition><GiloyTablet /></PageTransition>} />
+        <Route path="/products/gokshura-tablet" element={<PageTransition><GokshuraTablet /></PageTransition>} />
+        <Route path="/products/spirulina-tablet" element={<PageTransition><SpirulinaTablet /></PageTransition>} />
+        <Route path="/products/ganocelium-capsule" element={<PageTransition><GanoceliumCapsule /></PageTransition>} />
+        <Route path="/products/giloy-capsule" element={<PageTransition><GiloyCapsule /></PageTransition>} />
+        <Route path="/products/harithaki-capsule" element={<PageTransition><HarithakiCapsule /></PageTransition>} />
+        <Route path="/products/lasuna-capsule" element={<PageTransition><LasunaCapsule /></PageTransition>} />
+        <Route path="/products/manjista-capsule" element={<PageTransition><ManjistaCapsule /></PageTransition>} />
+        <Route path="/products/meshashringi-capsule" element={<PageTransition><MeshashringiCapsule /></PageTransition>} />
+        <Route path="/products/neem-capsule" element={<PageTransition><NeemCapsule /></PageTransition>} />
+        <Route path="/products/triphala-capsule" element={<PageTransition><TriphalaCapsule /></PageTransition>} />
+        <Route path="/products/tulasi-capsule" element={<PageTransition><TulasiCapsule /></PageTransition>} />
+        <Route path="/products/yastimadhu-capsule" element={<PageTransition><YastimadhuCapsule /></PageTransition>} />
+        <Route path="/products/andro-g-capsule" element={<PageTransition><AndroGCapsule /></PageTransition>} />
+        <Route path="/products/asthisamharaka-capsule" element={<PageTransition><AsthisamharakaCapsule /></PageTransition>} />
+        <Route path="/products/atmagupta-capsule" element={<PageTransition><AtmaguptaCapsule /></PageTransition>} />
+        <Route path="/products/dalchini-capsule" element={<PageTransition><DalchiniCapsule /></PageTransition>} />
+        <Route path="/products/gandira-capsule" element={<PageTransition><GandiraCapsule /></PageTransition>} />
+        <Route path="/products/gokshura-capsule" element={<PageTransition><GokshuraCapsule /></PageTransition>} />
+        <Route path="/products/spirulina-capsule" element={<PageTransition><SpirulinaCapsule /></PageTransition>} />
+        <Route path="/products/shatavari-capsule" element={<PageTransition><ShatavariCapsule /></PageTransition>} />
+        <Route path="/products/lions-mane-capsule" element={<PageTransition><LionsManeCapsule /></PageTransition>} />
+        <Route path="/products/cordyceps-capsule" element={<PageTransition><CordycepsCapsule /></PageTransition>} />
+        <Route path="/products/fomes-g-capsule" element={<PageTransition><FomesGCapsule /></PageTransition>} />
+        <Route path="/products/poria-s-capsule" element={<PageTransition><PoriaSCapsule /></PageTransition>} />
+        <Route path="/products/reishi-gano-capsule" element={<PageTransition><ReishiGanoCapsule /></PageTransition>} />
+        <Route path="/products/ganocelium-capsule" element={<PageTransition><GanoceliumCapsule /></PageTransition>} />
+        <Route path="/products/ganocelium-powder" element={<PageTransition><GanoceliumPowder /></PageTransition>} />
+        <Route path="/products/reishi-gano-powder" element={<PageTransition><ReishiGanoPowder /></PageTransition>} />
+        <Route path="/products/lions-mane-tablet" element={<PageTransition><LionsManeTablet /></PageTransition>} />
+        <Route path="/products/cordyceps-tablet" element={<PageTransition><CordycepsTablet /></PageTransition>} />
+        <Route path="/products/fomes-g-tablet" element={<PageTransition><FomesGTablet /></PageTransition>} />
+        <Route path="/products/poria-s-tablet" element={<PageTransition><PoriaSTablet /></PageTransition>} />
+        <Route path="/products/poria-s-powder" element={<PageTransition><PoriaSPowder /></PageTransition>} />
+        <Route path="/products/zhi-mint" element={<PageTransition><ZhiMint /></PageTransition>} />
+        <Route path="/products/reishi-gano-tablet" element={<PageTransition><ReishiGanoTablet /></PageTransition>} />
+        <Route path="/products/ganocelium-tablet" element={<PageTransition><GanoceliumTablet /></PageTransition>} />
         <Route path="/products/veg-minus" element={<PageTransition><VegMinus /></PageTransition>} />
         <Route path="/products/radish-salt" element={<PageTransition><RadishSalt /></PageTransition>} />
         <Route path="/products/cocozhi" element={<PageTransition><Cocozhi /></PageTransition>} />
+        <Route path="/products/lemonzhi" element={<PageTransition><Lemonzhi /></PageTransition>} />
         <Route path="/products/zhi-mocha" element={<PageTransition><ZhiMocha /></PageTransition>} />
         <Route path="/products/hibiscus-tea" element={<PageTransition><HibiscusTea /></PageTransition>} />
         <Route path="/products/wedelia-tea" element={<PageTransition><WedeliaTea /></PageTransition>} />
@@ -491,6 +766,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/products/ganozhi-soap" element={<PageTransition><GanozhiSoap /></PageTransition>} />
         <Route path="/products/ganozhi-shampoo" element={<PageTransition><GanozhiShampoo /></PageTransition>} />
         <Route path="/products/dish-cleen" element={<PageTransition><DishCleen /></PageTransition>} />
+        <Route path="/products/gano-extract" element={<PageTransition><GanoExtract /></PageTransition>} />
         <Route path="/products/tomato-ketchup" element={<PageTransition><TomatoKetchup /></PageTransition>} />
         <Route path="/products/tomato-sauce" element={<PageTransition><TomatoSauce /></PageTransition>} />
         <Route path="/products/instant-upma" element={<PageTransition><InstantUpma /></PageTransition>} />
@@ -499,6 +775,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/products/saffron-kombucha" element={<PageTransition><SaffronKombucha /></PageTransition>} />
         <Route path="/products/butterfly-kombucha" element={<PageTransition><ButterflyKombucha /></PageTransition>} />
         <Route path="/products/classic-kombucha" element={<PageTransition><ClassicKombucha /></PageTransition>} />
+        <Route path="/products/morinzhi" element={<PageTransition><Morinzhi /></PageTransition>} />
         <Route path="/quality" element={<PageTransition><Quality /></PageTransition>} />
         <Route path="/future" element={<PageTransition><Sustainability /></PageTransition>} />
         <Route path="/careers" element={<PageTransition><Careers /></PageTransition>} />

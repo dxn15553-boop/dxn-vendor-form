@@ -26,6 +26,10 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           parsed[key] = DEFAULT_ASSETS[key];
         }
       });
+      // Force update Media Hero if it has the old Unsplash link
+      if (parsed['MEDIA_HERO'] && parsed['MEDIA_HERO'].includes('1504711434969')) {
+         parsed['MEDIA_HERO'] = DEFAULT_ASSETS['MEDIA_HERO'];
+      }
       return { ...DEFAULT_ASSETS, ...parsed };
     }
     return DEFAULT_ASSETS;
