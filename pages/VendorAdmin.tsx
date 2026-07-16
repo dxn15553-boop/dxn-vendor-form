@@ -5,7 +5,7 @@ import {
    Eye, CheckCircle, XCircle, Home, Users, BarChart2,
    Settings, User, Tag, X, MoreHorizontal, Pencil,
    ShieldCheck, TrendingUp, ArrowUp, ArrowDown, ArrowUpDown,
-   Download, Clock, CalendarDays
+   Download, Clock, CalendarDays, Mail, Send, AlertCircle
 } from 'lucide-react';
 import { getVendors, updateVendorStatus, saveAdminView } from '../services/SupabaseService';
 import BulkActionBar from '../components/BulkActionBar';
@@ -82,6 +82,15 @@ const VendorAdmin: React.FC = () => {
    const [openStatusMenuId, setOpenStatusMenuId] = useState<any>(null);
    const categoryRef = useRef<HTMLDivElement>(null);
    const statusMenuRef = useRef<HTMLDivElement>(null);
+
+   // ── Bulk Reminder Email State ───────────────────────────────────────────────
+   const [reminderModal, setReminderModal] = useState<'closed' | 'preview' | 'sending' | 'done'>('closed');
+   const [reminderEmailSubject, setReminderEmailSubject] = useState('Action Required: Complete Your DXN Vendor Registration');
+   const [reminderEmailBody, setReminderEmailBody] = useState(
+      `Dear {contactPerson},\n\nYour vendor registration for {companyName} is currently under observation. The following documents are still pending:\n\n{missingItems}\n\nPlease visit our vendor portal and upload the missing documents to complete your registration.\n\nRegards,\nDXN Manufacturing India — Procurement Team`
+   );
+   const [reminderProgress, setReminderProgress] = useState({ sent: 0, failed: 0, total: 0, currentVendor: '' });
+   const [reminderResults, setReminderResults] = useState<{ name: string; email: string; success: boolean }[]>([]);
 
    const todayMs = new Date().setHours(0, 0, 0, 0);
    const allCategories = Object.values(VENDOR_CATEGORIES).flat();
@@ -183,6 +192,83 @@ const VendorAdmin: React.FC = () => {
       const a = document.createElement('a');
       a.href = url; a.download = `vendors_${new Date().toISOString().slice(0,10)}.csv`;
       a.click(); URL.revokeObjectURL(url);
+   };
+
+   // ── Bulk Reminder Email Handler ────────────────────────────────────────────
+   const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxfPwcfwqcJl1RFwRb8Lsf1Djn6k-JyzRFA4g7kN8x2NO3mCn1aoyp-MR0-3E57lU5X/exec';
+
+   const getSelectedObservationVendors = () => {
+      return vendors.filter(v => {
+         const isSelected = selectedVendorIds.includes(v.id);
+         const isObservation = v.missing_items && v.missing_items.length > 0 &&
+            !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase());
+         return isSelected && isObservation;
+      });
+   };
+
+   const handleSendBulkReminders = async () => {
+      const targets = getSelectedObservationVendors();
+      if (targets.length === 0) return;
+
+      setReminderModal('sending');
+      setReminderProgress({ sent: 0, failed: 0, total: targets.length, currentVendor: '' });
+      const results: { name: string; email: string; success: boolean }[] = [];
+
+      for (let i = 0; i < targets.length; i++) {
+         const vendor = targets[i];
+         const companyName = vendor.company_name || vendor.companyName || 'Vendor';
+         const contactPerson = vendor.contact_person || vendor.authorizedPerson || 'Sir/Madam';
+         const email = vendor.email || '';
+         const missingItems = typeof vendor.missing_items === 'string'
+            ? vendor.missing_items.split(',').map((s: string) => `• ${s.trim()}`).join('\n')
+            : Array.isArray(vendor.missing_items)
+               ? vendor.missing_items.map((s: string) => `• ${s}`).join('\n')
+               : 'Please check the vendor portal for details.';
+
+         const personalizedBody = reminderEmailBody
+            .replace(/{contactPerson}/g, contactPerson)
+            .replace(/{companyName}/g, companyName)
+            .replace(/{missingItems}/g, missingItems);
+
+         setReminderProgress(p => ({ ...p, currentVendor: companyName }));
+
+         try {
+            const payload = {
+               action: 'reminder',
+               vendorEmail: email,
+               vendorName: companyName,
+               contactPerson,
+               subject: reminderEmailSubject,
+               body: personalizedBody,
+               missingItems,
+               applicationId: vendor.id
+            };
+
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+               redirect: 'follow',
+               method: 'POST',
+               headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+               body: JSON.stringify(payload)
+            });
+
+            const success = response.ok;
+            results.push({ name: companyName, email, success });
+            setReminderProgress(p => ({
+               ...p,
+               sent: p.sent + (success ? 1 : 0),
+               failed: p.failed + (success ? 0 : 1)
+            }));
+         } catch {
+            results.push({ name: companyName, email, success: false });
+            setReminderProgress(p => ({ ...p, failed: p.failed + 1 }));
+         }
+
+         // Small delay to avoid rate limiting
+         if (i < targets.length - 1) await new Promise(r => setTimeout(r, 500));
+      }
+
+      setReminderResults(results);
+      setReminderModal('done');
    };
 
    // ── Counts ─────────────────────────────────────────────────────────────────
@@ -322,7 +408,164 @@ const VendorAdmin: React.FC = () => {
    );
 
    // ── MAIN ──────────────────────────────────────────────────────────────────
+   const selectedObservationVendors = getSelectedObservationVendors();
+
    return (
+      <>
+      {/* ── Bulk Reminder Modals ─────────────────────────────────────────── */}
+      {reminderModal !== 'closed' && (
+         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)' }}>
+            <div className="w-full max-w-xl rounded-2xl border border-orange-500/30 shadow-2xl overflow-hidden" style={{ background: '#0f1a2e' }}>
+
+               {/* Preview / Edit Modal */}
+               {reminderModal === 'preview' && (
+                  <div>
+                     <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
+                        <div className="w-9 h-9 rounded-xl bg-orange-500/15 flex items-center justify-center shrink-0">
+                           <Mail className="w-4 h-4 text-orange-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                           <h2 className="text-sm font-black text-white uppercase tracking-widest">Send Reminder Emails</h2>
+                           <p className="text-[11px] text-slate-400 mt-0.5">
+                              {selectedObservationVendors.length} observation vendor{selectedObservationVendors.length !== 1 ? 's' : ''} selected
+                           </p>
+                        </div>
+                        <button onClick={() => setReminderModal('closed')} className="text-slate-500 hover:text-white transition-colors">
+                           <X className="w-5 h-5" />
+                        </button>
+                     </div>
+
+                     <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+                        {/* Recipients list */}
+                        <div>
+                           <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2">Recipients</p>
+                           <div className="space-y-1.5 max-h-32 overflow-y-auto pr-1">
+                              {selectedObservationVendors.map(v => (
+                                 <div key={v.id} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                                    <span className="text-xs text-slate-300 font-semibold truncate">{v.company_name || v.companyName}</span>
+                                    <span className="text-[10px] text-slate-500 truncate ml-auto">{v.email}</span>
+                                 </div>
+                              ))}
+                           </div>
+                        </div>
+
+                        {/* Subject */}
+                        <div>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1.5 block">Email Subject</label>
+                           <input
+                              type="text"
+                              value={reminderEmailSubject}
+                              onChange={e => setReminderEmailSubject(e.target.value)}
+                              className="w-full rounded-lg border border-white/10 px-4 py-2.5 text-sm text-white outline-none focus:border-orange-500/50 transition-colors"
+                              style={{ background: 'rgba(0,0,0,0.3)' }}
+                           />
+                        </div>
+
+                        {/* Body */}
+                        <div>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1.5 block">
+                              Email Body
+                              <span className="text-slate-500 normal-case font-normal ml-2">(use {'{contactPerson}'}, {'{companyName}'}, {'{missingItems}'} as placeholders)</span>
+                           </label>
+                           <textarea
+                              rows={8}
+                              value={reminderEmailBody}
+                              onChange={e => setReminderEmailBody(e.target.value)}
+                              className="w-full rounded-lg border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-orange-500/50 transition-colors resize-none font-mono"
+                              style={{ background: 'rgba(0,0,0,0.3)' }}
+                           />
+                        </div>
+                     </div>
+
+                     <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-white/10">
+                        <button onClick={() => setReminderModal('closed')} className="px-5 py-2.5 rounded-xl border border-white/10 text-slate-400 hover:text-white text-xs font-bold transition-colors">
+                           Cancel
+                        </button>
+                        <button
+                           onClick={handleSendBulkReminders}
+                           disabled={selectedObservationVendors.length === 0}
+                           className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-black uppercase tracking-wider transition-all"
+                        >
+                           <Send className="w-3.5 h-3.5" />
+                           Confirm & Send {selectedObservationVendors.length} Email{selectedObservationVendors.length !== 1 ? 's' : ''}
+                        </button>
+                     </div>
+                  </div>
+               )}
+
+               {/* Sending Progress Modal */}
+               {reminderModal === 'sending' && (
+                  <div className="p-8 text-center">
+                     <div className="w-14 h-14 rounded-2xl bg-orange-500/15 flex items-center justify-center mx-auto mb-5">
+                        <Send className="w-6 h-6 text-orange-400 animate-pulse" />
+                     </div>
+                     <h2 className="text-lg font-black text-white uppercase tracking-widest mb-1">Sending Emails...</h2>
+                     <p className="text-slate-400 text-sm mb-6">
+                        {reminderProgress.currentVendor && `Sending to ${reminderProgress.currentVendor}...`}
+                     </p>
+                     {/* Progress bar */}
+                     <div className="w-full bg-white/10 rounded-full h-2 mb-3">
+                        <div
+                           className="bg-orange-500 h-2 rounded-full transition-all duration-500"
+                           style={{ width: `${reminderProgress.total > 0 ? ((reminderProgress.sent + reminderProgress.failed) / reminderProgress.total) * 100 : 0}%` }}
+                        />
+                     </div>
+                     <p className="text-xs text-slate-400">
+                        {reminderProgress.sent + reminderProgress.failed} of {reminderProgress.total} processed
+                        {reminderProgress.failed > 0 && <span className="text-red-400 ml-2">({reminderProgress.failed} failed)</span>}
+                     </p>
+                  </div>
+               )}
+
+               {/* Done Modal */}
+               {reminderModal === 'done' && (
+                  <div>
+                     <div className="p-8 text-center border-b border-white/10">
+                        <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
+                           <CheckCircle className="w-6 h-6 text-emerald-400" />
+                        </div>
+                        <h2 className="text-lg font-black text-white uppercase tracking-widest mb-1">Emails Sent</h2>
+                        <div className="flex items-center justify-center gap-6 mt-3">
+                           <div className="text-center">
+                              <p className="text-2xl font-black text-emerald-400">{reminderProgress.sent}</p>
+                              <p className="text-[10px] text-slate-500 uppercase tracking-widest">Sent</p>
+                           </div>
+                           {reminderProgress.failed > 0 && (
+                              <div className="text-center">
+                                 <p className="text-2xl font-black text-red-400">{reminderProgress.failed}</p>
+                                 <p className="text-[10px] text-slate-500 uppercase tracking-widest">Failed</p>
+                              </div>
+                           )}
+                        </div>
+                     </div>
+                     {/* Results list */}
+                     <div className="max-h-48 overflow-y-auto p-4 space-y-1">
+                        {reminderResults.map((r, i) => (
+                           <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                              {r.success
+                                 ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                 : <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                              }
+                              <span className="text-xs text-slate-300 font-semibold truncate">{r.name}</span>
+                              <span className="text-[10px] text-slate-500 truncate ml-auto">{r.email}</span>
+                           </div>
+                        ))}
+                     </div>
+                     <div className="px-6 py-4 border-t border-white/10 text-right">
+                        <button
+                           onClick={() => { setReminderModal('closed'); setReminderResults([]); }}
+                           className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-black uppercase tracking-wider transition-colors"
+                        >
+                           Close
+                        </button>
+                     </div>
+                  </div>
+               )}
+            </div>
+         </div>
+      )}
+
       <div className="min-h-screen pt-28 pb-16" style={{ background: 'linear-gradient(160deg, #0d1526 0%, #0f1a2e 50%, #0b1220 100%)' }}>
          <div className="max-w-[1400px] mx-auto px-4 md:px-8">
 
@@ -336,7 +579,7 @@ const VendorAdmin: React.FC = () => {
                      <span className="text-indigo-300 font-semibold text-base ml-2">({sortedVendors.length} Registrations)</span>
                   </h1>
                </div>
-               {/* Search + Refresh */}
+                {/* Search + Refresh + Reminder */}
                <div className="flex items-center gap-3">
                   <div className="relative">
                      <Search className="w-4 h-4 text-indigo-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -354,6 +597,17 @@ const VendorAdmin: React.FC = () => {
                         </button>
                      )}
                   </div>
+                  {selectedObservationVendors.length > 0 && (
+                     <button
+                        onClick={() => setReminderModal('preview')}
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-orange-500/50 text-orange-300 hover:text-orange-200 hover:border-orange-400 text-xs font-bold transition-all whitespace-nowrap"
+                        style={{ background: 'rgba(249,115,22,0.08)' }}
+                        title={`Send reminder to ${selectedObservationVendors.length} selected observation vendor(s)`}
+                     >
+                        <Mail className="w-3.5 h-3.5" />
+                        Send Reminder ({selectedObservationVendors.length})
+                     </button>
+                  )}
                   <button
                      onClick={fetchVendorData}
                      className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white text-slate-300 hover:text-white text-xs font-bold transition-all hover:border-white whitespace-nowrap"
@@ -777,7 +1031,8 @@ const VendorAdmin: React.FC = () => {
             onClearSelection={() => setSelectedVendorIds([])}
             onRefresh={fetchVendorData}
          />
-      </div>
+       </div>
+      </>
    );
 };
 
