@@ -875,6 +875,8 @@ const VendorRegistration: React.FC = () => {
             status: payload.submissionStatus
           };
 
+          let dbError = false;
+
           if (isUpdateMode && applicationId) {
             const { error: supabaseError } = await supabase.rpc('update_vendor_application', {
               p_id: applicationId,
@@ -883,6 +885,7 @@ const VendorRegistration: React.FC = () => {
             if (supabaseError) {
               console.error("Supabase Error:", supabaseError);
               alert("Warning: Failed to update Supabase database. Make sure you ran the SQL policy script! The system will still attempt to email the updates.");
+              dbError = true;
             }
           } else {
             // Use the ID we generated for the payload
@@ -890,19 +893,28 @@ const VendorRegistration: React.FC = () => {
               id: payload.applicationId,
               ...vendorData
             }]);
-            if (supabaseError) console.error("Supabase Error:", supabaseError);
-            if (!supabaseError) {
+            if (supabaseError) {
+              console.error("Supabase Error:", supabaseError);
+              dbError = true;
+            } else {
               setApplicationId(payload.applicationId);
-              // Upload files to Supabase Storage so admin can access them
-              const uploadVendorId = String(payload.applicationId);
-              for (const [key, file] of validFiles) {
-                try {
-                  if ((file as File).size > 0) {
-                    await uploadVendorDocument(uploadVendorId, file as File);
-                  }
-                } catch (uploadErr) {
-                  console.warn(`Failed to upload file ${key} to storage:`, uploadErr);
+            }
+          }
+
+          if (!dbError || (isUpdateMode && applicationId)) {
+            // Upload files to Supabase Storage so admin can access them
+            const uploadVendorId = String(payload.applicationId);
+            const safeCompanyName = payload.formData.companyName.replace(/[^a-zA-Z0-9]/g, '_') || 'Vendor';
+            
+            for (const [key, file] of validFiles) {
+              try {
+                if ((file as File).size > 0) {
+                  const formattedName = `__${key.toUpperCase()}__ ${safeCompanyName} - ${file.name}`;
+                  const renamedFile = new File([file as File], formattedName, { type: (file as File).type });
+                  await uploadVendorDocument(uploadVendorId, renamedFile);
                 }
+              } catch (uploadErr) {
+                console.warn(`Failed to upload file ${key} to storage:`, uploadErr);
               }
             }
           }

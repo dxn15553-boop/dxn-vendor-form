@@ -87,7 +87,7 @@ export const categorizeDocuments = (docs: { name: string; url: string; created_a
    };
 
    docs.forEach(doc => {
-      const match = doc.name.match(/^\[(.*?)\]/);
+      const match = doc.name.match(/^__(.*?)__/);
       let foundCategory = false;
 
       if (match) {

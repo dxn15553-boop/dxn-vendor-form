@@ -469,8 +469,8 @@ const VendorDetailAdmin: React.FC = () => {
                                              >
                                                 <div className="flex items-center gap-2.5 w-full">
                                                    <FileText className="w-4 h-4 text-red-500 shrink-0 animate-in fade-in" />
-                                                   <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}>
-                                                      {doc.name.replace(/^\[.*?\]\s*(.*\s*-\s*)?/, '')}
+                                                   <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^__.*?__\s*(.*\s*-\s*)?/, '')}>
+                                                      {doc.name.replace(/^__.*?__\s*(.*\s*-\s*)?/, '')}
                                                    </span>
                                                    <ExternalLink className="w-3 h-3 text-neutral-400 group-hover:text-neutral-900 ml-auto shrink-0 transition-colors" />
                                                 </div>
