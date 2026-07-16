@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { ShieldCheck, FileText, Upload, CheckCircle, ArrowRight, Building, Mail, Phone, Tag, User, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
-import { uploadVendorDocument } from '../services/SupabaseService';
+import { uploadVendorDocument, updateVendorApplication } from '../services/SupabaseService';
 
 const VENDOR_CATEGORIES = {
   "Nature of Business": [
@@ -878,13 +878,11 @@ const VendorRegistration: React.FC = () => {
           let dbError = false;
 
           if (isUpdateMode && applicationId) {
-            const { error: supabaseError } = await supabase.rpc('update_vendor_application', {
-              p_id: applicationId,
-              p_vendor_data: vendorData
-            });
-            if (supabaseError) {
+            try {
+              await updateVendorApplication(applicationId, vendorData);
+            } catch (supabaseError: any) {
               console.error("Supabase Error:", supabaseError);
-              alert("Warning: Failed to update Supabase database. Make sure you ran the SQL policy script! The system will still attempt to email the updates.");
+              alert("Warning: Failed to update database. " + supabaseError.message);
               dbError = true;
             }
           } else {
@@ -903,16 +901,20 @@ const VendorRegistration: React.FC = () => {
 
           if (!dbError || (isUpdateMode && applicationId)) {
             // Upload files to Supabase Storage so admin can access them
-            const uploadVendorId = String(payload.applicationId);
+            // In update mode, always use the existing applicationId (not payload.applicationId which may be null)
+            const uploadVendorId = isUpdateMode && applicationId
+              ? String(applicationId)
+              : String(payload.applicationId);
             const safeCompanyName = payload.formData.companyName.replace(/[^a-zA-Z0-9]/g, '_') || 'Vendor';
-            
-            for (const [key, file] of validFiles) {
+
+            // Only upload files that are genuinely new (not the "Previously Uploaded" placeholders)
+            const newFiles = validFiles.filter(([_, file]) => (file as File).size > 0 && (file as File).name !== '✅ Previously Uploaded');
+
+            for (const [key, file] of newFiles) {
               try {
-                if ((file as File).size > 0) {
-                  const formattedName = `__${key.toUpperCase()}__ ${safeCompanyName} - ${file.name}`;
-                  const renamedFile = new File([file as File], formattedName, { type: (file as File).type });
-                  await uploadVendorDocument(uploadVendorId, renamedFile);
-                }
+                const formattedName = `__${key.toUpperCase()}__ ${safeCompanyName} - ${(file as File).name}`;
+                const renamedFile = new File([file as File], formattedName, { type: (file as File).type });
+                await uploadVendorDocument(uploadVendorId, renamedFile);
               } catch (uploadErr) {
                 console.warn(`Failed to upload file ${key} to storage:`, uploadErr);
               }

@@ -123,6 +123,18 @@ export const updateVendorStatus = async (docId: string, status: string) => {
   }
 };
 
+export const updateVendorApplication = async (vendorId: string | number, vendorData: Record<string, any>) => {
+  const { error } = await supabase
+    .from('vendors')
+    .update(vendorData)
+    .eq('id', vendorId);
+
+  if (error) {
+    console.error("Error updating vendor application:", error);
+    throw new Error(error.message);
+  }
+};
+
 export const getVendorDocuments = async (vendorId: string) => {
   const { data, error } = await supabase.storage
     .from('vendor-documents')
