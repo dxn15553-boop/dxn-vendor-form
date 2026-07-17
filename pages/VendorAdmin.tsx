@@ -5,7 +5,7 @@ import {
    Eye, CheckCircle, XCircle, Home, Users, BarChart2,
    Settings, User, Tag, X, MoreHorizontal, Pencil,
    ShieldCheck, TrendingUp, ArrowUp, ArrowDown, ArrowUpDown,
-   Download, Clock, CalendarDays, Mail, Send, AlertCircle
+   Download, Clock, CalendarDays, Mail, Send, AlertCircle, FileText
 } from 'lucide-react';
 import { getVendors, updateVendorStatus, saveAdminView } from '../services/SupabaseService';
 import BulkActionBar from '../components/BulkActionBar';
