@@ -72,8 +72,12 @@ const VendorAdmin: React.FC = () => {
    const [search, setSearch] = useState('');
    const [activityFilter, setActivityFilter] = useState<string>('all'); // 'all' | 'registered_today' | 'updated_today' | 'completed' | 'observation'
    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-   const [statusToggles, setStatusToggles] = useState({ approved: false, pending: false, rejected: false });
    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+   const categoryRef = useRef<HTMLDivElement>(null);
+   const [selectedDocuments, setSelectedDocuments] = useState<string[]>([]);
+   const [isDocumentOpen, setIsDocumentOpen] = useState(false);
+   const documentRef = useRef<HTMLDivElement>(null);
+   const [statusToggles, setStatusToggles] = useState({ approved: false, pending: false, rejected: false });
    const [selectedVendorIds, setSelectedVendorIds] = useState<number[]>([]);
    const [dateFilter, setDateFilter] = useState('');
    const [dateFilterType, setDateFilterType] = useState<'registration' | 'update'>('registration');
@@ -81,7 +85,6 @@ const VendorAdmin: React.FC = () => {
    const [sortField, setSortField] = useState<'id' | 'name' | 'date' | 'status'>('date');
    const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
    const [openStatusMenuId, setOpenStatusMenuId] = useState<any>(null);
-   const categoryRef = useRef<HTMLDivElement>(null);
    const statusMenuRef = useRef<HTMLDivElement>(null);
 
    // ── Bulk Reminder Email State ───────────────────────────────────────────────
@@ -105,10 +108,11 @@ const VendorAdmin: React.FC = () => {
       if (isAuth) { setVendorPage(1); fetchVendorData(); }
    }, [isAuth]);
 
-   // Close category dropdown on outside click
+   // Close category/document dropdowns on outside click
    useEffect(() => {
       const handler = (e: MouseEvent) => {
          if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) setIsCategoryOpen(false);
+         if (documentRef.current && !documentRef.current.contains(e.target as Node)) setIsDocumentOpen(false);
          if (statusMenuRef.current && !statusMenuRef.current.contains(e.target as Node)) setOpenStatusMenuId(null);
       };
       document.addEventListener('mousedown', handler);
@@ -306,10 +310,19 @@ const VendorAdmin: React.FC = () => {
          if (statusToggles.rejected && s === 'rejected') matchesStatus = true;
          if (!matchesStatus) return false;
       }
-      // Category
+      // Category filter
       if (selectedCategories.length > 0) {
-         const catStr = (v.vendor_category || v.categories?.join(', ') || '').toLowerCase();
-         if (!selectedCategories.every(c => catStr.includes(c.toLowerCase()))) return false;
+         if (!v.vendor_category) return false;
+         const vendorCats = v.vendor_category.split(',').map((c: string) => c.trim());
+         if (!selectedCategories.some(cat => vendorCats.includes(cat))) return false;
+      }
+      // Document filter
+      if (selectedDocuments.length > 0) {
+         for (const doc of selectedDocuments) {
+            if (v.missing_items == null || v.missing_items.includes(doc)) {
+               return false;
+            }
+         }
       }
       // Date
       if (dateFilter) {
@@ -664,7 +677,6 @@ const VendorAdmin: React.FC = () => {
                         <ActivityPill id="all" label="All" />
                         <ActivityPill id="registered_today" label="Registered Today" count={registeredToday} />
                         <ActivityPill id="updated_today" label="Updated Today" count={updatedToday} />
-                        <ActivityPill id="iso9001" label="Has ISO 9001" count={iso9001Count} dot="bg-blue-400" />
                         <ActivityPill id="completed" label="Completed" count={completedCount} dot="bg-emerald-400" />
                         <ActivityPill id="observation" label="Observation" count={observationCount} dot="bg-orange-400" />
                      </div>
@@ -717,6 +729,52 @@ const VendorAdmin: React.FC = () => {
                                        </label>
                                     ))}
                                  </div>
+                              ))}
+                           </div>
+                        )}
+                     </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="hidden lg:block w-px bg-white self-stretch" />
+
+                  {/* Documents */}
+                  <div className="w-full lg:w-52 shrink-0">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-3">Documents</p>
+                     <div className="relative" ref={documentRef}>
+                        <button
+                           onClick={() => setIsDocumentOpen(p => !p)}
+                           className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-white text-sm hover:border-white transition-all"
+                           style={{ background: 'rgba(255,255,255,0.05)' }}
+                        >
+                           <div className="flex items-center gap-2">
+                              <FileText className="w-3.5 h-3.5 text-indigo-300 shrink-0" />
+                              <span className="text-xs font-semibold text-slate-300 truncate">
+                                 {selectedDocuments.length === 0 ? 'All Documents' : `${selectedDocuments.length} selected`}
+                              </span>
+                           </div>
+                           <ChevronDown className={`w-3.5 h-3.5 text-indigo-300 shrink-0 transition-transform ${isDocumentOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {isDocumentOpen && (
+                           <div className="absolute top-full mt-2 left-0 right-0 max-h-56 overflow-y-auto border border-white shadow-2xl z-50 rounded-xl p-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full"
+                              style={{ background: '#141e30', boxShadow: '0 20px 60px rgba(0,0,0,0.7)' }}>
+                              {selectedDocuments.length > 0 && (
+                                 <button onClick={() => setSelectedDocuments([])} className="w-full text-left text-[10px] font-black uppercase tracking-widest text-red-400 px-2 pb-2 border-b border-white mb-1 hover:text-red-300">
+                                    Clear all
+                                 </button>
+                              )}
+                              {['ISO 9001', 'ISO 14001', 'ISO 45001', 'GMP', 'CE', 'PAN Card', 'GST Registration Certificate'].map(doc => (
+                                 <label key={doc} className="flex items-center gap-3 px-2 py-1.5 hover:bg-white/5 cursor-pointer rounded-lg transition-colors">
+                                    <input
+                                       type="checkbox"
+                                       checked={selectedDocuments.includes(doc)}
+                                       onChange={() => setSelectedDocuments(prev =>
+                                          prev.includes(doc) ? prev.filter(c => c !== doc) : [...prev, doc]
+                                       )}
+                                       className="accent-red-500 w-3.5 h-3.5 cursor-pointer"
+                                    />
+                                    <span className="text-xs text-slate-300 select-none">{doc}</span>
+                                 </label>
                               ))}
                            </div>
                         )}
