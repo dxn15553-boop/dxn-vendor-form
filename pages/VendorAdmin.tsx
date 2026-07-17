@@ -64,7 +64,7 @@ const Toggle = ({ isOn, onToggle, colorClass }: { isOn: boolean; onToggle: () =>
 );
 
 const VendorAdmin: React.FC = () => {
-   const [isAuth, setIsAuth] = useState(false);
+   const [isAuth, setIsAuth] = useState(() => typeof window !== 'undefined' && sessionStorage.getItem(AUTH_TOKEN_KEY) === 'authenticated');
 
    const [vendors, setVendors] = useState<any[]>([]);
    const [vendorPage, setVendorPage] = useState(1);

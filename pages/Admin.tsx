@@ -327,7 +327,7 @@ export const renderCategorizedVendorCategory = (categoryString: string) => {
 const Admin: React.FC = () => {
    const { content, updateContent, loading } = useContent();
    const [localContent, setLocalContent] = useState(content);
-   const [isAuth, setIsAuth] = useState(false);
+   const [isAuth, setIsAuth] = useState(() => typeof window !== 'undefined' && sessionStorage.getItem(AUTH_TOKEN_KEY) === 'authenticated');
    const [password, setPassword] = useState('');
    const [vendorPassword, setVendorPassword] = useState('');
    const navigate = useNavigate();
