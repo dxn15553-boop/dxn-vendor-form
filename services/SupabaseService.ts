@@ -149,8 +149,25 @@ export const getVendorDocuments = async (vendorId: string) => {
     const { data: { publicUrl } } = supabase.storage
       .from('vendor-documents')
       .getPublicUrl(`vendors/${vendorId}/${file.name}`);
-    return { name: file.name, url: publicUrl };
+    return { name: file.name, url: publicUrl, originalName: file.name };
   });
+};
+
+export const deleteVendorDocument = async (vendorId: string, fileName: string) => {
+  const { error } = await supabase.storage
+    .from('vendor-documents')
+    .remove([`vendors/${vendorId}/${fileName}`]);
+
+  if (error) {
+    console.error("Failed to delete vendor document:", error);
+    throw new Error(error.message);
+  }
+
+  // Touch the vendor record to update the updated_at timestamp
+  await supabase
+    .from('vendors')
+    .update({ updated_at: new Date().toISOString() })
+    .eq('id', vendorId);
 };
 
 export const getVendorsFiltered = async (filters: {
