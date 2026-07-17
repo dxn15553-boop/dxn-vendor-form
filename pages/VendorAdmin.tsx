@@ -91,11 +91,7 @@ const VendorAdmin: React.FC = () => {
    const [reminderModal, setReminderModal] = useState<'closed' | 'preview' | 'sending' | 'done'>('closed');
    const [reminderEmailSubject, setReminderEmailSubject] = useState('Action Required: Complete Your DXN Vendor Registration');
    const [reminderEmailBody, setReminderEmailBody] = useState(
-      `Dear {contactPerson} ,
-
-Your vendor registration for {companyName} is currently under review.
-
-==================================================
+      `==================================================
 APPLICATION STATUS UPDATE
 ==================================================
 Registration Reference Number: {applicationId}
@@ -103,6 +99,10 @@ Application Status: {applicationStatus}
 Progress Summary: Action Required - Pending Documents
 Timestamp: {timestamp}
 ==================================================
+
+Dear {contactPerson} ,
+
+Your vendor registration for {companyName} is currently under review.
 
 The following documents are still pending:
 
@@ -508,7 +508,7 @@ This is an automatically generated message from the DXN Vendor Management System
                            <div>
                               <label className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1.5 block">
                                  Email Body
-                                 <span className="text-slate-500 normal-case font-normal ml-2">(use {'{contactPerson}'}, {'{companyName}'}, {'{missingItems}'} as placeholders)</span>
+                                 <span className="text-slate-500 normal-case font-normal ml-2 block mt-1">(placeholders: {'{applicationId}'}, {'{applicationStatus}'}, {'{timestamp}'}, {'{contactPerson}'}, {'{companyName}'}, {'{missingItems}'})</span>
                               </label>
                               <textarea
                                  rows={8}
