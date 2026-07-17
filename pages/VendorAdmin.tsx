@@ -76,6 +76,7 @@ const VendorAdmin: React.FC = () => {
    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
    const [selectedVendorIds, setSelectedVendorIds] = useState<number[]>([]);
    const [dateFilter, setDateFilter] = useState('');
+   const [dateFilterType, setDateFilterType] = useState<'registration' | 'update'>('registration');
    const [isDateFocused, setIsDateFocused] = useState(false);
    const [sortField, setSortField] = useState<'id' | 'name' | 'date' | 'status'>('date');
    const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
@@ -307,10 +308,17 @@ const VendorAdmin: React.FC = () => {
       }
       // Date
       if (dateFilter) {
-         if (!v.created_at) return false;
-         const d = new Date(v.created_at);
-         const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-         if (dStr !== dateFilter) return false;
+         if (dateFilterType === 'registration') {
+            if (!v.created_at) return false;
+            const d = new Date(v.created_at);
+            const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            if (dStr !== dateFilter) return false;
+         } else if (dateFilterType === 'update') {
+            if (!v.updated_at) return false;
+            const d = new Date(v.updated_at);
+            const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            if (dStr !== dateFilter) return false;
+         }
       }
       // Search — applied with all other filters (AND logic)
       if (search) {
@@ -751,17 +759,26 @@ const VendorAdmin: React.FC = () => {
                               <button onClick={() => setDateFilter('')} className="text-slate-500 hover:text-white transition-colors"><X className="w-3.5 h-3.5" /></button>
                            </div>
                         )}
-                        <input
-                           type={(dateFilter || isDateFocused) ? "date" : "text"}
-                           placeholder="Filter Date"
-                           onFocus={() => setIsDateFocused(true)}
-                           onBlur={() => setIsDateFocused(false)}
-                           value={dateFilter}
-                           onChange={e => { setDateFilter(e.target.value); setVendorPage(1); }}
-                           className="text-xs border border-emerald-500/50 rounded-lg px-2.5 py-1.5 text-slate-400 outline-none focus:border-red-500/50 transition-colors cursor-pointer"
-                           style={{ background: 'rgba(255,255,255,0.05)' }}
-                           title="Filter by registration date"
-                        />
+                        <div className="flex items-center bg-[rgba(255,255,255,0.05)] border border-emerald-500/50 rounded-lg overflow-hidden focus-within:border-red-500/50 transition-colors">
+                           <select
+                              value={dateFilterType}
+                              onChange={e => { setDateFilterType(e.target.value as any); setVendorPage(1); }}
+                              className="text-xs bg-transparent text-slate-400 outline-none px-2 py-1.5 border-r border-emerald-500/30 cursor-pointer"
+                           >
+                              <option value="registration" className="bg-[#0f1a2e]">Registration Date</option>
+                              <option value="update" className="bg-[#0f1a2e]">Update Date</option>
+                           </select>
+                           <input
+                              type={(dateFilter || isDateFocused) ? "date" : "text"}
+                              placeholder="Select Date"
+                              onFocus={() => setIsDateFocused(true)}
+                              onBlur={() => setIsDateFocused(false)}
+                              value={dateFilter}
+                              onChange={e => { setDateFilter(e.target.value); setVendorPage(1); }}
+                              className="text-xs bg-transparent px-2.5 py-1.5 text-slate-400 outline-none cursor-pointer"
+                              title="Filter by date"
+                           />
+                        </div>
                         <button
                            onClick={exportCSV}
                            title="Export to CSV"
