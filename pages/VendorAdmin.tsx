@@ -91,18 +91,18 @@ const VendorAdmin: React.FC = () => {
    const [reminderModal, setReminderModal] = useState<'closed' | 'preview' | 'sending' | 'done'>('closed');
    const [reminderEmailSubject, setReminderEmailSubject] = useState('Action Required: Complete Your DXN Vendor Registration');
    const [reminderEmailBody, setReminderEmailBody] = useState(
-      `==================================================
-APPLICATION STATUS UPDATE
-==================================================
-Registration Reference Number: {applicationId}
-Application Status: {applicationStatus}
-Progress Summary: Action Required - Pending Documents
-Timestamp: {timestamp}
-==================================================
-
-Dear {contactPerson} ,
+      `Dear {contactPerson} ,
 
 Your vendor registration for {companyName} is currently under review.
+
+==================================================
+APPLICATION DETAILS
+==================================================
+Reference Number : {referenceId}
+Current Status   : {status}
+Progress Summary : {progressSummary}
+Timestamp        : {timestamp}
+==================================================
 
 The following documents are still pending:
 
@@ -121,9 +121,8 @@ Section Manager – Procurement (Indirect)
 DXN Manufacturing (India) Pvt. Ltd.
 Email: npsc.proc@dxn2u.com
 
---------------------------------------------------
-SYSTEM DISCLAIMER: 
-This is an automatically generated message from the DXN Vendor Management System. Please do not reply directly to this email. If you require support, contact the procurement department using the email provided above.`
+---
+SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor Management System. Please do not reply directly to this email address.`
    );
    const [reminderProgress, setReminderProgress] = useState({ sent: 0, failed: 0, total: 0, currentVendor: '' });
    const [reminderResults, setReminderResults] = useState<{ name: string; email: string; success: boolean }[]>([]);
@@ -237,16 +236,17 @@ This is an automatically generated message from the DXN Vendor Management System
                ? vendor.missing_items.map((s: string) => `* ${s}`).join('\n')
                : 'Please check the vendor portal for details.';
 
-         const timestamp = new Date().toLocaleString();
-         const statusStr = (vendor.status || 'Pending').toUpperCase();
+         const missingCount = typeof vendor.missing_items === 'string' ? vendor.missing_items.split(',').filter(Boolean).length : Array.isArray(vendor.missing_items) ? vendor.missing_items.length : 0;
+         const progressSummary = `Action Required: ${missingCount} document(s) pending for observation`;
 
          const personalizedBody = reminderEmailBody
             .replace(/{contactPerson}/g, contactPerson)
             .replace(/{companyName}/g, companyName)
             .replace(/{missingItems}/g, missingItems)
-            .replace(/{applicationId}/g, String(vendor.id || 'N/A'))
-            .replace(/{applicationStatus}/g, statusStr)
-            .replace(/{timestamp}/g, timestamp);
+            .replace(/{referenceId}/g, vendor.id || 'N/A')
+            .replace(/{status}/g, (vendor.status || 'Pending').toUpperCase())
+            .replace(/{progressSummary}/g, progressSummary)
+            .replace(/{timestamp}/g, new Date().toLocaleString());
 
          setReminderProgress(p => ({ ...p, currentVendor: companyName }));
 
@@ -508,7 +508,7 @@ This is an automatically generated message from the DXN Vendor Management System
                            <div>
                               <label className="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1.5 block">
                                  Email Body
-                                 <span className="text-slate-500 normal-case font-normal ml-2 block mt-1">(placeholders: {'{applicationId}'}, {'{applicationStatus}'}, {'{timestamp}'}, {'{contactPerson}'}, {'{companyName}'}, {'{missingItems}'})</span>
+                                 <span className="text-slate-500 normal-case font-normal ml-2">(use {'{contactPerson}'}, {'{companyName}'}, {'{missingItems}'} as placeholders)</span>
                               </label>
                               <textarea
                                  rows={8}
