@@ -91,7 +91,26 @@ const VendorAdmin: React.FC = () => {
    const [reminderModal, setReminderModal] = useState<'closed' | 'preview' | 'sending' | 'done'>('closed');
    const [reminderEmailSubject, setReminderEmailSubject] = useState('Action Required: Complete Your DXN Vendor Registration');
    const [reminderEmailBody, setReminderEmailBody] = useState(
-      `Dear {contactPerson},\n\nYour vendor registration for {companyName} is currently under observation. The following documents are still pending:\n\n{missingItems}\n\nPlease visit our vendor portal and upload the missing documents to complete your registration.\n\nRegards,\nDXN Manufacturing India — Procurement Team`
+`Dear {contactPerson} ,
+
+Your vendor registration for {companyName} is currently under review.
+
+The following documents are still pending:
+
+{missingItems}
+
+Please log in to the DXN Vendor Registration Portal (https://vendor.dxnmanufacturing.com) and upload the pending documents to complete your registration process.
+
+If you have already submitted any of the above documents, please disregard this reminder for those documents.
+
+For any assistance, please feel free to contact the Procurement Department.
+
+Regards,
+
+Nagendra Pratap Singh Chauhan
+Section Manager – Procurement (Indirect)
+DXN Manufacturing (India) Pvt. Ltd.
+Email: npsc.proc@dxn2u.com`
    );
    const [reminderProgress, setReminderProgress] = useState({ sent: 0, failed: 0, total: 0, currentVendor: '' });
    const [reminderResults, setReminderResults] = useState<{ name: string; email: string; success: boolean }[]>([]);
@@ -207,9 +226,9 @@ const VendorAdmin: React.FC = () => {
          const contactPerson = vendor.contact_person || vendor.authorizedPerson || 'Sir/Madam';
          const email = vendor.email || '';
          const missingItems = typeof vendor.missing_items === 'string'
-            ? vendor.missing_items.split(',').map((s: string) => `• ${s.trim()}`).join('\n')
+            ? vendor.missing_items.split(',').map((s: string) => `* ${s.trim()}`).join('\n')
             : Array.isArray(vendor.missing_items)
-               ? vendor.missing_items.map((s: string) => `• ${s}`).join('\n')
+               ? vendor.missing_items.map((s: string) => `* ${s}`).join('\n')
                : 'Please check the vendor portal for details.';
 
          const personalizedBody = reminderEmailBody
