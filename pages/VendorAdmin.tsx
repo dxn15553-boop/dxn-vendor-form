@@ -274,7 +274,7 @@ const VendorAdmin: React.FC = () => {
 
    // ── Counts ─────────────────────────────────────────────────────────────────
    const registeredToday = vendors.filter(v => v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs).length;
-   const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs).length;
+   const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs).length;
    const completedCount = vendors.filter(v => ['approved', 'complete'].includes((v.status || '').toLowerCase())).length;
    const observationCount = vendors.filter(v => v.missing_items && v.missing_items.length > 0 && !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase())).length;
 
@@ -284,7 +284,7 @@ const VendorAdmin: React.FC = () => {
          if (!(v.created_at && new Date(v.created_at).setHours(0, 0, 0, 0) === todayMs)) return false;
       }
       if (activityFilter === 'updated_today') {
-         if (!(v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs && new Date(v.created_at).setHours(0, 0, 0, 0) !== todayMs)) return false;
+         if (!(v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs)) return false;
       }
       if (activityFilter === 'completed') {
          if (!['approved', 'complete'].includes((v.status || '').toLowerCase())) return false;
@@ -296,10 +296,11 @@ const VendorAdmin: React.FC = () => {
       const anyToggle = statusToggles.approved || statusToggles.pending || statusToggles.rejected;
       if (anyToggle) {
          const s = (v.status || 'pending').toLowerCase();
-         if (statusToggles.approved && ['approved', 'complete'].includes(s)) return true;
-         if (statusToggles.pending && ['pending', 'observation'].includes(s)) return true;
-         if (statusToggles.rejected && s === 'rejected') return true;
-         return false;
+         let matchesStatus = false;
+         if (statusToggles.approved && ['approved', 'complete'].includes(s)) matchesStatus = true;
+         if (statusToggles.pending && ['pending', 'observation'].includes(s)) matchesStatus = true;
+         if (statusToggles.rejected && s === 'rejected') matchesStatus = true;
+         if (!matchesStatus) return false;
       }
       // Category
       if (selectedCategories.length > 0) {
