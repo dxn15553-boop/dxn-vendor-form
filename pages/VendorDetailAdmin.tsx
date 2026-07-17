@@ -4,7 +4,7 @@ import {
    X, Download, Mail, ChevronDown, CheckCircle, AlertTriangle, FileText, Upload,
    ExternalLink, RefreshCw, AlertCircle, Building, Briefcase, ArrowLeft, Lock
 } from 'lucide-react';
-import { getVendorById, updateVendorStatus, getVendorDocuments } from '../services/SupabaseService';
+import { getVendorById, updateVendorStatus, getVendorDocuments, deleteVendorDocument } from '../services/SupabaseService';
 import {
    categorizeMissingItems,
    categorizeDocuments,
@@ -20,7 +20,7 @@ const VendorDetailAdmin: React.FC = () => {
    const [isAuth, setIsAuth] = useState(false);
    const [password, setPassword] = useState('');
    const [vendor, setVendor] = useState<any | null>(null);
-   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string; created_at?: string }[]>([]);
+   const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string; originalName?: string; created_at?: string }[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [isLoadingDocs, setIsLoadingDocs] = useState(false);
    const [vendorEmailPreview, setVendorEmailPreview] = useState(false);
@@ -72,6 +72,19 @@ const VendorDetailAdmin: React.FC = () => {
          setVendorDocs([]);
       } finally {
          setIsLoadingDocs(false);
+      }
+   };
+
+   const handleDeleteDocument = async (docOriginalName: string) => {
+      if (!window.confirm("Are you sure you want to delete this document? This action cannot be undone.")) return;
+      
+      try {
+         await deleteVendorDocument(id!, docOriginalName);
+         // Refresh documents after deletion
+         await fetchDocuments(id!);
+      } catch (err) {
+         console.error("Failed to delete document:", err);
+         alert("Failed to delete the document. Please try again.");
       }
    };
 
@@ -460,20 +473,31 @@ const VendorDetailAdmin: React.FC = () => {
                                        </div>
                                        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                           {docs.map((doc) => (
-                                             <a
+                                             <div
                                                 key={doc.name}
-                                                href={doc.url}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="flex flex-col gap-1.5 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:shadow-md transition-all group rounded-md shadow-sm"
+                                                className="flex flex-col gap-1.5 bg-white border border-neutral-200 px-4 py-3 hover:border-red-600 hover:shadow-md transition-all group rounded-md shadow-sm relative"
                                              >
-                                                <div className="flex items-center gap-2.5 w-full">
+                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white">
+                                                  <button 
+                                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeleteDocument(doc.originalName || doc.name); }}
+                                                    className="p-1 text-neutral-400 hover:text-red-600 transition-colors rounded-full hover:bg-red-50"
+                                                    title="Delete document"
+                                                  >
+                                                    <X className="w-3.5 h-3.5" />
+                                                  </button>
+                                                </div>
+                                                <a
+                                                   href={doc.url}
+                                                   target="_blank"
+                                                   rel="noreferrer"
+                                                   className="flex items-center gap-2.5 w-full pr-6"
+                                                >
                                                    <FileText className="w-4 h-4 text-red-500 shrink-0 animate-in fade-in" />
                                                    <span className="text-neutral-700 text-[10px] font-bold uppercase truncate group-hover:text-neutral-900 transition-colors" title={doc.name.replace(/^__.*?__\s*(.*\s*-\s*)?/, '')}>
                                                       {doc.name.replace(/^__.*?__\s*(.*\s*-\s*)?/, '')}
                                                    </span>
                                                    <ExternalLink className="w-3 h-3 text-neutral-400 group-hover:text-neutral-900 ml-auto shrink-0 transition-colors" />
-                                                </div>
+                                                </a>
                                                 {doc.created_at && (
                                                    <div className="pl-6.5">
                                                       {new Date(doc.created_at).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) ? (
@@ -491,7 +515,7 @@ const VendorDetailAdmin: React.FC = () => {
                                                       )}
                                                    </div>
                                                 )}
-                                             </a>
+                                             </div>
                                           ))}
                                        </div>
                                     </div>
