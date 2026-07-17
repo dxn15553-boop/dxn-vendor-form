@@ -1,14 +1,16 @@
 import React from 'react';
-import { CheckCircle, XCircle, AlertTriangle, Download, X } from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Download, X, Mail } from 'lucide-react';
 import { batchUpdateStatus, exportVendorsCsv } from '../services/SupabaseService';
 
 interface BulkActionBarProps {
   selectedIds: number[];
   onClearSelection: () => void;
   onRefresh: () => void;
+  onSendReminder?: () => void;
+  reminderCount?: number;
 }
 
-const BulkActionBar: React.FC<BulkActionBarProps> = ({ selectedIds, onClearSelection, onRefresh }) => {
+const BulkActionBar: React.FC<BulkActionBarProps> = ({ selectedIds, onClearSelection, onRefresh, onSendReminder, reminderCount }) => {
   if (selectedIds.length === 0) return null;
 
   const handleStatusChange = async (status: string) => {
@@ -68,6 +70,16 @@ const BulkActionBar: React.FC<BulkActionBarProps> = ({ selectedIds, onClearSelec
 
         {/* Actions */}
         <div className="flex items-center gap-2">
+          {onSendReminder && reminderCount !== undefined && reminderCount > 0 && (
+             <button
+                onClick={onSendReminder}
+                className="flex items-center gap-1.5 px-4 py-2 bg-orange-500 hover:bg-orange-400 text-white rounded-xl text-xs font-bold transition-all hover:shadow-md hover:shadow-orange-500/30"
+             >
+                <Mail className="w-3.5 h-3.5" />
+                Send Reminder ({reminderCount})
+             </button>
+          )}
+
           <button
             onClick={() => handleStatusChange('approved')}
             className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all hover:shadow-md hover:shadow-emerald-600/30"

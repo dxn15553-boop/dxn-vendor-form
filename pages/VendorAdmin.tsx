@@ -1048,6 +1048,8 @@ const VendorAdmin: React.FC = () => {
             selectedIds={selectedVendorIds}
             onClearSelection={() => setSelectedVendorIds([])}
             onRefresh={fetchVendorData}
+            onSendReminder={() => setReminderModal('preview')}
+            reminderCount={selectedObservationVendors.length}
          />
        </div>
       </>
