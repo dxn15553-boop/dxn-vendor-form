@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import {
    RefreshCw, Lock, AlertTriangle, Search, ChevronDown,
    Eye, CheckCircle, XCircle, Home, Users, BarChart2,
@@ -12,7 +12,7 @@ import BulkActionBar from '../components/BulkActionBar';
 import { VENDOR_CATEGORIES } from './Admin';
 
 const ADMIN_PASSWORD = 'dxn2025';
-const AUTH_TOKEN_KEY = 'dxn_admin_auth_session';
+const AUTH_TOKEN_KEY = 'dxn_vendor_admin_session';
 const VENDORS_PER_PAGE = 10;
 
 // ── Status pill ─────────────────────────────────────────────────────────────
@@ -65,7 +65,7 @@ const Toggle = ({ isOn, onToggle, colorClass }: { isOn: boolean; onToggle: () =>
 
 const VendorAdmin: React.FC = () => {
    const [isAuth, setIsAuth] = useState(false);
-   const [password, setPassword] = useState('');
+
    const [vendors, setVendors] = useState<any[]>([]);
    const [vendorPage, setVendorPage] = useState(1);
    const [isLoadingVendors, setIsLoadingVendors] = useState(false);
@@ -155,14 +155,7 @@ Email: npsc.proc@dxn2u.com`
       }
    };
 
-   const handleLogin = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (password === ADMIN_PASSWORD) {
-         setIsAuth(true);
-         sessionStorage.setItem(AUTH_TOKEN_KEY, 'authenticated');
-         fetchVendorData();
-      } else alert('Unauthorized');
-   };
+
 
    const handleApproveVendor = async (id: any) => {
       try {
@@ -435,36 +428,7 @@ Email: npsc.proc@dxn2u.com`
    };
 
    // ── LOGIN ─────────────────────────────────────────────────────────────────
-   if (!isAuth) return (
-      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'radial-gradient(ellipse at top, #171717 0%, #000000 60%)' }}>
-         <div className="relative w-full max-w-md">
-            <div className="absolute inset-0 -z-10 blur-3xl opacity-20 rounded-full" style={{ background: 'radial-gradient(circle, #ef4444 0%, transparent 70%)' }} />
-            <div className="border border-white rounded-2xl p-12 shadow-2xl backdrop-blur-xl" style={{ background: 'rgba(23,23,23,0.8)' }}>
-               <div className="text-center mb-10">
-                  <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/25 flex items-center justify-center mx-auto mb-6">
-                     <Lock className="w-7 h-7 text-red-400" />
-                  </div>
-                  <h2 className="text-2xl font-black uppercase text-white tracking-widest">Admin Suite</h2>
-                  <p className="text-slate-500 text-xs mt-2 tracking-widest">DXN Vendor Management Portal</p>
-               </div>
-               <form onSubmit={handleLogin} className="space-y-4">
-                  <input
-                     type="password"
-                     placeholder="Enter Security Key"
-                     className="w-full border border-white/10 rounded-xl px-5 py-4 text-white text-center tracking-widest outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all placeholder-slate-600"
-                     style={{ background: 'rgba(0,0,0,0.3)' }}
-                     value={password}
-                     onChange={e => setPassword(e.target.value)}
-                     autoFocus
-                  />
-                  <button className="w-full bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs transition-all hover:shadow-lg hover:shadow-red-600/30 active:scale-[0.98]">
-                     Authenticate
-                  </button>
-               </form>
-            </div>
-         </div>
-      </div>
-   );
+   if (!isAuth) return <Navigate to="/admin" replace />;
 
    // ── MAIN ──────────────────────────────────────────────────────────────────
    const selectedObservationVendors = getSelectedObservationVendors();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 import {
    Save, Layout, Database, Image as ImageIcon, CheckCircle, Lock, Plus, Trash2,
@@ -329,6 +329,8 @@ const Admin: React.FC = () => {
    const [localContent, setLocalContent] = useState(content);
    const [isAuth, setIsAuth] = useState(false);
    const [password, setPassword] = useState('');
+   const [vendorPassword, setVendorPassword] = useState('');
+   const navigate = useNavigate();
    const [activeTab, setActiveTab] = useState<'home' | 'divisions' | 'products' | 'gallery' | 'careers' | 'team' | 'media' | 'events' | 'contact' | 'roadmap' | 'timeline'>('home');
    const [galleryMode, setGalleryMode] = useState<'images' | 'videos'>('images');
    const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success'>('idle');
@@ -368,6 +370,16 @@ const Admin: React.FC = () => {
       }
    };
 
+   const handleVendorLogin = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (vendorPassword === 'dxnvendor2025') {
+         sessionStorage.setItem('dxn_vendor_admin_session', 'authenticated');
+         navigate('/admin/vendors');
+      } else {
+         alert('Unauthorized');
+      }
+   };
+
    const handleSave = async () => {
       setSaveStatus('saving');
       const cleanContent = {
@@ -385,13 +397,41 @@ const Admin: React.FC = () => {
 
    if (loading) return null;
    if (!isAuth) return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32">
-         <div className="max-w-md w-full bg-neutral-900 border border-white/10 p-12 rounded-sm">
-            <div className="text-center mb-10"><Lock className="w-12 h-12 text-red-600 mx-auto mb-6" /><h2 className="text-2xl font-black uppercase text-white">Management Suite</h2></div>
-            <form onSubmit={handleLogin} className="space-y-6">
-               <input type="password" placeholder="Key" className="w-full bg-black border border-white/10 p-4 text-white outline-none focus:border-red-600" value={password} onChange={e => setPassword(e.target.value)} />
-               <button className="w-full bg-red-600 text-white py-4 font-black uppercase tracking-widest text-xs">Authenticate</button>
-            </form>
+      <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32" style={{ background: 'radial-gradient(ellipse at top, #171717 0%, #000000 60%)' }}>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full">
+            
+            {/* Main Admin Card */}
+            <div className="bg-neutral-900 border border-white/10 p-12 rounded-sm shadow-2xl relative overflow-hidden group">
+               <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+               <div className="relative z-10">
+                  <div className="text-center mb-10">
+                     <Lock className="w-12 h-12 text-red-600 mx-auto mb-6" />
+                     <h2 className="text-xl font-black uppercase text-white">Main Admin Suite</h2>
+                     <p className="text-[10px] uppercase tracking-widest text-neutral-500 mt-2">Content & Site Management</p>
+                  </div>
+                  <form onSubmit={handleLogin} className="space-y-6">
+                     <input type="password" placeholder="CMS Key" className="w-full bg-black border border-white/10 p-4 text-white outline-none focus:border-red-600 transition-colors" value={password} onChange={e => setPassword(e.target.value)} />
+                     <button className="w-full bg-red-600 hover:bg-red-500 text-white py-4 font-black uppercase tracking-widest text-xs transition-colors">Authenticate</button>
+                  </form>
+               </div>
+            </div>
+
+            {/* Vendor Admin Card */}
+            <div className="bg-neutral-900 border border-white/10 p-12 rounded-sm shadow-2xl relative overflow-hidden group">
+               <div className="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+               <div className="relative z-10">
+                  <div className="text-center mb-10">
+                     <ShieldCheck className="w-12 h-12 text-indigo-500 mx-auto mb-6" />
+                     <h2 className="text-xl font-black uppercase text-white">Vendor Portal</h2>
+                     <p className="text-[10px] uppercase tracking-widest text-neutral-500 mt-2">Procurement Management</p>
+                  </div>
+                  <form onSubmit={handleVendorLogin} className="space-y-6">
+                     <input type="password" placeholder="Procurement Key" className="w-full bg-black border border-white/10 p-4 text-white outline-none focus:border-indigo-500 transition-colors" value={vendorPassword} onChange={e => setVendorPassword(e.target.value)} />
+                     <button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 font-black uppercase tracking-widest text-xs transition-colors">Authenticate</button>
+                  </form>
+               </div>
+            </div>
+
          </div>
       </div>
    );
@@ -403,9 +443,7 @@ const Admin: React.FC = () => {
                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                   <SectionTitle subtitle="Management" title="Content Controller" light />
                   <div className="flex flex-wrap gap-4">
-                     <Link to="/admin/vendors" className="bg-neutral-900 border border-white/10 text-white px-6 py-4 text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:border-red-600/50 transition-colors">
-                        <Truck className="w-4 h-4 text-red-600" /> Vendor Portal
-                     </Link>
+
                      <button onClick={() => { setIsAuth(false); sessionStorage.removeItem(AUTH_TOKEN_KEY); }} className="bg-neutral-900 border border-white/10 text-white px-6 py-4 text-xs font-black uppercase tracking-widest">Logout</button>
                      <button onClick={handleSave} className="bg-red-600 text-white px-8 py-4 text-xs font-black uppercase tracking-widest flex items-center gap-2">
                         {saveStatus === 'saving' ? <RefreshCw className="animate-spin w-4 h-4" /> : <Save className="w-4 h-4" />}
