@@ -277,6 +277,7 @@ const VendorAdmin: React.FC = () => {
    const updatedToday = vendors.filter(v => v.updated_at && new Date(v.updated_at).setHours(0, 0, 0, 0) === todayMs).length;
    const completedCount = vendors.filter(v => ['approved', 'complete'].includes((v.status || '').toLowerCase())).length;
    const observationCount = vendors.filter(v => v.missing_items && v.missing_items.length > 0 && !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase())).length;
+   const iso9001Count = vendors.filter(v => v.missing_items != null && !v.missing_items.includes('ISO 9001')).length;
 
    // ── Filter ─────────────────────────────────────────────────────────────────
    const filteredVendors = vendors.filter((v: any) => {
@@ -291,6 +292,9 @@ const VendorAdmin: React.FC = () => {
       }
       if (activityFilter === 'observation') {
          if (!(v.missing_items && v.missing_items.length > 0 && !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase()))) return false;
+      }
+      if (activityFilter === 'iso9001') {
+         if (!(v.missing_items != null && !v.missing_items.includes('ISO 9001'))) return false;
       }
       // Status toggles — if any on, apply
       const anyToggle = statusToggles.approved || statusToggles.pending || statusToggles.rejected;
@@ -660,6 +664,7 @@ const VendorAdmin: React.FC = () => {
                         <ActivityPill id="all" label="All" />
                         <ActivityPill id="registered_today" label="Registered Today" count={registeredToday} />
                         <ActivityPill id="updated_today" label="Updated Today" count={updatedToday} />
+                        <ActivityPill id="iso9001" label="Has ISO 9001" count={iso9001Count} dot="bg-blue-400" />
                         <ActivityPill id="completed" label="Completed" count={completedCount} dot="bg-emerald-400" />
                         <ActivityPill id="observation" label="Observation" count={observationCount} dot="bg-orange-400" />
                      </div>
