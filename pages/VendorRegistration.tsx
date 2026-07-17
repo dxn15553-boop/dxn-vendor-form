@@ -969,6 +969,26 @@ const VendorRegistration: React.FC = () => {
     }
   };
 
+  const handleNextStep = () => {
+    const visibleRequiredInputs = Array.from(document.querySelectorAll('input[required], select[required], textarea[required]')).filter(el => {
+      return (el as HTMLElement).offsetParent !== null;
+    }) as HTMLInputElement[];
+
+    let allValid = true;
+    for (const input of visibleRequiredInputs) {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        allValid = false;
+        break;
+      }
+    }
+
+    if (allValid) {
+      setFormStep(p => Math.min(4, p + 1));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="pt-32 pb-20 min-h-screen bg-black">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">

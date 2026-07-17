@@ -179,25 +179,7 @@ const VendorAdmin: React.FC = () => {
       } catch { fetchVendorData(); }
    };
 
-   const exportCSV = () => {
-      const headers = ['ID', 'Company Name', 'Contact Person', 'Email', 'Phone', 'Category', 'Status', 'Registration Date'];
-      const rows = filteredVendors.map(v => [
-         String(v.id || ''),
-         v.company_name || v.companyName || '',
-         v.contact_person || v.authorizedPerson || '',
-         v.email || '',
-         v.phone || '',
-         v.vendor_category || (v.categories || []).join('; ') || '',
-         v.status || 'pending',
-         v.created_at ? new Date(v.created_at).toLocaleDateString('en-IN') : ''
-      ].map(cell => `"${String(cell).replace(/"/g, '""')}"`));
-      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `vendors_${new Date().toISOString().slice(0,10)}.csv`;
-      a.click(); URL.revokeObjectURL(url);
-   };
+
 
    // ── Bulk Reminder Email Handler ────────────────────────────────────────────
    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxfPwcfwqcJl1RFwRb8Lsf1Djn6k-JyzRFA4g7kN8x2NO3mCn1aoyp-MR0-3E57lU5X/exec';
