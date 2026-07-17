@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
 import {
    X, Download, Mail, ChevronDown, CheckCircle, AlertTriangle, FileText, Upload,
    ExternalLink, RefreshCw, AlertCircle, Building, Briefcase, ArrowLeft, Lock
@@ -11,28 +11,19 @@ import {
    VENDOR_CATEGORIES
 } from './Admin';
 
-const ADMIN_PASSWORD = 'dxn2025';
-const AUTH_TOKEN_KEY = 'dxn_admin_auth_session';
+const AUTH_TOKEN_KEY = 'dxn_vendor_admin_session';
 
 const VendorDetailAdmin: React.FC = () => {
    const { id } = useParams<{ id: string }>();
    const navigate = useNavigate();
-   const [isAuth, setIsAuth] = useState(false);
-   const [password, setPassword] = useState('');
+   const [isAuth, setIsAuth] = useState(() => typeof window !== 'undefined' && sessionStorage.getItem(AUTH_TOKEN_KEY) === 'authenticated');
    const [vendor, setVendor] = useState<any | null>(null);
    const [vendorDocs, setVendorDocs] = useState<{ name: string; url: string; originalName?: string; created_at?: string }[]>([]);
    const [isLoading, setIsLoading] = useState(true);
    const [isLoadingDocs, setIsLoadingDocs] = useState(false);
    const [vendorEmailPreview, setVendorEmailPreview] = useState(false);
 
-   useEffect(() => {
-      const session = sessionStorage.getItem(AUTH_TOKEN_KEY);
-      if (session === 'authenticated') {
-         setIsAuth(true);
-      } else {
-         setIsLoading(false);
-      }
-   }, []);
+
 
    useEffect(() => {
       if (isAuth && id) {
@@ -88,15 +79,7 @@ const VendorDetailAdmin: React.FC = () => {
       }
    };
 
-   const handleLogin = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (password === ADMIN_PASSWORD) {
-         setIsAuth(true);
-         sessionStorage.setItem(AUTH_TOKEN_KEY, 'authenticated');
-      } else {
-         alert('Unauthorized');
-      }
-   };
+
 
    const handleApproveVendor = async (vendorId: any) => {
       const newStatus = 'approved';
@@ -189,30 +172,7 @@ const VendorDetailAdmin: React.FC = () => {
       );
    };
 
-   if (!isAuth) return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32">
-         <div className="max-w-md w-full bg-neutral-900 border border-white/10 p-12 rounded-sm shadow-2xl">
-            <div className="text-center mb-10">
-               <Lock className="w-12 h-12 text-red-600 mx-auto mb-6 animate-pulse" />
-               <h2 className="text-2xl font-black uppercase text-white tracking-widest">Management Suite</h2>
-               <p className="text-neutral-500 text-xs mt-2 uppercase tracking-wide">Security Validation</p>
-            </div>
-            <form onSubmit={handleLogin} className="space-y-6">
-               <input
-                  type="password"
-                  placeholder="Enter Security Key"
-                  className="w-full bg-black border border-white/10 p-4 text-white text-center tracking-widest outline-none focus:border-red-600 transition-colors"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  autoFocus
-               />
-               <button className="w-full bg-red-600 hover:bg-red-500 text-white py-4 font-black uppercase tracking-widest text-xs transition-colors">
-                  Authenticate
-               </button>
-            </form>
-         </div>
-      </div>
-   );
+   if (!isAuth) return <Navigate to="/admin" replace />;
 
    if (isLoading) return (
       <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center text-center p-6">
