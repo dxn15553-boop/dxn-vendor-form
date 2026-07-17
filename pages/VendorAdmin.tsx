@@ -658,6 +658,16 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
                         <RefreshCw className={`w-3.5 h-3.5 ${isLoadingVendors ? 'animate-spin' : ''}`} />
                         Refresh
                      </button>
+                     <button
+                        onClick={() => {
+                           sessionStorage.removeItem(AUTH_TOKEN_KEY);
+                           setIsAuth(false);
+                        }}
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-red-500/50 text-red-400 hover:text-white hover:bg-red-500/20 text-xs font-bold transition-all whitespace-nowrap"
+                        style={{ background: 'rgba(255,255,255,0.05)' }}
+                     >
+                        Logout
+                     </button>
                   </div>
                </div>
 

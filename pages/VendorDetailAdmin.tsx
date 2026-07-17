@@ -201,10 +201,19 @@ const VendorDetailAdmin: React.FC = () => {
          <div className="max-w-5xl mx-auto px-4 md:px-6">
 
             {/* Navigation back */}
-            <div className="mb-8 print:hidden">
+            <div className="mb-8 print:hidden flex items-center justify-between">
                <Link to="/admin/vendors" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-xs font-black uppercase tracking-widest">
                   <ArrowLeft className="w-4 h-4 text-red-600" /> Back to Vendor Dashboard
                </Link>
+               <button
+                  onClick={() => {
+                     sessionStorage.removeItem(AUTH_TOKEN_KEY);
+                     setIsAuth(false);
+                  }}
+                  className="inline-flex items-center gap-2 text-red-500 hover:text-red-400 transition-colors text-xs font-black uppercase tracking-widest"
+               >
+                  Logout
+               </button>
             </div>
 
             {/* Main Details Panel matching the screenshot exact format */}
