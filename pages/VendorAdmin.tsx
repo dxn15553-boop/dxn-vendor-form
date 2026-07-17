@@ -95,6 +95,15 @@ const VendorAdmin: React.FC = () => {
 
 Your vendor registration for {companyName} is currently under review.
 
+==================================================
+APPLICATION STATUS UPDATE
+==================================================
+Registration Reference Number: {applicationId}
+Application Status: {applicationStatus}
+Progress Summary: Action Required - Pending Documents
+Timestamp: {timestamp}
+==================================================
+
 The following documents are still pending:
 
 {missingItems}
@@ -110,7 +119,11 @@ Regards,
 Nagendra Pratap Singh Chauhan
 Section Manager – Procurement (Indirect)
 DXN Manufacturing (India) Pvt. Ltd.
-Email: npsc.proc@dxn2u.com`
+Email: npsc.proc@dxn2u.com
+
+--------------------------------------------------
+SYSTEM DISCLAIMER: 
+This is an automatically generated message from the DXN Vendor Management System. Please do not reply directly to this email. If you require support, contact the procurement department using the email provided above.`
    );
    const [reminderProgress, setReminderProgress] = useState({ sent: 0, failed: 0, total: 0, currentVendor: '' });
    const [reminderResults, setReminderResults] = useState<{ name: string; email: string; success: boolean }[]>([]);
@@ -224,10 +237,16 @@ Email: npsc.proc@dxn2u.com`
                ? vendor.missing_items.map((s: string) => `* ${s}`).join('\n')
                : 'Please check the vendor portal for details.';
 
+         const timestamp = new Date().toLocaleString();
+         const statusStr = (vendor.status || 'Pending').toUpperCase();
+
          const personalizedBody = reminderEmailBody
             .replace(/{contactPerson}/g, contactPerson)
             .replace(/{companyName}/g, companyName)
-            .replace(/{missingItems}/g, missingItems);
+            .replace(/{missingItems}/g, missingItems)
+            .replace(/{applicationId}/g, String(vendor.id || 'N/A'))
+            .replace(/{applicationStatus}/g, statusStr)
+            .replace(/{timestamp}/g, timestamp);
 
          setReminderProgress(p => ({ ...p, currentVendor: companyName }));
 
