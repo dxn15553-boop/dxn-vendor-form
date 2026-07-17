@@ -11,8 +11,8 @@ import { getVendors, updateVendorStatus, saveAdminView } from '../services/Supab
 import BulkActionBar from '../components/BulkActionBar';
 import { VENDOR_CATEGORIES } from './Admin';
 
-const ADMIN_PASSWORD = 'dxnvendor2025';
-const AUTH_TOKEN_KEY = 'dxn_vendor_admin_session';
+const ADMIN_PASSWORD = 'dxn2025';
+const AUTH_TOKEN_KEY = 'dxn_admin_auth_session';
 const VENDORS_PER_PAGE = 10;
 
 // ── Status pill ─────────────────────────────────────────────────────────────
