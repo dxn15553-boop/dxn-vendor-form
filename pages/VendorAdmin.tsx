@@ -206,8 +206,9 @@ Email: npsc.proc@dxn2u.com`
    const getSelectedObservationVendors = () => {
       return vendors.filter(v => {
          const isSelected = selectedVendorIds.includes(v.id);
-         const isEligible = ['pending', 'observation'].includes((v.status || 'pending').toLowerCase());
-         return isSelected && isEligible;
+         const isObservation = v.missing_items && v.missing_items.length > 0 &&
+            !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase());
+         return isSelected && isObservation;
       });
    };
 
@@ -224,11 +225,11 @@ Email: npsc.proc@dxn2u.com`
          const companyName = vendor.company_name || vendor.companyName || 'Vendor';
          const contactPerson = vendor.contact_person || vendor.authorizedPerson || 'Sir/Madam';
          const email = vendor.email || '';
-         const missingItems = typeof vendor.missing_items === 'string' && vendor.missing_items.trim().length > 0
+         const missingItems = typeof vendor.missing_items === 'string'
             ? vendor.missing_items.split(',').map((s: string) => `* ${s.trim()}`).join('\n')
-            : Array.isArray(vendor.missing_items) && vendor.missing_items.length > 0
+            : Array.isArray(vendor.missing_items)
                ? vendor.missing_items.map((s: string) => `* ${s}`).join('\n')
-               : '* Please check the vendor portal for details.';
+               : 'Please check the vendor portal for details.';
 
          const personalizedBody = reminderEmailBody
             .replace(/{contactPerson}/g, contactPerson)
