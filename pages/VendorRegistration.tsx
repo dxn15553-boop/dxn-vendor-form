@@ -882,8 +882,8 @@ const VendorRegistration: React.FC = () => {
               await updateVendorApplication(applicationId, vendorData);
             } catch (supabaseError: any) {
               console.error("Supabase Error:", supabaseError);
-              alert("Warning: Failed to update database. " + supabaseError.message);
               dbError = true;
+              throw new Error("Failed to update database: " + supabaseError.message);
             }
           } else {
             // Use the ID we generated for the payload
@@ -894,6 +894,7 @@ const VendorRegistration: React.FC = () => {
             if (supabaseError) {
               console.error("Supabase Error:", supabaseError);
               dbError = true;
+              throw new Error("Failed to save vendor to database: " + supabaseError.message);
             } else {
               setApplicationId(payload.applicationId);
             }
