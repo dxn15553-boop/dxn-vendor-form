@@ -75,8 +75,8 @@ export const DOCUMENT_CATEGORIES: Record<string, string[]> = {
    'Certifications': ['ISO9001', 'ISO14001', 'ISO45001', 'GMP', 'CE', 'OTHERCERTIFICATIONS']
 };
 
-export const categorizeDocuments = (docs: { name: string; url: string; created_at?: string }[]) => {
-   const categorized: Record<string, { name: string; url: string; created_at?: string }[]> = {
+export const categorizeDocuments = (docs: { name: string; url: string; originalName?: string; created_at?: string }[]) => {
+   const categorized: Record<string, { name: string; url: string; originalName?: string; created_at?: string }[]> = {
       'Entity Documentation': [],
       'Statutory Compliance': [],
       'Financial Information': [],
