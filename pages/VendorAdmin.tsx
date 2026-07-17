@@ -380,6 +380,38 @@ const VendorAdmin: React.FC = () => {
    const rejectedCount = vendors.filter(v => (v.status || '').toLowerCase() === 'rejected').length;
    const thisWeekCount = vendors.filter(v => { if (!v.created_at) return false; const d = new Date(v.created_at); const now = new Date(); const weekAgo = new Date(now.getTime() - 7 * 86400000); return d >= weekAgo; }).length;
 
+   const exportCSV = () => {
+      if (filteredVendors.length === 0) {
+         alert("No data to export!");
+         return;
+      }
+      const headers = ["Application ID", "Company Name", "Contact Person", "Email", "Phone", "Category", "Status", "Missing Documents", "Submitted Date"];
+      const rows = filteredVendors.map((v: any) => [
+         v.id || '',
+         v.company_name || v.companyName || '',
+         v.contact_person || v.authorizedPerson || '',
+         v.email || '',
+         v.phone || '',
+         (v.vendor_category || v.categories?.join(', ') || '').replace(/"/g, '""'),
+         (v.status || 'pending').toUpperCase(),
+         (v.missing_items || 'None').replace(/"/g, '""'),
+         v.created_at ? new Date(v.created_at).toLocaleDateString() : ''
+      ]);
+      const csvContent = [
+         headers.join(','),
+         ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+      ].join('\\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `dxn_vendors_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+   };
+
    // ── Activity pill ──────────────────────────────────────────────────────────
    const ActivityPill = ({ id, label, count, dot }: { id: string; label: string; count?: number; dot?: string }) => {
       const isActive = activityFilter === id;

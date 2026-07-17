@@ -423,6 +423,7 @@ const clearFilesDB = async (draftId: string) => {
 
 const VendorRegistration: React.FC = () => {
   const [step, setStep] = useState(1);
+  const [formStep, setFormStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<"Complete" | "Observation">("Complete");
   const [applicationId, setApplicationId] = useState<number | null>(null);
@@ -1088,13 +1089,28 @@ const VendorRegistration: React.FC = () => {
 
         {step === 2 && (
           <div className="max-w-5xl mx-auto bg-slate-50 border-t-[6px] border-t-red-600 rounded-2xl p-4 sm:p-8 md:p-12 shadow-[0_0_80px_-15px_rgba(0,0,0,0.8)] animate-in fade-in zoom-in-95 duration-500">
+            {/* Progress Bar */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-2">
+                {[1, 2, 3, 4].map(s => (
+                  <div key={s} className={`flex-1 text-center border-b-4 pb-2 transition-all ${formStep >= s ? 'border-red-600 text-red-600' : 'border-gray-200 text-gray-400'}`}>
+                    <span className="text-[10px] font-black uppercase tracking-widest block">Step {s}</span>
+                    <span className="text-xs font-bold hidden sm:block">
+                      {s === 1 ? 'Company' : s === 2 ? 'Capabilities' : s === 3 ? 'Documents' : 'Submit'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
             <h2 className="text-3xl font-black uppercase tracking-tighter text-gray-900 mb-2">Entity Verification</h2>
-            <p className="text-gray-500 mb-8 border-b border-gray-200 pb-6">Please complete the mandatory document checklist.</p>
+            <p className="text-gray-500 mb-8 border-b border-gray-200 pb-6">Please complete all 4 steps below.</p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Company Information</h3></div>
+                <div className={formStep === 1 ? 'contents' : 'hidden'}>
+                  <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Company Information</h3></div>
 
                 <div className="col-span-1 md:col-span-2 mb-4">
                   <label className="text-[11px] font-bold uppercase tracking-widest text-gray-600 flex items-center gap-2 mb-4">
@@ -1176,14 +1192,18 @@ const VendorRegistration: React.FC = () => {
                 <TextInputField label="Mobile Number" icon={Phone} name="phone" value={formData.phone} onChange={handleInputChange} required type="tel" />
                 <TextInputField label="Email Address" icon={Mail} name="email" value={formData.email} onChange={handleInputChange} type="email" required />
                 <TextInputField label="Escalation Contact Details" icon={Phone} name="escContact" value={formData.escContact} onChange={handleInputChange} required type="tel" />
+                </div>
 
+                <div className={formStep === 4 ? 'contents' : 'hidden'}>
                 <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Declarations</h3></div>
                 <FileUploadField label="Conflict of Interest Declaration" icon={FileText} file={files.conflictOfInterest} onFileSelect={handleFileSelect('conflictOfInterest')} />
                 <FileUploadField label="Anti-Bribery & Anti-Corruption Declaration" icon={FileText} file={files.antiBribery} onFileSelect={handleFileSelect('antiBribery')} />
                 <FileUploadField label="Compliance Declaration" icon={FileText} file={files.complianceDecl} onFileSelect={handleFileSelect('complianceDecl')} />
                 <FileUploadField label="Blacklisting Declaration" icon={FileText} file={files.blacklistingDecl} onFileSelect={handleFileSelect('blacklistingDecl')} />
                 <FileUploadField label="Confidentiality Declaration" icon={FileText} file={files.confidentialityDecl} onFileSelect={handleFileSelect('confidentialityDecl')} />
+                </div>
 
+                <div className={formStep === 2 ? 'contents' : 'hidden'}>
                 <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Quality & Business Capability</h3></div>
                 <FileUploadField label="Major Customer List" icon={FileText} file={files.majorCustomerList} onFileSelect={handleFileSelect('majorCustomerList')} />
                 <FileUploadField label="Customer References" icon={FileText} file={files.customerReferences} onFileSelect={handleFileSelect('customerReferences')} />
@@ -1219,8 +1239,9 @@ const VendorRegistration: React.FC = () => {
                 <TextInputField label="Brand / OEM 2 (Optional)" icon={Tag} name="oemBrand2" value={formData.oemBrands[1]} onChange={(e) => handleOemBrandChange(1, e.target.value)} />
                 <TextInputField label="Brand / OEM 3 (Optional)" icon={Tag} name="oemBrand3" value={formData.oemBrands[2]} onChange={(e) => handleOemBrandChange(2, e.target.value)} />
                 <FileUploadField label="Upload Authorization Letter (Optional)" icon={FileText} file={files.authorizationLetter} onFileSelect={handleFileSelect('authorizationLetter')} />
+                </div>
 
-
+                <div className={formStep === 3 ? 'contents' : 'hidden'}>
                 <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Certifications (If Available)</h3></div>
                 <FileUploadField label="ISO 9001 (If Available)" icon={ShieldCheck} file={files.iso9001} onFileSelect={handleFileSelect('iso9001')} />
                 <FileUploadField label="ISO 14001 (If Available)" icon={ShieldCheck} file={files.iso14001} onFileSelect={handleFileSelect('iso14001')} />
@@ -1235,10 +1256,10 @@ const VendorRegistration: React.FC = () => {
                 <FileUploadField label="Code of Conduct Acceptance (Optional)" icon={FileText} file={files.codeOfConduct} onFileSelect={handleFileSelect('codeOfConduct')} />
                 <FileUploadField label="Payment Terms Acceptance (Optional)" icon={FileText} file={files.paymentTerms} onFileSelect={handleFileSelect('paymentTerms')} />
                 <FileUploadField label="Purchase Terms & Conditions Acceptance (Optional)" icon={FileText} file={files.purchaseTerms} onFileSelect={handleFileSelect('purchaseTerms')} />
-
+                </div>
               </div>
 
-              <div className="mt-8">
+              <div className={formStep === 4 ? 'contents' : 'hidden'}>
                 <div className="col-span-1 md:col-span-2 mt-8 mb-4 border-b border-gray-200 pb-2"><h3 className="text-xl font-bold uppercase tracking-widest text-red-600">Final Submission / Checklist</h3></div>
                 <div className="space-y-4 bg-gray-50 p-8 border border-gray-200 rounded-xl">
                   <label className="flex items-center gap-4 cursor-pointer group">
@@ -1263,17 +1284,38 @@ const VendorRegistration: React.FC = () => {
                     alert("Your progress has been saved as a draft on your device.");
                     setStep(1);
                   }}
-                  className="w-full sm:w-1/3 bg-white border border-gray-300 text-gray-700 py-6 font-black uppercase tracking-widest text-sm hover:bg-gray-50 hover:text-red-600 transition-all shadow-sm rounded-lg"
+                  className="w-full sm:w-1/4 bg-white border border-gray-300 text-gray-700 py-6 font-black uppercase tracking-widest text-sm hover:bg-gray-50 hover:text-red-600 transition-all shadow-sm rounded-lg"
                 >
-                  Save Draft & Exit
+                  Save & Exit
                 </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-2/3 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-md rounded-lg"
-                >
-                  {isSubmitting ? 'Securing Data...' : 'Submit Application'}
-                </button>
+                
+                {formStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setFormStep(p => Math.max(1, p - 1))}
+                    className="w-full sm:w-1/4 bg-white border border-gray-300 text-gray-700 py-6 font-black uppercase tracking-widest text-sm hover:bg-gray-50 hover:text-red-600 transition-all shadow-sm rounded-lg"
+                  >
+                    Back
+                  </button>
+                )}
+
+                {formStep < 4 ? (
+                  <button
+                    type="button"
+                    onClick={handleNextStep}
+                    className="w-full sm:flex-1 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all flex items-center justify-center gap-3 shadow-md rounded-lg"
+                  >
+                    Next Step <ArrowRight className="w-5 h-5" />
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:flex-1 bg-red-600 text-white py-6 font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-md rounded-lg"
+                  >
+                    {isSubmitting ? 'Securing Data...' : 'Submit Application'}
+                  </button>
+                )}
               </div>
             </form>
           </div>
