@@ -224,10 +224,11 @@ export const getSavedViews = async (adminId: string) => {
 };
 
 export const batchUpdateStatus = async (ids: number[], newStatus: string) => {
-  const { error } = await supabase.rpc('batch_update_status', {
-    ids,
-    new_status: newStatus,
-  });
+  const { error } = await supabase
+    .from('vendors')
+    .update({ status: newStatus })
+    .in('id', ids);
+    
   if (error) throw new Error(error.message);
 };
 

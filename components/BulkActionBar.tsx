@@ -17,6 +17,7 @@ const BulkActionBar: React.FC<BulkActionBarProps> = ({ selectedIds, onClearSelec
     if (!window.confirm(`Are you sure you want to mark ${selectedIds.length} vendor(s) as "${status}"?`)) return;
     try {
       await batchUpdateStatus(selectedIds, status);
+      alert(`Successfully marked ${selectedIds.length} vendor(s) as "${status}".`);
       onRefresh();
       onClearSelection();
     } catch (err) {

@@ -12,7 +12,7 @@ import { ICON_MAP } from '../constants';
 import { getVendors, updateVendorStatus, getVendorDocuments } from '../services/SupabaseService';
 import { Product } from '../types';
 
-const ADMIN_PASSWORD = 'dxn2025';
+const ADMIN_PASSWORD = 'admin2026';
 const AUTH_TOKEN_KEY = 'dxn_admin_auth_session';
 
 // Helper for inputs
@@ -399,7 +399,7 @@ const Admin: React.FC = () => {
    if (!isAuth) return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6 pt-32" style={{ background: 'radial-gradient(ellipse at top, #171717 0%, #000000 60%)' }}>
          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full">
-            
+
             {/* Main Admin Card */}
             <div className="bg-neutral-900 border border-white/10 p-12 rounded-sm shadow-2xl relative overflow-hidden group">
                <div className="absolute inset-0 bg-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

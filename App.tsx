@@ -264,6 +264,7 @@ const Navbar: React.FC = () => {
         { name: 'Video Gallery', path: '/gallery/videos', icon: PlayCircle },
         { name: 'Corporate Events', path: '/events', icon: Calendar },
         { name: 'News & Press', path: '/media', icon: Newspaper },
+        {name: 'certificates', path: '/certificates', icon:Shield}
       ]
     },
     {
