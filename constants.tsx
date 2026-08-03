@@ -206,13 +206,84 @@ export const DIVISIONS: Division[] = [
 ];
 
 export const CERTIFICATIONS: Certification[] = [
-  { name: 'FSSAI', status: 'active', description: 'Food Safety and Standards Authority of India' },
-  { name: 'GMP India', status: 'active', description: 'Good Manufacturing Practices' },
-  { name: 'FSSC 22000 v6', status: 'active', description: 'GFSI Recognized Food Safety System' },
-  { name: 'Halal India', status: 'active', description: 'Compliant with Global Halal Standards' },
-  { name: 'AYUSH', status: 'active', description: 'Ayurveda Compliance Certification' },
-  { name: 'OHSAS 45001', status: 'in-progress', description: 'Occupational Health & Safety' },
-  { name: 'ISO 14001', status: 'in-progress', description: 'Environmental Management' }
+  {
+    id: 'fssai',
+    name: 'FSSAI License',
+    status: 'active',
+    description: 'Food Safety and Standards Authority of India',
+    category: 'Food Safety',
+    issuingAuthority: 'FSSAI, Govt of India',
+    certificateNumber: 'Lic. No. 10021047000123',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/fssai.png'
+  },
+  {
+    id: 'gmp',
+    name: 'GMP Certification',
+    status: 'active',
+    description: 'Good Manufacturing Practices for Herbal & Dietary Supplements',
+    category: 'Quality & Manufacturing',
+    issuingAuthority: 'FDA / Ayush Department',
+    certificateNumber: 'GMP-IND-2024-8891',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/gmp.png'
+  },
+  {
+    id: 'fssc22000',
+    name: 'FSSC 22000 v6',
+    status: 'active',
+    description: 'Global GFSI Recognized Food Safety Management System',
+    category: 'Global Standards',
+    issuingAuthority: 'Foundation FSSC',
+    certificateNumber: 'FSSC-IND-90921',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/fssc.png',
+    imageClass: 'scale-135'
+  },
+  {
+    id: 'halal',
+    name: 'Halal Certification',
+    status: 'active',
+    description: 'Compliant with International Halal Manufacturing Standards',
+    category: 'Global Compliance',
+    issuingAuthority: 'Halal India Trust',
+    certificateNumber: 'HI-CERT-2024-554',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/halal.png'
+  },
+  {
+    id: 'ayush',
+    name: 'AYUSH Premium Mark',
+    status: 'active',
+    description: 'Ayurvedic Formulations & Standardized Herbal Extraction Certification',
+    category: 'Ayurveda & Herbal',
+    issuingAuthority: 'Ministry of AYUSH',
+    certificateNumber: 'AYUSH-PRM-3342',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/ayush.png'
+  },
+  {
+    id: 'haccp',
+    name: 'HACCP Certification',
+    status: 'active',
+    description: 'Hazard Analysis Critical Control Point Food Safety System',
+    category: 'Food Safety',
+    issuingAuthority: 'International HACCP Alliance',
+    certificateNumber: 'HACCP-IND-7712',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/haccp.png'
+  },
+  {
+    id: 'iso',
+    name: 'ISO Certification',
+    status: 'active',
+    description: 'Integrated Quality, Environmental & Safety Management System',
+    category: 'Management Systems',
+    issuingAuthority: 'ISO / Bureau Veritas',
+    certificateNumber: 'ISO-9001-14001-45001',
+    validUntil: 'Active & Verified',
+    imageUrl: '/certificates/iso.png'
+  }
 ];
 
 export const TIMELINE: Milestone[] = [

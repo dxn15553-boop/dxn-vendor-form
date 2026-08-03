@@ -18,9 +18,17 @@ export interface Division {
 }
 
 export interface Certification {
+  id?: string;
   name: string;
   status: 'active' | 'in-progress';
   description: string;
+  certificateNumber?: string;
+  issuingAuthority?: string;
+  category?: string;
+  validUntil?: string;
+  pdfUrl?: string;
+  imageUrl?: string;
+  imageClass?: string;
 }
 
 export interface Milestone {

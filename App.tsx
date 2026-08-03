@@ -591,8 +591,21 @@ const Footer: React.FC = () => {
             Engineered for global excellence, sustainability, and human wellness.
           </p>
           <div className="flex gap-4">
-            {[Facebook, Twitter, Linkedin, Youtube, Instagram].map((Icon, i) => (
-              <a key={i} href="#" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+            {[
+              { Icon: Facebook, href: '#', label: 'Facebook' },
+              { Icon: Twitter, href: '#', label: 'Twitter' },
+              { Icon: Linkedin, href: '#', label: 'LinkedIn' },
+              { Icon: Youtube, href: '#', label: 'YouTube' },
+              { Icon: Instagram, href: 'https://www.instagram.com/dmfsdpt/?hl=en', label: 'Instagram' }
+            ].map(({ Icon, href, label }, i) => (
+              <a
+                key={i}
+                href={href}
+                target={href !== '#' ? '_blank' : undefined}
+                rel={href !== '#' ? 'noopener noreferrer' : undefined}
+                aria-label={label}
+                className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm"
+              >
                 <Icon className="w-4 h-4" />
               </a>
             ))}

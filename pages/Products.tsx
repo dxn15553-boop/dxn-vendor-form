@@ -167,7 +167,15 @@ const Products: React.FC = () => {
                               <img
                                  src={product.image}
                                  alt={product.name}
-                                 className="max-h-[75%] max-w-[75%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-[1.05]"
+                                 className={`h-[90%] w-[90%] object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 ${
+                                    product.name === 'DXN Radish Salt' ? 'scale-[1.65] group-hover:scale-[1.75]' :
+                                    product.category === 'Nutraceuticals' ? 'scale-[1.45] group-hover:scale-[1.55]' :
+                                    product.category === 'Cosmetics' ? 'scale-[1.3] group-hover:scale-[1.4]' :
+                                    product.category === 'Agro' ? 'scale-[1.3] group-hover:scale-[1.4]' :
+                                    product.category === 'Wetfood' ? 'scale-[1.25] group-hover:scale-[1.35]' :
+                                    product.category === 'Kombucha' ? 'scale-[1.2] group-hover:scale-[1.3]' :
+                                    'scale-[1.05] group-hover:scale-[1.15]'
+                                 }`}
                               />
                            ) : (
                               <div className="w-full h-full flex items-center justify-center">

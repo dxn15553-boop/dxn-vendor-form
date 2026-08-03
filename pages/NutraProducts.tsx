@@ -204,7 +204,7 @@ const NutraProducts: React.FC = () => {
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-full object-contain p-6 transition-transform duration-700 ease-in-out group-hover:scale-105"
+                        className="w-full h-full object-contain p-2 scale-[1.3] transition-transform duration-700 ease-in-out group-hover:scale-[1.4]"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
