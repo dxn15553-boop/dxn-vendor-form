@@ -590,25 +590,28 @@ const Footer: React.FC = () => {
             The World's Largest Ganoderma Manufacturing Facility.
             Engineered for global excellence, sustainability, and human wellness.
           </p>
-          <div className="flex gap-4">
-            {[
-              { Icon: Facebook, href: '#', label: 'Facebook' },
-              { Icon: Twitter, href: '#', label: 'Twitter' },
-              { Icon: Linkedin, href: '#', label: 'LinkedIn' },
-              { Icon: Youtube, href: '#', label: 'YouTube' },
-              { Icon: Instagram, href: 'https://www.instagram.com/dmfsdpt/?hl=en', label: 'Instagram' }
-            ].map(({ Icon, href, label }, i) => (
-              <a
-                key={i}
-                href={href}
-                target={href !== '#' ? '_blank' : undefined}
-                rel={href !== '#' ? 'noopener noreferrer' : undefined}
-                aria-label={label}
-                className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm"
-              >
-                <Icon className="w-4 h-4" />
-              </a>
-            ))}
+          <div className="flex gap-4 relative z-20">
+            <a href="#" aria-label="Facebook" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+              <Facebook className="w-4 h-4" />
+            </a>
+            <a href="#" aria-label="Twitter" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+              <Twitter className="w-4 h-4" />
+            </a>
+            <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a href="#" aria-label="YouTube" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+              <Youtube className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.instagram.com/dmfsdpt/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm cursor-pointer relative z-30"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
