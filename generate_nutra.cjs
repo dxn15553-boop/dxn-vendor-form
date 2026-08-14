@@ -1,0 +1,70 @@
+const fs = require('fs');
+
+const products = [
+  { name: 'DXN Arjuna Capsule', image: '/nutra/ArjunaCapsule90.png' },
+  { name: 'DXN Amalaki Capsule', image: '/nutra/AmalakiCapsule_90Capsule.png' },
+  { name: 'DXN Ashwagandha Capsule', image: '/nutra/Ashwagandha90Capsule.png' },
+  { name: 'DXN Brahmi Capsule', image: '/nutra/BrahmiCapsule90.png' },
+  { name: 'DXN Ganocelium (GL) Capsule', image: '/nutra/GanoceliumCapsule.png' },
+  { name: 'DXN Lion\'s Mane Capsule', image: '/nutra/LionsManeCapsule450mgx90.png' },
+  { name: 'DXN Cordyceps Capsule', image: '/nutra/cordycepsCapsule450mgx90.png' },
+  { name: 'DXN Poria-S Capsule', image: '/nutra/Porias-sCapsule450mgx90Capsules.png' },
+  { name: 'DXN Reishi Gano (RG) Capsule', image: '/nutra/RG30.png' },
+  { name: 'DXN Neem Capsule', image: '/nutra/NeemTablet60.png' },
+  { name: 'DXN Spirulina Capsule', image: '/nutra/Spirulina120Capsule.png' },
+  { name: 'DXN Shatavari Capsule', image: '/nutra/ShatavariCapsule90.png' },
+  { name: 'DXN Lion\'s Mane Tablet', image: '/nutra/LionsManeTablet300mgx360.png' },
+  { name: 'DXN Cordyceps Tablet', image: '/nutra/CordycepsTablet300mgx120Tablet.png' },
+  { name: 'DXN Poria-S Tablet', image: '/nutra/Porias-sTablet300mgx120tablets.png' },
+  { name: 'DXN Zhi Mint', image: '/nutra/ZhiMint.png' },
+  { name: 'DXN Reishi Gano (RG) Tablet', image: '/nutra/RG120Tablet.png' },
+  { name: 'DXN Ashwagandha Tablet', image: '/nutra/AshwagandhaTabley_120.png' },
+  { name: 'DXN Asthisamharaka Tablet', image: '/nutra/AsthisamharakaTablet120.png' },
+  { name: 'DXN Brahmi Tablet', image: '/nutra/BramhiTablet120.png' },
+  { name: 'DXN Gandira Tablet', image: '/nutra/GandiraTablet120.png' },
+  { name: 'DXN Giloy Tablet', image: '/nutra/GiloyTablet_60.png' },
+  { name: 'DXN Gokshura Tablet', image: '/nutra/GokshuraTablet120.png' },
+  { name: 'DXN Spirulina Tablet', image: '/nutra/spirulina360Capsule.png' },
+  { name: 'DXN Amalaki Tablet', image: '/nutra/AmalakiTablet120.png' },
+  { name: 'DXN Arjuna Tablet', image: '/nutra/ArjunaTablet120.png' },
+  { name: 'DXN Meshashringi Tablet', image: '/nutra/MeshaShringiTablet120.png' },
+  { name: 'DXN Harithaki Tablet', image: '/nutra/harithaki_tablet.png' },
+  { name: 'DXN Lasuna Tablet', image: '/nutra/LasunaTablet120.png' },
+  { name: 'DXN Manjista Tablet', image: '/nutra/ManjistaTablet120.png' },
+  { name: 'DXN Sh.Guggulu Tablet', image: '/nutra/Sh.GugguluTablet120.png' },
+  { name: 'DXN Ganocelium Powder', image: '/nutra/ganoceliumPowder.png' },
+  { name: 'DXN Poria-S Powder', image: '/nutra/PoriasPowder30g.png' },
+  { name: 'DXN Reishi Gano Powder', image: '/nutra/RG30gPowder.png' },
+  { name: 'Amalaki Churna', image: '/nutra/amalaki50powder.png' },
+  { name: 'DXN Arjuna Powder', image: '/nutra/ArjunaPowder50.png' },
+  { name: 'DXN Asana Powder', image: '/nutra/asanaPowder50g.png' },
+  { name: 'DXN Asthisamharaka Powder', image: '/nutra/AsthisamharakaPowder50g.png' },
+  { name: 'DXN Asvagandha Powder', image: '/nutra/AshvagandhaPowder50g.png' },
+  { name: 'DXN Atmagupta Powder', image: '/nutra/atmagupta_50gPowder.png' },
+  { name: 'DXN Brahmi Powder', image: '/nutra/BramhiPowder50g.png' },
+  { name: 'DXN Gandira Powder', image: '/nutra/gandiraPowder50g.png' },
+  { name: 'DXN Gokshura Powder', image: '/nutra/GokshuraPowder50g.png' },
+  { name: 'DXN Guduci Powder', image: '/nutra/GudiciPowder50g.png' },
+  { name: 'DXN Haridra Powder', image: '/nutra/haridraPowder50g.png' },
+  { name: 'DXN Harithaki Powder', image: '/nutra/HarithakiPowder50g.png' },
+  { name: 'DXN Kalamegh Powder', image: '/nutra/KalameghPower50g.png' },
+  { name: 'DXN Khadira Sara Powder', image: '/nutra/KhadiraSaraPowder50.png' },
+  { name: 'DXN Kunduru Powder', image: '/nutra/kunduruPowder50g.png' },
+  { name: 'DXN Lasuna Powder', image: '/nutra/LasunaPowder50g.png' },
+  { name: 'DXN Meshashringi Powder', image: '/nutra/MeshashringiPowder50.png' },
+  { name: 'DXN Methika Powder', image: '/nutra/Methika50g.png' },
+  { name: 'DXN Neem Powder', image: '/nutra/Neem50g.png' },
+  { name: 'DXN Sh.Guggulu Powder', image: '/nutra/sh.gugguluPowder50g.png' },
+  { name: 'DXN Roselle Premix Powder', image: '/nutra/RosellePowder.png' },
+  { name: 'DXN Svarnapatri Powder', image: '/nutra/SvarnapatriPowder50g.png' },
+  { name: 'DXN Tulasi Powder', image: '/nutra/TulasiPowder50g.png' },
+  { name: 'DXN Yastimadhu Churna', image: '/nutra/yastimadhuChurna50g.png' }
+];
+
+let result = '';
+products.forEach((p, i) => {
+  result += `    {\n      id: "prod-nutra-${i}",\n      name: "${p.name}",\n      category: "Nutraceuticals",\n      description: "${p.name} - Premium ayurvedic formulation for health and wellness.",\n      image: "${p.image}",\n      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],\n      status: "Available"\n    },\n`;
+});
+
+fs.writeFileSync('nutra_temp.txt', result);
+console.log('done');

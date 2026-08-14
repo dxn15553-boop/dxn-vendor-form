@@ -76,7 +76,7 @@ const Careers: React.FC = () => {
                </div>
 
                <div className="mt-16 text-center">
-                  <p className="text-neutral-500 mb-8 font-light italic">Don't see a fit? Send your CV to careers.india@dxn2u.com</p>
+                  <p className="text-neutral-500 mb-8 font-light italic">Don't see a fit? Send your CV to ts_hr@dxn2u.com</p>
                   <button className="bg-neutral-950 text-white px-12 py-5 font-bold uppercase tracking-widest hover:bg-red-600 transition-colors">
                      Submit General Application
                   </button>

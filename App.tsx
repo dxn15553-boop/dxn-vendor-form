@@ -179,9 +179,9 @@ const Navbar: React.FC = () => {
       name: 'Products',
       path: '/products',
       dropdown: [
-        { 
-          name: 'Nutraceuticals', 
-          path: '/products?category=Nutraceuticals', 
+        {
+          name: 'Nutraceuticals',
+          path: '/products?category=Nutraceuticals',
           icon: Dna,
           dropdown: [
             {
@@ -264,7 +264,7 @@ const Navbar: React.FC = () => {
         { name: 'Video Gallery', path: '/gallery/videos', icon: PlayCircle },
         { name: 'Corporate Events', path: '/events', icon: Calendar },
         { name: 'News & Press', path: '/media', icon: Newspaper },
-        {name: 'certificates', path: '/certificates', icon:Shield}
+        { name: 'certificates', path: '/certificates', icon: Shield }
       ]
     },
     {
@@ -364,7 +364,7 @@ const Navbar: React.FC = () => {
                                           </div>
                                           {nested.dropdown && <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${activeDeepNestedDropdown === nested.name ? 'text-white' : 'text-neutral-600'}`} />}
                                         </Link>
-                                        
+
                                         {nested.dropdown && activeDeepNestedDropdown === nested.name && (
                                           <div className={`absolute top-0 left-full pl-1 ${nested.dropdown.length > 15 ? 'w-[450px]' : 'w-48'} animate-in fade-in slide-in-from-left-2 duration-200 z-[120]`}>
                                             <div className="bg-neutral-900 border border-white/10 p-3 shadow-2xl max-h-[70vh] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#525252 transparent' }}>
@@ -600,7 +600,13 @@ const Footer: React.FC = () => {
             <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
               <Linkedin className="w-4 h-4" />
             </a>
-            <a href="#" aria-label="YouTube" className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm">
+            <a
+              href="https://www.youtube.com/@DXNManufacturingSiddipet"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="w-10 h-10 bg-white/5 flex items-center justify-center text-white hover:bg-red-600 transition-all rounded-sm cursor-pointer relative z-30"
+            >
               <Youtube className="w-4 h-4" />
             </a>
             <a
@@ -650,11 +656,11 @@ const Footer: React.FC = () => {
             </li>
             <li className="flex items-center gap-4">
               <Phone className="w-5 h-5 text-red-600 shrink-0" />
-              <span>+91 40 2354 XXXX / +91 99XXXX XXXX</span>
+              <span>+918457210022 / +917331117460</span>
             </li>
             <li className="flex items-center gap-4">
               <Mail className="w-5 h-5 text-red-600 shrink-0" />
-              <a href="mailto:info@dxn2u.com" className="hover:text-white transition-colors">info@dxn2u.com</a>
+              <a href="mailto:ts_info@dxn2u.com" className="hover:text-white transition-colors">ts_info@dxn2u.com</a>
             </li>
           </ul>
         </div>

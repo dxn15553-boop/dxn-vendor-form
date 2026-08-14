@@ -1,0 +1,522 @@
+    {
+      id: "prod-nutra-0",
+      name: "DXN Arjuna Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Arjuna Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ArjunaCapsule90.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-1",
+      name: "DXN Amalaki Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Amalaki Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AmalakiCapsule_90Capsule.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-2",
+      name: "DXN Ashwagandha Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Ashwagandha Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Ashwagandha90Capsule.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-3",
+      name: "DXN Brahmi Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Brahmi Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/BrahmiCapsule90.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-4",
+      name: "DXN Ganocelium (GL) Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Ganocelium (GL) Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GanoceliumCapsule.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-5",
+      name: "DXN Lion's Mane Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Lion's Mane Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/LionsManeCapsule450mgx90.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-6",
+      name: "DXN Cordyceps Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Cordyceps Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/cordycepsCapsule450mgx90.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-7",
+      name: "DXN Poria-S Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Poria-S Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Porias-sCapsule450mgx90Capsules.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-8",
+      name: "DXN Reishi Gano (RG) Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Reishi Gano (RG) Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/RG30.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-9",
+      name: "DXN Neem Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Neem Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/NeemTablet60.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-10",
+      name: "DXN Spirulina Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Spirulina Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Spirulina120Capsule.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-11",
+      name: "DXN Shatavari Capsule",
+      category: "Nutraceuticals",
+      description: "DXN Shatavari Capsule - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ShatavariCapsule90.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-12",
+      name: "DXN Lion's Mane Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Lion's Mane Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/LionsManeTablet300mgx360.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-13",
+      name: "DXN Cordyceps Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Cordyceps Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/CordycepsTablet300mgx120Tablet.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-14",
+      name: "DXN Poria-S Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Poria-S Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Porias-sTablet300mgx120tablets.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-15",
+      name: "DXN Zhi Mint",
+      category: "Nutraceuticals",
+      description: "DXN Zhi Mint - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ZhiMint.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-16",
+      name: "DXN Reishi Gano (RG) Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Reishi Gano (RG) Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/RG120Tablet.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-17",
+      name: "DXN Ashwagandha Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Ashwagandha Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AshwagandhaTabley_120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-18",
+      name: "DXN Asthisamharaka Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Asthisamharaka Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AsthisamharakaTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-19",
+      name: "DXN Brahmi Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Brahmi Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/BramhiTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-20",
+      name: "DXN Gandira Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Gandira Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GandiraTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-21",
+      name: "DXN Giloy Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Giloy Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GiloyTablet_60.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-22",
+      name: "DXN Gokshura Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Gokshura Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GokshuraTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-23",
+      name: "DXN Spirulina Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Spirulina Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/spirulina360Capsule.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-24",
+      name: "DXN Amalaki Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Amalaki Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AmalakiTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-25",
+      name: "DXN Arjuna Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Arjuna Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ArjunaTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-26",
+      name: "DXN Meshashringi Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Meshashringi Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/MeshaShringiTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-27",
+      name: "DXN Harithaki Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Harithaki Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/harithaki_tablet.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-28",
+      name: "DXN Lasuna Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Lasuna Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/LasunaTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-29",
+      name: "DXN Manjista Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Manjista Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ManjistaTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-30",
+      name: "DXN Sh.Guggulu Tablet",
+      category: "Nutraceuticals",
+      description: "DXN Sh.Guggulu Tablet - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Sh.GugguluTablet120.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-31",
+      name: "DXN Ganocelium Powder",
+      category: "Nutraceuticals",
+      description: "DXN Ganocelium Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ganoceliumPowder.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-32",
+      name: "DXN Poria-S Powder",
+      category: "Nutraceuticals",
+      description: "DXN Poria-S Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/PoriasPowder30g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-33",
+      name: "DXN Reishi Gano Powder",
+      category: "Nutraceuticals",
+      description: "DXN Reishi Gano Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/RG30gPowder.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-34",
+      name: "Amalaki Churna",
+      category: "Nutraceuticals",
+      description: "Amalaki Churna - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/amalaki50powder.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-35",
+      name: "DXN Arjuna Powder",
+      category: "Nutraceuticals",
+      description: "DXN Arjuna Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/ArjunaPowder50.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-36",
+      name: "DXN Asana Powder",
+      category: "Nutraceuticals",
+      description: "DXN Asana Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/asanaPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-37",
+      name: "DXN Asthisamharaka Powder",
+      category: "Nutraceuticals",
+      description: "DXN Asthisamharaka Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AsthisamharakaPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-38",
+      name: "DXN Asvagandha Powder",
+      category: "Nutraceuticals",
+      description: "DXN Asvagandha Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/AshvagandhaPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-39",
+      name: "DXN Atmagupta Powder",
+      category: "Nutraceuticals",
+      description: "DXN Atmagupta Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/atmagupta_50gPowder.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-40",
+      name: "DXN Brahmi Powder",
+      category: "Nutraceuticals",
+      description: "DXN Brahmi Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/BramhiPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-41",
+      name: "DXN Gandira Powder",
+      category: "Nutraceuticals",
+      description: "DXN Gandira Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/gandiraPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-42",
+      name: "DXN Gokshura Powder",
+      category: "Nutraceuticals",
+      description: "DXN Gokshura Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GokshuraPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-43",
+      name: "DXN Guduci Powder",
+      category: "Nutraceuticals",
+      description: "DXN Guduci Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/GudiciPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-44",
+      name: "DXN Haridra Powder",
+      category: "Nutraceuticals",
+      description: "DXN Haridra Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/haridraPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-45",
+      name: "DXN Harithaki Powder",
+      category: "Nutraceuticals",
+      description: "DXN Harithaki Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/HarithakiPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-46",
+      name: "DXN Kalamegh Powder",
+      category: "Nutraceuticals",
+      description: "DXN Kalamegh Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/KalameghPower50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-47",
+      name: "DXN Khadira Sara Powder",
+      category: "Nutraceuticals",
+      description: "DXN Khadira Sara Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/KhadiraSaraPowder50.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-48",
+      name: "DXN Kunduru Powder",
+      category: "Nutraceuticals",
+      description: "DXN Kunduru Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/kunduruPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-49",
+      name: "DXN Lasuna Powder",
+      category: "Nutraceuticals",
+      description: "DXN Lasuna Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/LasunaPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-50",
+      name: "DXN Meshashringi Powder",
+      category: "Nutraceuticals",
+      description: "DXN Meshashringi Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/MeshashringiPowder50.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-51",
+      name: "DXN Methika Powder",
+      category: "Nutraceuticals",
+      description: "DXN Methika Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Methika50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-52",
+      name: "DXN Neem Powder",
+      category: "Nutraceuticals",
+      description: "DXN Neem Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/Neem50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-53",
+      name: "DXN Sh.Guggulu Powder",
+      category: "Nutraceuticals",
+      description: "DXN Sh.Guggulu Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/sh.gugguluPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-54",
+      name: "DXN Roselle Premix Powder",
+      category: "Nutraceuticals",
+      description: "DXN Roselle Premix Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/RosellePowder.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-55",
+      name: "DXN Svarnapatri Powder",
+      category: "Nutraceuticals",
+      description: "DXN Svarnapatri Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/SvarnapatriPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-56",
+      name: "DXN Tulasi Powder",
+      category: "Nutraceuticals",
+      description: "DXN Tulasi Powder - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/TulasiPowder50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
+    {
+      id: "prod-nutra-57",
+      name: "DXN Yastimadhu Churna",
+      category: "Nutraceuticals",
+      description: "DXN Yastimadhu Churna - Premium ayurvedic formulation for health and wellness.",
+      image: "/nutra/yastimadhuChurna50g.png",
+      features: ["Ayurvedic Formula", "100% Natural", "Health Supplement"],
+      status: "Available"
+    },
