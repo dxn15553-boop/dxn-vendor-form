@@ -54,10 +54,7 @@ const Media: React.FC = () => {
             {/* Right Column: Hero Image Frame (Focal point with no face overlap) */}
             <div className="lg:col-span-7">
               <div className="relative group">
-                {/* Accent glow behind container */}
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-red-600 to-amber-500 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-700" />
-
-                <div className="relative w-full h-[280px] sm:h-[400px] lg:h-[450px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-neutral-900">
+                <div className="relative w-full h-[280px] sm:h-[400px] lg:h-[450px] overflow-hidden border border-white/10 bg-neutral-900">
                   <img
                     src={assets.MEDIA_HERO}
                     alt="DXN Ceremony"
@@ -68,7 +65,7 @@ const Media: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/60 via-transparent to-neutral-950/20" />
 
                   {/* Floating Caption Badge (Styled and placed to never block faces) */}
-                  <div className="absolute bottom-5 left-5 right-5 sm:left-6 sm:right-auto bg-neutral-950/85 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/10 shadow-xl max-w-sm">
+                  <div className="absolute bottom-5 left-5 right-5 sm:left-6 sm:right-auto bg-neutral-950/85 backdrop-blur-md px-4 py-3 border border-white/10 max-w-sm">
                     <div className="flex items-center gap-3">
                       <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
                       <p className="text-[11px] text-neutral-200 font-medium tracking-wide leading-snug">
