@@ -1,14 +1,22 @@
-
 import React, { useState, useMemo } from 'react';
 import SectionTitle from '../components/SectionTitle';
 import { useContent } from '../context/ContentContext';
-import { X, Filter, BadgeCheck, ExternalLink } from 'lucide-react';
+import { X, Filter, BadgeCheck, ExternalLink, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { Certification } from '../types';
 
 const Certificates: React.FC = () => {
     const { content } = useContent();
     const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
     const [activeCategory, setActiveCategory] = useState('All');
+    const [zoomScale, setZoomScale] = useState<number>(1);
+
+    const handleZoomIn = () => setZoomScale(prev => Math.min(prev + 0.5, 3));
+    const handleZoomOut = () => setZoomScale(prev => Math.max(prev - 0.5, 1));
+    const handleResetZoom = () => setZoomScale(1);
+    const closeLightbox = () => {
+        setSelectedCert(null);
+        setZoomScale(1);
+    };
 
     const categories = useMemo(() => {
         const cats = new Set<string>();
@@ -137,28 +145,73 @@ const Certificates: React.FC = () => {
 
             {/* Lightbox / Zoom modal */}
             {selectedCert && (
-                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-6" onClick={() => setSelectedCert(null)}>
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-6" onClick={closeLightbox}>
                     <div className="bg-neutral-900 border border-white/10 rounded-2xl p-6 sm:p-8 max-w-2xl w-full relative shadow-2xl overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
                         <button
-                            onClick={() => setSelectedCert(null)}
+                            onClick={closeLightbox}
                             className="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-neutral-800 text-neutral-400 hover:text-white hover:bg-red-600 transition-all shadow-lg"
                         >
                             <X className="w-5 h-5" />
                         </button>
                         
-                        <div className="mb-6 pr-10">
-                            <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-red-500 block mb-1">{selectedCert.category}</span>
-                            <h3 className="text-2xl font-black uppercase tracking-tighter text-white">
-                                {selectedCert.name}
-                            </h3>
-                            {selectedCert.certificateNumber && (
-                                <span className="text-[10px] font-mono text-neutral-500 uppercase">License: {selectedCert.certificateNumber}</span>
+                        <div className="mb-6 pr-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                            <div>
+                                <span className="text-[9px] uppercase font-bold tracking-[0.2em] text-red-500 block mb-1">{selectedCert.category}</span>
+                                <h3 className="text-2xl font-black uppercase tracking-tighter text-white">
+                                    {selectedCert.name}
+                                </h3>
+                                {selectedCert.certificateNumber && (
+                                    <span className="text-[10px] font-mono text-neutral-500 uppercase">License: {selectedCert.certificateNumber}</span>
+                                )}
+                            </div>
+                            {selectedCert.imageUrl && (
+                                <div className="flex items-center gap-3 bg-neutral-800 px-3 py-2 rounded-lg border border-white/5 shadow-md w-fit shrink-0">
+                                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest select-none">Zoom:</span>
+                                    <input 
+                                        type="range" 
+                                        min="1" 
+                                        max="3" 
+                                        step="0.05" 
+                                        value={zoomScale} 
+                                        onChange={(e) => setZoomScale(parseFloat(e.target.value))}
+                                        className="w-28 sm:w-36 accent-red-600 h-1 bg-neutral-950 rounded-lg appearance-none cursor-pointer"
+                                        title="Adjust Zoom"
+                                    />
+                                    <span className="text-xs font-mono font-bold text-neutral-300 min-w-[45px] text-right select-none">
+                                        {Math.round(zoomScale * 100)}%
+                                    </span>
+                                    {zoomScale > 1 && (
+                                        <button
+                                            onClick={handleResetZoom}
+                                            className="p-1.5 rounded text-neutral-400 hover:text-white transition-colors border-l border-white/5 pl-2 ml-1"
+                                            title="Reset Zoom"
+                                        >
+                                            <RotateCcw className="w-3.5 h-3.5" />
+                                        </button>
+                                    )}
+                                </div>
                             )}
                         </div>
 
                         {selectedCert.imageUrl ? (
-                            <div className="w-full h-[60vh] mb-6 rounded-xl bg-white p-6 flex items-center justify-center shadow-inner border border-neutral-800 relative overflow-hidden">
-                                <img src={selectedCert.imageUrl} alt={selectedCert.name} className={`max-w-full max-h-full object-contain drop-shadow-md ${selectedCert.imageClass || ''}`} />
+                            <div className={`w-full h-[60vh] mb-6 rounded-xl bg-white p-6 shadow-inner border border-neutral-800 relative overflow-auto ${zoomScale > 1 ? 'flex items-start justify-start' : 'flex items-center justify-center'}`}>
+                                <img 
+                                    src={selectedCert.imageUrl} 
+                                    alt={selectedCert.name} 
+                                    className={`transition-all duration-200 drop-shadow-md ${zoomScale > 1 ? 'max-w-none' : 'max-w-full max-h-full object-contain'} ${selectedCert.imageClass || ''}`}
+                                    onClick={() => {
+                                        if (zoomScale === 1) {
+                                            setZoomScale(2);
+                                        } else {
+                                            setZoomScale(1);
+                                        }
+                                    }}
+                                    style={{
+                                        cursor: zoomScale > 1 ? 'zoom-out' : 'zoom-in',
+                                        width: zoomScale > 1 ? `${zoomScale * 100}%` : undefined,
+                                        height: zoomScale > 1 ? 'auto' : undefined
+                                    }}
+                                />
                             </div>
                         ) : (
                             <div className="w-full h-64 mb-6 rounded-xl bg-neutral-950 p-8 flex flex-col items-center justify-center border border-white/5 text-center">
@@ -173,7 +226,7 @@ const Certificates: React.FC = () => {
                                 <span className="block">Valid: {selectedCert.validUntil || 'Active'}</span>
                             </div>
                             <button
-                                onClick={() => setSelectedCert(null)}
+                                onClick={closeLightbox}
                                 className="px-6 py-2.5 rounded-lg bg-neutral-800 text-neutral-300 hover:bg-red-600 hover:text-white font-bold uppercase tracking-wider text-xs transition-all shadow-md"
                             >
                                 Close
