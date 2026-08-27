@@ -203,9 +203,7 @@ export const DIVISIONS: Division[] = [
     capacity: 'Integrated farm-to-fork manufacturing capacity',
     image: '/agro/agroDivision.png'
   }
-];
-
-export const CERTIFICATIONS: Certification[] = [
+];export const CERTIFICATIONS: Certification[] = [
   {
     id: 'fssai',
     name: 'FSSAI License',
@@ -215,7 +213,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'FSSAI, Govt of India',
     certificateNumber: 'Lic. No. 10021047000123',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/fssai.png'
+    imageUrl: '/cert-assets/fssai.png'
   },
   {
     id: 'gmp',
@@ -226,7 +224,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'FDA / Ayush Department',
     certificateNumber: 'GMP-IND-2024-8891',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/gmp.png'
+    imageUrl: '/cert-assets/gmp.png'
   },
   {
     id: 'fssc22000',
@@ -237,7 +235,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'Foundation FSSC',
     certificateNumber: 'FSSC-IND-90921',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/fssc.png',
+    imageUrl: '/cert-assets/fssc.png',
     imageClass: 'scale-135'
   },
   {
@@ -249,7 +247,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'Halal India Trust',
     certificateNumber: 'HI-CERT-2024-554',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/halal.png'
+    imageUrl: '/cert-assets/halal.png'
   },
   {
     id: 'ayush',
@@ -260,7 +258,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'Ministry of AYUSH',
     certificateNumber: 'AYUSH-PRM-3342',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/ayush.png'
+    imageUrl: '/cert-assets/ayush.png'
   },
   {
     id: 'haccp',
@@ -271,7 +269,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'International HACCP Alliance',
     certificateNumber: 'HACCP-IND-7712',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/haccp.png'
+    imageUrl: '/cert-assets/haccp.png'
   },
   {
     id: 'iso',
@@ -282,7 +280,7 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'ISO / Bureau Veritas',
     certificateNumber: 'ISO-9001-14001-45001',
     validUntil: 'Active & Verified',
-    imageUrl: '/certificates/iso.png'
+    imageUrl: '/cert-assets/iso.png'
   },
   {
     id: 'iso14001',
@@ -293,8 +291,8 @@ export const CERTIFICATIONS: Certification[] = [
     issuingAuthority: 'BSI (British Standards Institution)',
     certificateNumber: 'EMS 839830',
     validUntil: '2029-04-14',
-    logoUrl: '/certificates/bsi.png',
-    imageUrl: '/certificates/env.png'
+    logoUrl: '/cert-assets/bsi.png',
+    imageUrl: '/cert-assets/env.png'
   }
 ];
 
