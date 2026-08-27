@@ -28,6 +28,7 @@ export interface Certification {
   validUntil?: string;
   pdfUrl?: string;
   imageUrl?: string;
+  logoUrl?: string;
   imageClass?: string;
 }
 

@@ -34,9 +34,9 @@ const Quality: React.FC = () => {
 
                 <div>
                   <div className="flex justify-between items-start mb-6">
-                    {cert.imageUrl ? (
+                    {cert.logoUrl || cert.imageUrl ? (
                       <div className="w-40 h-20 rounded-xl bg-white p-2.5 flex items-center justify-center shadow-lg border border-neutral-200 group-hover:scale-105 transition-transform overflow-hidden">
-                        <img src={cert.imageUrl} alt={cert.name} className={`w-full h-full object-contain ${cert.imageClass || ''}`} />
+                        <img src={cert.logoUrl || cert.imageUrl} alt={cert.name} className={`w-full h-full object-contain ${cert.imageClass || ''}`} />
                       </div>
                     ) : (
                       <div className="w-16 h-16 rounded-xl bg-red-600/10 border border-red-600/20 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">

@@ -97,7 +97,7 @@ const Media: React.FC = () => {
                 href={featuredNews.url || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group cursor-pointer bg-neutral-900/30 backdrop-blur-md border border-white/5 hover:border-red-500/30 transition-all duration-500 rounded-3xl overflow-hidden shadow-2xl hover:shadow-[0_0_50px_rgba(239,68,68,0.08)] flex flex-col md:flex-row hover:-translate-y-1 block"
+                className="group cursor-pointer bg-neutral-900/30 backdrop-blur-md border border-white/5 hover:border-red-500/30 transition-all duration-500 rounded-none overflow-hidden flex flex-col md:flex-row hover:-translate-y-1 block mb-12"
               >
                 {/* Featured Image */}
                 {featuredNews.image && (
@@ -110,7 +110,7 @@ const Media: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-neutral-950/80 via-transparent to-transparent" />
 
                     {/* Badge */}
-                    <div className="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-lg">
+                    <div className="absolute top-4 left-4 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-none">
                       Featured Release
                     </div>
                   </div>
@@ -119,7 +119,7 @@ const Media: React.FC = () => {
                 <div className="p-8 md:p-10 md:w-1/2 flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="flex justify-between items-center gap-3">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-md">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-none">
                         {featuredNews.source}
                       </span>
                       <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500 flex items-center gap-1.5">
@@ -134,7 +134,7 @@ const Media: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="mt-8 inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-750 group-hover:from-red-500 group-hover:to-red-600 transition-all duration-300 text-white text-[10px] font-black uppercase tracking-widest px-6 py-3.5 rounded-xl shadow-lg w-fit">
+                  <div className="mt-8 inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-600 group-hover:from-red-500 group-hover:to-red-600 transition-all duration-300 text-white text-[10px] font-black uppercase tracking-widest px-6 py-3.5 rounded-none w-fit">
                     Read Full Story <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -142,14 +142,14 @@ const Media: React.FC = () => {
             )}
 
             {/* ── REMAINING NEWS ITEMS (Editorial Grid Layout) ── */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {remainingNews.map((item: any, idx: number) => (
                 <a
                   key={idx}
                   href={item.url || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group cursor-pointer bg-neutral-900/20 hover:bg-neutral-900/40 border border-white/5 hover:border-red-500/20 transition-all duration-300 rounded-2xl overflow-hidden flex flex-col shadow-lg hover:shadow-2xl block"
+                  className="group cursor-pointer bg-neutral-900/20 hover:bg-neutral-900/40 border border-white/5 hover:border-red-500/20 transition-all duration-300 rounded-none overflow-hidden flex flex-col block"
                 >
                   {/* Image Container with strict Aspect Ratio */}
                   {item.image && (
@@ -166,7 +166,7 @@ const Media: React.FC = () => {
                   <div className="p-6 flex-1 flex flex-col justify-between">
                     <div className="space-y-3">
                       <div className="flex justify-between items-center gap-2">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 rounded-md">
+                        <span className="text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 rounded-none">
                           {item.source}
                         </span>
                         <span className="text-[9px] font-black uppercase tracking-widest text-neutral-500 flex items-center gap-1">
@@ -192,11 +192,11 @@ const Media: React.FC = () => {
           </div>
 
           {/* ── RIGHT: SIDEBAR (4 Cols - Sticky on Desktop) ── */}
-          <div className="lg:col-span-4 space-y-6">
-            <div className="lg:sticky lg:top-32 space-y-6">
+          <div className="lg:col-span-4 space-y-10">
+            <div className="lg:sticky lg:top-32 space-y-10">
 
               {/* Media Kit Download Card */}
-              <div id="media-kit" className="relative overflow-hidden bg-gradient-to-b from-neutral-900 to-neutral-950 rounded-3xl border border-white/10 shadow-2xl p-8 group/card">
+              <div id="media-kit" className="relative overflow-hidden bg-gradient-to-b from-neutral-900 to-neutral-950 rounded-none border border-white/10 p-8 group/card">
                 {/* Thin header decorative gradient border */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-red-500 to-amber-500" />
                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-red-500/10 rounded-full blur-2xl group-hover/card:bg-red-500/15 transition-all duration-500" />
@@ -213,7 +213,7 @@ const Media: React.FC = () => {
                       href={content.mediaKit?.brandGuidelines || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full flex items-center justify-between bg-white text-black hover:bg-red-600 hover:text-white px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-xl shadow-lg"
+                      className="w-full flex items-center justify-between bg-white text-black hover:bg-red-600 hover:text-white px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-none"
                     >
                       Brand Guidelines <Download className="w-4 h-4 flex-shrink-0" />
                     </a>
@@ -221,7 +221,7 @@ const Media: React.FC = () => {
                       href={content.mediaKit?.facilityAssets || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full flex items-center justify-between border border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white hover:text-black px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-xl"
+                      className="w-full flex items-center justify-between border border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white hover:text-black px-5 py-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 rounded-none"
                     >
                       Facility Assets (ZIP) <Download className="w-4 h-4 flex-shrink-0" />
                     </a>
@@ -230,7 +230,7 @@ const Media: React.FC = () => {
               </div>
 
               {/* Publications List */}
-              <div className="border border-white/5 bg-neutral-900/20 backdrop-blur-md rounded-3xl p-8 shadow-xl">
+              <div className="border border-white/5 bg-neutral-900/20 backdrop-blur-md rounded-none p-8">
                 <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/5">
                   <FileText className="w-4 h-4 text-red-500 flex-shrink-0" />
                   <span className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500">Publications</span>
@@ -243,9 +243,9 @@ const Media: React.FC = () => {
                         href={pub.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/5"
+                        className="group flex items-center gap-4 p-3 rounded-none hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/5"
                       >
-                        <div className="flex-shrink-0 w-10 h-10 bg-neutral-800/80 group-hover:bg-red-500/10 border border-white/5 group-hover:border-red-500/30 flex items-center justify-center transition-all rounded-lg">
+                        <div className="flex-shrink-0 w-10 h-10 bg-neutral-800/80 group-hover:bg-red-500/10 border border-white/5 group-hover:border-red-500/30 flex items-center justify-center transition-all rounded-none">
                           <FileText className="w-4 h-4 text-neutral-400 group-hover:text-red-400 transition-colors" />
                         </div>
                         <div className="min-w-0">

@@ -133,6 +133,7 @@ import ImageGallery from './pages/ImageGallery';
 import VideoGallery from './pages/VideoGallery';
 import Events from './pages/Events';
 import Media from './pages/Media';
+import Certificates from './pages/certificates';
 import Admin from './pages/Admin';
 import Team from './pages/Team';
 import VendorRegistration from './pages/VendorRegistration';
@@ -805,6 +806,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/gallery/images" element={<PageTransition><ImageGallery /></PageTransition>} />
         <Route path="/gallery/videos" element={<PageTransition><VideoGallery /></PageTransition>} />
+        <Route path="/certificates" element={<PageTransition><Certificates /></PageTransition>} />
         <Route path="/events" element={<PageTransition><Events /></PageTransition>} />
         <Route path="/media" element={<PageTransition><Media /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />

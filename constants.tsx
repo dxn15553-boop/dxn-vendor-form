@@ -283,6 +283,18 @@ export const CERTIFICATIONS: Certification[] = [
     certificateNumber: 'ISO-9001-14001-45001',
     validUntil: 'Active & Verified',
     imageUrl: '/certificates/iso.png'
+  },
+  {
+    id: 'iso14001',
+    name: 'ISO 14001:2015',
+    status: 'active',
+    description: 'Environmental Management System covering Cultivation of Spirulina, Mushroom and Herbs, and Manufacturing of Agro foods, Cosmetics, Toiletries, Nutraceuticals, Coffee and Beverages.',
+    category: 'Management Systems',
+    issuingAuthority: 'BSI (British Standards Institution)',
+    certificateNumber: 'EMS 839830',
+    validUntil: '2029-04-14',
+    logoUrl: '/certificates/bsi.png',
+    imageUrl: '/certificates/env.png'
   }
 ];
 
