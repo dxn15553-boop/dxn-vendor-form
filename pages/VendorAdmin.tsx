@@ -310,6 +310,16 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
       if (activityFilter === 'observation') {
          if (!(v.missing_items && v.missing_items.length > 0 && !['approved', 'complete', 'rejected'].includes((v.status || '').toLowerCase()))) return false;
       }
+      if (activityFilter === 'rejected') {
+         if ((v.status || '').toLowerCase() !== 'rejected') return false;
+      }
+      if (activityFilter === 'this_week') {
+         if (!v.created_at) return false;
+         const d = new Date(v.created_at);
+         const now = new Date();
+         const weekAgo = new Date(now.getTime() - 7 * 86400000);
+         if (d < weekAgo) return false;
+      }
       if (activityFilter === 'iso9001') {
          if (!(v.missing_items != null && !v.missing_items.includes('ISO 9001'))) return false;
       }
@@ -430,7 +440,11 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
       const isActive = activityFilter === id;
       return (
          <button
-            onClick={() => { setActivityFilter(isActive ? 'all' : id); setVendorPage(1); }}
+            onClick={() => {
+               setActivityFilter(isActive ? 'all' : id);
+               setStatusToggles({ approved: false, pending: false, rejected: false });
+               setVendorPage(1);
+            }}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all border ${isActive
                ? 'bg-red-500 border-red-400 text-white shadow-md shadow-red-500/30'
                : 'border-white text-slate-300 hover:border-white hover:text-white'
@@ -675,10 +689,10 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
                   {[
                      { label: 'Total', value: vendors.length, color: 'text-white', borderCol: 'border-white/15', glowColor: 'rgba(255,255,255,0.06)', hoverGlow: '0 0 24px rgba(255,255,255,0.08)', onClick: () => { setActivityFilter('all'); setStatusToggles({ approved: false, pending: false, rejected: false }); setVendorPage(1); } },
-                     { label: 'Completed', value: completedCount, color: 'text-emerald-400', borderCol: 'border-emerald-500/30', glowColor: 'rgba(16,185,129,0.06)', hoverGlow: '0 0 24px rgba(16,185,129,0.18)', onClick: () => { setActivityFilter('completed'); setVendorPage(1); } },
-                     { label: 'Observation', value: observationCount, color: 'text-orange-400', borderCol: 'border-orange-500/30', glowColor: 'rgba(249,115,22,0.06)', hoverGlow: '0 0 24px rgba(249,115,22,0.18)', onClick: () => { setActivityFilter('observation'); setVendorPage(1); } },
-                     { label: 'Rejected', value: rejectedCount, color: 'text-red-400', borderCol: 'border-red-500/30', glowColor: 'rgba(239,68,68,0.06)', hoverGlow: '0 0 24px rgba(239,68,68,0.18)', onClick: () => { setStatusToggles(p => ({ ...p, rejected: true, approved: false, pending: false })); setVendorPage(1); } },
-                     { label: 'This Week', value: thisWeekCount, color: 'text-indigo-300', borderCol: 'border-indigo-500/30', glowColor: 'rgba(99,102,241,0.06)', hoverGlow: '0 0 24px rgba(99,102,241,0.18)', onClick: () => { setActivityFilter('registered_today'); setVendorPage(1); } },
+                     { label: 'Completed', value: completedCount, color: 'text-emerald-400', borderCol: 'border-emerald-500/30', glowColor: 'rgba(16,185,129,0.06)', hoverGlow: '0 0 24px rgba(16,185,129,0.18)', onClick: () => { setActivityFilter('completed'); setStatusToggles({ approved: false, pending: false, rejected: false }); setVendorPage(1); } },
+                     { label: 'Observation', value: observationCount, color: 'text-orange-400', borderCol: 'border-orange-500/30', glowColor: 'rgba(249,115,22,0.06)', hoverGlow: '0 0 24px rgba(249,115,22,0.18)', onClick: () => { setActivityFilter('observation'); setStatusToggles({ approved: false, pending: false, rejected: false }); setVendorPage(1); } },
+                     { label: 'Rejected', value: rejectedCount, color: 'text-red-400', borderCol: 'border-red-500/30', glowColor: 'rgba(239,68,68,0.06)', hoverGlow: '0 0 24px rgba(239,68,68,0.18)', onClick: () => { setActivityFilter('rejected'); setStatusToggles({ approved: false, pending: false, rejected: false }); setVendorPage(1); } },
+                     { label: 'This Week', value: thisWeekCount, color: 'text-indigo-300', borderCol: 'border-indigo-500/30', glowColor: 'rgba(99,102,241,0.06)', hoverGlow: '0 0 24px rgba(99,102,241,0.18)', onClick: () => { setActivityFilter('this_week'); setStatusToggles({ approved: false, pending: false, rejected: false }); setVendorPage(1); } },
                   ].map(({ label, value, color, borderCol, glowColor, hoverGlow, onClick }) => (
                      <button key={label} onClick={onClick}
                         className={`rounded-xl border ${borderCol} px-4 py-3 text-left transition-all duration-300 hover:scale-[1.03] group`}
@@ -705,6 +719,7 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
                            <ActivityPill id="updated_today" label="Updated Today" count={updatedToday} />
                            <ActivityPill id="completed" label="Completed" count={completedCount} dot="bg-emerald-400" />
                            <ActivityPill id="observation" label="Observation" count={observationCount} dot="bg-orange-400" />
+                           <ActivityPill id="rejected" label="Rejected" count={rejectedCount} dot="bg-red-400" />
                         </div>
                      </div>
 
@@ -825,7 +840,11 @@ SYSTEM DISCLAIMER: This is an automatically generated email from the DXN Vendor 
                                  </span>
                                  <Toggle
                                     isOn={statusToggles[key]}
-                                    onToggle={() => { setStatusToggles(p => ({ ...p, [key]: !p[key] })); setVendorPage(1); }}
+                                    onToggle={() => {
+                                       setStatusToggles(p => ({ ...p, [key]: !p[key] }));
+                                       setActivityFilter('all');
+                                       setVendorPage(1);
+                                    }}
                                     colorClass={colorClass}
                                  />
                               </div>
