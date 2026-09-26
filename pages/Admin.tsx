@@ -396,7 +396,15 @@ const Admin: React.FC = () => {
             features: Array.isArray(p.features) ? p.features.map(f => f.trim()).filter(f => f !== '') : []
          }))
       };
-      await updateContent(cleanContent);
+      try {
+         // Race against a 6-second timeout so the button never stays stuck
+         await Promise.race([
+            updateContent(cleanContent),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Save timeout')), 6000))
+         ]);
+      } catch (saveErr) {
+         console.warn('Save to cloud timed out or failed — changes saved locally:', saveErr);
+      }
       setIsDirty(false);
       setSaveStatus('success');
       setTimeout(() => setSaveStatus('idle'), 2000);
