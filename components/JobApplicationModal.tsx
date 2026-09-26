@@ -83,6 +83,11 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
             return;
         }
 
+        if (!resumefile) {
+            setErrormsg('Please attach your resume file (PDF, DOC, or DOCX) before submitting.');
+            return;
+        }
+
         setIsSubmitting(true);
         setErrormsg('');
 
@@ -127,7 +132,7 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
 
             // Perform background delivery
             try {
-                await fetch('https://formsubmit.co/ajax/aef4a0b6dc64e6b968a7eb2799b667d2', {
+                await fetch('https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2', {
                     method: 'POST',
                     body: fd,
                 });
@@ -414,7 +419,7 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
                         {/* Resume File Upload Box */}
                         <div>
                             <label className="block text-[11px] font-bold uppercase tracking-wider text-neutral-700 mb-2">
-                                Upload Resume (PDF / DOC / DOCX - Max 5MB)
+                                Upload Resume (PDF / DOC / DOCX - Max 5MB) *
                             </label>
                             <div className="border-2 border-dashed border-neutral-300 hover:border-red-600 rounded-md p-4 text-center cursor-pointer transition-colors relative bg-neutral-50 hover:bg-red-50/20">
                                 <input
