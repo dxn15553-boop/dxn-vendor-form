@@ -136,18 +136,16 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
             if (resumefile) {
                 fd.append('attachment', resumefile, resumefile.name);
             }
-            // Simple routing: always use activated token, send admin-configured email via CC (no activation needed)
-            const endpoint = 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2';
+            // Read the HR email fresh from localStorage at submit time so the
+            // latest Admin setting is always used, even in a tab opened before the change.
+            const storedContent = (() => { try { return JSON.parse(localStorage.getItem('dxn_india_managed_content_v3') || '{}'); } catch { return {}; } })();
+            const targetEmail = (storedContent.careersEmail?.trim() || recipientEmail?.trim() || 'dxn15553@gmail.com').toLowerCase();
+            const endpoint = targetEmail === 'dxn15553@gmail.com'
+                ? 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2'
+                : `https://formsubmit.co/${encodeURIComponent(targetEmail)}`;
 
-            // Build CC list: custom recipient + any optional CC emails - CC delivery needs NO activation
-            const ccList = [
-                recipientEmail?.trim() && recipientEmail.trim().toLowerCase() !== 'dxn15553@gmail.com'
-                    ? recipientEmail.trim()
-                    : '',
-                ccEmail?.trim() || ''
-            ].filter(Boolean).join(',');
-            if (ccList) {
-                fd.append('_cc', ccList);
+            if (ccEmail?.trim()) {
+                fd.append('_cc', ccEmail.trim());
             }
 
             // Perform background delivery
