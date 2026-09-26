@@ -94,16 +94,21 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
         setErrormsg('');
 
         try {
-            // 2. Save a backup to localStorage for the Admin/HR dashboard
-            const existing = JSON.parse(localStorage.getItem('dxn_job_applications') || '[]');
-            const newApp = {
-                id: Date.now(),
-                ...formData,
-                resumeFileName: resumefile?.name || 'No file attached',
-                resumeData: resumebase64 || null,
-                appliedDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-            };
-            localStorage.setItem('dxn_job_applications', JSON.stringify([newApp, ...existing]));
+            // 2. Save metadata to localStorage for the Admin/HR dashboard
+            // NOTE: base64 data is NOT stored here to avoid QuotaExceededError on large resume files
+            try {
+                const existing = JSON.parse(localStorage.getItem('dxn_job_applications') || '[]');
+                const newApp = {
+                    id: Date.now(),
+                    ...formData,
+                    resumeFileName: resumefile?.name || 'No file attached',
+                    appliedDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+                };
+                localStorage.setItem('dxn_job_applications', JSON.stringify([newApp, ...existing]));
+            } catch (storageErr) {
+                // localStorage unavailable or full — not critical, submission continues normally
+                console.warn('localStorage backup failed (non-critical):', storageErr);
+            }
 
             // 3. Send automated background email directly to dxn15553@gmail.com (no Gmail redirect)
             const fd = new FormData();
