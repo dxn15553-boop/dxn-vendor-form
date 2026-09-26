@@ -30,19 +30,17 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorMsg, setErrormsg] = useState<string>('');
+    // Prevent background scrolling when modal is open
     useEffect(() => {
         if (isOpen) {
-            setFormData(prev => ({
-                ...prev,
-                role: defaultJobrole || (allJobs[0]?.role || 'General Application')
-
-            }));
-            setIsSuccess(false);
-            setErrormsg('');
-            setResumeFile(null);
-            setresumebase64('');
+            const originalOverflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = originalOverflow;
+            };
         }
-    }, [isOpen, defaultJobrole]);
+    }, [isOpen]);
+
     useEffect(() => {
         if (isOpen) {
             setFormData(prev => ({
@@ -150,9 +148,10 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
     return (
         <div
             onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto cursor-pointer"
+            className="fixed inset-0 z-[9999] flex justify-center items-start p-3 sm:p-4 md:p-6 bg-black/85 backdrop-blur-md overflow-y-auto overscroll-contain cursor-pointer"
         >
-            <div className="relative w-full max-w-4xl bg-white border border-neutral-200 rounded-xl shadow-2xl p-6 md:p-10 text-neutral-900 my-8 animate-in fade-in zoom-in-95 duration-200 cursor-default">
+            <div onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl bg-white border border-neutral-200 rounded-xl shadow-2xl p-6 md:p-10 text-neutral-900 my-6 sm:my-10 animate-in fade-in zoom-in-95 duration-200 cursor-default">
                 {/* Back Button */}
                 <button
                     onClick={onClose}
