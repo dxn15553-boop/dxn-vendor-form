@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles, Microscope } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Chatbot } from './components/Chatbot';
+// import { Chatbot } from './components/Chatbot';
 
 const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -830,7 +830,7 @@ const App: React.FC = () => {
               <AnimatedRoutes />
             </main>
             <Footer />
-            <Chatbot />
+            {/* <Chatbot /> */}
           </div>
         </AssetProvider>
       </ContentProvider>

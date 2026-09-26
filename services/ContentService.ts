@@ -839,10 +839,24 @@ export const INITIAL_CONTENT = {
     }
   ],
   jobs: [
-    { role: "Quality Control Executive", dept: "Nutraceuticals", loc: "Siddipet", exp: "3-5 Years" },
-    { role: "Production Manager", dept: "Coffee Division", loc: "Siddipet", exp: "8+ Years" },
-    { role: "Agronomy Specialist", dept: "Cultivation", loc: "Siddipet", exp: "2-4 Years" },
-    { role: "Logistics Coordinator", dept: "Distribution", loc: "Siddipet", exp: "5+ Years" }
+    { role: "HVAC Technician", dept: "Engineering", loc: "Siddipet", exp: "6+ Years" },
+    { role: "Deputy Manager", dept: "QC", loc: "Siddipet", exp: "10+ Years" },
+    { role: "Senior Executive", dept: "Quality", loc: "Siddipet", exp: "8+ Years" },
+    { role: "Executive", dept: "Quality", loc: "Siddipet", exp: "6+ Years" },
+    { role: "Executive – EHS", dept: "EHS", loc: "Siddipet", exp: "6+ Years" },
+    { role: "Senior Executive – EHS", dept: "EHS", loc: "Siddipet", exp: "8+ Years" },
+    { role: "Deputy Production Manager", dept: "Cosmetics & Toiletry", loc: "Siddipet", exp: "10+ Years" },
+    { role: "Deputy Production Manager", dept: "Nutraceuticals", loc: "Siddipet", exp: "10+ Years" },
+    { role: "Production Manager", dept: "Cosmetics & Toiletry", loc: "Siddipet", exp: "15+ Years" },
+    { role: "Deputy Production Manager", dept: "Coffee", loc: "Siddipet", exp: "10+ Years" },
+    { role: "Senior Executive – Maintenance Mechanical Engineer", dept: "Engineering", loc: "Siddipet", exp: "6+ Years" },
+    { role: "Deputy Production Manager", dept: "Wetfood", loc: "Siddipet", exp: "10+ Years" },
+    { role: "Senior Manager – Purchase", dept: "Purchase", loc: "Siddipet", exp: "15–20 Years" },
+    { role: "Senior Manager – EHS", dept: "EHS", loc: "Siddipet", exp: "15-20 Years" },
+    { role: "Boiler Operator", dept: "Maintenance", loc: "Siddipet", exp: "6+ Years" },
+    { role: "Skilled Operator (Fitter) – Maintenance Technician", dept: "Cosmetics & Toiletry", loc: "Siddipet", exp: "4+ Years" },
+    { role: "Skilled Operator", dept: "Production – Coffee", loc: "Siddipet", exp: "5 Years" }
+
   ],
   mediaKit: {
     brandGuidelines: "#",

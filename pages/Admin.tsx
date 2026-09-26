@@ -331,6 +331,13 @@ const Admin: React.FC = () => {
    const [password, setPassword] = useState('');
    const [vendorPassword, setVendorPassword] = useState('');
    const navigate = useNavigate();
+   const [applications, setApplications] = useState<any[]>(() => {
+      try {
+         return JSON.parse(localStorage.getItem('dxn_job_applications') || '[]');
+      } catch (e) {
+         return [];
+      }
+   });
    const [activeTab, setActiveTab] = useState<'home' | 'divisions' | 'products' | 'gallery' | 'careers' | 'team' | 'media' | 'events' | 'contact' | 'roadmap' | 'timeline'>('home');
    const [galleryMode, setGalleryMode] = useState<'images' | 'videos'>('images');
    const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success'>('idle');

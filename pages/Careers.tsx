@@ -1,12 +1,16 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { Users, BookOpen, Heart, Briefcase, ChevronRight } from 'lucide-react';
+import { Users, BookOpen, Heart, ChevronRight } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { JobApplicationModel } from '../components/JobApplicationModal';
 
 const Careers: React.FC = () => {
    const { content } = useContent();
    const jobs = content.jobs || [];
+
+   // State to control modal visibility and selected vacancy
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [selectedRole, setSelectedRole] = useState<string>('');
 
    return (
       <div className="bg-neutral-950 text-neutral-300">
@@ -43,46 +47,64 @@ const Careers: React.FC = () => {
          </section>
 
          {/* Jobs Section */}
-         <section className="bg-white text-neutral-900 py-20 md:py-32">
+         <section className="bg-[#FAFAF7] text-neutral-900 py-20 md:py-32">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-               <div className="flex justify-between items-end mb-16">
-                  <h2 className="text-5xl font-black uppercase tracking-tighter">Open Opportunities</h2>
-                  <span className="text-neutral-400 font-bold uppercase tracking-widest text-xs border-b border-neutral-200 pb-2">Updated Today</span>
+
+               {/* Header */}
+               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                  <div>
+                     <span className="text-xs font-black uppercase tracking-[0.3em] text-red-700 mb-3 block">— Join Our Team</span>
+                     <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter text-neutral-900">Open<br className="hidden md:block" /> Opportunities</h2>
+                  </div>
+                  <div className="flex items-center gap-3">
+                     <span className="text-6xl font-black text-red-700">{jobs.length}</span>
+                     <div className="text-xs font-bold uppercase tracking-widest text-neutral-400 leading-tight">Active<br />Positions</div>
+                  </div>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               {/* Job Cards Grid */}
+               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                   {jobs.map((job: any, i: number) => (
-                     <div key={i} className="group p-10 border border-neutral-100 hover:border-red-600 transition-all cursor-pointer">
-                        <div className="flex justify-between items-start mb-6">
-                           <div className="w-12 h-12 bg-neutral-100 flex items-center justify-center text-red-600">
-                              <Briefcase className="w-6 h-6" />
-                           </div>
-                           <ChevronRight className="w-6 h-6 text-neutral-300 group-hover:text-red-600 transition-colors" />
+                     <div
+                        key={i}
+                        onClick={() => { setSelectedRole(job.role); setIsModalOpen(true); }}
+                        className="group bg-white rounded-md shadow-sm border border-neutral-100 hover:shadow-lg hover:border-red-200 border-l-4 border-l-transparent hover:border-l-red-600 transition-all duration-300 cursor-pointer p-7 flex flex-col"
+                     >
+                        {/* Dept Badge */}
+                        <span className="inline-block self-start text-[10px] font-black uppercase tracking-[0.2em] text-red-700 bg-red-50 border border-red-100 px-3 py-1 rounded-full mb-5">
+                           {job.dept}
+                        </span>
+
+                        {/* Role */}
+                        <h3 className="text-lg font-black uppercase tracking-tight text-neutral-900 mb-3 leading-tight group-hover:text-red-700 transition-colors flex-grow">
+                           {job.role}
+                        </h3>
+
+                        {/* Meta */}
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-6">
+                           <span>📍 {job.loc}</span>
+                           {job.exp && <><span>·</span><span>{job.exp}</span></>}
                         </div>
-                        <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">{job.role}</h3>
-                        <div className="flex flex-wrap gap-4 text-xs font-bold uppercase tracking-widest text-neutral-500">
-                           <span className="text-red-600">{job.dept}</span>
-                           <span>•</span>
-                           <span>{job.loc}</span>
-                           {job.exp && (
-                              <>
-                                 <span>•</span>
-                                 <span className="text-neutral-400">{job.exp}</span>
-                              </>
-                           )}
+
+                        {/* Apply Now Link */}
+                        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-red-600 group-hover:gap-3 transition-all">
+                           <span>Apply Now</span>
+                           <ChevronRight className="w-4 h-4" />
                         </div>
                      </div>
                   ))}
                </div>
 
-               <div className="mt-16 text-center">
-                  <p className="text-neutral-500 mb-8 font-light italic">Don't see a fit? Send your CV to ts_hr@dxn2u.com</p>
-                  <button className="bg-neutral-950 text-white px-12 py-5 font-bold uppercase tracking-widest hover:bg-red-600 transition-colors">
-                     Submit General Application
-                  </button>
-               </div>
             </div>
          </section>
+
+         {/* Application Modal */}
+         <JobApplicationModel
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            defaultJobrole={selectedRole}
+            allJobs={jobs}
+         />
       </div>
    );
 };
