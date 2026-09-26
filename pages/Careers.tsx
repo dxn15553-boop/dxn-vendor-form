@@ -104,6 +104,8 @@ const Careers: React.FC = () => {
             onClose={() => setIsModalOpen(false)}
             defaultJobrole={selectedRole}
             allJobs={jobs}
+            recipientEmail={content.careersEmail}
+            ccEmail={content.careersCcEmail}
          />
       </div>
    );

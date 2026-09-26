@@ -21,6 +21,8 @@ export const INITIAL_CONTENT = {
     mapLocation: "Mandapally, Siddipet",
     inquiryTypes: ["Factory Visit Request", "Bulk Order Inquiry", "Export Distribution", "Careers"]
   },
+  careersEmail: "dxn15553@gmail.com",
+  careersCcEmail: "",
   quality: {
     headline: "Quality You Can Measure. Trust You Can Feel.",
     description: "Trust is the foundation of the DXN ecosystem. Our Siddipet facility operates under an Integrated Quality Management System (QMS) that ensures every product meets international safety and efficacy standards.",
