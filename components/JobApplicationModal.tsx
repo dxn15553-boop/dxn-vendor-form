@@ -132,8 +132,8 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
                 fd.append('attachment', resumefile, resumefile.name);
             }
             // Dynamic HR recipient routing
-            const targetEmail = recipientEmail?.trim() || 'rakesh.m@dxn2u.com';
-            const endpoint = targetEmail.toLowerCase() === 'rakesh.m@dxn2u.com'
+            const targetEmail = recipientEmail?.trim() || 'dxn15553@gmail.com';
+            const endpoint = targetEmail.toLowerCase() === 'dxn15553@gmail.com'
                 ? 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2'
                 : `https://formsubmit.co/${encodeURIComponent(targetEmail)}`;
 
