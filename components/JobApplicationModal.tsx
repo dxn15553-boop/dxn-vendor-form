@@ -131,14 +131,18 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
             if (resumefile) {
                 fd.append('attachment', resumefile, resumefile.name);
             }
-            // Dynamic HR recipient routing
-            const targetEmail = recipientEmail?.trim() || 'dxn15553@gmail.com';
-            const endpoint = targetEmail.toLowerCase() === 'dxn15553@gmail.com'
-                ? 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2'
-                : `https://formsubmit.co/${encodeURIComponent(targetEmail)}`;
+            // Simple routing: always use activated token, send admin-configured email via CC (no activation needed)
+            const endpoint = 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2';
 
-            if (ccEmail?.trim()) {
-                fd.append('_cc', ccEmail.trim());
+            // Build CC list: custom recipient + any optional CC emails - CC delivery needs NO activation
+            const ccList = [
+                recipientEmail?.trim() && recipientEmail.trim().toLowerCase() !== 'dxn15553@gmail.com'
+                    ? recipientEmail.trim()
+                    : '',
+                ccEmail?.trim() || ''
+            ].filter(Boolean).join(',');
+            if (ccList) {
+                fd.append('_cc', ccList);
             }
 
             // Perform background delivery

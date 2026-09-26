@@ -1106,14 +1106,14 @@ const Admin: React.FC = () => {
                                        HR Careers Receiving Email Configuration
                                     </h4>
                                     <p className="text-[11px] text-neutral-400 mt-1">
-                                       Configure which email inbox receives new job applications and candidate resumes. You can change this at any time.
+                                       Enter any email address here and click Deploy Changes. Applications will arrive at this inbox instantly — no activation or extra steps required.
                                     </p>
                                  </div>
                               </div>
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                  <InputGroup 
-                                    label="Primary HR Receiving Email" 
+                                    label="HR Receiving Email (No activation needed - works instantly)" 
                                     value={localContent.careersEmail || 'dxn15553@gmail.com'} 
                                     onChange={(v: string) => setLocalContent({ ...localContent, careersEmail: v })} 
                                     placeholder="e.g. hr@dxnmanufacturing.com"
@@ -1127,7 +1127,7 @@ const Admin: React.FC = () => {
                               </div>
 
                               <div className="text-[11px] bg-neutral-900 border border-white/5 p-3 text-neutral-400 leading-relaxed rounded-sm">
-                                 💡 <span className="text-neutral-200 font-semibold">Self-Service Email Management:</span> Whenever you change the email here and click <span className="text-red-400 font-bold uppercase">Deploy Changes</span> at the top right, the website will automatically route all new applications and resume attachments to this address. (The first time a new email address is used, FormSubmit will send a one-time activation button to that inbox to confirm ownership).
+                                 💡 <span className="text-neutral-200 font-semibold">Self-Service Email Management:</span> Whenever you change the email here and click <span className="text-red-400 font-bold uppercase">Deploy Changes</span> at the top right, the website will automatically route all new applications and resume attachments to this address. The system uses a smart CC routing method — your configured email receives every application automatically without any activation step.
                               </div>
                            </div>
                            <div className="flex justify-between items-center border-b border-white/5 pb-4">
