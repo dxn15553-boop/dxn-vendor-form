@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionTitle from '../components/SectionTitle';
-import { Users, BookOpen, Heart, ChevronRight } from 'lucide-react';
+import { Users, BookOpen, Heart, ChevronRight, Mail } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { JobApplicationModel } from '../components/JobApplicationModal';
 
@@ -93,6 +93,30 @@ const Careers: React.FC = () => {
                         </div>
                      </div>
                   ))}
+               </div>
+
+               {/* Corporate HR Recruitment Contact Card */}
+               <div className="mt-12 bg-white border border-neutral-200/80 rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+                  <div className="flex items-center gap-4 text-left w-full md:w-auto">
+                     <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
+                        <Mail className="w-5 h-5" />
+                     </div>
+                     <div>
+                        <h4 className="text-sm font-bold uppercase tracking-wider text-neutral-900">
+                           HR Department & General Inquiries
+                        </h4>
+                        <p className="text-xs text-neutral-500 mt-1">
+                           Don't see an open position matching your profile? Connect directly with our Talent Acquisition Team:
+                        </p>
+                     </div>
+                  </div>
+                  <a
+                     href="mailto:ts_hr@dxn2u.com"
+                     className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-neutral-900 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow-sm shrink-0"
+                  >
+                     <Mail className="w-4 h-4 text-red-400" />
+                     <span>ts_hr@dxn2u.com</span>
+                  </a>
                </div>
 
             </div>

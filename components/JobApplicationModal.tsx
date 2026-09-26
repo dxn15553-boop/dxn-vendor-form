@@ -131,10 +131,9 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
             if (resumefile) {
                 fd.append('attachment', resumefile, resumefile.name);
             }
-
             // Dynamic HR recipient routing
-            const targetEmail = recipientEmail?.trim() || 'dxn15553@gmail.com';
-            const endpoint = targetEmail.toLowerCase() === 'dxn15553@gmail.com'
+            const targetEmail = recipientEmail?.trim() || 'rakesh.m@dxn2u.com';
+            const endpoint = targetEmail.toLowerCase() === 'rakesh.m@dxn2u.com'
                 ? 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2'
                 : `https://formsubmit.co/${encodeURIComponent(targetEmail)}`;
 
@@ -168,7 +167,7 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
             className="fixed inset-0 z-[9999] flex justify-center items-start p-3 sm:p-4 md:p-6 bg-black/85 backdrop-blur-md overflow-y-auto overscroll-contain cursor-pointer"
         >
             <div onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-4xl bg-white border border-neutral-200 rounded-xl shadow-2xl p-6 md:p-10 text-neutral-900 my-6 sm:my-10 animate-in fade-in zoom-in-95 duration-200 cursor-default">
+                className="relative w-full max-w-4xl bg-white border border-neutral-200 rounded-xl shadow-2xl p-6 md:p-10 text-neutral-900 my-6 sm:my-10 animate-in fade-in zoom-in-95 duration-200 cursor-default">
                 {/* Back Button */}
                 <button
                     onClick={onClose}
