@@ -6,6 +6,8 @@ interface JobApplicationModelProps {
     onClose: () => void;
     defaultJobrole?: string;
     allJobs?: Array<{ role: string; dept?: string }>;
+    recipientEmail?: string;
+    ccEmail?: string;
 }
 export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen, onClose, defaultJobrole, allJobs = [], recipientEmail, ccEmail }) => {
     const [formData, setFormData] = useState({
