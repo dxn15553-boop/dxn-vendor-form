@@ -112,7 +112,7 @@ const Careers: React.FC = () => {
                   </div>
                   <a
                      href="mailto:ts_hr@dxn2u.com"
-                     className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-neutral-900 hover:bg-red-600 text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow-sm shrink-0"
+                     className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-neutral-900 hover:bg-red-600 text-white text-xs font-bold lowercase tracking-wider rounded-md transition-colors shadow-sm shrink-0"
                   >
                      <Mail className="w-4 h-4 text-red-400" />
                      <span>ts_hr@dxn2u.com</span>

@@ -477,7 +477,7 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
                                 className="w-full sm:w-2/3 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white py-4 font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2 rounded-sm shadow-sm"
                             >
                                 <Send className="w-4 h-4" />
-                                <span>{isSubmitting ? 'Submitting Application...' : 'Submit Application to HR'}</span>
+                                <span>{isSubmitting ? 'Submitting Application...' : 'Submit Application'}</span>
                             </button>
                         </div>
                         <p className="text-[11px] text-neutral-500 text-center mt-2">
