@@ -845,7 +845,6 @@ export const INITIAL_CONTENT = {
     { role: "Deputy Manager", dept: "QC", loc: "Siddipet", exp: "10+ Years" },
     { role: "Senior Executive", dept: "Quality", loc: "Siddipet", exp: "8+ Years" },
     { role: "Executive", dept: "Quality", loc: "Siddipet", exp: "6+ Years" },
-    { role: "Executive – EHS", dept: "EHS", loc: "Siddipet", exp: "6+ Years" },
     { role: "Senior Executive – EHS", dept: "EHS", loc: "Siddipet", exp: "8+ Years" },
     { role: "Deputy Production Manager", dept: "Cosmetics & Toiletry", loc: "Siddipet", exp: "10+ Years" },
     { role: "Deputy Production Manager", dept: "Nutraceuticals", loc: "Siddipet", exp: "10+ Years" },
