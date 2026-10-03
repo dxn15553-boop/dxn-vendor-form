@@ -110,52 +110,46 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
                 console.warn('localStorage backup failed (non-critical):', storageErr);
             }
 
-            // 3. Send automated background email directly to dxn15553@gmail.com (no Gmail redirect)
-            const fd = new FormData();
-            fd.append('_subject', `New Job Application: ${formData.role} - ${formData.fullname}`);
-            fd.append('_template', 'table');
-            fd.append('_captcha', 'false');
-            fd.append('_replyto', formData.email);
-
-            fd.append('Applicant Name', formData.fullname);
-            fd.append('Email Address', formData.email);
-            fd.append('Phone Number', formData.phone);
-            fd.append('Position Applied', formData.role);
-            fd.append('Gender', formData.gender || 'Not specified');
-            fd.append('Qualification', formData.qualification || 'Not specified');
-            fd.append('Education / College', formData.education || 'Not specified');
-            fd.append('Total Experience', formData.experience || 'Not specified');
-            fd.append('Current Company', formData.currentCompany || 'Not specified');
-            fd.append('Current CTC', formData.currentCtc || 'Not specified');
-            fd.append('Expected CTC', formData.expectedCtc || 'Not specified');
-            fd.append('Notice Period', formData.noticePeriod || 'Not specified');
-            fd.append('Willing to Relocate (Siddipet)', formData.willingToRelocate || 'Not specified');
-            fd.append('Disability', formData.disability || 'No');
-            fd.append('Current Address', formData.address || 'Not specified');
-
-            if (resumefile) {
-                fd.append('attachment', resumefile, resumefile.name);
+            // 3. Prepare resume base64 if not already loaded
+            let base64Data = resumebase64;
+            if (resumefile && !base64Data) {
+                base64Data = await new Promise<string>((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(resumefile);
+                });
             }
-            // Read the HR email fresh from localStorage at submit time so the
-            // latest Admin setting is always used, even in a tab opened before the change.
+
+            // Read the HR email fresh from localStorage or fallback to ts_hr@dxn2u.com
             const storedContent = (() => { try { return JSON.parse(localStorage.getItem('dxn_india_managed_content_v3') || '{}'); } catch { return {}; } })();
-            const targetEmail = (storedContent.careersEmail?.trim() || recipientEmail?.trim() || 'dxn15553@gmail.com').toLowerCase();
-            const endpoint = targetEmail === 'dxn15553@gmail.com'
-                ? 'https://formsubmit.co/aef4a0b6dc64e6b968a7eb2799b667d2'
-                : `https://formsubmit.co/${encodeURIComponent(targetEmail)}`;
+            const targetEmail = (recipientEmail?.trim() || storedContent.careersEmail?.trim() || 'naveenkumar.v@dxn2u.com').toLowerCase();
 
-            if (ccEmail?.trim()) {
-                fd.append('_cc', ccEmail.trim());
-            }
+            // 4. Send directly to Google Apps Script Web App (delivers to HR email with resume attachment)
+            const CAREERS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2CW6pHOcTlY-g3WBR_C-aMpdqzoQsk5sMRiGAx0Iv1VkJQykR6IA3D1sISjAFqo5pQw/exec";
 
-            // Perform background delivery
+            const payload = {
+                formData,
+                resume: resumefile ? {
+                    name: resumefile.name,
+                    mimeType: resumefile.type || 'application/pdf',
+                    base64: base64Data
+                } : null,
+                recipientEmail: targetEmail,
+                ccEmail: ccEmail?.trim() || ''
+            };
+
             try {
-                await fetch(endpoint, {
+                await fetch(CAREERS_SCRIPT_URL, {
+                    redirect: 'follow',
                     method: 'POST',
-                    body: fd,
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(payload)
                 });
             } catch (mailErr) {
-                console.warn('Background mailer warning:', mailErr);
+                console.warn('Google Apps Script mailer warning:', mailErr);
             }
 
             // 4. Show success screen (without opening Gmail or leaving the website)

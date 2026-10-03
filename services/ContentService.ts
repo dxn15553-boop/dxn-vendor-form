@@ -21,7 +21,7 @@ export const INITIAL_CONTENT = {
     mapLocation: "Mandapally, Siddipet",
     inquiryTypes: ["Factory Visit Request", "Bulk Order Inquiry", "Export Distribution", "Careers"]
   },
-  careersEmail: "dxn15553@gmail.com",
+  careersEmail: "naveenkumar.v@dxn2u.com",
   careersCcEmail: "",
   quality: {
     headline: "Quality You Can Measure. Trust You Can Feel.",
