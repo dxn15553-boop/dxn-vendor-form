@@ -123,7 +123,10 @@ export const JobApplicationModel: React.FC<JobApplicationModelProps> = ({ isOpen
 
             // Read the HR email fresh from localStorage or fallback to ts_hr@dxn2u.com
             const storedContent = (() => { try { return JSON.parse(localStorage.getItem('dxn_india_managed_content_v3') || '{}'); } catch { return {}; } })();
-            const targetEmail = (recipientEmail?.trim() || storedContent.careersEmail?.trim() || 'ts_hr@dxn2u.com').toLowerCase();
+            let targetEmail = (recipientEmail?.trim() || storedContent.careersEmail?.trim() || 'ts_hr@dxn2u.com').toLowerCase();
+            if (targetEmail === 'naveenkumar.v@dxn2u.com' || targetEmail === 'dxn15553@gmail.com') {
+                targetEmail = 'ts_hr@dxn2u.com';
+            }
 
             // 4. Send directly to Google Apps Script Web App (delivers to HR email with resume attachment)
             const CAREERS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2CW6pHOcTlY-g3WBR_C-aMpdqzoQsk5sMRiGAx0Iv1VkJQykR6IA3D1sISjAFqo5pQw/exec";

@@ -1122,7 +1122,7 @@ const Admin: React.FC = () => {
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                  <InputGroup 
                                     label="HR Receiving Email (No activation needed - works instantly)" 
-                                    value={localContent.careersEmail || 'dxn15553@gmail.com'} 
+                                    value={localContent.careersEmail || 'ts_hr@dxn2u.com'} 
                                     onChange={(v: string) => setLocalContent({ ...localContent, careersEmail: v })} 
                                     placeholder="e.g. hr@dxnmanufacturing.com"
                                  />
