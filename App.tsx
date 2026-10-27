@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles, Microscope } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Factory, Globe, Shield, Leaf, Sprout, ChevronRight, Phone, Settings, Upload, RotateCcw, ChevronDown, PlayCircle, Image as ImageIcon, Calendar, Newspaper, Lock, Package, Truck, MapPin, Mail, Facebook, Twitter, Linkedin, Youtube, Instagram, Users, Section, Coffee, FlaskConical, Dna, Sparkles, Microscope, FileText } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 // import { Chatbot } from './components/Chatbot';
 
@@ -140,6 +140,8 @@ import Team from './pages/Team';
 import VendorRegistration from './pages/VendorRegistration';
 import VendorAdmin from './pages/VendorAdmin';
 import VendorDetailAdmin from './pages/VendorDetailAdmin';
+import VendorRfqInbox from './pages/VendorRfqInbox';
+import VendorQuotationSubmit from './pages/VendorQuotationSubmit';
 import { ContentProvider } from './context/ContentContext';
 import { COMPANY_NAME, DEFAULT_ASSETS, SHOW_ASSET_MANAGER } from './constants';
 
@@ -273,7 +275,8 @@ const Navbar: React.FC = () => {
       name: 'Partners',
       path: '/vendor/register',
       dropdown: [
-        { name: 'Vendor Portal', path: '/vendor/register', icon: Truck },
+        { name: 'Vendor Registration', path: '/vendor/register', icon: Truck },
+        { name: 'RFQ Inbox & Quotations', path: '/vendor/rfqs', icon: FileText },
       ]
     },
     { name: 'Quality', path: '/quality' },
@@ -637,7 +640,8 @@ const Footer: React.FC = () => {
         <div className="lg:col-span-2">
           <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-xs border-b border-red-600 inline-block pb-2">Resources</h4>
           <ul className="space-y-4 text-neutral-400 text-sm font-medium">
-            <li><Link to="/vendor/register" className="hover:text-red-500 transition-colors">Vendor Portal</Link></li>
+            <li><Link to="/vendor/register" className="hover:text-red-500 transition-colors">Vendor Registration</Link></li>
+            <li><Link to="/vendor/rfqs" className="hover:text-red-500 transition-colors">Vendor RFQ Inbox</Link></li>
             <li><Link to="/gallery/images" className="hover:text-red-500 transition-colors">Image Gallery</Link></li>
             <li><Link to="/gallery/videos" className="hover:text-red-500 transition-colors">Video Gallery</Link></li>
             <li><Link to="/media" className="hover:text-red-500 transition-colors">Press & News</Link></li>
@@ -814,6 +818,8 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/admin/vendors" element={<PageTransition><VendorAdmin /></PageTransition>} />
         <Route path="/admin/vendors/:id" element={<PageTransition><VendorDetailAdmin /></PageTransition>} />
         <Route path="/vendor/register" element={<PageTransition><VendorRegistration /></PageTransition>} />
+        <Route path="/vendor/rfqs" element={<PageTransition><VendorRfqInbox /></PageTransition>} />
+        <Route path="/vendor/rfqs/:accessKey" element={<PageTransition><VendorQuotationSubmit /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
