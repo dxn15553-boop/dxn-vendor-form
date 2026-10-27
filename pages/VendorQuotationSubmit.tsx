@@ -87,6 +87,17 @@ const VendorQuotationSubmit: React.FC = () => {
       if (data.invitation?.rfq?.quantity) {
         setQuantity(data.invitation.rfq.quantity);
       }
+      if (data.invitation?.quotations && data.invitation.quotations.length > 0) {
+        const q = data.invitation.quotations[0];
+        const qty = data.invitation.rfq?.quantity || 1;
+        setUnitPrice(q.baseAmount / qty);
+        setFreightCharges(q.freightCharges || 0);
+        setOtherCharges(q.otherCharges || 0);
+        if (q.leadTimeDays) setLeadTimeDays(q.leadTimeDays);
+        if (q.paymentTerms) setPaymentTerms(q.paymentTerms);
+        if (q.deliveryTerms) setDeliveryTerms(q.deliveryTerms);
+        if (q.remarks) setRemarks(q.remarks);
+      }
     } catch (err: any) {
       console.error('Error loading invitation:', err);
       setError(err.message || 'Unable to connect to Procurement RFQ system.');
@@ -273,6 +284,26 @@ const VendorQuotationSubmit: React.FC = () => {
           </div>
         </div>
 
+        {/* Locked Status Banner if Already Submitted */}
+        {invitation.quotations && invitation.quotations.length > 0 && (
+          <div className="bg-emerald-950/40 border border-emerald-700/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
+              <div>
+                <div className="text-xs font-bold text-emerald-200">
+                  Official Quotation Submitted ({invitation.quotations[0].quotationNo})
+                </div>
+                <div className="text-xs text-emerald-400 mt-0.5">
+                  Submitted on {new Date(invitation.quotations[0].submittedAt).toLocaleDateString()} · Locked for Comparative Statement evaluation
+                </div>
+              </div>
+            </div>
+            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-600 text-white shadow-sm shrink-0 self-start sm:self-auto">
+              Locked / Submitted
+            </span>
+          </div>
+        )}
+
         {/* Quotation Submission Form */}
         <form onSubmit={handleSubmitQuotation} className="bg-neutral-800/80 border border-neutral-700 rounded-xl p-6 shadow-xl space-y-6">
           <h2 className="text-lg font-bold text-white border-b border-neutral-700 pb-3 flex items-center gap-2">
@@ -423,16 +454,23 @@ const VendorQuotationSubmit: React.FC = () => {
               to="/vendor/rfqs"
               className="px-4 py-2 border border-neutral-700 hover:bg-neutral-800 rounded-lg text-xs font-semibold text-neutral-400"
             >
-              Cancel
+              Back
             </Link>
-            <button
-              type="submit"
-              disabled={isSubmitting || typeof unitPrice !== 'number' || unitPrice <= 0}
-              className="px-8 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-lg flex items-center gap-2 transition-all"
-            >
-              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              <span>{isSubmitting ? 'Submitting Quotation...' : 'Submit Quotation to DXN'}</span>
-            </button>
+            {invitation.quotations && invitation.quotations.length > 0 ? (
+              <div className="text-xs text-emerald-400 font-bold bg-emerald-950/40 border border-emerald-800/80 px-4 py-2.5 rounded-lg flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                <span>Quotation is locked and under evaluation. Revisions cannot be made.</span>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                disabled={isSubmitting || typeof unitPrice !== 'number' || unitPrice <= 0}
+                className="px-8 py-3 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-black text-xs uppercase tracking-wider rounded-lg shadow-lg flex items-center gap-2 transition-all cursor-pointer disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                <span>{isSubmitting ? 'Submitting Quotation...' : 'Submit Quotation to DXN'}</span>
+              </button>
+            )}
           </div>
         </form>
       </div>
