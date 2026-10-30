@@ -100,7 +100,11 @@ const VendorQuotationSubmit: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error loading invitation:', err);
-      setError(err.message || 'Unable to connect to Procurement RFQ system.');
+      if (typeof window !== 'undefined' && window.location.protocol === 'https:' && PROCUREMENT_API_URL.startsWith('http://localhost')) {
+        setError('Cannot connect to Procurement service from secure domain (Mixed content / VITE_PROCUREMENT_API_URL not configured).');
+      } else {
+        setError(err.message || 'Unable to connect to Procurement RFQ system.');
+      }
     } finally {
       setLoading(false);
     }
