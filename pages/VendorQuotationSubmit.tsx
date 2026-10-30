@@ -15,6 +15,7 @@ import {
   DollarSign,
   Truck,
   HelpCircle,
+  RotateCcw,
 } from 'lucide-react';
 import { uploadVendorDocument } from '../services/SupabaseService';
 
@@ -78,7 +79,7 @@ const VendorQuotationSubmit: React.FC = () => {
     }
   }, [accessKey]);
 
-  const loadInvitation = async (key: string) => {
+  const loadInvitation = async (key: string, retryCount = 0) => {
     setLoading(true);
     setError(null);
     try {
@@ -102,14 +103,21 @@ const VendorQuotationSubmit: React.FC = () => {
         if (q.deliveryTerms) setDeliveryTerms(q.deliveryTerms);
         if (q.remarks) setRemarks(q.remarks);
       }
+      setLoading(false);
     } catch (err: any) {
       console.error('Error loading invitation:', err);
+      // Automatically retry once after 1.2s to smoothly handle serverless cold starts
+      if (retryCount < 1) {
+        setTimeout(() => {
+          loadInvitation(key, retryCount + 1);
+        }, 1200);
+        return;
+      }
       if (typeof window !== 'undefined' && window.location.protocol === 'https:' && PROCUREMENT_API_URL.startsWith('http://localhost')) {
         setError('Cannot connect to Procurement service from secure domain (Mixed content / VITE_PROCUREMENT_API_URL not configured).');
       } else {
         setError(err.message || 'Unable to connect to Procurement RFQ system.');
       }
-    } finally {
       setLoading(false);
     }
   };
@@ -206,12 +214,22 @@ const VendorQuotationSubmit: React.FC = () => {
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto" />
           <h2 className="text-xl font-bold">RFQ Not Accessible</h2>
           <p className="text-sm text-neutral-400">{error || 'This RFQ link is invalid or expired.'}</p>
-          <Link
-            to="/vendor/rfqs"
-            className="inline-block px-5 py-2.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold uppercase tracking-wider"
-          >
-            Return to RFQ Inbox
-          </Link>
+          <div className="flex items-center justify-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => accessKey && loadInvitation(accessKey)}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-neutral-700 hover:bg-neutral-600 rounded-lg text-xs font-bold uppercase tracking-wider text-white transition-colors cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Retry</span>
+            </button>
+            <Link
+              to="/vendor/rfqs"
+              className="inline-block px-4 py-2.5 bg-red-600 hover:bg-red-700 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors"
+            >
+              Return to RFQ Inbox
+            </Link>
+          </div>
         </div>
       </div>
     );
