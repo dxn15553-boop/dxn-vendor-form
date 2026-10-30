@@ -41,7 +41,11 @@ interface RfqInvitationData {
   quotations: any[];
 }
 
-const PROCUREMENT_API_URL = import.meta.env.VITE_PROCUREMENT_API_URL || 'http://localhost:3001';
+const PROCUREMENT_API_URL =
+  import.meta.env.VITE_PROCUREMENT_API_URL ||
+  (typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? 'http://localhost:3001'
+    : 'https://procurement-web-app-dun.vercel.app');
 
 const VendorQuotationSubmit: React.FC = () => {
   const { accessKey } = useParams<{ accessKey: string }>();

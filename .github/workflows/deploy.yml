@@ -26,7 +26,7 @@ jobs:
       env:
         VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
         VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-        VITE_PROCUREMENT_API_URL: ${{ secrets.VITE_PROCUREMENT_API_URL }}
+        VITE_PROCUREMENT_API_URL: ${{ secrets.VITE_PROCUREMENT_API_URL || 'https://procurement-web-app-dun.vercel.app' }}
       run: npm run build
       
     - name: 📦 Install lftp
